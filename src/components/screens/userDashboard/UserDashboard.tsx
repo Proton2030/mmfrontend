@@ -29,14 +29,6 @@ const UserDashboard = () => {
         more: More
     });
 
-
-    const [searchVisible, setSearchVisible] = React.useState(false);
-    const [searchQuery, setSearchQuery] = React.useState('');
-
-    const toggleSearchBar = () => {
-        setSearchVisible(!searchVisible);
-    };
-
     return (
         <>
             <Appbar.Header style={{
@@ -48,34 +40,10 @@ const UserDashboard = () => {
             }}>
                 <Image source={logo} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} />
                 <Appbar.Content title="Muslim Matrimony" />
-                <Appbar.Action icon="magnify" onPress={toggleSearchBar} />
+                <Appbar.Action icon="magnify" />
                 <Appbar.Action icon="chat-outline" />
             </Appbar.Header>
-          
-            {searchVisible && (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Searchbar
-                        style={{
-                            flex: 1,
-                            margin: 10,
-                            backgroundColor: "#fff5f9",
-                        }}
-                        elevation={3}
-                        placeholder="Search by username"
-                        onChangeText={setSearchQuery}
-                        value={searchQuery}
-                    />
-                    <Button
-                        mode="contained"
-                        onPress={() => {
-                            
-                        }}
-                        style={{ margin: 10 }}
-                    >
-                        Search
-                    </Button>
-                </View>
-            )}
+
             <BottomNavigation
                 navigationState={{ index, routes }}
                 activeColor="#E71B73"
@@ -84,7 +52,7 @@ const UserDashboard = () => {
                 renderScene={renderScene}
             />
 
-           
+
         </>
     );
 };

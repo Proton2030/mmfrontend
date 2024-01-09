@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Button } from 'react-native-paper'
+import { Button, Searchbar } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -12,6 +12,7 @@ import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 const Home = () => {
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
     const [selectedPage, setSelectedPage] = useState<Map<number, number>>(new Map());
@@ -62,12 +63,44 @@ const Home = () => {
         getSuggestionUserApi();
     };
 
+    const handleSearh = async () => {
+        if (user) {
+            const filter = {
+                gender: user.gender,
+                name: searchQuery
+            }
+            const response = await api.userDetails.searchUser(filter);
+            setSuggestedUser(response);
+        }
+    }
+
     useEffect(() => {
         getSuggestionUser();
     }, [getSuggestionUser]);
 
     return (
         <SafeAreaView>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Searchbar
+                    style={{
+                        flex: 1,
+                        margin: 10,
+                        backgroundColor: "#fff5f9",
+                    }}
+                    elevation={3}
+                    placeholder="Search by username"
+                    onChangeText={(query) => { setSearchQuery(query) }}
+                    onClearIconPress={handleRefresh}
+                    value={searchQuery}
+                />
+                <Button
+                    mode="contained"
+                    onPress={handleSearh}
+                    style={{ margin: 10 }}
+                >
+                    Search
+                </Button>
+            </View>
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
                 onScroll={handleScroll}
