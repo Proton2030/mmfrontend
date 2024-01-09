@@ -9,6 +9,7 @@ import More from './more/More';
 import { Image, View } from 'react-native';
 import { logo } from '../../../assets';
 import ChoiceNavigators from '../../navigators/choiceNavigators/ChoiceNavigators';
+import Location from './location/Location';
 
 const UserDashboard = () => {
     const [index, setIndex] = React.useState(0);
@@ -16,7 +17,7 @@ const UserDashboard = () => {
         { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
         { key: 'choice', title: 'Choice', focusedIcon: 'album' },
         { key: 'match', title: 'Matches', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-        { key: 'notification', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
+        { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
         { key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' },
     ]);
 
@@ -24,7 +25,7 @@ const UserDashboard = () => {
         home: Home,
         choice: ChoiceNavigators,
         match: Matches,
-        notification: Chats,
+        location: Location,
         more: More
     });
 
@@ -75,7 +76,6 @@ const UserDashboard = () => {
                     </Button>
                 </View>
             )}
-               
             <BottomNavigation
                 navigationState={{ index, routes }}
                 activeColor="#E71B73"
