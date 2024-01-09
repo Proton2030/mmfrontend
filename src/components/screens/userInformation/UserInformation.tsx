@@ -10,6 +10,7 @@ import { IUserInfo } from '../../../@types/types/userInfo.types';
 import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
+import SnackbarAlert from '../../shared/snackbarAlert/SnackbarAlert';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -18,10 +19,11 @@ const UserInformation = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
     const [userInfo, setUserInfo] = useState<IUserInfo>({
-        gender: "MALE",
-        age: 18,
-        martial_status: "UNMARRIED",
-        country: "BANGLADESH",
+        full_name: "",
+        gender: "",
+        age: 0,
+        marital_status: "",
+        country: "",
         state: "",
         height: 0,
         weight: 0,
@@ -36,7 +38,7 @@ const UserInformation = () => {
         salah: "",
         sawum: "",
         hajab_maintain: 1,
-        religious: "LOW",
+        religious: "",
         fathers_name: "",
         fathers_occupation: "",
         mothers_name: "",
@@ -48,6 +50,20 @@ const UserInformation = () => {
         status: "ACTIVE",
         profile_image_url: "https://worldapheresis.org/wp-content/uploads/2022/04/360_F_339459697_XAFacNQmwnvJRqe1Fe9VOptPWMUxlZP8.jpeg"
     })
+    const userInfoOne = [
+        "full_name",
+        "gender",
+        "age",
+        "marital_status",
+        "country",
+        "state",
+        "height",
+        "weight",
+        "body_color",
+        "eye_color",
+        "hair_color",
+        // Add other fields as needed
+    ];
     const navigation = useNavigation<any>();
 
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
@@ -79,6 +95,11 @@ const UserInformation = () => {
 
     const [image, setImage] = useState<any>(null);
 
+    const [visible, setVisible] = React.useState(false);
+
+    const onToggleSnackBar = () => setVisible(!visible);
+    const onDismissSnackBar = () => setVisible(false);
+
     const pickImage = () => {
         let options = {
             mediaType: 'photo' as MediaType,
@@ -100,17 +121,77 @@ const UserInformation = () => {
         });
     };
 
-
-
     const handleChangeScreen = () => {
         if (screen < 5) {
+            console.log("gender",userInfo.gender);
+            
+            if(screen == 0){
+                if (
+                    userInfo.full_name === "" ||
+                    userInfo.gender === ""||
+                    userInfo.age ===0 ||
+                    userInfo.marital_status === "" ||
+                    userInfo.state=== "" ||
+                    userInfo.height === 0 ||
+                    userInfo.weight === 0 ||
+                    userInfo.eye_color === "" ||
+                    userInfo.hair_color === "" 
+                ) {
+                    setVisible(true)
+                    return;
+                }
+                
+               
+            }
+            if (screen == 1) {
+                if (
+                    userInfo.occupation === "" ||
+                    userInfo.work_place === "" ||
+                    userInfo.monthly_income === "" 
+                
+                ) {
+                    setVisible(true)
+                    return;
+                }
+                
+            }
+            if (screen == 2) {
+                if (
+                    userInfo.education === "" ||
+                    userInfo.islamic_education === "" 
+                ) {
+                    return;
+                }
+               
+            }
+            if (screen == 3) {
+                if (
+                    userInfo.salah === "" ||
+                    userInfo.sawum === "" ||
+                    userInfo.religious === "" 
+                ) {
+                    return;
+                }
+            }
             setScreen(prev => ++prev);
+
         }
+        
         if (screen == 5) {
-            handleCompleteButtonClick();
+
+            if (
+                userInfo.fathers_name !== ""
+            ) {
+                handleCompleteButtonClick();
+                
+            }
+        
+           
         }
     }
     return (
+        
+        <>
         <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
             <View style={styles.viewBox}>
                 <Image style={styles.image} source={logo} />
@@ -138,7 +219,10 @@ const UserInformation = () => {
             <View style={globalStyles.childContainer}>
 
                 {screen === 0 ?
-                    <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} /> : null
+                   <>
+                   <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} /> 
+                  
+                   </> : null
                 }
                 {screen === 1 ?
                     <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} /> : null
@@ -159,9 +243,13 @@ const UserInformation = () => {
                     </View>
                     : null
                 }
+
                 <Button mode='contained' style={globalStyles.pinkButton} onPress={handleChangeScreen}>Continue</Button>
             </View>
+            
         </ScrollView>
+            <SnackbarAlert message='Fill the form' onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
+        </>
     )
 }
 

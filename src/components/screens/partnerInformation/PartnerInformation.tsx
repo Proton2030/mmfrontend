@@ -69,7 +69,7 @@ const PartnerInformation = () => {
             {
                 name: 'UserDashboard'
             },
-        ], // Replace with your desired screen name
+        ], 
     });
 
     const handleCompleteButtonClick = useCallback(async () => {
@@ -87,10 +87,41 @@ const PartnerInformation = () => {
     }, [user, partnerInfo])
 
     const handleChangeScreen = () => {
+      
         if (screen < 2) {
+            if (screen === 0) {
+                if (
+                    partnerInfo.partner_state === null ||
+                    partnerInfo.partner_marital_status === null ||
+                    partnerInfo.partner_state === null ||
+                    partnerInfo.partner_min_height === null ||
+                    partnerInfo.partner_min_weight === null ||
+                    partnerInfo.partner_bodyColor === null 
+                ) {
+                    return;
+                }
+                
+            }
+            if (screen === 1) {
+                if (
+                    partnerInfo.partner_education === null ||
+                    partnerInfo.partner_islamic_education === null
+                ) {
+                    return;
+                }
+                
+            }
+            
             setScreen(prev => ++prev);
         }
         if (screen == 2) {
+            if (
+                partnerInfo.partner_salah === null ||
+                partnerInfo.partner_hajab_maintain === null ||
+                partnerInfo.partner_religious === null 
+            ) {
+                return;
+            }
             handleCompleteButtonClick();
         }
     }

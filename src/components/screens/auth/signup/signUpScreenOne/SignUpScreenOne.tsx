@@ -22,7 +22,7 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
                         &nbsp;Phone Number
                     </Text>
                 </Text>
-                <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae eligendi ipsam eum quo, cumque quas tempora ex aspernatur repellat unde dolores nob</Text>
+                <Text style={{ color: "black" }}>Assalamu Alaikum and welcome to the premier Muslim Matrimony platform!, we understand the significance of finding a life partner who shares your values, faith, and dreams.</Text>
             </View>
             <View style={globalStyles.childContainer}>
                 <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} key={1} />

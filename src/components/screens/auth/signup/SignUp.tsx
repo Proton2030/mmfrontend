@@ -22,7 +22,7 @@ const SignUp = () => {
         password: "",
         gender: "MALE",
         age: 18,
-        martial_status: "UNMARRIED",
+        marital_status: "UNMARRIED",
         country: "BANGLADESH",
         state: "",
         height: 0,
@@ -67,7 +67,7 @@ const SignUp = () => {
     })
 
     const handleChangeScreen = async () => {
-        if (screen < 3) {
+        if (screen < 2) {
             if (screen === 0) {
                 setLoading(true);
                 const filter = { mobile: userDetails.mobile }
@@ -93,7 +93,7 @@ const SignUp = () => {
     }, [userDetails]);
 
     return (
-        <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
+        <View style={globalStyles.parentView} >
             <View style={globalStyles.childContainer}>
                 <Image source={signUp}
                     style={{ width: '100%', height: undefined, aspectRatio: 1 }}
@@ -111,7 +111,7 @@ const SignUp = () => {
                 screen === 2 ?
                     <SignUpScreenThree userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} /> : null
             }
-        </ScrollView>
+        </View>
     )
 }
 

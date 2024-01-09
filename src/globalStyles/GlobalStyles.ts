@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { Screen } from "react-native-screens";
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -10,6 +11,7 @@ export const globalStyles = StyleSheet.create(
             paddingBottom:0,
         },
         parentScrollContainer:{
+            
             paddingTop:25,
             flexGrow:1,
             justifyContent: "center",

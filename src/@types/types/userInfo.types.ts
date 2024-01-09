@@ -1,7 +1,8 @@
 export interface IUserInfo{
+    full_name: string;
     gender: string,
 	age: number,
-	martial_status: string,
+	marital_status: string,
 	country: string,
 	state: string,
 	height: number,

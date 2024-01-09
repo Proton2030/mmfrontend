@@ -35,24 +35,27 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
     }
 
     const handleButtonContinueClick = useCallback(async () => {
-        if (!error) {
+        // if (!error) {
             try {
                 setLoading(true);
-                // const userInstance = await api.auth.signup(userDetails);
-                // setLoading(false);
-                // if (userInstance) {
-                //     setUser(userInstance);
-                //     navigation.dispatch(routeUserInfo)
-                // }
+                if (userDetails.password !=="") {
+                    handleChangeScreen();
+                      const userInstance = await api.auth.signup(userDetails);
+                setLoading(false);
+                if (userInstance) {
+                    setUser(userInstance);
+                    navigation.dispatch(routeUserInfo)
+                }
+                }
             }
             catch (error) {
                 setLoading(false);
                 onToggleSnackBar();
             }
-        }
-        else {
-            warn("Enter Password Carefully")
-        }
+        // }
+        // else {
+        //     warn("Enter Password Carefully")
+        // }
     }, [userDetails])
     return (
         <>
