@@ -50,20 +50,7 @@ const UserInformation = () => {
         status: "ACTIVE",
         profile_image_url: "https://worldapheresis.org/wp-content/uploads/2022/04/360_F_339459697_XAFacNQmwnvJRqe1Fe9VOptPWMUxlZP8.jpeg"
     })
-    const userInfoOne = [
-        "full_name",
-        "gender",
-        "age",
-        "marital_status",
-        "country",
-        "state",
-        "height",
-        "weight",
-        "body_color",
-        "eye_color",
-        "hair_color",
-        // Add other fields as needed
-    ];
+  
     const navigation = useNavigation<any>();
 
     const handleChangeText = useCallback((field: string, type: string, text: string) => {

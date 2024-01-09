@@ -95,7 +95,7 @@ const Login = () => {
                 <View style={{ flexDirection: 'row', alignItems: 'center', padding: 30 }}>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
                     <View>
-                        <Text style={{ width: 80, textAlign: 'center' }}>New User ?</Text>
+                        <Text style={{ width: 80, textAlign: 'center', color:'black' }}>New User ?</Text>
                     </View>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
                 </View>

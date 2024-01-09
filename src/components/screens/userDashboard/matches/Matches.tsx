@@ -1,30 +1,51 @@
-import { NativeSyntheticEvent, NativeScrollEvent, FlatList } from 'react-native'
+import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import ChoiceMatchCard from '../../../shared/choiceMatchCard/ChoiceMatchCard'
-import { api } from '../../../../utils/api'
-import AuthContext from '../../../../contexts/authContext/authContext'
+import { Button } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native';
+import AuthContext from '../../../../contexts/authContext/authContext';
+import { api } from '../../../../utils/api';
+import UserCard from '../../../shared/userCard/UserCard';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { globalStyles } from '../../../../globalStyles/GlobalStyles';
+import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 
 const Matches = () => {
     const { user } = useContext(AuthContext);
-    const [choiceList, setChoiceList] = useState<any[]>([]);
+    const [refreshing, setRefreshing] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
+    const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
+    const [selectedPage, setSelectedPage] = useState<Map<number, number>>(new Map());
+    const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
+        const payload = {
+            senderId: sender_id,
+            recieverId: reciver_id
+        }
+        const response = await api.userChoice.addChoice(payload);
+    }, [])
 
-    const getMatchUser = useCallback(async () => {
+    const getSuggestionUserApi = async () => {
+        console.log("calling api", page)
         if (user) {
             const filter = {
+                userObjectId: user._id,
                 page: page,
-                first_user_profile_object_id: user._id,
-                status: "MATCHED"
+                limit: 5
             }
             try {
-                const userlist = await api.userChoice.getChoice(filter);
-                setChoiceList(prevUserList => prevUserList.concat(userlist));
+                const userlist = await api.userDetails.getSuggestionUser(filter);
+                setSuggestedUser(prevUserList => prevUserList.concat(userlist));
+                setRefreshing(false);
             }
             catch (err) {
                 console.log(err)
+                setRefreshing(false);
             }
         }
+    }
+
+    const getSuggestionUser = useCallback(async () => {
+        console.log(" ------>>calling api");
+        getSuggestionUserApi();
     }, [user, page]);
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -33,16 +54,26 @@ const Matches = () => {
             setPage(prev => prev + 1);
         }
     };
+
+    const handleRefresh = () => {
+        setRefreshing(true);
+        setSuggestedUser([]);
+        setPage(1);
+        getSuggestionUserApi();
+    };
+
     useEffect(() => {
-        getMatchUser();
-    }, [getMatchUser]);
+        getSuggestionUser();
+    }, [getSuggestionUser]);
+
     return (
-        <SafeAreaView style={{ padding: 10 }}>
+        <SafeAreaView>
             <FlatList
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
-                data={choiceList}
-                renderItem={({ item }) => <ChoiceMatchCard status='MATCHED' choiceMatchId={item._id} name={item.choice_user_details.full_name} state={item.choice_user_details.state} />} // Assuming addChoice is defined
+                data={suggestedUser}
+                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
                 keyExtractor={user => user._id!} // Assuming email is a unique identifier
             />
         </SafeAreaView>

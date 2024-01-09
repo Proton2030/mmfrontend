@@ -10,6 +10,7 @@ import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { IUserPartnerInfo } from '../../../@types/types/userPartnerInfo';
 import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
+import SnackbarAlert from '../../shared/snackbarAlert/SnackbarAlert';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -18,23 +19,28 @@ const PartnerInformation = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
     const [partnerInfo, setPartnerInfo] = useState<IUserPartnerInfo>({
-        partner_min_age: 18,
-        partner_max_age: 10000,
-        partner_bodyColor: "BLACK",
+        partner_min_age: 0,
+        partner_max_age: 0,
+        partner_bodyColor: "",
         partner_coutry: "BANGLADESH",
         partner_education: "",
         partner_hajab_maintain: 1,
         partner_min_height: 0,
-        partner_max_height: 100,
+        partner_max_height: 0,
         partner_islamic_education: "",
-        partner_marital_status: "UNMARRIED",
+        partner_marital_status: "",
         partner_religious: true,
         partner_salah: "",
         partner_state: "",
         partner_min_weight: 0,
-        partner_max_weight: 1000
+        partner_max_weight: 0
     })
     const navigation = useNavigation<any>();
+
+    const [visible, setVisible] = React.useState(false);
+
+    const onToggleSnackBar = () => setVisible(!visible);
+    const onDismissSnackBar = () => setVisible(false);
 
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         console.log("text", text);
@@ -91,24 +97,24 @@ const PartnerInformation = () => {
         if (screen < 2) {
             if (screen === 0) {
                 if (
-                    partnerInfo.partner_state === null ||
-                    partnerInfo.partner_marital_status === null ||
-                    partnerInfo.partner_state === null ||
-                    partnerInfo.partner_min_height === null ||
-                    partnerInfo.partner_min_weight === null ||
-                    partnerInfo.partner_bodyColor === null 
+                    partnerInfo.partner_state === "" ||
+                    partnerInfo.partner_marital_status === "" ||
+                    partnerInfo.partner_state === "" ||
+                    partnerInfo.partner_min_height === 0 ||
+                    partnerInfo.partner_min_weight === 0 ||
+                    partnerInfo.partner_bodyColor === "" 
                 ) {
                     return;
                 }
                 
             }
             if (screen === 1) {
-                if (
-                    partnerInfo.partner_education === null ||
-                    partnerInfo.partner_islamic_education === null
-                ) {
-                    return;
-                }
+                // if (
+                //     partnerInfo.partner_education === "" ||
+                //     partnerInfo.partner_islamic_education === ""
+                // ) {
+                //     return;
+                // }
                 
             }
             
@@ -116,9 +122,8 @@ const PartnerInformation = () => {
         }
         if (screen == 2) {
             if (
-                partnerInfo.partner_salah === null ||
-                partnerInfo.partner_hajab_maintain === null ||
-                partnerInfo.partner_religious === null 
+                partnerInfo.partner_salah === "" ||
+                partnerInfo.partner_religious === false 
             ) {
                 return;
             }
@@ -126,6 +131,8 @@ const PartnerInformation = () => {
         }
     }
     return (
+        <>
+        
         <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
             <View style={styles.viewBox}>
                 <Image style={styles.image} source={logo} />
@@ -156,6 +163,9 @@ const PartnerInformation = () => {
                 <Button mode='contained' style={globalStyles.pinkButton} onPress={handleChangeScreen}>Continue</Button>
             </View>
         </ScrollView>
+        <SnackbarAlert message='Fill the form' onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
+       
+        </>
     )
 }
 
