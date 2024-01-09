@@ -6,13 +6,17 @@ import Choice from './choice/myChoice/MyChoice';
 import Matches from './matches/Matches';
 import Chats from './chats/Chats';
 import More from './more/More';
-import { Image, View } from 'react-native';
+import { Animated, Image, View } from 'react-native';
 import { logo } from '../../../assets';
 import ChoiceNavigators from '../../navigators/choiceNavigators/ChoiceNavigators';
 import Location from './location/Location';
 
 const UserDashboard = () => {
     const [index, setIndex] = React.useState(0);
+    const [searchVisible, setSearchVisible] = React.useState(false);
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const fadeAnim = React.useRef(new Animated.Value(0)).current;
+    
     const [routes] = React.useState([
         { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
         { key: 'choice', title: 'Choice', focusedIcon: 'album' },
@@ -29,13 +33,21 @@ const UserDashboard = () => {
         more: More
     });
 
-
-    const [searchVisible, setSearchVisible] = React.useState(false);
-    const [searchQuery, setSearchQuery] = React.useState('');
-
     const toggleSearchBar = () => {
         setSearchVisible(!searchVisible);
+        if (!searchVisible) {
+            fadeAnim.setValue(0);
+        }
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: searchVisible ? 0 : 1,
+                duration: 500,
+                useNativeDriver: true,
+            }
+        ).start();
     };
+
 
     return (
         <>
@@ -53,28 +65,35 @@ const UserDashboard = () => {
             </Appbar.Header>
           
             {searchVisible && (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Searchbar
-                        style={{
-                            flex: 1,
-                            margin: 10,
-                            backgroundColor: "#fff5f9",
-                        }}
-                        elevation={3}
-                        placeholder="Search by username"
-                        onChangeText={setSearchQuery}
-                        value={searchQuery}
-                    />
-                    <Button
-                        mode="contained"
-                        onPress={() => {
-                            
-                        }}
-                        style={{ margin: 10 }}
-                    >
-                        Search
-                    </Button>
-                </View>
+                <Animated.View
+                style={{
+                    opacity: fadeAnim,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 10,
+                    backgroundColor: '#fff5f9',
+                }}
+            >
+                <Searchbar
+                    style={{
+                        flex: 1,
+                        backgroundColor: "#fff5f9",
+                    }}
+                    elevation={3}
+                    placeholder="Search by username"
+                    onChangeText={setSearchQuery}
+                    value={searchQuery}
+                />
+                <Button
+                    mode="contained"
+                    onPress={() => {
+                    
+                    }}
+                    style={{ margin: 10 }}
+                >
+                    Search
+                </Button>
+            </Animated.View>
             )}
             <BottomNavigation
                 navigationState={{ index, routes }}
