@@ -27,12 +27,12 @@ const Home = () => {
         console.log("calling api", page)
         if (user) {
             const filter = {
-                userObjectId: user._id,
+                gender: user.gender,
                 page: page,
                 limit: 5
             }
             try {
-                const userlist = await api.userDetails.getSuggestionUser(filter);
+                const userlist = await api.userDetails.getAllSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
             }

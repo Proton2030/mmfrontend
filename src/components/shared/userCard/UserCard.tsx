@@ -1,4 +1,4 @@
-import { View, Text, Image, Dimensions } from 'react-native'
+import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useCallback, useContext, useState } from 'react'
 import { Avatar, Button, Card, IconButton } from 'react-native-paper'
 import { globalStyles } from '../../../globalStyles/GlobalStyles'
@@ -12,6 +12,12 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
+
+    const handleRouteTouserDetails = () => {
+        navigation.navigate('UserDetails', {
+            userDetails: userDetails
+        })
+    }
     const handleNavigateChat = () => {
         navigation.navigate('Chat', {
             profile_image: userDetails.profile_image_url,
@@ -41,9 +47,11 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                     </View>
                 </View>
             </View>
-            <View>
-                <Image source={{ uri: userDetails.profile_image_url }} style={globalStyles.cardImage} />
-            </View>
+            <TouchableOpacity onPress={handleRouteTouserDetails}>
+                <View>
+                    <Image source={{ uri: userDetails.profile_image_url }} style={globalStyles.cardImage} />
+                </View>
+            </TouchableOpacity>
             <View style={{ display: 'flex', flexDirection: "row", columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
                 <View style={globalStyles.iconText}>
                     <Icon name="ruler-vertical" size={18} color="#E71B73" />
