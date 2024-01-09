@@ -32,7 +32,7 @@ const Matches = () => {
                 limit: 5
             }
             try {
-                const userlist = await api.userDetails.getSuggestionUser(filter);
+                const userlist = await api.userDetails.getMatchedSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
             }

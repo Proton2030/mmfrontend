@@ -6,6 +6,7 @@ import { Button } from 'react-native-paper'
 import CenterForm from '../../../../shared/centerForm/CenterForm'
 import { SIGNUP_SCREEN_ONE } from '../../../../../constants/forms/SignUp'
 import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.props'
+import { GoogleSigninButton } from 'react-native-google-signin'
 
 const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, loading }: ISignupScreenProps) => {
     const handleGenerateOtpClick = () => {
@@ -27,6 +28,11 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
             <View style={globalStyles.childContainer}>
                 <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} key={1} />
                 <Button mode='contained' loading={loading} style={globalStyles.pinkButton} onPress={handleGenerateOtpClick} >Generate OTP</Button>
+                <GoogleSigninButton
+                    style={{ width: 192, height: 48 }}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
+                />
             </View>
         </View>
     )

@@ -7,6 +7,7 @@ import UserInfoNavigators from './src/components/navigators/UserInfoNavigators';
 import UserDashboardNavigators from './src/components/navigators/UserDashboardNavigators';
 import PartnerInfoNavigators from './src/components/navigators/PartnerInfoNavigators';
 import ChatBoard from './src/components/shared/chat/ChatBoard';
+import UserDetails from './src/components/shared/userDetails/UserDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const App = () => {
       <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
       <Stack.Screen name="Confirm" component={ConfirmNavigators} />
       <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
+      <Stack.Screen name="UserDetails" component={UserDetails} />
       <Stack.Screen name='Chat' component={ChatBoard} />
       <Stack.Screen name="PartnerInfo" component={PartnerInfoNavigators} />
     </Stack.Navigator>

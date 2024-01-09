@@ -27,12 +27,13 @@ const Location = () => {
         console.log("calling api", page)
         if (user) {
             const filter = {
-                userObjectId: user._id,
                 page: page,
-                limit: 5
+                limit: 5,
+                gender: user.gender,
+                state: user.state
             }
             try {
-                const userlist = await api.userDetails.getSuggestionUser(filter);
+                const userlist = await api.userDetails.getLocationSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
             }

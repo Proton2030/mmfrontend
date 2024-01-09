@@ -4,7 +4,7 @@ import { getOtp } from "./auth/sendOtp";
 import { addChoice } from "./userChoice/addUserChoice";
 import { getChoice } from "./userChoice/getUserChoice";
 import { unChoice } from "./userChoice/unChoice";
-import { getSuggestionUser, updateUserDetails } from "./userDetails/userDetails";
+import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser } from "./userDetails/userDetails";
 
 
 export const api = {
@@ -15,7 +15,9 @@ export const api = {
     },
     userDetails:{
         updateUser:updateUserDetails,
-        getSuggestionUser:getSuggestionUser
+        getAllSuggestionUser:getAllSuggestionUser,
+        getLocationSuggestionUser:getLocationSuggestionUser,
+        getMatchedSuggestionUser:getMatchedSuggestionUser
     },
     userChoice:{
         addChoice:addChoice,
