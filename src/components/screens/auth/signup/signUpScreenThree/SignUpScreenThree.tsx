@@ -36,22 +36,22 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
 
     const handleButtonContinueClick = useCallback(async () => {
         // if (!error) {
-            try {
-                setLoading(true);
-                if (userDetails.password !=="") {
-                    handleChangeScreen();
-                      const userInstance = await api.auth.signup(userDetails);
+        try {
+            setLoading(true);
+            if (userDetails.password !== "") {
+                handleChangeScreen();
+                const userInstance = await api.auth.signup(userDetails);
                 setLoading(false);
                 if (userInstance) {
                     setUser(userInstance);
                     navigation.dispatch(routeUserInfo)
                 }
-                }
             }
-            catch (error) {
-                setLoading(false);
-                onToggleSnackBar();
-            }
+        }
+        catch (error) {
+            setLoading(false);
+            onToggleSnackBar();
+        }
         // }
         // else {
         //     warn("Enter Password Carefully")
@@ -64,9 +64,9 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
                 </Text>
                 <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae eligendi ipsam eum quo, cumque quas tempora ex aspernatur repellat unde dolores nob</Text>
                 <View style={{ width: "100%", marginTop: 20 }}>
-                    <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_THREE} />
+                    <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_THREE} object={userDetails} />
                 </View>
-                <Button loading={loading} mode='contained' style={globalStyles.pinkButton} onPress={handleButtonContinueClick}>Continue</Button>
+                <Button loading={loading} mode='contained' style={globalStyles.pinkButton} onPress={handleButtonContinueClick}>Next</Button>
             </View>
             <SnackbarAlert message='Something Went Wrong' onDismissSnackBar={onDismissSnackBar} visible={visible} key={1} />
         </>

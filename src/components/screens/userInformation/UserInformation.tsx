@@ -18,6 +18,7 @@ const windowHeight = Dimensions.get('window').height;
 const UserInformation = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
+    const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo>({
         full_name: "",
         gender: "",
@@ -39,6 +40,7 @@ const UserInformation = () => {
         sawum: "",
         hajab_maintain: 1,
         religious: "",
+
         fathers_name: "",
         fathers_occupation: "",
         mothers_name: "",
@@ -53,10 +55,18 @@ const UserInformation = () => {
 
     const navigation = useNavigation<any>();
 
+    console.log("text", userInfo);
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
-        console.log("text", text);
         if (type === "NUMBER") {
             setUserInfo(Object.assign({}, userInfo, { [field]: Number(text) }))
+        }
+        if (field === "gender") {
+            if (text === "MALE") {
+                setUserInfo(Object.assign({}, userInfo, { age: 21, [field]: text }))
+            }
+            else {
+                setUserInfo(Object.assign({}, userInfo, { age: 18, [field]: text }))
+            }
         }
         else {
             setUserInfo(Object.assign({}, userInfo, { [field]: text }))
@@ -73,7 +83,7 @@ const UserInformation = () => {
             const userInstance = await api.userDetails.updateUser(payload);
             if (userInstance) {
                 setUser(userInstance);
-                navigation.navigate('PartnerInfo');
+                navigation.navigate('partner-details');
             }
         }
     }, [user, userInfo]);
@@ -108,6 +118,12 @@ const UserInformation = () => {
         });
     };
 
+    const handleBackScreen = () => {
+        if (screen > 0) {
+            setScreen(prev => --prev);
+        }
+    }
+
     const handleChangeScreen = () => {
         if (screen < 5) {
             console.log("gender", userInfo.gender);
@@ -124,11 +140,27 @@ const UserInformation = () => {
                     userInfo.eye_color === "" ||
                     userInfo.hair_color === ""
                 ) {
+                    setErrorMessage("Please fill the all data");
                     setVisible(true)
                     return;
                 }
-
-
+                else {
+                    if (userInfo.gender === "MALE") {
+                        if (userInfo.age < 21) {
+                            setErrorMessage("Age should not be less than 21");
+                            setVisible(true)
+                            return;
+                        }
+                    }
+                    else if (userInfo.gender === "FEMALE") {
+                        if (userInfo.age < 18) {
+                            setErrorMessage("Age should not be less than 18");
+                            setVisible(true)
+                            return;
+                        }
+                    }
+                    setScreen(prev => ++prev);
+                }
             }
             if (screen == 1) {
                 if (
@@ -137,6 +169,7 @@ const UserInformation = () => {
                     userInfo.monthly_income === ""
 
                 ) {
+                    setErrorMessage("Please fill the all data");
                     setVisible(true)
                     return;
                 }
@@ -147,6 +180,8 @@ const UserInformation = () => {
                     userInfo.education === "" ||
                     userInfo.islamic_education === ""
                 ) {
+                    setErrorMessage("Please fill the all data");
+                    setVisible(true)
                     return;
                 }
 
@@ -157,23 +192,17 @@ const UserInformation = () => {
                     userInfo.sawum === "" ||
                     userInfo.religious === ""
                 ) {
+                    setErrorMessage("Please fill the all data");
+                    setVisible(true)
                     return;
                 }
             }
             setScreen(prev => ++prev);
-
         }
-
         if (screen == 5) {
-
-            if (
-                userInfo.fathers_name !== ""
-            ) {
+            if (userInfo.fathers_name !== "") {
                 handleCompleteButtonClick();
-
             }
-
-
         }
     }
     return (
@@ -206,36 +235,37 @@ const UserInformation = () => {
                 <View style={globalStyles.childContainer}>
 
                     {screen === 0 ?
-                        <>
-                            <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} />
 
-                        </> : null
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} /> : null
                     }
                     {screen === 1 ?
-                        <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} /> : null
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} /> : null
                     }
                     {screen === 2 ?
-                        <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} /> : null
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} /> : null
                     }
                     {screen === 3 ?
-                        <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} /> : null
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} /> : null
                     }
                     {screen === 4 ?
-                        <CenterForm handleChangeText={handleChangeText} fieldList={USER_INFO_FIVE} /> : null
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FIVE} /> : null
                     }
                     {screen === 5 ?
                         <View style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
                             <Image source={{ uri: userInfo.profile_image_url }} style={styles.profileImage} />
-                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={pickImage}>Update</Button>
+                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={pickImage}>Upload</Button>
                         </View>
                         : null
                     }
-
-                    <Button mode='contained' style={globalStyles.pinkButton} onPress={handleChangeScreen}>Continue</Button>
+                    <Button mode='contained' style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleChangeScreen}>Next</Button>
+                    {
+                        screen !== 0 ?
+                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleBackScreen}>Back</Button> : null
+                    }
                 </View>
 
             </ScrollView>
-            <SnackbarAlert message='Fill the form' onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
+            <SnackbarAlert message={errorMessage} onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
         </>
     )
 }

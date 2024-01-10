@@ -10,21 +10,26 @@ import AuthContext from '../../../../contexts/authContext/authContext'
 const More = () => {
     const { user } = useContext(AuthContext);
     return (
-        <ScrollView contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 }}>
-            <View style={{ marginBottom: 30, marginTop: 30 }}>
+        <>
+            <ScrollView contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 }}>
+                <View style={{ marginBottom: 30, marginTop: 30 }}>
+                    {
+                        user ?
+                            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", columnGap: 10 }}>
+                                <Avatar.Image size={45} source={{ uri: user.profile_image_url }} />
+                                <Text style={[globalStyles.headingText, { textAlign: "left" }]}>{user.full_name}</Text>
+                            </View> : null
+                    }
+                </View>
                 {
-                    user ?
-                        <Text style={[globalStyles.headingText, { textAlign: "left" }]}>Hello, {user.full_name}</Text> : null
+                    MENU_OPTION.map((menu, index) => {
+                        return (
+                            <SmallCard icon={menu.icon} route={menu.route} text={menu.text} key={index} />
+                        )
+                    })
                 }
-            </View>
-            {
-                MENU_OPTION.map((menu, index) => {
-                    return (
-                        <SmallCard icon={menu.icon} route={menu.route} text={menu.text} key={index} />
-                    )
-                })
-            }
-        </ScrollView>
+            </ScrollView>
+        </>
     )
 }
 

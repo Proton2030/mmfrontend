@@ -1,12 +1,18 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, TextInput } from 'react-native-paper';
 import { ICenterFormProps } from '../../../@types/props/CenterFormProps.types';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const CenterForm = ({ fieldList, handleChangeText }: ICenterFormProps) => {
+const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) => {
+    const [isPasswordVisible, setPasswordVisibility] = useState(false); // State to track password visibility
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisibility(!isPasswordVisible);
+    };
+
     return (
         <ScrollView style={globalStyles.innerContainer}>
             {
@@ -20,6 +26,7 @@ const CenterForm = ({ fieldList, handleChangeText }: ICenterFormProps) => {
                                         mode="outlined"
                                         id={field.id}
                                         label={field.label}
+                                        defaultValue={object[field.id] || ""}
                                         placeholder={field.placeHolder}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         theme={{
@@ -38,6 +45,7 @@ const CenterForm = ({ fieldList, handleChangeText }: ICenterFormProps) => {
                                         keyboardType='numeric'
                                         id={field.id}
                                         label={field.label}
+                                        value={object[field.id].toString()}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         placeholder={field.placeHolder}
                                         theme={{
@@ -53,9 +61,10 @@ const CenterForm = ({ fieldList, handleChangeText }: ICenterFormProps) => {
                                     <TextInput
                                         style={globalStyles.roundedInputBox}
                                         mode="outlined"
-                                        secureTextEntry
+                                        secureTextEntry={!isPasswordVisible}
                                         id={field.id}
                                         label={field.label}
+                                        defaultValue={object[field.id].toString()}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         placeholder={field.placeHolder}
                                         theme={{
@@ -64,6 +73,13 @@ const CenterForm = ({ fieldList, handleChangeText }: ICenterFormProps) => {
                                             },
                                             roundness: 10
                                         }}
+                                        right={
+                                            <TextInput.Icon
+                                                icon={isPasswordVisible ? 'eye-off' : 'eye'}
+                                                style={{ marginTop: 15 }}
+                                                onPress={togglePasswordVisibility}
+                                            />
+                                        }
                                     /> : null
                             }
                             {
@@ -72,7 +88,14 @@ const CenterForm = ({ fieldList, handleChangeText }: ICenterFormProps) => {
                                         {/* Label above the dropdown */}
                                         <Text style={globalStyles.label}>{field.label}</Text>
                                         <SelectDropdown
-                                            defaultButtonText={field.label}
+                                            defaultButtonText={
+                                                object[field.id] !== "" ?
+                                                    (typeof (object[field.id]) === "boolean" ?
+                                                        object[field.id] ?
+                                                            "YES" : "NO" :
+                                                        object[field.id]
+                                                    )
+                                                    : field.label}
                                             buttonStyle={globalStyles.selectField}
                                             searchPlaceHolder={field.placeHolder}
                                             buttonTextStyle={globalStyles.selectText}

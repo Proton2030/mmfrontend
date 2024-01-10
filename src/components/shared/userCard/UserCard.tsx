@@ -21,7 +21,8 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const handleNavigateChat = () => {
         navigation.navigate('Chat', {
             profile_image: userDetails.profile_image_url,
-            name: userDetails.full_name
+            name: userDetails.full_name,
+            userId: userDetails._id
         });
     }
     const handleAddChoice = useCallback(() => {
@@ -32,22 +33,23 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     }, [user]);
     return (
         <View style={globalStyles.card}>
-            <View style={{ display: "flex", flexDirection: "row", alignItems: "center", columnGap: 10, paddingLeft: 10, marginBottom: 15 }}>
-                <Avatar.Image size={45} source={{ uri: userDetails.profile_image_url }} />
-                <View style={{ display: "flex", width: "100%" }}>
-                    <Text style={{ color: "#E71B73", fontSize: 18, fontWeight: "bold" }}>{userDetails.full_name || "Test Account"}
-                        <Text style={{ color: "black", fontSize: 15 }}>
-                            &nbsp;({userDetails.age} yrs)
+            <TouchableOpacity onPress={handleRouteTouserDetails}>
+                <View style={{ display: "flex", flexDirection: "row", alignItems: "center", columnGap: 10, paddingLeft: 10, marginBottom: 15 }}>
+                    <Avatar.Image size={45} source={{ uri: userDetails.profile_image_url }} />
+                    <View style={{ display: "flex", width: "100%" }}>
+                        <Text style={{ color: "#E71B73", fontSize: 18, fontWeight: "bold" }}>{userDetails.full_name || "Test Account"}
+                            <Text style={{ color: "black", fontSize: 15 }}>
+                                &nbsp;({userDetails.age} yrs)
+                            </Text>
                         </Text>
-                    </Text>
-                    <View style={globalStyles.iconText}>
-                        <Icon name="map-marker-alt" size={18} color="#E71B73" />
-                        <Text style={{ color: "black", fontSize: 14 }}>
-                            Lives In {userDetails.state || "N/A"}</Text>
+                        <View style={globalStyles.iconText}>
+                            <Icon name="map-marker-alt" size={18} color="#E71B73" />
+                            <Text style={{ color: "black", fontSize: 14 }}>
+                                Lives In {userDetails.state || "N/A"}</Text>
+                        </View>
+                        <Text style={{ color: "black", marginTop: 4, marginLeft: 8 }}>{userDetails.status === "ACTIVE" ? "online" : "offline"}</Text>
                     </View>
                 </View>
-            </View>
-            <TouchableOpacity onPress={handleRouteTouserDetails}>
                 <View>
                     <Image source={{ uri: userDetails.profile_image_url }} style={globalStyles.cardImage} />
                 </View>

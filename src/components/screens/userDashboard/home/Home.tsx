@@ -88,18 +88,13 @@ const Home = () => {
                         backgroundColor: "#fff5f9",
                     }}
                     elevation={3}
-                    placeholder="Search by username"
+                    placeholder="Search User"
                     onChangeText={(query) => { setSearchQuery(query) }}
                     onClearIconPress={handleRefresh}
                     value={searchQuery}
+                    onSubmitEditing={handleSearh}
+                    blurOnSubmit={true}
                 />
-                <Button
-                    mode="contained"
-                    onPress={handleSearh}
-                    style={{ margin: 10 }}
-                >
-                    Search
-                </Button>
             </View>
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}

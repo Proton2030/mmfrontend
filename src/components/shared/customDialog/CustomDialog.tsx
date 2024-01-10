@@ -2,18 +2,21 @@ import React from 'react'
 import { Button, Dialog, Portal, Text } from 'react-native-paper'
 import { globalStyles } from '../../../globalStyles/GlobalStyles'
 
-const CustomDialog = ({ visible, hideDialog, handleRightButtonClick }: any) => {
+const CustomDialog = ({ visible, hideDialog, handleRightButtonClick, title, body, leftLabel, rightLabel }: any) => {
     return (
         <Portal>
             <Dialog visible={visible} onDismiss={hideDialog}>
-                <Dialog.Icon icon="alert" />
-                <Dialog.Title style={globalStyles.mediumText}>Are You Sure want to Unchoise ?</Dialog.Title>
-                <Dialog.Content>
-                    <Text variant="bodyMedium">After unchoising this user,tho=is user will be removed from your choice</Text>
-                </Dialog.Content>
+                <Dialog.Icon icon="alert" color='red' />
+                <Dialog.Title style={globalStyles.mediumText}>{title}</Dialog.Title>
+                {
+                    body !== "" ?
+                        <Dialog.Content>
+                            <Text variant="bodyMedium">{body}</Text>
+                        </Dialog.Content> : null
+                }
                 <Dialog.Actions>
-                    <Button onPress={hideDialog}>Cancel</Button>
-                    <Button onPress={handleRightButtonClick}>Ok</Button>
+                    <Button onPress={hideDialog}>{leftLabel}</Button>
+                    <Button onPress={handleRightButtonClick}>{rightLabel}</Button>
                 </Dialog.Actions>
             </Dialog>
         </Portal>

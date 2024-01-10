@@ -64,7 +64,7 @@ const UpdateProfileImage = () => {
                 <Image style={styles.image} source={logo} />
             </View>
             <View style={globalStyles.childContainer}>
-                <Text style={globalStyles.headingText}>Welcome Back {user?.full_name},Please Update Your Profile Image</Text>
+                <Text style={globalStyles.headingText}>Welcome Back {user?.full_name},Please Upload Your Profile Image</Text>
             </View>
             <View style={globalStyles.childContainer}>
 
@@ -72,7 +72,7 @@ const UpdateProfileImage = () => {
                     {image ?
                         <Image source={{ uri: image }} style={styles.profileImage} /> : null
                     }
-                    <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={pickImage}>Update</Button>
+                    <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={pickImage}>Upload</Button>
                 </View>
                 <Button mode='contained' style={globalStyles.pinkButton} disabled={!isChnaged} onPress={handleSubmitButtonClick}>Complete</Button>
             </View>

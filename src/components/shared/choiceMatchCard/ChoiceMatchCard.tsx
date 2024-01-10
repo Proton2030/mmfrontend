@@ -25,27 +25,13 @@ const ChoiceMatchCard = React.memo(({ name, state, status, handleUnchoice, choic
                         title={name}
                         subtitle={`Lives in ${state}`}
                         right={(props) => <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                            {
-                                status === "CHOICE-ME" ?
-                                    <>
-                                        <IconButton icon="check" iconColor='#E71B73' style={{ backgroundColor: "#fad1e3" }} />
-                                        <IconButton icon="close" iconColor='red' style={{ backgroundColor: "#fad1e3" }} />
-                                    </> :
-                                    status === "MY-CHOICE" ?
-                                        <>
-                                            <IconButton icon="information-outline" iconColor='#E71B73' style={{ backgroundColor: "#fad1e3" }} />
-                                            <IconButton icon="close" iconColor='red' onPress={handleOpenDialog} style={{ backgroundColor: "#fad1e3" }} />
-                                        </>
-                                        :
-                                        status === "MATCHED" ?
-                                            <IconButton icon="information-outline" iconColor='#E71B73' style={{ backgroundColor: "#fad1e3" }} /> : null
-                            }
+                            <IconButton icon="close" iconColor='red' onPress={handleOpenDialog} style={{ backgroundColor: "#fad1e3" }} />
                         </View>
                         }
                     />
                 </Card>
             </View>
-            <CustomDialog visible={visible} hideDialog={hideDialog} handleRightButtonClick={handleUnchoiceClick} />
+            <CustomDialog title={"Are You Sure want to Unchoise ?"} leftLabel={"Cancel"} body={"After unchoising this user,this user will be removed from your choice"} visible={visible} hideDialog={hideDialog} handleRightButtonClick={handleUnchoiceClick} />
         </>
     )
 }

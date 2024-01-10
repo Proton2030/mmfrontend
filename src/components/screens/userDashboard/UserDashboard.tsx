@@ -10,20 +10,23 @@ import { Image, View } from 'react-native';
 import { logo } from '../../../assets';
 import ChoiceNavigators from '../../navigators/choiceNavigators/ChoiceNavigators';
 import Location from './location/Location';
+import MyChoice from './choice/myChoice/MyChoice';
 
 const UserDashboard = () => {
     const [index, setIndex] = React.useState(0);
+    const [isSearch, setIsSearch] = React.useState<boolean>(false);
+
     const [routes] = React.useState([
         { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
-        { key: 'choice', title: 'Choice', focusedIcon: 'album' },
-        { key: 'match', title: 'Matches', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
+        { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
+        { key: 'match', title: 'Matches', focusedIcon: 'plus-circle', unfocusedIcon: 'plus-circle-outline' },
         { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
         { key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' },
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
         home: Home,
-        choice: ChoiceNavigators,
+        choice: MyChoice,
         match: Matches,
         location: Location,
         more: More

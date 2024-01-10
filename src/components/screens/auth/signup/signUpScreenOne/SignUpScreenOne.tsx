@@ -26,13 +26,13 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
                 <Text style={{ color: "black" }}>Assalamu Alaikum and welcome to the premier Muslim Matrimony platform!, we understand the significance of finding a life partner who shares your values, faith, and dreams.</Text>
             </View>
             <View style={globalStyles.childContainer}>
-                <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} key={1} />
+                <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
                 <Button mode='contained' loading={loading} style={globalStyles.pinkButton} onPress={handleGenerateOtpClick} >Generate OTP</Button>
-                <GoogleSigninButton
+                {/* <GoogleSigninButton
                     style={{ width: 192, height: 48 }}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
-                />
+                /> */}
             </View>
         </View>
     )
