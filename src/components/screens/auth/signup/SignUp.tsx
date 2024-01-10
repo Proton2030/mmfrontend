@@ -70,9 +70,9 @@ const SignUp = () => {
         if (screen < 2) {
             if (screen === 0) {
                 setLoading(true);
-                // const filter = { mobile: userDetails.mobile }
-                // const otpResponse = await api.auth.getOtp(filter)
-                setOtp("1234")
+                const filter = { mobile: userDetails.mobile }
+                const otpResponse = await api.auth.getOtp(filter)
+                setOtp(otpResponse);
                 setLoading(false);
             }
             setScreen(prev => ++prev);
@@ -93,7 +93,7 @@ const SignUp = () => {
     }, [userDetails]);
 
     return (
-        <View style={globalStyles.parentView} >
+        <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
             <View style={globalStyles.childContainer}>
                 <Image source={signUp}
                     style={{ width: '100%', height: undefined, aspectRatio: 1 }}
@@ -111,7 +111,7 @@ const SignUp = () => {
                 screen === 2 ?
                     <SignUpScreenThree userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} /> : null
             }
-        </View>
+        </ScrollView>
     )
 }
 

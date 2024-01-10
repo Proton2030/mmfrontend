@@ -59,11 +59,14 @@ const Login = () => {
             if (userResponse) {
                 setLoading(false);
                 setUser(userResponse);
-                if (userResponse.profile_image_url === "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg") {
-                    navigation.navigate("changeImage")
-                }
-                else if (!userResponse.full_name || !userResponse.age || !userResponse.state) {
+                if (!userResponse.full_name || !userResponse.age || !userResponse.state) {
                     navigation.navigate('UserInfo', { screen: 'peronsal-details' })
+                }
+                else if (!userResponse.partner_education) {
+                    navigation.navigate('UserInfo', { screen: 'partner-details' })
+                }
+                else if (userResponse.profile_image_url === "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg") {
+                    navigation.navigate("changeImage")
                 }
                 else {
                     navigation.dispatch(routeUserDashboard);
@@ -85,17 +88,17 @@ const Login = () => {
             <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
                 <View style={styles.viewBox}>
                     <Image style={styles.image} source={logo} />
-                    <Text style={globalStyles.headingText}>Welcome to Muslim Matrimony</Text>
+                    <Text style={globalStyles.headingText}>Muslim Matrimony</Text>
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} />
+                    <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
                     <Text style={loginStyle.forgetPass}>Forgotten Password ?</Text>
                     <Button mode='contained' loading={loading} style={globalStyles.pinkButton} onPress={handleLoginButtonClick}>LogIn</Button>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', padding: 30 }}>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
                     <View>
-                        <Text style={{ width: 80, textAlign: 'center', color:'black' }}>New User ?</Text>
+                        <Text style={{ width: 80, textAlign: 'center', color: 'black' }}>New User ?</Text>
                     </View>
                     <View style={{ flex: 1, height: 1, backgroundColor: 'black' }} />
                 </View>

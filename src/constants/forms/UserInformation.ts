@@ -28,18 +28,12 @@ export const USER_INFO_ONE : IField[] =[
         label:"What is your Martial Status ?",
         placeHolder:"",
         type:"SELECT",
-        options:["MARRIED","UNMARRIED","DIVORCED"]
-    },
-    {
-        id:"country",
-        label:"Country",
-        placeHolder:"Enter Your Country",
-        type:"TEXT"
+        options:["MARRIED","UNMARRIED","DIVORCED","PARTNER DEATH"]
     },
     {
         id:"state",
-        label:"State",
-        placeHolder:"Enter Your State",
+        label:"District",
+        placeHolder:"Enter Your District",
         type:"SELECT",
         options:districts_of_bangladesh
     },
@@ -124,14 +118,14 @@ export const USER_INFO_FOUR : IField[] =[
         label:"salah",
         placeHolder:"SELECT YOUR SALAH",
         type:"SELECT",
-        options:COMMON_OPTIONS
+        options:["YES","NO"]
     },
     {
         id:"sawum",
         label:"sawum",
         placeHolder:"",
         type:"SELECT",
-        options:COMMON_OPTIONS 
+        options:["YES","NO"]
     },
     {
         id:"hajab_maintain",
@@ -187,7 +181,7 @@ export const USER_INFO_FIVE: IField[] =[
         type:"NUMBER"
     },
     {
-        id:"total_family_members",
+        id:"total_family_member",
         label:"Total Family Members",
         placeHolder:"0",
         type:"NUMBER"

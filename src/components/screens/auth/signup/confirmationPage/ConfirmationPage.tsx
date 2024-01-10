@@ -22,7 +22,7 @@ const ConfirmationPage = () => {
             </View>
             <View style={globalStyles.childContainer}>
                 <Text>Are You Sure to coninue ?</Text>
-                <Button mode='contained' onPress={handleGetStartedButtonClick} style={[globalStyles.pinkButton, { marginBottom: 20 }]}>Get Started</Button>
+                <Button mode='contained' onPress={handleGetStartedButtonClick} style={[globalStyles.pinkButton, { marginBottom: 20 }]}>I am Muslim</Button>
                 <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleNoMuslimButtonClick}>No,I am not Muslim</Button>
             </View>
         </View>

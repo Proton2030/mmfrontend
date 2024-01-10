@@ -18,7 +18,7 @@ export const PARTNER_INFO_ONE :IField[]=[
         label:"Partner Martial Status ",
         placeHolder:"",
         type:"SELECT",
-        options:["MARRIED","UNMARRIED","DIVORCED"]
+        options:["MARRIED","UNMARRIED","DIVORCED","PARTNER DEATH"]
     },
     {
         id:"partner_state",
@@ -52,13 +52,13 @@ export const PARTNER_INFO_ONE :IField[]=[
 
 export const PARTNER_INFO_TWO :IField[]=[
     {
-        id:"education",
+        id:"partner_education",
         label:"Education",
         placeHolder:"Enter Your Education",
         type:"TEXT"
     },
     {
-        id:"islamic_education",
+        id:"partner_islamic_education",
         label:"Islamic Education",
         placeHolder:"Enter Your Islamic Education",
         type:"TEXT"

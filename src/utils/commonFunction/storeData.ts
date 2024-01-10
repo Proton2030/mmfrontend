@@ -7,5 +7,13 @@ export const storeData = async (key:string, value:string) => {
     } catch (error) {
       console.error('Error storing data:', error);
     }
-  };
-  
+};
+
+export const fetchData = async (key:string) => {
+  try {
+    const value = await AsyncStorage.getItem(key);
+    return value;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
