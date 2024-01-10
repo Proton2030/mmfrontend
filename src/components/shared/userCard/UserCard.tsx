@@ -51,7 +51,7 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                     </View>
                 </View>
                 <View>
-                    <Image source={{ uri: userDetails.profile_image_url }} style={globalStyles.cardImage} />
+                    <Image source={{ uri: userDetails.profile_image_url } || ""} style={globalStyles.cardImage} />
                 </View>
             </TouchableOpacity>
             <View style={{ display: 'flex', flexDirection: "row", columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
@@ -63,7 +63,29 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                     <Icon name="dumbbell" size={18} color="#E71B73" />
                     <Text style={{ color: "#6e6d6d" }}>{userDetails.weight} kg</Text>
                 </View>
+                <View style={globalStyles.iconText}>
+                    <Icon name="map-marker-alt" size={18} color="#E71B73" />
+                    <Text style={{ color: "#6e6d6d" }}> {userDetails.state|| "N/A"}</Text>
+                </View>
+                
             </View>
+
+            <View style={{ display: 'flex', flexDirection: "row", columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
+              <View style={globalStyles.iconText}>
+                    <Icon name="child" size={18} color="#E71B73" />
+                    <Text style={{ color: "#6e6d6d" }}>{userDetails.age|| "N/A"}</Text>
+                </View>
+            <View style={globalStyles.iconText}>
+                    <Icon name="user" size={18} color="#E71B73" />
+                    <Text style={{ color: "#6e6d6d" }}>{userDetails.body_color|| "N/A"}</Text>
+                </View>
+                <View style={globalStyles.iconText}>
+                    <Icon name="heart" size={18} color="#E71B73" />
+                    <Text style={{ color: "#6e6d6d" }}>{userDetails.marital_status}</Text>
+                </View>
+              
+            </View>
+
             <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
                 <IconButton icon={choice ? "heart" : "heart-outline"} onPress={handleAddChoice} iconColor={choice ? "red" : "black"}></IconButton>
                 <IconButton icon={"chat-outline"} onPress={handleNavigateChat}></IconButton>

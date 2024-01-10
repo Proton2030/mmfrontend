@@ -70,9 +70,9 @@ const SignUp = () => {
         if (screen < 2) {
             if (screen === 0) {
                 setLoading(true);
-                const filter = { mobile: userDetails.mobile }
-                const otpResponse = await api.auth.getOtp(filter)
-                setOtp(otpResponse);
+                // const filter = { mobile: userDetails.mobile }
+                // const otpResponse = await api.auth.getOtp(filter)
+                setOtp('1234');
                 setLoading(false);
             }
             setScreen(prev => ++prev);

@@ -167,7 +167,6 @@ const UserInformation = () => {
                     userInfo.occupation === "" ||
                     userInfo.work_place === "" ||
                     userInfo.monthly_income === ""
-
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
@@ -197,12 +196,28 @@ const UserInformation = () => {
                     return;
                 }
             }
+            if (screen == 4) {
+                if (
+                    userInfo.fathers_name === "" ||
+                    userInfo.fathers_occupation === "" ||
+                    userInfo.mothers_name === "" ||
+                    userInfo.mothers_occupation === "" ||
+                    userInfo.no_of_brothers === 0 ||
+                    userInfo.no_of_sister === 0 ||
+                    userInfo.total_family_member === 0  ||
+                    userInfo.financial_condition==""
+                    )
+                 {
+                    setErrorMessage("Please fill the all data");
+                    setVisible(true)
+                    return;
+                }
+            }
             setScreen(prev => ++prev);
         }
         if (screen == 5) {
-            if (userInfo.fathers_name !== "") {
-                handleCompleteButtonClick();
-            }
+           
+            handleCompleteButtonClick();
         }
     }
     return (

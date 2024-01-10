@@ -121,7 +121,7 @@ const ChatBoard = () => {
             <Chat
                 theme={{
                     ...defaultTheme,
-                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#011433" }
+                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb",inputText:"black" }
                 }}
                 locale='en'
                 emptyState={renderEmptyState}
