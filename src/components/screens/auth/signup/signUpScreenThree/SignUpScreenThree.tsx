@@ -62,7 +62,7 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
             <View style={[globalStyles.childContainer, { alignItems: "flex-start" }]}>
                 <Text style={[globalStyles.mediumText, { marginBottom: 8 }]}>Please Enter A Password
                 </Text>
-                <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae eligendi ipsam eum quo, cumque quas tempora ex aspernatur repellat unde dolores nob</Text>
+                <Text>As you craft your password, consider using a combination of uppercase and lowercase letters, numbers, and special characters to enhance its strength</Text>
                 <View style={{ width: "100%", marginTop: 20 }}>
                     <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_THREE} object={userDetails} />
                 </View>

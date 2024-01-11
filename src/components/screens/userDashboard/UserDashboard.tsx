@@ -2,20 +2,16 @@ import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
 import { Appbar, BottomNavigation, Button, Searchbar, Text } from 'react-native-paper';
 import Home from './home/Home';
-import Choice from './choice/myChoice/MyChoice';
 import Matches from './matches/Matches';
-import Chats from './chats/Chats';
 import More from './more/More';
 import { Animated, Image, View } from 'react-native';
 import { logo } from '../../../assets';
-import ChoiceNavigators from '../../navigators/choiceNavigators/ChoiceNavigators';
 import Location from './location/Location';
 import MyChoice from './choice/myChoice/MyChoice';
 
 const UserDashboard = () => {
     const [index, setIndex] = React.useState(0);
-    const [isSearch, setIsSearch] = React.useState<boolean>(false);
-
+    const navigation = useNavigation<any>();
     const [routes] = React.useState([
         { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
         { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
@@ -32,6 +28,10 @@ const UserDashboard = () => {
         more: More
     });
 
+    const routeToChatList = () => {
+        navigation.navigate("Chat-List");
+    }
+
     return (
         <>
             <Appbar.Header style={{
@@ -44,7 +44,7 @@ const UserDashboard = () => {
                 <Image source={logo} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} />
                 <Appbar.Content title="Muslim Matrimony" />
                 <Appbar.Action icon="magnify" />
-                <Appbar.Action icon="chat-outline" />
+                <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
             </Appbar.Header>
 
             <BottomNavigation

@@ -110,6 +110,27 @@ export const globalStyles = StyleSheet.create(
             flexDirection: "row",
             alignItems: "center",
             columnGap: 5
-        }
+        },
+        avatarContainer: {
+            position: 'relative',
+          },
+        onlineDot: {
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            backgroundColor: '#4CAF50', // Green color
+        },
+        offlineDot: {
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            backgroundColor: 'red', // red color
+        },
     }
 )

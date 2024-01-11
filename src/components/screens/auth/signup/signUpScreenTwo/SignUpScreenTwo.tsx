@@ -23,7 +23,7 @@ const SignUpScreenTwo = ({ handleChangeScreen, handleChangeText, userDetails, ot
         <View style={[globalStyles.childContainer, { alignItems: "flex-start" }]}>
             <Text style={[globalStyles.mediumText, { marginBottom: 8 }]}>Please Enter Your OTP
             </Text>
-            <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae eligendi ipsam eum quo, cumque quas tempora ex aspernatur repellat unde dolores nob</Text>
+            <Text>Once you've provided your essential details, a unique One-Time Password (OTP) will be sent to the mobile number you've provided. This OTP serves as a protective layer, confirming your identity and safeguarding your information from unauthorized access</Text>
             <View style={{ width: "100%" }}>
                 <OTPTextView inputCount={4} tintColor={"#E71B73"} handleTextChange={(otp) => { setOtpValue(otp) }} />
             </View>
