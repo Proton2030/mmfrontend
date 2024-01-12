@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "57247023736",
+    "project_id": "mmatrimony-d60f3",
+    "storage_bucket": "mmatrimony-d60f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57247023736:android:32621038fa3a61f736a38d",
+        "android_client_info": {
+          "package_name": "com.muslimmatrimony"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmvFDAHjFQYR4P7uAQFdobcat5xWxjHEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
