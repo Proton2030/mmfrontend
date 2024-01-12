@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthNavigators from './src/components/navigators/AuthNavigators';
 import ConfirmNavigators from './src/components/navigators/ConfirmNavigators';
@@ -12,12 +12,24 @@ import { fetchData } from './src/utils/commonFunction/storeData';
 import { socket } from './src/config/config';
 import AuthContext from './src/contexts/authContext/authContext';
 import { useAppState } from '@react-native-community/hooks';
+import Loading from './src/components/shared/loading/Loading';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const { user } = useContext(AuthContext);
+  const [loggedIn, setLoggedIn] = useState<any>();
   const appState = useAppState();
+
+  console.log("user", user);
+
+  const checkUserAuthentication = useCallback(async () => {
+    setLoggedIn(user)
+  }, [user]);
+
+  useEffect(() => {
+    checkUserAuthentication();
+  }, [checkUserAuthentication])
 
   useEffect(() => {
     if (appState === "active") {
@@ -33,12 +45,22 @@ const App = () => {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Auth" component={AuthNavigators} />
-      <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
-      <Stack.Screen name="Confirm" component={ConfirmNavigators} />
-      <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-      <Stack.Screen name="UserDetails" component={UserDetails} />
-      <Stack.Screen name='Chat' component={ChatBoard} />
+      {
+        loggedIn === undefined ?
+          <Stack.Screen name="Loading" component={Loading} />
+          :
+          user ?
+            <>
+              <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
+              <Stack.Screen name="Confirm" component={ConfirmNavigators} />
+              <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
+              <Stack.Screen name="UserDetails" component={UserDetails} />
+              <Stack.Screen name='Chat' component={ChatBoard} />
+            </> :
+            <>
+              <Stack.Screen name="Auth" component={AuthNavigators} />
+            </>
+      }
     </Stack.Navigator>
 
   )

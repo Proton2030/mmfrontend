@@ -106,7 +106,6 @@ const MyChoice = () => {
 
     const getChoiceUserApi = async () => {
         if (user) {
-            console.log("called");
             const filter = {
                 page: page,
                 first_user_profile_object_id: user._id,
@@ -130,7 +129,7 @@ const MyChoice = () => {
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const currentPosition: number = event.nativeEvent.contentOffset.y;
-        if (currentPosition > page * 100) {
+        if (currentPosition > page * 500) {
             setPage(prev => prev + 1);
         }
     };
@@ -152,8 +151,8 @@ const MyChoice = () => {
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
                 data={choiceList}
-                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                keyExtractor={user => user._id!} 
+                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
+                keyExtractor={user => user._id!}
             />
         </SafeAreaView>
     )

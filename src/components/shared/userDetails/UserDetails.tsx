@@ -4,18 +4,15 @@ import { useRoute } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { formatKeys } from '../../../utils/commonFunction/formatKeys';
 import { View, StyleSheet } from 'react-native';
-import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch } from 'react-native-paper';
+import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch, IconButton } from 'react-native-paper';
 import { USER_INFO_FIVE, USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
 import { PARTNER_INFO_ONE } from '../../../constants/forms/PartnerInformation';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const UserDetails = () => {
     const route = useRoute<any>();
-    const { userDetails } = route.params;
-    const windowWidth = Dimensions.get("window").width;
-
+    const { userDetails, editable } = route.params;
     const fadeAnim = new Animated.Value(0);
-
     React.useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -53,7 +50,10 @@ const UserDetails = () => {
 
             <ScrollView style={styles.menuWrapper}>
                 <View style={{ marginBottom: 16 }}>
-                    <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>User Information</Text>
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>User Information</Text>
+                        <IconButton icon="pencil-outline" iconColor='red' />
+                    </View>
                     {USER_INFO_ONE.map((key, index) => {
                         return (
                             <View key={index} style={styles.infoItem}>
@@ -73,7 +73,10 @@ const UserDetails = () => {
                     })}
                 </View>
                 <View style={{ marginBottom: 16 }}>
-                    <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Job Information</Text>
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Job Information</Text>
+                        <IconButton icon="pencil-outline" iconColor='red' />
+                    </View>
                     {USER_INFO_TWO.map((key, index) => {
                         return (
                             <View key={index} style={styles.infoItem}>

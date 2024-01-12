@@ -41,10 +41,10 @@ const UserDashboard = () => {
                 shadowRadius: 2,
                 elevation: 5,
             }}>
-                <Image source={logo} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} />
-                <Appbar.Content title="Muslim Matrimony" />
+                <Appbar.Content title="Muslim Matrimony" titleStyle={{ color: "#E71B73", fontFamily: "cursive", fontSize: 24, fontWeight: 'bold' }} />
                 <Appbar.Action icon="magnify" />
                 <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
+                <Appbar.Action icon="bell-outline" onPress={routeToChatList} />
             </Appbar.Header>
 
             <BottomNavigation

@@ -56,9 +56,9 @@ const Login = () => {
         try {
             setLoading(true);
             const userResponse = await api.auth.login(userCredential);
+            setUser(userResponse);
             if (userResponse) {
                 setLoading(false);
-                setUser(userResponse);
                 if (!userResponse.full_name || !userResponse.age || !userResponse.state) {
                     navigation.navigate('UserInfo', { screen: 'peronsal-details' })
                 }

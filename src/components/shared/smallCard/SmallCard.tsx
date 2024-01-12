@@ -7,19 +7,31 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native'
 import AuthContext from '../../../contexts/authContext/authContext'
 import CustomDialog from '../customDialog/CustomDialog'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SmallCard = ({ icon, text }: TMenuProps) => {
     const navigation = useNavigation<any>();
-    const { setUser } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const [visible, setVisible] = useState<boolean>(false);
+    const handleRouteMyProfile = () => {
+        navigation.navigate("UserDetails", {
+            userDetails: user,
+            editable: false
+        })
+    }
     const handleLogOut = () => {
-        navigation.navigate('Auth', { screen: 'login' });
-        setVisible(false);
+        AsyncStorage.clear();
         setUser(null);
+        setVisible(false);
     }
     const handleClick = () => {
-        if (text === "Logout") {
-            setVisible(true);
+        switch (text) {
+            case "Logout":
+                setVisible(true);
+                return;
+            case "My Profile":
+                handleRouteMyProfile();
+                return;
         }
     }
     return (

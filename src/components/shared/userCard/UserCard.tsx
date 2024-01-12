@@ -19,11 +19,22 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
         })
     }
     const handleNavigateChat = () => {
-        navigation.navigate('Chat', {
-            profile_image: userDetails.profile_image_url,
-            name: userDetails.full_name,
-            userId: userDetails._id
-        });
+        let roomId = "";
+        if (user && user._id && userDetails._id) {
+            if (user?.gender === "MALE") {
+                roomId = user._id + userDetails._id;
+            }
+            else {
+                roomId = userDetails._id + user._id;
+            }
+            console.log("roomId", roomId)
+            navigation.navigate('Chat', {
+                profile_image: userDetails.profile_image_url,
+                name: userDetails.full_name,
+                userId: userDetails._id,
+                roomId: roomId
+            });
+        }
     }
     const handleAddChoice = useCallback(() => {
         if (user?._id && userDetails._id) {

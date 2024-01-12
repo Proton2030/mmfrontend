@@ -24,32 +24,13 @@ const ChatBoard = () => {
     const { user } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const route = useRoute<any>();
-    const { profile_image, name, userId } = route.params;
+    const { profile_image, name, roomId } = route.params;
     const sender = { id: user?._id || "" };
-    const [roomId, setRoomId] = useState<string>("");
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
         female_user: ""
     });
 
-    const setRoom = useCallback(() => {
-        if (user) {
-            if (user.gender === "MALE") {
-                setGenderPayload(Object.assign({}, genderPayload, {
-                    male_user: user._id,
-                    female_user: userId
-                }))
-                setRoomId(user._id + userId);
-            }
-            else {
-                setGenderPayload(Object.assign({}, genderPayload, {
-                    male_user: userId,
-                    female_user: user._id
-                }))
-                setRoomId(userId + user._id);
-            }
-        }
-    }, [user]);
 
     const getPreviousChat = useCallback(async () => {
         const filter = {
@@ -82,10 +63,6 @@ const ChatBoard = () => {
         }
         addMessage(textMessage)
     }
-
-    useEffect(() => {
-        setRoom();
-    }, [setRoom])
 
     useEffect(() => {
         getPreviousChat();
@@ -121,7 +98,7 @@ const ChatBoard = () => {
             <Chat
                 theme={{
                     ...defaultTheme,
-                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb",inputText:"black" }
+                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "black" }
                 }}
                 locale='en'
                 emptyState={renderEmptyState}

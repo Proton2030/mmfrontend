@@ -1,38 +1,82 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { Avatar, Text } from 'react-native-paper';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { View, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Appbar, Avatar, Text } from 'react-native-paper';
+import { api } from '../../../../utils/api';
+import AuthContext from '../../../../contexts/authContext/authContext';
+import { globalStyles } from '../../../../globalStyles/GlobalStyles';
+import { useNavigation } from '@react-navigation/native';
+import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 
 const Chats = () => {
-  const defaultImageUrl =
-    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D';
+  const { user } = useContext(AuthContext);
+  const [chatList, setChatList] = useState<any[]>([]);
+  const navigation = useNavigation<any>();
 
-  const data = [
-    { id: '1', name: 'John Doe', message: 'Online', time: '10:30 AM' },
-    { id: '2', name: 'Jane Doe', message: 'Online', time: '11:45 AM' },
-    { id: '1', name: 'John Doe', message: 'Online', time: '10:30 AM' },
-    { id: '2', name: 'Jane Doe', message: 'Online', time: '11:45 AM' },
-  ];
+  const getChatList = useCallback(async () => {
+    if (user) {
 
-  const renderChatItem = (item: any) => (
-    <TouchableOpacity key={item.id} style={styles.chatItem}>
+      const payload = {
+        userObjectId: user._id,
+        gender: user?.gender
+      }
+      const chatListResponse = await api.chat.getChatList(payload);
+      console.log("response", chatListResponse);
+      setChatList(chatListResponse)
+    }
+  }, [user]);
+
+  const handleRouteChat = (userDetails: IUserDetails, roomId: string) => {
+    navigation.navigate('Chat', {
+      profile_image: userDetails.profile_image_url,
+      name: userDetails.full_name,
+      userId: userDetails._id,
+      roomId: roomId
+    });
+  }
+
+  useEffect(() => {
+    getChatList();
+  }, [getChatList])
+
+  const RenderChatItem = ({ item, userDetails }: any) => (
+    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId)}>
       <View style={styles.avatarContainer}>
-        <Avatar.Image size={50} source={{ uri: defaultImageUrl }} />
-        <View style={styles.onlineDot} />
+        <Avatar.Image size={50} source={{ uri: userDetails.profile_image_url }} />
+        {
+          userDetails.status === "ACTIVE" ?
+            <View style={globalStyles.onlineDot} /> :
+            <View style={globalStyles.offlineDot} />
+        }
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.name}>{userDetails.full_name}</Text>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles.message}>
-          {item.message}
+          {item.message.text}
         </Text>
       </View>
       <Text style={styles.time}>{item.time}</Text>
     </TouchableOpacity>
   );
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.infoLabel}>Chats</Text>
-      {data.map(renderChatItem)}
-    </ScrollView>
+    <>
+      <Appbar.Header style={{
+        backgroundColor: '#fff5f9', shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+      }}>
+        <Appbar.Content title="Chats" />
+        <Appbar.Action icon="magnify" />
+      </Appbar.Header>
+      <ScrollView contentContainerStyle={styles.container}>
+        {chatList.map((chat, index) => {
+          return (
+            <RenderChatItem item={chat} userDetails={user?.gender === "MALE" ? chat.female_user_details : chat.male_user_details} key={index} />
+          )
+        })}
+      </ScrollView>
+    </>
   );
 };
 
