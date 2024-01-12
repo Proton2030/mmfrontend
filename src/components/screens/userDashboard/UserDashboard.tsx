@@ -42,7 +42,7 @@ const UserDashboard = () => {
                 elevation: 5,
             }}>
                 <Appbar.Content title="Muslim Matrimony" titleStyle={{ color: "#E71B73", fontFamily: "cursive", fontSize: 24, fontWeight: 'bold' }} />
-                <Appbar.Action icon="magnify" />
+                {/* <Appbar.Action icon="magnify" /> */}
                 <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
                 <Appbar.Action icon="bell-outline" onPress={routeToChatList} />
             </Appbar.Header>
