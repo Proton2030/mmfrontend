@@ -6,13 +6,29 @@ import { formatKeys } from '../../../utils/commonFunction/formatKeys';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch, IconButton } from 'react-native-paper';
 import { USER_INFO_FIVE, USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
-import { PARTNER_INFO_ONE } from '../../../constants/forms/PartnerInformation';
+import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const UserDetails = () => {
     const route = useRoute<any>();
     const { userDetails, editable } = route.params;
     const fadeAnim = new Animated.Value(0);
+    const navigation = useNavigation<any>();
+
+    const handlePartnerNavigate = () => {
+
+        navigation.navigate('UserInfo', { screen: 'partner-details' });
+        console.log("navigate");
+
+    }
+    const handleParsonalNavigate = () => {
+
+        navigation.navigate('UserInfo', { screen: 'peronsal-details' });
+        console.log("navigate");
+
+    }
+
     React.useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
@@ -52,7 +68,7 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>User Information</Text>
-                        <IconButton icon="pencil-outline" iconColor='red' />
+                        <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} />
                     </View>
                     {USER_INFO_ONE.map((key, index) => {
                         return (
@@ -75,7 +91,7 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Job Information</Text>
-                        <IconButton icon="pencil-outline" iconColor='red' />
+                        <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} />
                     </View>
                     {USER_INFO_TWO.map((key, index) => {
                         return (
@@ -87,7 +103,10 @@ const UserDetails = () => {
                     })}
                 </View>
                 <View style={{ marginBottom: 16 }}>
-                    <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education Information</Text>
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education Information</Text>
+                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                    </View>
                     {USER_INFO_THREE.map((key, index) => {
                         return (
                             <View key={index} style={styles.infoItem}>
@@ -98,7 +117,10 @@ const UserDetails = () => {
                     })}
                 </View>
                 <View style={{ marginBottom: 16 }}>
-                    <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Religious Information</Text>
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Religious Information</Text>
+                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                    </View>
                     {USER_INFO_FOUR.map((key, index) => {
                         return (
                             <View key={index} style={styles.infoItem}>
@@ -109,12 +131,83 @@ const UserDetails = () => {
                     })}
                 </View>
                 <View style={{ marginBottom: 16 }}>
-                    <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
+                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                    </View>
                     {USER_INFO_FIVE.map((key, index) => {
                         return (
                             <View key={index} style={styles.infoItem}>
                                 <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
                                 <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
+                            </View>
+                        );
+                    })}
+                </View>
+
+
+
+                <View style={{ marginBottom: 16 }}>
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Information</Text>
+                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                    </View>
+                    {PARTNER_INFO_ONE.map((key, index) => {
+                        return (
+                            <View key={index} style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
+                                {
+                                    key.id === "age" ?
+                                        <Text style={styles.infoValue}>{userDetails[key.id]} years</Text> :
+                                        key.id === "height" ?
+                                            <Text style={styles.infoValue}>{userDetails[key.id]} feet</Text> :
+                                            key.id === "weight" ?
+                                                <Text style={styles.infoValue}>{userDetails[key.id]} kg</Text> :
+                                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
+                                }
+
+                            </View>
+                        );
+                    })}
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Education </Text>
+                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                    </View>
+                    {PARTNER_INFO_TWO.map((key, index) => {
+                        return (
+                            <View key={index} style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
+                                {
+                                    key.id === "age" ?
+                                        <Text style={styles.infoValue}>{userDetails[key.id]} years</Text> :
+                                        key.id === "height" ?
+                                            <Text style={styles.infoValue}>{userDetails[key.id]} feet</Text> :
+                                            key.id === "weight" ?
+                                                <Text style={styles.infoValue}>{userDetails[key.id]} kg</Text> :
+                                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
+                                }
+
+                            </View>
+                        );
+                    })}
+                    <View style={globalStyles.iconText}>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Religious </Text>
+                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                    </View>
+                    {PARTNER_INFO_THREE.map((key, index) => {
+                        return (
+                            <View key={index} style={styles.infoItem}>
+                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
+                                {
+                                    key.id === "age" ?
+                                        <Text style={styles.infoValue}>{userDetails[key.id]} years</Text> :
+                                        key.id === "height" ?
+                                            <Text style={styles.infoValue}>{userDetails[key.id]} feet</Text> :
+                                            key.id === "weight" ?
+                                                <Text style={styles.infoValue}>{userDetails[key.id]} kg</Text> :
+                                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
+                                }
+
                             </View>
                         );
                     })}
