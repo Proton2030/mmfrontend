@@ -18,6 +18,7 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
             userDetails: userDetails
         })
     }
+
     const handleNavigateChat = () => {
         let roomId = "";
         if (user && user._id && userDetails._id) {

@@ -19,6 +19,12 @@ const SmallCard = ({ icon, text }: TMenuProps) => {
             editable: false
         })
     }
+    const handleRouteTerms = () => {
+        navigation.navigate("Terms")
+    }
+    const handleRoutePrivacy = () => {
+        navigation.navigate("Privacy")
+    }
     const handleLogOut = () => {
         AsyncStorage.clear();
         setUser(null);
@@ -31,6 +37,12 @@ const SmallCard = ({ icon, text }: TMenuProps) => {
                 return;
             case "My Profile":
                 handleRouteMyProfile();
+                return;
+            case "Terms and Condition":
+                handleRouteTerms();
+                return;
+            case "Privacy Policy":
+                handleRoutePrivacy();
                 return;
         }
     }

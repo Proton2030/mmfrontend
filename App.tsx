@@ -54,7 +54,6 @@ const App = () => {
           user ?
             <>
               <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
-              <Stack.Screen name="Confirm" component={ConfirmNavigators} />
               <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
               <Stack.Screen name="UserDetails" component={UserDetails} />
               <Stack.Screen name='Chat' component={ChatBoard} />
@@ -63,6 +62,7 @@ const App = () => {
             </> :
             <>
               <Stack.Screen name="Auth" component={AuthNavigators} />
+              <Stack.Screen name="Confirm" component={ConfirmNavigators} />
             </>
       }
     </Stack.Navigator>

@@ -48,6 +48,7 @@ const SignUp = () => {
         total_family_member: 0,
         financial_condition: "",
         status: "ACTIVE",
+        message_limit: 0,
         partner_min_age: 18,
         partner_max_age: 18,
         partner_bodyColor: "",
@@ -70,9 +71,9 @@ const SignUp = () => {
         if (screen < 2) {
             if (screen === 0) {
                 setLoading(true);
-                // const filter = { mobile: userDetails.mobile }
-                // const otpResponse = await api.auth.getOtp(filter)
-                setOtp('1234');
+                const filter = { mobile: userDetails.mobile }
+                const otpResponse = await api.auth.getOtp(filter)
+                setOtp(otpResponse);
                 setLoading(false);
             }
             setScreen(prev => ++prev);

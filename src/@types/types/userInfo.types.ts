@@ -28,5 +28,6 @@ export interface IUserInfo{
 	total_family_member: number,
 	financial_condition: string,
 	status: string,
-	profile_image_url: string
+	profile_image_url: string,
+	message_limit:0
 }

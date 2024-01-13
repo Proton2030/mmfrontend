@@ -5,7 +5,6 @@ import { color, education, family, hello, imam, job, location, logo, muslimLove,
 import { Button } from 'react-native-paper';
 import CenterForm from '../../shared/centerForm/CenterForm';
 import { CommonActions, useNavigation } from '@react-navigation/native';
-import { IUserInfo } from '../../../@types/types/userInfo.types';
 import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { IUserPartnerInfo } from '../../../@types/types/userPartnerInfo';

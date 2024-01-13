@@ -24,13 +24,23 @@ const ChatBoard = () => {
     const { user } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const route = useRoute<any>();
-    const { profile_image, name, roomId } = route.params;
+    const { profile_image, name, roomId, userId } = route.params;
     const sender = { id: user?._id || "" };
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
         female_user: ""
     });
 
+    const handleGenderPayload = useCallback(() => {
+        if (user) {
+            if (user.gender === "MALE") {
+                setGenderPayload(Object.assign({}, genderPayload, { male_user: user._id, female_user: userId }))
+            }
+            else {
+                setGenderPayload(Object.assign({}, genderPayload, { male_user: userId, female_user: user._id }))
+            }
+        }
+    }, [user])
 
     const getPreviousChat = useCallback(async () => {
         const filter = {
@@ -63,6 +73,10 @@ const ChatBoard = () => {
         }
         addMessage(textMessage)
     }
+
+    useEffect(() => {
+        handleGenderPayload();
+    }, [handleGenderPayload])
 
     useEffect(() => {
         getPreviousChat();

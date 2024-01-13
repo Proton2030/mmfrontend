@@ -40,6 +40,7 @@ const UserInformation = () => {
         sawum: "",
         hajab_maintain: 1,
         religious: "",
+        message_limit: 0,
 
         fathers_name: "",
         fathers_occupation: "",
