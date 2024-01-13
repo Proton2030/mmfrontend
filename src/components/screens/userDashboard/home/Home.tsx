@@ -8,6 +8,7 @@ import UserCard from '../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
+import SettingsPage from '../../others/settings/Settings';
 
 const Home = () => {
     const { user } = useContext(AuthContext);
@@ -79,32 +80,33 @@ const Home = () => {
     }, [getSuggestionUser]);
 
     return (
-        <SafeAreaView>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Searchbar
-                    style={{
-                        flex: 1,
-                        margin: 10,
-                        backgroundColor: "#fff5f9",
-                    }}
-                    elevation={3}
-                    placeholder="Search User"
-                    onChangeText={(query) => { setSearchQuery(query) }}
-                    onClearIconPress={handleRefresh}
-                    value={searchQuery}
-                    onSubmitEditing={handleSearh}
-                    blurOnSubmit={true}
-                />
-            </View>
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-                data={suggestedUser}
-                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                keyExtractor={user => user._id!} // Assuming email is a unique identifier
-            />
-        </SafeAreaView>
+        // <SafeAreaView>
+        //     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        //         <Searchbar
+        //             style={{
+        //                 flex: 1,
+        //                 margin: 10,
+        //                 backgroundColor: "#fff5f9",
+        //             }}
+        //             elevation={3}
+        //             placeholder="Search User"
+        //             onChangeText={(query) => { setSearchQuery(query) }}
+        //             onClearIconPress={handleRefresh}
+        //             value={searchQuery}
+        //             onSubmitEditing={handleSearh}
+        //             blurOnSubmit={true}
+        //         />
+        //     </View>
+        //     <FlatList
+        //         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+        //         onScroll={handleScroll}
+        //         scrollEventThrottle={16}
+        //         data={suggestedUser}
+        //         renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
+        //         keyExtractor={user => user._id!} // Assuming email is a unique identifier
+        //     />
+        // </SafeAreaView>
+        <SettingsPage />
     )
 }
 
