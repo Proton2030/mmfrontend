@@ -1,8 +1,8 @@
 import { Chat, MessageType, defaultTheme } from '@flyerhq/react-native-chat-ui'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Image, Text } from 'react-native'
+import { Image, Modal, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Appbar } from 'react-native-paper'
+import { Appbar, Card, Paragraph, Title, Button, Avatar } from 'react-native-paper'
 import { useRoute } from '@react-navigation/native'
 import io from 'socket.io-client';
 import { socket, url } from '../../../config/config'
@@ -23,6 +23,11 @@ const renderEmptyState = () => <Text style={{}}>Hey</Text>;
 const ChatBoard = () => {
     const { user } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
+    const [modalVisible, setModalVisible] = useState(false);
+
+
+
+
     const route = useRoute<any>();
     const { profile_image, name, roomId, userId } = route.params;
     const sender = { id: user?._id || "" };
@@ -64,14 +69,22 @@ const ChatBoard = () => {
     }
 
     const handleSendPress = (message: MessageType.PartialText) => {
-        const textMessage: MessageType.Text = {
-            author: sender,
-            createdAt: Date.now(),
-            id: sender.id + uuidv4(),
-            text: message.text,
-            type: 'text',
+        if (user?.message_limit === 0) {
+            setModalVisible(true);
+            console.log("true");
+
+        } else {
+            const textMessage: MessageType.Text = {
+                author: sender,
+                createdAt: Date.now(),
+                id: sender.id + uuidv4(),
+                text: message.text,
+                type: 'text',
+            }
+            addMessage(textMessage)
         }
-        addMessage(textMessage)
+
+
     }
 
     useEffect(() => {
@@ -120,8 +133,85 @@ const ChatBoard = () => {
                 onSendPress={handleSendPress}
                 user={sender}
             />
+            <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={() => setModalVisible(false)}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Title>Choose a Subscription</Title>
+
+                        {/* Subscription Plans in the same row */}
+                        <View style={styles.subscriptionRow}>
+                            <Card style={styles.subscriptionCard}>
+                                <Card.Title title="Basic" left={(props) => <Avatar.Icon {...props} icon="star" />} />
+                                <Card.Actions>
+                                    <Button>Choose</Button>
+                                </Card.Actions>
+                            </Card>
+
+                            <Card style={styles.subscriptionCard}>
+                                <Card.Title title="Standard" left={(props) => <Avatar.Icon {...props} icon="heart" />} />
+                                <Card.Actions>
+                                    <Button>Choose</Button>
+                                </Card.Actions>
+                            </Card>
+
+                            <Card style={styles.subscriptionCard}>
+                                <Card.Title title="Premium" left={(props) => <Avatar.Icon {...props} icon="crown" />} />
+                                <Card.Actions>
+                                    <Button>Choose</Button>
+                                </Card.Actions>
+                            </Card>
+                        </View>
+
+                        {/* Special Buy Card */}
+                        <Card style={styles.specialBuyCard}>
+                            <Card.Title title="Special Offer" subtitle="Only 150/-   Only for this time!" left={(props) => <Avatar.Icon {...props} icon="sale" />} />
+
+                            <Card.Content>
+                                <Paragraph>Unlock all features for a limited time</Paragraph>
+
+                            </Card.Content>
+                            <Card.Actions>
+                                <Button mode="contained" onPress={() => setModalVisible(false)} style={styles.buyButton}>
+                                    Buy Now
+                                </Button>
+                            </Card.Actions>
+                        </Card>
+
+                        <Button onPress={() => setModalVisible(false)} >Close</Button>
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaProvider>
     )
 }
+
+const styles = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        elevation: 5,
+    },
+    subscriptionRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
+    subscriptionCard: {
+        flex: 1,
+        marginRight: 10,
+    },
+    specialBuyCard: {
+        marginVertical: 20,
+    },
+    buyButton: {
+        marginTop: 10,
+    },
+});
 
 export default ChatBoard

@@ -106,7 +106,7 @@ const Home = () => {
                 keyExtractor={user => user._id!} // Assuming email is a unique identifier
             />
         </SafeAreaView>
-        // <SettingsPage />
+
     )
 }
 
