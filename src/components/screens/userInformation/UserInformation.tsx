@@ -204,10 +204,9 @@ const UserInformation = () => {
                     userInfo.mothers_occupation === "" ||
                     userInfo.no_of_brothers === 0 ||
                     userInfo.no_of_sister === 0 ||
-                    userInfo.total_family_member === 0  ||
-                    userInfo.financial_condition==""
-                    )
-                 {
+                    userInfo.total_family_member === 0 ||
+                    userInfo.financial_condition == ""
+                ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
                     return;
@@ -216,7 +215,7 @@ const UserInformation = () => {
             setScreen(prev => ++prev);
         }
         if (screen == 5) {
-           
+
             handleCompleteButtonClick();
         }
     }
