@@ -34,6 +34,9 @@ const UserDashboard = () => {
     const routeToChatList = () => {
         navigation.navigate("Chat-List");
     }
+    const routeToNotificationList = () => {
+        navigation.navigate("Notification");
+    }
 
     return (
         <>
@@ -47,7 +50,7 @@ const UserDashboard = () => {
                 <Appbar.Content title="Muslim Matrimony" titleStyle={{ color: "#E71B73", fontFamily: "cursive", fontSize: 24, fontWeight: 'bold' }} />
                 <Appbar.Action icon="magnify" onPress={handleSearch} />
                 <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
-                <Appbar.Action icon="bell-outline" onPress={routeToChatList} />
+                <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
             </Appbar.Header>
 
             <BottomNavigation

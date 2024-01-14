@@ -15,6 +15,7 @@ import { useAppState } from '@react-native-community/hooks';
 import Loading from './src/components/shared/loading/Loading';
 import TermsAndConditions from './src/components/screens/others/terms&conditions/Terms&Conditions';
 import PrivacyPolicy from './src/components/screens/others/privacy_policy/PrivacyPolicyPage';
+import NotificationPage from './src/components/screens/others/notification/NotificationPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ const App = () => {
               <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
               <Stack.Screen name="UserDetails" component={UserDetails} />
               <Stack.Screen name='Chat' component={ChatBoard} />
+              <Stack.Screen name='Notification' component={NotificationPage} />
               <Stack.Screen name='Terms' component={TermsAndConditions} />
               <Stack.Screen name='Privacy' component={PrivacyPolicy} />
             </> :
