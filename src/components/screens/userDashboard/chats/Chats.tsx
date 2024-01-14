@@ -27,12 +27,12 @@ const Chats = () => {
 
   const handleRouteChat = (userDetails: IUserDetails, roomId: string) => {
     navigation.navigate('Chat', {
-      profile_image: userDetails.profile_image_url,
-      name: userDetails.full_name,
-      userId: userDetails._id,
+      profile_image: userDetails?.profile_image_url,
+      name: userDetails?.full_name,
+      userId: userDetails?._id,
       roomId: roomId,
-      status: userDetails.status,
-      updatedAt: userDetails.updatedAt
+      status: userDetails?.status,
+      updatedAt: userDetails?.updatedAt
     });
   }
 
@@ -43,16 +43,16 @@ const Chats = () => {
   const RenderChatItem = ({ item, userDetails }: any) => (
     <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId)}>
       <View style={styles.avatarContainer}>
-        <Avatar.Image size={50} source={{ uri: userDetails.profile_image_url }} />
+        <Avatar.Image size={50} source={{ uri: userDetails?.profile_image_url }} />
         {
-          userDetails.status === "ACTIVE" ?
-            <View style={globalStyles.onlineDot} /> :
-            <View style={globalStyles.offlineDot} />
+          userDetails?.status === "ACTIVE" ?
+            <View style={globalStyles?.onlineDot} /> :
+            <View style={globalStyles?.offlineDot} />
         }
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{userDetails.full_name}</Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={styles.message}>
+        <Text style={styles.name}>{userDetails?.full_name}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={styles?.message}>
           {item.message.text}
         </Text>
       </View>

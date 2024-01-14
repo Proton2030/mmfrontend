@@ -91,11 +91,11 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                     <Text style={{ color: "#6e6d6d" }}>{userDetails.weight} kg</Text>
                 </View>
                 <View style={globalStyles.iconText}>
-                    <Icon name="child" size={18} color="#E71B73" />
+                    <Icon name="ring" size={18} color="#E71B73" />
                     <Text style={{ color: "#6e6d6d" }}>{userDetails.marital_status}</Text>
                 </View>
                 <View style={globalStyles.iconText}>
-                    <Icon name="tint" size={18} color="#E71B73" />
+                    <Icon name="child" size={18} color="#E71B73" />
                     <Text style={{ color: "#6e6d6d" }}>{userDetails.body_color}</Text>
                 </View>
 

@@ -158,7 +158,7 @@ const ChatBoard = () => {
                 </View>
 
                 <View >
-                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name.split(' ')[0]}</Text>
+                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name?.split(' ')[0]}</Text>
                     <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
                         {status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
 
@@ -181,11 +181,10 @@ const ChatBoard = () => {
                 onSendPress={handleSendPress}
                 user={sender}
             />
-            <Modal visible={true} animationType="slide" transparent={true} onRequestClose={() => setModalVisible(false)}>
+            <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={() => setModalVisible(false)}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Title>Choose a Subscription</Title>
-                        {/* Subscription Plans in the same row */}
                         <View style={styles.subscriptionRow}>
                             <Card style={styles.subscriptionCard}>
                                 <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
