@@ -1,6 +1,6 @@
-import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Button } from 'react-native-paper'
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { View, Text, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native';
+import { Button, List } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -43,7 +43,12 @@ const Location = () => {
             }
         }
     }
-
+    const handleEmptyListAnimation = () => (
+        <View style={{ alignItems: 'center', marginTop: 50 }}>
+            <List.Icon icon="bell" />
+            <Text style={{ marginTop: 10 }}>No user available in your location</Text>
+        </View>
+    );
     const getSuggestionUser = useCallback(async () => {
         console.log(" ------>>calling api");
         getSuggestionUserApi();
@@ -63,22 +68,29 @@ const Location = () => {
         getSuggestionUserApi();
     };
 
+
     useEffect(() => {
         getSuggestionUser();
     }, [getSuggestionUser]);
 
     return (
         <SafeAreaView>
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-                data={suggestedUser}
-                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                keyExtractor={user => user._id!} // Assuming email is a unique identifier
-            />
+            {suggestedUser.length > 0 ? (
+                <FlatList
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
+                    data={suggestedUser}
+                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                    keyExtractor={user => user._id!}
+                />
+            ) : (
+
+                handleEmptyListAnimation()
+
+            )}
         </SafeAreaView>
     )
 }
 
-export default Location
+export default Location;

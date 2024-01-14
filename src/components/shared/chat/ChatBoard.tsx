@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 import { socket, url } from '../../../config/config'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { api } from '../../../utils/api'
-import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
+// import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
 
 const uuidv4 = () => {
@@ -91,7 +91,7 @@ const ChatBoard = () => {
     }
 
     const handlePaymentUpdate = async () => {
-        await initiatePayment();
+        // await initiatePayment();
     }
 
     useEffect(() => {

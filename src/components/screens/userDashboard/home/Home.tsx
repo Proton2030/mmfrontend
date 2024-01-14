@@ -1,18 +1,17 @@
-import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Button, Searchbar } from 'react-native-paper'
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { View, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native';
+import { Button, Searchbar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import UserCard from '../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
-import SettingsPage from '../../others/settings/Settings';
 
 const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
@@ -36,16 +35,19 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
                 const userlist = await api.userDetails.getAllSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
+                setLoading(false);
             }
             catch (err) {
                 console.log(err)
                 setRefreshing(false);
+                setLoading(false);
             }
         }
     }
 
     const getSuggestionUser = useCallback(async () => {
         console.log(" ------>>calling api");
+        setLoading(true);
         getSuggestionUserApi();
     }, [user, page]);
 
@@ -77,6 +79,7 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
             }
             const response = await api.userDetails.searchUser(filter);
             setSuggestedUser(response);
+            setLoading(false);
         }
     }
 
@@ -88,7 +91,6 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
         <SafeAreaView>
             {
                 isSearch ?
-
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Searchbar
                             style={{
@@ -106,17 +108,20 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
                         />
                     </View> : null
             }
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-                data={suggestedUser}
-                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                keyExtractor={user => user._id!} // Assuming email is a unique identifier
-            />
+            {loading ? (
+                <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+            ) : (
+                <FlatList
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
+                    data={suggestedUser}
+                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                    keyExtractor={user => user._id!}
+                />
+            )}
         </SafeAreaView>
-
     )
 }
 
-export default Home
+export default Home;
