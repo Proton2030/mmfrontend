@@ -143,3 +143,31 @@ export const searchUser = async (filter: any) => {
 		throw error;
 	}
 };
+
+export const getUserInfo = async (filter:any) => {
+	try {
+		const endpoint = `${initialRoute}/get-user-info`;
+		const response = await get(
+			endpoint,
+			{
+				...headers,
+			},
+			filter
+		);
+		if (response) {
+			const {
+				data: { message }
+			} = response;
+			if (message === MESSAGE.get.succ) {
+				const {
+					data: { result }
+				} = response;
+				return result;
+			}
+		}
+		throw new Error();
+	} catch (error: any) {
+		console.log(error);
+		throw error;
+	}
+};

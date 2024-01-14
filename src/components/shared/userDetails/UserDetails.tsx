@@ -1,5 +1,5 @@
 import { ScrollView, Image, Dimensions, Animated, Easing } from 'react-native'
-import React from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { formatKeys } from '../../../utils/commonFunction/formatKeys';
@@ -7,27 +7,75 @@ import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch, IconButton } from 'react-native-paper';
 import { USER_INFO_FIVE, USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
 import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import AuthContext from '../../../contexts/authContext/authContext';
+import { api } from '../../../utils/api';
+import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 
 const UserDetails = () => {
     const route = useRoute<any>();
+    const { user } = useContext(AuthContext);
+    const [choice, setChoice] = useState<boolean>(false);
     const { userDetails, editable } = route.params;
     const fadeAnim = new Animated.Value(0);
     const navigation = useNavigation<any>();
 
     const handlePartnerNavigate = () => {
-
-        navigation.navigate('UserInfo', { screen: 'partner-details' });
+        navigation.navigate('UserInfo', {
+            screen: 'partner-details',
+            params: {
+                editable: false  // Another example parameter
+            }
+        }
+        );
         console.log("navigate");
 
     }
     const handleParsonalNavigate = () => {
-
-        navigation.navigate('UserInfo', { screen: 'peronsal-details' });
+        console.log("clicked")
+        navigation.navigate('UserInfo', {
+            params: {
+                screen: 'personal-details',
+                editable: false  // Another example parameter
+            }
+        }
+        );
         console.log("navigate");
-
     }
+
+    const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
+        const payload = {
+            senderId: user?._id,
+            recieverId: userDetails._id
+        }
+        const response = await api.userChoice.addChoice(payload);
+    }, [])
+
+    const handleNavigateChat = () => {
+        let roomId = "";
+        if (user && user._id && userDetails._id) {
+            if (user?.gender === "MALE") {
+                roomId = user._id + userDetails._id;
+            }
+            else {
+                roomId = userDetails._id + user._id;
+            }
+            console.log("roomId", roomId)
+            navigation.navigate('Chat', {
+                profile_image: userDetails.profile_image_url,
+                name: userDetails.full_name,
+                userId: userDetails._id,
+                roomId: roomId
+            });
+        }
+    }
+
+    const handleAddChoice = useCallback(() => {
+        if (user?._id && userDetails._id) {
+            addChoice(user._id, userDetails._id)
+            setChoice(true);
+        }
+    }, [user]);
 
     React.useEffect(() => {
         Animated.timing(fadeAnim, {
@@ -52,14 +100,22 @@ const UserDetails = () => {
                         <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>{userDetails.full_name}</Title>
                         <Text style={{ color: "#E71B73", fontSize: 16 }}>{userDetails.age} Years</Text>
                         <Text style={{ color: "#E71B73", fontSize: 16 }}>Lives in {userDetails.state || "N/A"}</Text>
-                        <Text style={{ color: "#E71B73", fontSize: 16 }}>{userDetails.status === "ACTIVE" ? "online" : "offline"}</Text>
+                        {
+                            userDetails.status === "ACTIVE" ?
+                                <Text>online</Text> :
+                                <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
+                        }
                     </View>
                 </View>
             </View>
 
-            <View style={styles.userInfoSection}>
-                <View style={styles.row}>
+            <View style={styles.userInfoSectionTwo}>
+                <View>
                     <Paragraph style={styles.paragraph}>{userDetails.marital_status}</Paragraph>
+                </View>
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                    <IconButton icon={choice ? "heart" : "heart-outline"} onPress={handleAddChoice} iconColor={choice ? "red" : "black"}></IconButton>
+                    <IconButton icon={"chat-outline"} onPress={handleNavigateChat}></IconButton>
                 </View>
             </View>
 
@@ -67,8 +123,11 @@ const UserDetails = () => {
             <ScrollView style={styles.menuWrapper}>
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>User Information</Text>
-                        <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} />
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Personal Information</Text>
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} /> : null
+                        }
                     </View>
                     {USER_INFO_ONE.map((key, index) => {
                         return (
@@ -91,7 +150,10 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Job Information</Text>
-                        <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} /> : null
+                        }
                     </View>
                     {USER_INFO_TWO.map((key, index) => {
                         return (
@@ -105,7 +167,10 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education Information</Text>
-                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                        }
                     </View>
                     {USER_INFO_THREE.map((key, index) => {
                         return (
@@ -119,7 +184,10 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Religious Information</Text>
-                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                        }
                     </View>
                     {USER_INFO_FOUR.map((key, index) => {
                         return (
@@ -133,7 +201,10 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
-                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                        }
                     </View>
                     {USER_INFO_FIVE.map((key, index) => {
                         return (
@@ -150,7 +221,10 @@ const UserDetails = () => {
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Information</Text>
-                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                        }
                     </View>
                     {PARTNER_INFO_ONE.map((key, index) => {
                         return (
@@ -171,7 +245,10 @@ const UserDetails = () => {
                     })}
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Education </Text>
-                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                        }
                     </View>
                     {PARTNER_INFO_TWO.map((key, index) => {
                         return (
@@ -192,7 +269,10 @@ const UserDetails = () => {
                     })}
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Religious </Text>
-                        <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} />
+                        {
+                            editable ?
+                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                        }
                     </View>
                     {PARTNER_INFO_THREE.map((key, index) => {
                         return (
@@ -226,7 +306,20 @@ const styles = StyleSheet.create({
     userInfoSection: {
         paddingLeft: 20,
         backgroundColor: '#fde8f1',
-        paddingBottom: 8
+        paddingBottom: 8,
+        display: "flex",
+        flexDirection: "row",
+        width: "100%",
+    },
+    userInfoSectionTwo: {
+        paddingLeft: 20,
+        backgroundColor: '#fde8f1',
+        paddingBottom: 8,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
     },
     title: {
         fontSize: 24,

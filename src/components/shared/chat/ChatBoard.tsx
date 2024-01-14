@@ -1,6 +1,6 @@
 import { Chat, MessageType, defaultTheme } from '@flyerhq/react-native-chat-ui'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Image, Modal, StyleSheet, Text, View } from 'react-native'
+import { Image, Linking, Modal, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Appbar, Card, Paragraph, Title, Button, Avatar } from 'react-native-paper'
 import { useRoute } from '@react-navigation/native'
@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 import { socket, url } from '../../../config/config'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { api } from '../../../utils/api'
+import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
 
 const uuidv4 = () => {
@@ -21,12 +22,9 @@ const uuidv4 = () => {
 const renderEmptyState = () => <Text style={{}}>Hey</Text>;
 
 const ChatBoard = () => {
-    const { user } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-
-
-
 
     const route = useRoute<any>();
     const { profile_image, name, roomId, userId } = route.params;
@@ -56,11 +54,19 @@ const ChatBoard = () => {
         setMessages(extractedMessages);
     }, [roomId])
 
-    const addMessage = (message: MessageType.Any) => {
-        console.log("call add") // Replace with the room ID you want to send a message to.
-        socket.emit('sendMessage', { ...genderPayload, roomId: roomId, message: message }, (response: { status: string; error: any }) => {
+    const addMessage = async (message: MessageType.Any) => {
+        socket.emit('sendMessage', { ...genderPayload, roomId: roomId, message: message }, async (response: { status: string; error: any }) => {
             if (response.status === 'success') {
-                setMessages(prevMessages => [message, ...prevMessages]);
+                // setMessages(prevMessages => [message, ...prevMessages]);
+                console.log("msg len", messages.length);
+                if (messages.length === 1) {
+                    const filter = {
+                        userObjectId: message.author.id
+                    }
+                    const response = await api.userDetails.getUserInfo(filter);
+                    console.log("----->msg1 limit", response.message_limit);
+                    setUser(response);
+                }
             } else {
                 // Handle error
                 console.error('Failed to send message:', response.error);
@@ -68,11 +74,9 @@ const ChatBoard = () => {
         });
     }
 
-    const handleSendPress = (message: MessageType.PartialText) => {
-        if (user?.message_limit === 0) {
+    const handleSendPress = async (message: MessageType.PartialText) => {
+        if (messages.length === 0 && user?.message_limit === 0) {
             setModalVisible(true);
-            console.log("true");
-
         } else {
             const textMessage: MessageType.Text = {
                 author: sender,
@@ -81,10 +85,13 @@ const ChatBoard = () => {
                 text: message.text,
                 type: 'text',
             }
-            addMessage(textMessage)
+            addMessage(textMessage);
         }
 
+    }
 
+    const handlePaymentUpdate = async () => {
+        await initiatePayment();
     }
 
     useEffect(() => {
@@ -95,11 +102,19 @@ const ChatBoard = () => {
         getPreviousChat();
     }, [getPreviousChat])
 
+    console.log("----->msg lmt", user?.message_limit);
+
     useEffect(() => {
         if (roomId !== "") {
             socket.emit('join', roomId);  // Replace 'roomId' with a unique room ID or user ID.
-            socket.on('receiveMessage', (newMessage) => {
+            socket.on('receiveMessage', async (newMessage) => {
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
+                // const filter = {
+                //     userObjectId: newMessage.author.id
+                // }
+                // const response = await api.userDetails.getUserInfo(filter);
+                // console.log("----->msg1 limit", response.message_limit);
+                // setUser(response);
             });
         }
         return () => {
@@ -118,8 +133,9 @@ const ChatBoard = () => {
                 shadowRadius: 2,
                 elevation: 5,
             }}>
+                <Appbar.BackAction />
                 <Image source={{ uri: profile_image }} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} />
-                <Appbar.Content title={name} titleStyle={{ fontSize: 18 }} />
+                <Appbar.Content title={`${name}\nonline`} titleStyle={{ fontSize: 18, textAlign: 'left' }} />
                 <Appbar.Action icon="dots-vertical" />
             </Appbar.Header>
             <Chat
@@ -137,13 +153,12 @@ const ChatBoard = () => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Title>Choose a Subscription</Title>
-
                         {/* Subscription Plans in the same row */}
                         <View style={styles.subscriptionRow}>
                             <Card style={styles.subscriptionCard}>
                                 <Card.Title title="Basic" left={(props) => <Avatar.Icon {...props} icon="star" />} />
                                 <Card.Actions>
-                                    <Button>Choose</Button>
+                                    <Button onPress={handlePaymentUpdate}>Choose</Button>
                                 </Card.Actions>
                             </Card>
 
@@ -168,7 +183,6 @@ const ChatBoard = () => {
 
                             <Card.Content>
                                 <Paragraph>Unlock all features for a limited time</Paragraph>
-
                             </Card.Content>
                             <Card.Actions>
                                 <Button mode="contained" onPress={() => setModalVisible(false)} style={styles.buyButton}>
@@ -176,7 +190,6 @@ const ChatBoard = () => {
                                 </Button>
                             </Card.Actions>
                         </Card>
-
                         <Button onPress={() => setModalVisible(false)} >Close</Button>
                     </View>
                 </View>

@@ -22,7 +22,7 @@ export const PARTNER_INFO_ONE :IField[]=[
     },
     {
         id:"partner_state",
-        label:"State",
+        label:"District",
         placeHolder:"Enter Your Partner's State",
         type:"SELECT",
         options:districts_of_bangladesh
@@ -71,7 +71,7 @@ export const PARTNER_INFO_THREE:IField[]=[
         label:"Select Partner Salah",
         placeHolder:"",
         type:"SELECT",
-        options:COMMON_OPTIONS
+        options:["YES","NO"]
 
     },
     {
@@ -79,7 +79,7 @@ export const PARTNER_INFO_THREE:IField[]=[
         label:"Select Partner Hijab",
         placeHolder:"",
         type:"SELECT",
-        options:["YES","NO"]
+        options:COMMON_OPTIONS
 
     },
     {

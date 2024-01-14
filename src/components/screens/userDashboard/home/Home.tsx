@@ -10,13 +10,12 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import SettingsPage from '../../others/settings/Settings';
 
-const Home = () => {
+const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
-    const [selectedPage, setSelectedPage] = useState<Map<number, number>>(new Map());
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
             senderId: sender_id,
@@ -57,6 +56,12 @@ const Home = () => {
         }
     };
 
+    const handleClear = () => {
+        handleRefresh();
+        setSearchQuery("");
+        setIsSearch(false);
+    }
+
     const handleRefresh = () => {
         setRefreshing(true);
         setSuggestedUser([]);
@@ -81,22 +86,26 @@ const Home = () => {
 
     return (
         <SafeAreaView>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Searchbar
-                    style={{
-                        flex: 1,
-                        margin: 10,
-                        backgroundColor: "#fff5f9",
-                    }}
-                    elevation={3}
-                    placeholder="Search User"
-                    onChangeText={(query) => { setSearchQuery(query) }}
-                    onClearIconPress={handleRefresh}
-                    value={searchQuery}
-                    onSubmitEditing={handleSearh}
-                    blurOnSubmit={true}
-                />
-            </View>
+            {
+                isSearch ?
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Searchbar
+                            style={{
+                                flex: 1,
+                                margin: 10,
+                                backgroundColor: "#fff5f9",
+                            }}
+                            elevation={3}
+                            placeholder="Search User"
+                            onChangeText={(query) => { setSearchQuery(query) }}
+                            onClearIconPress={handleClear}
+                            value={searchQuery}
+                            onSubmitEditing={handleSearh}
+                            blurOnSubmit={true}
+                        />
+                    </View> : null
+            }
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
                 onScroll={handleScroll}

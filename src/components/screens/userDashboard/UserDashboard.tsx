@@ -4,14 +4,17 @@ import { Appbar, BottomNavigation, Button, Searchbar, Text } from 'react-native-
 import Home from './home/Home';
 import Matches from './matches/Matches';
 import More from './more/More';
-import { Animated, Image, View } from 'react-native';
-import { logo } from '../../../assets';
 import Location from './location/Location';
 import MyChoice from './choice/myChoice/MyChoice';
 
+
 const UserDashboard = () => {
     const [index, setIndex] = React.useState(0);
+    const [isSearch, setIsSearch] = React.useState<boolean>(false);
     const navigation = useNavigation<any>();
+    const handleSearch = () => {
+        setIsSearch(!isSearch);
+    }
     const [routes] = React.useState([
         { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
         { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
@@ -21,7 +24,7 @@ const UserDashboard = () => {
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        home: Home,
+        home: () => <Home isSearch={isSearch} setIsSearch={setIsSearch} />,
         choice: MyChoice,
         match: Matches,
         location: Location,
@@ -42,7 +45,7 @@ const UserDashboard = () => {
                 elevation: 5,
             }}>
                 <Appbar.Content title="Muslim Matrimony" titleStyle={{ color: "#E71B73", fontFamily: "cursive", fontSize: 24, fontWeight: 'bold' }} />
-                {/* <Appbar.Action icon="magnify" /> */}
+                <Appbar.Action icon="magnify" onPress={handleSearch} />
                 <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
                 <Appbar.Action icon="bell-outline" onPress={routeToChatList} />
             </Appbar.Header>

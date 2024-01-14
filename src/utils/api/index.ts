@@ -5,7 +5,7 @@ import { getChat, getChatList } from "./chat/chat";
 import { addChoice } from "./userChoice/addUserChoice";
 import { getChoice } from "./userChoice/getUserChoice";
 import { unChoice } from "./userChoice/unChoice";
-import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser } from "./userDetails/userDetails";
+import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser, getUserInfo } from "./userDetails/userDetails";
 
 
 export const api = {
@@ -19,7 +19,8 @@ export const api = {
         getAllSuggestionUser:getAllSuggestionUser,
         getLocationSuggestionUser:getLocationSuggestionUser,
         getMatchedSuggestionUser:getMatchedSuggestionUser,
-        searchUser:searchUser
+        searchUser:searchUser,
+        getUserInfo:getUserInfo
     },
     userChoice:{
         addChoice:addChoice,

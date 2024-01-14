@@ -1,11 +1,11 @@
 import { View, Text, ScrollView, KeyboardAvoidingView, Image, StyleSheet, Dimensions } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { color, defaultUser, education, family, hello, imam, job, location, logo, muslimLove, weight } from '../../../assets';
 import { Button } from 'react-native-paper';
 import CenterForm from '../../shared/centerForm/CenterForm';
 import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO, USER_INFO_FIVE } from '../../../constants/forms/UserInformation';
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import { IUserInfo } from '../../../@types/types/userInfo.types';
 import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
@@ -18,6 +18,7 @@ const windowHeight = Dimensions.get('window').height;
 const UserInformation = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
+
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo>({
         full_name: "",
@@ -41,7 +42,6 @@ const UserInformation = () => {
         hajab_maintain: 1,
         religious: "",
         message_limit: 0,
-
         fathers_name: "",
         fathers_occupation: "",
         mothers_name: "",
@@ -56,7 +56,14 @@ const UserInformation = () => {
 
     const navigation = useNavigation<any>();
 
-    console.log("text", userInfo);
+    const handleSetDefaultData = useCallback(() => {
+        if (user) {
+            const tempData: any = user;
+            delete tempData.updatedAt;
+            setUserInfo(user);
+        }
+    }, [user])
+
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (type === "NUMBER") {
             setUserInfo(Object.assign({}, userInfo, { [field]: Number(text) }))
@@ -89,13 +96,8 @@ const UserInformation = () => {
         }
     }, [user, userInfo]);
 
-    const [imageDataUrl, setImageDataUrl] = useState(null);
-
-    const [image, setImage] = useState<any>(null);
-
     const [visible, setVisible] = React.useState(false);
 
-    const onToggleSnackBar = () => setVisible(!visible);
     const onDismissSnackBar = () => setVisible(false);
 
     const pickImage = () => {
@@ -127,7 +129,6 @@ const UserInformation = () => {
 
     const handleChangeScreen = () => {
         if (screen < 5) {
-            console.log("gender", userInfo.gender);
 
             if (screen == 0) {
                 if (
@@ -216,10 +217,14 @@ const UserInformation = () => {
             setScreen(prev => ++prev);
         }
         if (screen == 5) {
-
             handleCompleteButtonClick();
         }
     }
+
+    useEffect(() => {
+        handleSetDefaultData();
+    }, [handleSetDefaultData])
+
     return (
 
         <>

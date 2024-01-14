@@ -20,7 +20,20 @@ const AuthContextProvider = ({ children }: ContextProviderProps) => {
 				// Convert string numbers back to numbers
 				const userWithNumbers = {
 					...parsedData,
-					someNumberField: parseInt(parsedData.someNumberField, 10), // Convert string back to integer
+					age: parseInt(parsedData.age, 10),
+					height: parseInt(parsedData.height, 10),
+					weight: parseInt(parsedData.weight, 10),
+					hajab_maintain: parseInt(parsedData.hajab_maintain, 10),
+					no_of_brothers: parseInt(parsedData.no_of_brothers, 10),
+					no_of_sister: parseInt(parsedData.no_of_sister, 10),
+					total_family_member: parseInt(parsedData.total_family_member, 10),
+
+					partner_min_age: parseInt(parsedData.partner_min_age, 10),
+					partner_max_age: parseInt(parsedData.partner_max_age, 10),
+					partner_min_height: parseInt(parsedData.partner_min_height, 10),
+					partner_min_weight: parseInt(parsedData.partner_min_weight, 10),
+					partner_max_weight: parseInt(parsedData.partner_max_weight, 10),
+					partner_hajab_maintain: parseInt(parsedData.partner_hajab_maintain, 10),
 					// ... other fields
 				};
 

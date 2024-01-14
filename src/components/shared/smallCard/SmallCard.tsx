@@ -16,7 +16,7 @@ const SmallCard = ({ icon, text }: TMenuProps) => {
     const handleRouteMyProfile = () => {
         navigation.navigate("UserDetails", {
             userDetails: user,
-            editable: false
+            editable: true
         })
     }
     const handleRouteTerms = () => {

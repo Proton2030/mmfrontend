@@ -7,6 +7,7 @@ import { IUserCardProps } from '../../../@types/props/UserCardProps.types'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { useNavigation } from '@react-navigation/native'
+import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 
 const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
@@ -15,7 +16,8 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
 
     const handleRouteTouserDetails = () => {
         navigation.navigate('UserDetails', {
-            userDetails: userDetails
+            userDetails: userDetails,
+            editable: false
         })
     }
 
@@ -63,8 +65,15 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                         </Text>
                         <View style={globalStyles.iconText}>
                             <Icon name="map-marker-alt" size={18} color="#E71B73" />
-                            <Text style={{ color: "black", fontSize: 14 }}>
-                                Lives In {userDetails.state || "N/A"}</Text>
+                            <View style={{ display: "flex", flexDirection: "row", columnGap: 20 }}>
+                                <Text style={{ color: "black", fontSize: 14 }}>
+                                    Lives In {userDetails.state || "N/A"}</Text>
+                                {
+                                    userDetails.status === "ACTIVE" ?
+                                        <Text>online</Text> :
+                                        <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
+                                }
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -84,6 +93,10 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                 <View style={globalStyles.iconText}>
                     <Icon name="child" size={18} color="#E71B73" />
                     <Text style={{ color: "#6e6d6d" }}>{userDetails.marital_status}</Text>
+                </View>
+                <View style={globalStyles.iconText}>
+                    <Icon name="tint" size={18} color="#E71B73" />
+                    <Text style={{ color: "#6e6d6d" }}>{userDetails.body_color}</Text>
                 </View>
 
             </View>

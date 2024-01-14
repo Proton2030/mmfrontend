@@ -6,7 +6,7 @@ import { defaultUser } from '../../../../assets'
 import { globalStyles } from '../../../../globalStyles/GlobalStyles'
 import { Avatar } from 'react-native-paper'
 import AuthContext from '../../../../contexts/authContext/authContext'
-import { useNavigation } from '@react-navigation/native'
+
 
 const More = () => {
     const { user } = useContext(AuthContext);

@@ -12,11 +12,14 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
     const togglePasswordVisibility = () => {
         setPasswordVisibility(!isPasswordVisible);
     };
+    console.log("user from", object.full_name);
+    console.log("full name exist", fieldList[0].id === "full_name");
 
     return (
         <ScrollView style={globalStyles.innerContainer}>
             {
                 fieldList.map((field, index) => {
+                    { if (object[field.id] === null) console.log("----->field", field.label) }
                     return (
                         <View key={index}>
                             {
@@ -45,7 +48,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                         keyboardType='numeric'
                                         id={field.id}
                                         label={field.label}
-                                        value={object[field.id].toString()}
+                                        value={object[field.id] ? object[field.id].toString() : "0"}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         placeholder={field.placeHolder}
                                         theme={{
@@ -64,7 +67,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                         secureTextEntry={!isPasswordVisible}
                                         id={field.id}
                                         label={field.label}
-                                        defaultValue={object[field.id].toString()}
+                                        defaultValue={object[field.id] || "".toString()}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         placeholder={field.placeHolder}
                                         theme={{
