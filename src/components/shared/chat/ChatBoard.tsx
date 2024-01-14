@@ -161,11 +161,7 @@ const ChatBoard = () => {
                     <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name.split(' ')[0]}</Text>
                     <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
                         {status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
-                        {
-                            status === "ACTIVE" ?
-                                null :
-                                <Text></Text>
-                        }
+
                     </Text>
                 </View>
 
