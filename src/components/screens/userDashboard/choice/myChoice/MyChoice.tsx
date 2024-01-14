@@ -79,7 +79,7 @@
 
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Animated } from 'react-native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Button } from 'react-native-paper'
+import { Button, List } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { api } from '../../../../../utils/api';
@@ -142,7 +142,12 @@ const MyChoice = () => {
         setPage(1);
         getChoiceUserApi();
     };
-
+    const handleEmptyListAnimation = () => (
+        <View style={{ alignItems: 'center', marginTop: 50 }}>
+            <List.Icon icon="bell" />
+            <Text style={{ marginTop: 10 }}>No user available in your location</Text>
+        </View>
+    );
     useEffect(() => {
         console.log("jji", choiceList);
 
@@ -170,7 +175,9 @@ const MyChoice = () => {
                         renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
                         keyExtractor={user => user._id!}
                     /> :
-                    <Text>hii</Text>
+                    (
+                        handleEmptyListAnimation()
+                    )
             }
 
 
