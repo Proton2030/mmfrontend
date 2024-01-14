@@ -8,6 +8,7 @@ import io from 'socket.io-client';
 import { socket, url } from '../../../config/config'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { api } from '../../../utils/api'
+import { globalStyles } from '../../../globalStyles/GlobalStyles'
 // import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
 
@@ -25,9 +26,9 @@ const ChatBoard = () => {
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [useronline, setUseronline] = useState<boolean>(false)
     const route = useRoute<any>();
-    const { profile_image, name, roomId, userId } = route.params;
+    const { profile_image, status, name, roomId, userId } = route.params;
     const sender = { id: user?._id || "" };
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
@@ -106,6 +107,7 @@ const ChatBoard = () => {
 
     useEffect(() => {
         if (roomId !== "") {
+
             socket.emit('join', roomId);  // Replace 'roomId' with a unique room ID or user ID.
             socket.on('receiveMessage', async (newMessage) => {
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
@@ -134,8 +136,25 @@ const ChatBoard = () => {
                 elevation: 5,
             }}>
                 <Appbar.BackAction />
-                <Image source={{ uri: profile_image }} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} />
-                <Appbar.Content title={`${name}\nonline`} titleStyle={{ fontSize: 18, textAlign: 'left' }} />
+                <View >
+                    <Avatar.Image size={40} source={{ uri: profile_image }} />
+                    {
+                        status === "ACTIVE" ?
+                            <View style={globalStyles.onlineDot} /> :
+                            <View style={globalStyles.offlineDot} />
+                    }
+                </View>
+
+                {/* <Image source={{ uri: profile_image }} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} /> */}
+                <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 10 }}>{name}
+                    {
+                        status === "ACTIVE" ?
+                            <Text>(Online)</Text> :
+                            <Text>(Offline)</Text>
+                    }
+                </Text>
+                <Appbar.Content title={``} titleStyle={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }} />
+
                 <Appbar.Action icon="dots-vertical" />
             </Appbar.Header>
             <Chat

@@ -79,7 +79,7 @@
 
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Animated } from 'react-native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Button, List } from 'react-native-paper'
+import { Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { api } from '../../../../../utils/api';
@@ -88,7 +88,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../../@types/types/userDEtails.types';
 import { addChoice } from '../../../../../utils/api/userChoice/addUserChoice';
-import ChoiceMatchCard from '../../../../shared/choiceMatchCard/ChoiceMatchCard';
 
 const MyChoice = () => {
     const { user } = useContext(AuthContext);
@@ -157,12 +156,7 @@ const MyChoice = () => {
             useNativeDriver: true,
         }).start();
     }, [fadeAnim]);
-    const handleEmptyListAnimation = () => (
-        <Animated.View style={{ opacity: fadeAnim, alignItems: 'center', marginTop: 50 }}>
-            <List.Icon icon="bell" />
-            <Text style={{ marginTop: 10 }}>No choices available</Text>
-        </Animated.View>
-    );
+
 
     return (
         <SafeAreaView>
@@ -173,11 +167,10 @@ const MyChoice = () => {
                         onScroll={handleScroll}
                         scrollEventThrottle={16}
                         data={choiceList}
-                        renderItem={({ item }) =>
-                            <ChoiceMatchCard handleUnchoice={addChoice} name={"kk"} state={''} status={''} choiceMatchId={''} />} // Assuming addChoice is defined
+                        renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
                         keyExtractor={user => user._id!}
                     /> :
-                    handleEmptyListAnimation()
+                    <Text>hii</Text>
             }
 
 

@@ -30,7 +30,8 @@ const Chats = () => {
       profile_image: userDetails.profile_image_url,
       name: userDetails.full_name,
       userId: userDetails._id,
-      roomId: roomId
+      roomId: roomId,
+      status: userDetails.status
     });
   }
 
