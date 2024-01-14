@@ -31,7 +31,8 @@ const Chats = () => {
       name: userDetails.full_name,
       userId: userDetails._id,
       roomId: roomId,
-      status: userDetails.status
+      status: userDetails.status,
+      updatedAt: userDetails.updatedAt
     });
   }
 

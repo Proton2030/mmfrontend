@@ -9,8 +9,13 @@ import { socket, url } from '../../../config/config'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { api } from '../../../utils/api'
 import { globalStyles } from '../../../globalStyles/GlobalStyles'
+import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 // import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
+const Stack = createStackNavigator();
 
 const uuidv4 = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -28,12 +33,13 @@ const ChatBoard = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [useronline, setUseronline] = useState<boolean>(false)
     const route = useRoute<any>();
-    const { profile_image, status, name, roomId, userId } = route.params;
+    const { profile_image, status, name, roomId, userId, updatedAt } = route.params;
     const sender = { id: user?._id || "" };
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
         female_user: ""
     });
+    const navigation = useNavigation();
 
     const handleGenderPayload = useCallback(() => {
         if (user) {
@@ -95,6 +101,11 @@ const ChatBoard = () => {
         // await initiatePayment();
     }
 
+    const handleGoBack = () => {
+        // Navigate back to the previous screen
+        navigation.goBack();
+    };
+
     useEffect(() => {
         handleGenderPayload();
     }, [handleGenderPayload])
@@ -135,7 +146,7 @@ const ChatBoard = () => {
                 shadowRadius: 2,
                 elevation: 5,
             }}>
-                <Appbar.BackAction />
+                <Appbar.BackAction onPress={handleGoBack} />
                 <View >
                     <Avatar.Image size={40} source={{ uri: profile_image }} />
                     {
@@ -143,16 +154,22 @@ const ChatBoard = () => {
                             <View style={globalStyles.onlineDot} /> :
                             <View style={globalStyles.offlineDot} />
                     }
+
                 </View>
 
-                {/* <Image source={{ uri: profile_image }} style={{ width: 40, height: 40, resizeMode: "contain", borderRadius: 20, marginRight: 10 }} /> */}
-                <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 10 }}>{name}
-                    {
-                        status === "ACTIVE" ?
-                            <Text>(Online)</Text> :
-                            <Text>(Offline)</Text>
-                    }
-                </Text>
+                <View >
+                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name.split(' ')[0]}</Text>
+                    <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
+                        {status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
+                        {
+                            status === "ACTIVE" ?
+                                null :
+                                <Text></Text>
+                        }
+                    </Text>
+                </View>
+
+
                 <Appbar.Content title={``} titleStyle={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }} />
 
                 <Appbar.Action icon="dots-vertical" />
@@ -168,31 +185,40 @@ const ChatBoard = () => {
                 onSendPress={handleSendPress}
                 user={sender}
             />
-            <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={() => setModalVisible(false)}>
+            <Modal visible={true} animationType="slide" transparent={true} onRequestClose={() => setModalVisible(false)}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Title>Choose a Subscription</Title>
                         {/* Subscription Plans in the same row */}
                         <View style={styles.subscriptionRow}>
                             <Card style={styles.subscriptionCard}>
-                                <Card.Title title="Basic" left={(props) => <Avatar.Icon {...props} icon="star" />} />
-                                <Card.Actions>
-                                    <Button onPress={handlePaymentUpdate}>Choose</Button>
-                                </Card.Actions>
+                                <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
+                                    <Text>Low Price</Text>
+                                    <Text>500৳</Text>
+                                </View>
+
+                                <Button onPress={handlePaymentUpdate}>Choose</Button>
+
                             </Card>
 
                             <Card style={styles.subscriptionCard}>
-                                <Card.Title title="Standard" left={(props) => <Avatar.Icon {...props} icon="heart" />} />
-                                <Card.Actions>
-                                    <Button>Choose</Button>
-                                </Card.Actions>
+                                <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
+                                    <Text>Mideum Package</Text>
+                                    <Text>1000৳</Text>
+                                </View>
+
+                                <Button>Choose</Button>
+
                             </Card>
 
                             <Card style={styles.subscriptionCard}>
-                                <Card.Title title="Premium" left={(props) => <Avatar.Icon {...props} icon="crown" />} />
-                                <Card.Actions>
-                                    <Button>Choose</Button>
-                                </Card.Actions>
+                                <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
+                                    <Text>High Package</Text>
+                                    <Text>2000৳</Text>
+                                </View>
+
+                                <Button>Choose</Button>
+
                             </Card>
                         </View>
 
@@ -233,6 +259,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
+        padding: 5
     },
     subscriptionCard: {
         flex: 1,
