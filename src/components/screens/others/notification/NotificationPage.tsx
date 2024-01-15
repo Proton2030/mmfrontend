@@ -1,28 +1,46 @@
 // NotificationScreen.js
-import React, { useRef, useEffect } from 'react';
-import { View, FlatList, Animated } from 'react-native';
+import React, { useRef, useEffect, useContext, useState } from 'react';
+import { View, FlatList, Animated, Text } from 'react-native';
 import { List, Divider, Appbar, Badge } from 'react-native-paper';
-
-const notificationsData = [
-    { id: '1', message: 'John liked your post', time: '10:30 AM', unread: true },
-    { id: '2', message: 'Jane commented on your photo', time: '11:45 AM', unread: false },
-];
+import AuthContext from '../../../../contexts/authContext/authContext';
+import { api } from '../../../../utils/api';
 
 const NotificationPage = () => {
+    const { user } = useContext(AuthContext);
+    const [notificationList, setNotificationList] = useState<any[]>([]);
+
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
+
+    const handlegetNotification = async () => {
+        const result = await api.chat.getNotification(user?._id)
+        setNotificationList(result)
+    }
+    const handleEmptyListAnimation = () => (
+        <View style={{ alignItems: 'center', marginTop: 50 }}>
+            <List.Icon icon="bell" />
+            <Text style={{ marginTop: 10 }}>No notification available</Text>
+        </View>
+    );
     useEffect(() => {
         Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 1000, // Adjust the duration as needed
             useNativeDriver: true,
         }).start();
+
     }, [fadeAnim]);
+
+
+    useEffect(() => {
+        handlegetNotification()
+    }, [notificationList])
+
     const renderNotificationItem = ({ item }: any) => (
         <Animated.View style={{ opacity: fadeAnim }}>
             <List.Item
-                title={item.message}
-                description={`Notification details go here - ${item.time}`}
+                title={item?.title}
+                description={`Notification details go here - ${item?.text}`}
                 left={(props) => (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <List.Icon
@@ -30,7 +48,7 @@ const NotificationPage = () => {
                             icon="bell"
                             style={{ marginRight: 10 }}
                         />
-                        {item.unread && <Badge size={8} style={{ backgroundColor: 'green', marginLeft: -8, marginTop: 6 }} />}
+                        {true && <Badge size={8} style={{ backgroundColor: 'green', marginLeft: -8, marginTop: 6 }} />}
                     </View>
                 )}
             />
@@ -41,12 +59,18 @@ const NotificationPage = () => {
             <Appbar.Header>
                 <Appbar.Content title="Notifications" />
             </Appbar.Header>
-            <FlatList
-                data={notificationsData}
-                keyExtractor={(item) => item.id}
-                renderItem={renderNotificationItem}
-                ItemSeparatorComponent={() => <Divider />}
-            />
+            {
+                (notificationList.length > 0) ?
+                    <FlatList
+                        data={notificationList}
+                        keyExtractor={(item) => item?._id}
+                        renderItem={renderNotificationItem}
+                        ItemSeparatorComponent={() => <Divider />}
+                    />
+                    :
+                    handleEmptyListAnimation()
+            }
+
         </View>
     );
 };
