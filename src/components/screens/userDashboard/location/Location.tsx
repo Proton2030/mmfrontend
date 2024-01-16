@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { View, Text, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native';
-import { Button, List } from 'react-native-paper';
+import { ActivityIndicator, Button, List } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -80,7 +80,8 @@ const Location = () => {
         <SafeAreaView>
             {
                 (loading) ?
-                    null
+                    <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+
                     :
                     <>
                         {suggestedUser?.length > 0 ? (

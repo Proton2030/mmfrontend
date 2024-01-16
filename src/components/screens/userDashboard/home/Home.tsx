@@ -55,6 +55,7 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const currentPosition: number = event.nativeEvent.contentOffset.y;
         if (currentPosition > page * 1000) {
+
             setPage(prev => prev + 1);
         }
     };
