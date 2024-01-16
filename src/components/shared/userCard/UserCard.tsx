@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { useNavigation } from '@react-navigation/native'
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
+import { IUserDetails } from '../../../@types/types/userDEtails.types'
 
 const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
@@ -17,11 +18,13 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const handleRouteTouserDetails = () => {
         navigation.navigate('UserDetails', {
             userDetails: userDetails,
-            editable: false
+            editable: false,
+            updatedAt: userDetails?.updatedAt
         })
     }
 
     const handleNavigateChat = () => {
+
         let roomId = "";
         if (user && user._id && userDetails._id) {
             if (user?.gender === "MALE") {
@@ -35,7 +38,8 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                 profile_image: userDetails.profile_image_url,
                 name: userDetails.full_name,
                 userId: userDetails._id,
-                roomId: roomId
+                roomId: roomId,
+                updatedAt: userDetails?.updatedAt
             });
         }
     }

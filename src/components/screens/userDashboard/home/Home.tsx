@@ -110,18 +110,18 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
                         />
                     </View> : null
             }
-            {loading ? (
-                <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
-            ) : (
-                <FlatList
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                    onScroll={handleScroll}
-                    scrollEventThrottle={16}
-                    data={suggestedUser}
-                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
-                    keyExtractor={user => user._id!}
-                />
-            )}
+
+
+
+            <FlatList
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
+                data={suggestedUser}
+                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                keyExtractor={user => user._id!}
+            />
+
         </SafeAreaView>
 
     )
