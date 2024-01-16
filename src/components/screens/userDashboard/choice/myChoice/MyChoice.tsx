@@ -79,7 +79,7 @@
 
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Animated } from 'react-native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Button, List } from 'react-native-paper'
+import { ActivityIndicator, Button, List } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { api } from '../../../../../utils/api';
@@ -95,6 +95,8 @@ const MyChoice = () => {
     const [page, setPage] = useState<number>(1);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const [loading, setLoading] = useState<boolean>(true);
+
 
     const handleUnchoice = async (choiceId: string) => {
         const response = await api.userChoice.unChoice(choiceId);
@@ -116,10 +118,12 @@ const MyChoice = () => {
                 const userlist = await api.userChoice.getChoice(filter);
                 setChoiceList(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
+                setLoading(false);
             }
             catch (err) {
                 setRefreshing(false);
                 console.log(err)
+
             }
         }
     }
@@ -144,13 +148,12 @@ const MyChoice = () => {
     };
     const handleEmptyListAnimation = () => (
         <View style={{ alignItems: 'center', marginTop: 50 }}>
-            <List.Icon icon="bell" />
-            <Text style={{ marginTop: 10 }}>No user available in your location</Text>
+
+            <Text style={{ marginTop: 10, fontSize: 20 }}>you have not chosed anyone yet!</Text>
         </View>
     );
     useEffect(() => {
         console.log("jji", choiceList);
-
         getChoiceUser();
     }, [getChoiceUser]);
     useEffect(() => {
@@ -165,22 +168,25 @@ const MyChoice = () => {
 
     return (
         <SafeAreaView>
-            {
-                (choiceList.length > 0) ?
-                    <FlatList
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                        onScroll={handleScroll}
-                        scrollEventThrottle={16}
-                        data={choiceList}
-                        renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
-                        keyExtractor={user => user._id!}
-                    /> :
-                    (
-                        handleEmptyListAnimation()
-                    )
+            {loading ? (
+                <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+            ) : (<>
+                {
+                    (choiceList.length > 0) ?
+                        <FlatList
+                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                            onScroll={handleScroll}
+                            scrollEventThrottle={16}
+                            data={choiceList}
+                            renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
+                            keyExtractor={user => user._id!}
+                        /> :
+                        (
+                            handleEmptyListAnimation()
+                        )
+                }</>
+            )
             }
-
-
         </SafeAreaView>
     )
 }

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native'
+import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +15,8 @@ const Matches = () => {
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
     const [selectedPage, setSelectedPage] = useState<Map<number, number>>(new Map());
+    const [loading, setLoading] = useState<boolean>(true);
+
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
             senderId: sender_id,
@@ -35,6 +37,7 @@ const Matches = () => {
                 const userlist = await api.userDetails.getMatchedSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
+                setLoading(false);
             }
             catch (err) {
                 console.log(err)
@@ -60,22 +63,38 @@ const Matches = () => {
         setSuggestedUser([]);
         setPage(1);
         getSuggestionUserApi();
-    };
 
+    };
+    const handleEmptyListAnimation = () => (
+        <View style={{ alignItems: 'center', marginTop: 50 }}>
+
+            <Text style={{ marginTop: 10, fontSize: 20 }}>you dont have any matches yet!</Text>
+        </View>
+    );
     useEffect(() => {
         getSuggestionUser();
     }, [getSuggestionUser]);
 
     return (
         <SafeAreaView>
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-                data={suggestedUser}
-                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                keyExtractor={user => user._id!} // Assuming email is a unique identifier
-            />
+            {loading ? (
+                <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+            ) : (<>
+                {
+                    (suggestedUser.length > 0) ? <FlatList
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                        onScroll={handleScroll}
+                        scrollEventThrottle={16}
+                        data={suggestedUser}
+                        renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
+                        keyExtractor={user => user._id!} // Assuming email is a unique identifier
+                    /> :
+                        (
+                            handleEmptyListAnimation()
+                        )
+                }</>
+            )
+            }
         </SafeAreaView>
     )
 }

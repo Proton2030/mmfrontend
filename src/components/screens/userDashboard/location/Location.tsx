@@ -15,6 +15,8 @@ const Location = () => {
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
     const [selectedPage, setSelectedPage] = useState<Map<number, number>>(new Map());
+    const [loading, setLoading] = useState<boolean>(true);
+
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
             senderId: sender_id,
@@ -36,6 +38,7 @@ const Location = () => {
                 const userlist = await api.userDetails.getLocationSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
+                setLoading(false);
             }
             catch (err) {
                 console.log(err)
@@ -45,8 +48,8 @@ const Location = () => {
     }
     const handleEmptyListAnimation = () => (
         <View style={{ alignItems: 'center', marginTop: 50 }}>
-            <List.Icon icon="bell" />
-            <Text style={{ marginTop: 10 }}>No user available in your location</Text>
+
+            <Text style={{ marginTop: 10, fontSize: 20 }}>No user available in your location</Text>
         </View>
     );
     const getSuggestionUser = useCallback(async () => {
@@ -75,20 +78,28 @@ const Location = () => {
 
     return (
         <SafeAreaView>
-            {suggestedUser.length > 0 ? (
-                <FlatList
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                    onScroll={handleScroll}
-                    scrollEventThrottle={16}
-                    data={suggestedUser}
-                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
-                    keyExtractor={user => user._id!}
-                />
-            ) : (
+            {
+                (loading) ?
+                    null
+                    :
+                    <>
+                        {suggestedUser?.length > 0 ? (
+                            <FlatList
+                                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                                onScroll={handleScroll}
+                                scrollEventThrottle={16}
+                                data={suggestedUser}
+                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                                keyExtractor={user => user._id!}
+                            />
 
-                handleEmptyListAnimation()
+                        ) : (
 
-            )}
+                            handleEmptyListAnimation()
+
+                        )}</>
+            }
+
         </SafeAreaView>
     )
 }

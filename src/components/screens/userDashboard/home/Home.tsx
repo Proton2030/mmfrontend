@@ -7,6 +7,7 @@ import { api } from '../../../../utils/api';
 import UserCard from '../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
+import ProfileImage from '../../profileImage/ProfileImage';
 
 const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { user } = useContext(AuthContext);
@@ -40,7 +41,7 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
             catch (err) {
                 console.log(err)
                 setRefreshing(false);
-                setLoading(false);
+                // setLoading(false);
             }
         }
     }
@@ -121,6 +122,7 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
                 />
             )}
         </SafeAreaView>
+
     )
 }
 
