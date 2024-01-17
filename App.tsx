@@ -18,6 +18,7 @@ import PrivacyPolicy from './src/components/screens/others/privacy_policy/Privac
 import NotificationPage from './src/components/screens/others/notification/NotificationPage';
 import Payment from './src/components/shared/payment/Payment';
 import ProfileImage from './src/components/screens/profileImage/ProfileImage';
+import UpdateProfilePic from './src/components/shared/updateProfilePic/UpdateProfilePic';
 import SplashScreen from './src/components/shared/splash/SplashScreen';
 
 const Stack = createNativeStackNavigator();
@@ -70,6 +71,7 @@ const App = () => {
               <Stack.Screen name='Privacy' component={PrivacyPolicy} />
               <Stack.Screen name='Payment' component={Payment} />
               <Stack.Screen name="Auth" component={AuthNavigators} />
+              <Stack.Screen name="editProfileImage" component={UpdateProfilePic} />
             </> :
             <>
               {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}

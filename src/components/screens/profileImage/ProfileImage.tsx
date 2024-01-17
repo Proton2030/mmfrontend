@@ -15,6 +15,9 @@ const ProfileImage = () => {
     const handleGoBack = () => {
         navigation.goBack();
     };
+    const handlenavigate = () => {
+        navigation.navigate("editProfileImage")
+    }
     return (
         <View style={{ flex: 1 }}>
             <Appbar.Header style={{ backgroundColor: "rose" }}>
@@ -23,7 +26,7 @@ const ProfileImage = () => {
                     <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'black', marginLeft: 5 }}>&nbsp;{username}</Text>
                 </View>
                 {
-                    (user?._id == userid) ? <Appbar.Action icon="pencil" onPress={() => console.log('Edit pressed')} />
+                    (user?._id == userid) ? <Appbar.Action icon="pencil" onPress={() =>} />
                         :
                         null
                 }
