@@ -98,14 +98,14 @@ const MyChoice = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
 
-    const handleUnchoice = async (choiceId: string) => {
-        const response = await api.userChoice.unChoice(choiceId);
-        if (response && user) {
-            const updatedList = choiceList.filter(choice => choice._id !== choiceId);
-            // Set the updated list to the state (assuming you're using React useState hook)
-            setChoiceList(updatedList);
-        }
-    }
+    // const handleUnchoice = async (choiceId: string) => {
+    //     const response = await api.userChoice.unChoice(choiceId);
+    //     if (response && user) {
+    //         const updatedList = choiceList.filter(choice => choice._id !== choiceId);
+    //         // Set the updated list to the state (assuming you're using React useState hook)
+    //         setChoiceList(updatedList);
+    //     }
+    // }
 
     const getChoiceUserApi = async () => {
         if (user) {
@@ -178,7 +178,7 @@ const MyChoice = () => {
                             onScroll={handleScroll}
                             scrollEventThrottle={16}
                             data={choiceList}
-                            renderItem={({ item }) => <UserCard addChoice={handleUnchoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
+                            renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
                             keyExtractor={user => user._id!}
                         /> :
                         (

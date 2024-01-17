@@ -18,6 +18,7 @@ import PrivacyPolicy from './src/components/screens/others/privacy_policy/Privac
 import NotificationPage from './src/components/screens/others/notification/NotificationPage';
 import Payment from './src/components/shared/payment/Payment';
 import ProfileImage from './src/components/screens/profileImage/ProfileImage';
+import SplashScreen from './src/components/shared/splash/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -54,27 +55,27 @@ const App = () => {
         barStyle="dark-content"
         backgroundColor="#fde8f1"
       />
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
         {
-          loggedIn === undefined ?
-            <Stack.Screen name="Loading" component={Loading} />
-            :
-            user ?
-              <>
-                <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
-                <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-                <Stack.Screen name='Chat' component={ChatBoard} />
-                <Stack.Screen name="UserDetails" component={UserDetails} />
-                <Stack.Screen name="ProfileImage" component={ProfileImage} />
-                <Stack.Screen name='Notification' component={NotificationPage} />
-                <Stack.Screen name='Terms' component={TermsAndConditions} />
-                <Stack.Screen name='Privacy' component={PrivacyPolicy} />
-                <Stack.Screen name='Payment' component={Payment} />
-              </> :
-              <>
-                <Stack.Screen name="Auth" component={AuthNavigators} />
-                <Stack.Screen name="Confirm" component={ConfirmNavigators} />
-              </>
+          user ?
+            <>
+              {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
+              <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
+              <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
+              <Stack.Screen name='Chat' component={ChatBoard} />
+              <Stack.Screen name="UserDetails" component={UserDetails} />
+              <Stack.Screen name="ProfileImage" component={ProfileImage} />
+              <Stack.Screen name='Notification' component={NotificationPage} />
+              <Stack.Screen name='Terms' component={TermsAndConditions} />
+              <Stack.Screen name='Privacy' component={PrivacyPolicy} />
+              <Stack.Screen name='Payment' component={Payment} />
+              <Stack.Screen name="Auth" component={AuthNavigators} />
+            </> :
+            <>
+              {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
+              <Stack.Screen name="Auth" component={AuthNavigators} />
+              <Stack.Screen name="Confirm" component={ConfirmNavigators} />
+            </>
         }
       </Stack.Navigator>
     </>

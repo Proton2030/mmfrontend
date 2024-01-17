@@ -27,7 +27,7 @@ export const api = {
     userChoice:{
         addChoice:addChoice,
         getChoice:getChoice,
-        unChoice:unChoice
+        // unChoice:unChoice
     },
     chat:{
         getChat:getChat,

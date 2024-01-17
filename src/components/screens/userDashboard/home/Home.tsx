@@ -46,10 +46,10 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
         }
     }
 
-    const handleUnchoice = async (choiceId: string) => {
-        const response = await api.userChoice.unChoice(choiceId);
-        console.log("called")
-    }
+    // const handleUnchoice = async (choiceId: string) => {
+    //     const response = await api.userChoice.unChoice(choiceId);
+    //     console.log("called")
+    // }
     const getSuggestionUser = useCallback(async () => {
         if (suggestedUser.length === 0) {
             // setLoading(true);

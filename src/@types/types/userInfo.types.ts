@@ -29,5 +29,5 @@ export interface IUserInfo{
 	financial_condition: string,
 	status: string,
 	profile_image_url: string,
-	message_limit:0
+	message_limit:number
 }

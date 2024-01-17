@@ -12,16 +12,16 @@ const Payment = () => {
     const { url, tranId, message_limit } = route.params;
 
     const handlePayment = useCallback(async () => {
-        const payload = {
-            userObjectId: user?._id,
-            message_limit: message_limit,
-            tran_id: tranId
-        }
         try {
-            const response = await api.payment.updateUserMessageLimit(payload);
-            if (response) {
-                console.log("response", response);
-                setUser(response);
+            if (user) {
+                const filter = {
+                    userObjectId: user._id
+                }
+                const response = await api.userDetails.getUserInfo(filter);
+                if (response) {
+                    console.log("------->response of user", response);
+                    setUser(response);
+                }
             }
         } catch (error) {
             console.log(error);

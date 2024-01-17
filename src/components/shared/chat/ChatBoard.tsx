@@ -30,7 +30,7 @@ const ChatBoard = () => {
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+    const [inputMessage, setInputMessage] = useState<MessageType.PartialText | null>(null);
     const route = useRoute<any>();
     const { profile_image, status, name, roomId, userId, updatedAt } = route.params;
     const sender = { id: user?._id || "" };
@@ -81,9 +81,31 @@ const ChatBoard = () => {
 
     const handleSendPress = async (message: MessageType.PartialText) => {
         console.log("message", user?.message_limit);
-        if (messages.length === 0 && user?.message_limit === 0) {
-            setModalVisible(true);
-        } else {
+        if (messages.length === 0) {
+            if (user) {
+
+                const filter = {
+                    userObjectId: user._id
+                }
+                const response = await api.userDetails.getUserInfo(filter);
+                setUser(response);
+                if (response.message_limit <= 0) {
+                    setInputMessage(message);
+                    setModalVisible(true);
+                }
+                else {
+                    const textMessage: MessageType.Text = {
+                        author: sender,
+                        createdAt: Date.now(),
+                        id: sender.id + uuidv4(),
+                        text: message.text,
+                        type: 'text',
+                    }
+                    addMessage(textMessage);
+                }
+            }
+        }
+        else {
             const textMessage: MessageType.Text = {
                 author: sender,
                 createdAt: Date.now(),
@@ -123,6 +145,14 @@ const ChatBoard = () => {
     useEffect(() => {
         getPreviousChat();
     }, [getPreviousChat])
+
+    // useEffect(() => {
+    //     if (user && user.message_limit === 1) {
+    //         if (inputMessage) {
+    //             handleSendPress(inputMessage);
+    //         }
+    //     }
+    // }, []);
 
     console.log("----->msg lmt", user?.message_limit);
 
@@ -171,7 +201,6 @@ const ChatBoard = () => {
                     <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name?.split(' ')[0]}</Text>
                     <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
                         {status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
-
                     </Text>
                 </View>
 
