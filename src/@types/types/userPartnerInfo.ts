@@ -9,7 +9,7 @@ export interface IUserPartnerInfo{
 	partner_education: string,
 	partner_islamic_education: string,
 	partner_salah: string,
-	partner_hajab_maintain: number,
+	partner_hajab_maintain: string,
 	partner_religious: boolean,
 	partner_marital_status: string,
 	partner_coutry: string,

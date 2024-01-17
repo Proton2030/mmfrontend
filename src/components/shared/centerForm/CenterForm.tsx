@@ -31,6 +31,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                         label={field.label}
                                         defaultValue={object[field.id] || ""}
                                         placeholder={field.placeHolder}
+                                        maxLength={field.maxLength || 250}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         theme={{
                                             colors: {
@@ -47,8 +48,9 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                         mode="outlined"
                                         keyboardType='numeric'
                                         id={field.id}
+                                        maxLength={field.maxLength || 12}
                                         label={field.label}
-                                        value={object[field.id] ? object[field.id].toString() : "0"}
+                                        value={object[field.id] ? object[field.id].toString() : ""}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         placeholder={field.placeHolder}
                                         theme={{

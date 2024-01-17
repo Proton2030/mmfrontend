@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, KeyboardAvoidingView, Image, StyleSheet, Dimensions } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { color, education, family, hello, imam, job, location, logo, muslimLove, weight } from '../../../assets';
 import { Button } from 'react-native-paper';
@@ -41,6 +41,34 @@ const PartnerInformation = () => {
     })
     const navigation = useNavigation<any>();
 
+    const handleSetDefaultData = useCallback(() => {
+        if (user) {
+            const tempData: any = user;
+            delete tempData.updatedAt;
+            setPartnerInfo(Object.assign({}, partnerInfo, {
+                partner_min_age: user.partner_min_age,
+                partner_max_age: user.partner_max_age,
+                partner_bodyColor: user.partner_bodyColor,
+                partner_coutry: "BANGLADESH",
+                partner_education: user.partner_education,
+                partner_hajab_maintain: user.partner_hajab_maintain,
+                partner_min_height: user.partner_min_height,
+                partner_max_height: user.partner_max_height,
+                partner_islamic_education: user.partner_islamic_education,
+                partner_marital_status: user.partner_marital_status,
+                partner_religious: user.partner_religious,
+                partner_salah: user.partner_salah,
+                partner_state: user.partner_state,
+                partner_min_weight: user.partner_min_height,
+                partner_max_weight: user.partner_max_height,
+
+                partner_age: `${user.partner_min_age} - ${user.partner_max_age}`,
+                partner_weight: `${user.partner_min_weight.toString()} - ${user.partner_max_weight}`,
+                partner_height: `${user.partner_min_height.toString()} - ${user.partner_max_height}`,
+            }));
+        }
+    }, [user])
+
     const [visible, setVisible] = React.useState(false);
     const onDismissSnackBar = () => setVisible(false);
 
@@ -50,7 +78,6 @@ const PartnerInformation = () => {
         }
     }
 
-    console.log("first", partnerInfo);
 
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (type === "NUMBER") {
@@ -153,6 +180,11 @@ const PartnerInformation = () => {
             handleCompleteButtonClick();
         }
     }
+
+    useEffect(() => {
+        handleSetDefaultData();
+    }, [handleSetDefaultData])
+
     return (
         <>
 

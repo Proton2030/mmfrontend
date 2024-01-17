@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 
 export const url ="http://ec2-65-1-183-77.ap-south-1.compute.amazonaws.com"
-// export const url ="http://192.168.0.101"
+// export const url ="http://192.168.0.102"
 export const port = 8989
 export const version = "v1"
 

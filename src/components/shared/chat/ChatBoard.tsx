@@ -2,20 +2,18 @@ import { Chat, MessageType, defaultTheme } from '@flyerhq/react-native-chat-ui'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Image, Linking, Modal, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { Appbar, Card, Paragraph, Title, Button, Avatar } from 'react-native-paper'
-import { useRoute } from '@react-navigation/native'
-import io from 'socket.io-client';
+import { Appbar, Card, Paragraph, Title, Button, Avatar, useTheme } from 'react-native-paper'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { socket, url } from '../../../config/config'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { api } from '../../../utils/api'
 import { globalStyles } from '../../../globalStyles/GlobalStyles'
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 
+import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
+import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
 // import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
-const Stack = createStackNavigator();
 
 const uuidv4 = () => {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -28,11 +26,11 @@ const uuidv4 = () => {
 const renderEmptyState = () => <Text style={{}}>Hey</Text>;
 
 const ChatBoard = () => {
-
+    const navigation = useNavigation<any>()
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [useronline, setUseronline] = useState<boolean>(false)
+    const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
     const route = useRoute<any>();
     const { profile_image, status, name, roomId, userId, updatedAt } = route.params;
     const sender = { id: user?._id || "" };
@@ -40,7 +38,6 @@ const ChatBoard = () => {
         male_user: "",
         female_user: ""
     });
-    const navigation = useNavigation();
 
     const handleGenderPayload = useCallback(() => {
         if (user) {
@@ -83,6 +80,7 @@ const ChatBoard = () => {
     }
 
     const handleSendPress = async (message: MessageType.PartialText) => {
+        console.log("message", user?.message_limit);
         if (messages.length === 0 && user?.message_limit === 0) {
             setModalVisible(true);
         } else {
@@ -98,8 +96,19 @@ const ChatBoard = () => {
 
     }
 
-    const handlePaymentUpdate = async () => {
-        // await initiatePayment();
+    const handlePaymentUpdate = async (Package_number: number,) => {
+        const tran_id = uuidv4().toString();
+        const url = await initiatePayment(user, PAYMENT_PACKAGE_LIST[Package_number], tran_id);
+        if (url) {
+            navigation.navigate("Payment",
+                {
+                    url: url,
+                    tranId: tran_id,
+                    message_limit: PAYMENT_PACKAGE_LIST[Package_number].message_limit
+                }
+            )
+            setModalVisible(false);
+        }
     }
 
     const handleGoBack = () => {
@@ -174,7 +183,7 @@ const ChatBoard = () => {
             <Chat
                 theme={{
                     ...defaultTheme,
-                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "black" }
+                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "black" },
                 }}
                 locale='en'
                 emptyState={renderEmptyState}
@@ -189,11 +198,11 @@ const ChatBoard = () => {
                         <View style={styles.subscriptionRow}>
                             <Card style={styles.subscriptionCard}>
                                 <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
-                                    <Text>Low Price</Text>
+                                    <Text>Low Package</Text>
                                     <Text>500৳</Text>
                                 </View>
 
-                                <Button onPress={handlePaymentUpdate}>Choose</Button>
+                                <Button onPress={() => handlePaymentUpdate(0)}>Choose</Button>
 
                             </Card>
 
@@ -203,7 +212,7 @@ const ChatBoard = () => {
                                     <Text>1000৳</Text>
                                 </View>
 
-                                <Button>Choose</Button>
+                                <Button onPress={() => handlePaymentUpdate(1)}>Choose</Button>
 
                             </Card>
 
@@ -212,21 +221,18 @@ const ChatBoard = () => {
                                     <Text>High Package</Text>
                                     <Text>2000৳</Text>
                                 </View>
-
-                                <Button>Choose</Button>
-
+                                <Button onPress={() => handlePaymentUpdate(2)}>Choose</Button>
                             </Card>
                         </View>
 
                         {/* Special Buy Card */}
                         <Card style={styles.specialBuyCard}>
                             <Card.Title title="Special Offer" subtitle="Only 150/-   Only for this time!" left={(props) => <Avatar.Icon {...props} icon="sale" />} />
-
                             <Card.Content>
                                 <Paragraph>Unlock all features for a limited time</Paragraph>
                             </Card.Content>
                             <Card.Actions>
-                                <Button mode="contained" onPress={() => setModalVisible(false)} style={styles.buyButton}>
+                                <Button mode="contained" onPress={() => handlePaymentUpdate(3)} style={styles.buyButton}>
                                     Buy Now
                                 </Button>
                             </Card.Actions>

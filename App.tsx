@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, StatusBar } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AuthNavigators from './src/components/navigators/AuthNavigators';
@@ -16,6 +16,8 @@ import Loading from './src/components/shared/loading/Loading';
 import TermsAndConditions from './src/components/screens/others/terms&conditions/Terms&Conditions';
 import PrivacyPolicy from './src/components/screens/others/privacy_policy/PrivacyPolicyPage';
 import NotificationPage from './src/components/screens/others/notification/NotificationPage';
+import Payment from './src/components/shared/payment/Payment';
+import ProfileImage from './src/components/screens/profileImage/ProfileImage';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,28 +49,35 @@ const App = () => {
 
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {
-        loggedIn === undefined ?
-          <Stack.Screen name="Loading" component={Loading} />
-          :
-          user ?
-            <>
-              <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
-              <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-              <Stack.Screen name="UserDetails" component={UserDetails} />
-              <Stack.Screen name='Chat' component={ChatBoard} />
-              <Stack.Screen name='Notification' component={NotificationPage} />
-              <Stack.Screen name='Terms' component={TermsAndConditions} />
-              <Stack.Screen name='Privacy' component={PrivacyPolicy} />
-            </> :
-            <>
-              <Stack.Screen name="Auth" component={AuthNavigators} />
-              <Stack.Screen name="Confirm" component={ConfirmNavigators} />
-            </>
-      }
-    </Stack.Navigator>
-
+    <>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#fde8f1"
+      />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {
+          loggedIn === undefined ?
+            <Stack.Screen name="Loading" component={Loading} />
+            :
+            user ?
+              <>
+                <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
+                <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
+                <Stack.Screen name='Chat' component={ChatBoard} />
+                <Stack.Screen name="UserDetails" component={UserDetails} />
+                <Stack.Screen name="ProfileImage" component={ProfileImage} />
+                <Stack.Screen name='Notification' component={NotificationPage} />
+                <Stack.Screen name='Terms' component={TermsAndConditions} />
+                <Stack.Screen name='Privacy' component={PrivacyPolicy} />
+                <Stack.Screen name='Payment' component={Payment} />
+              </> :
+              <>
+                <Stack.Screen name="Auth" component={AuthNavigators} />
+                <Stack.Screen name="Confirm" component={ConfirmNavigators} />
+              </>
+        }
+      </Stack.Navigator>
+    </>
   )
 }
 

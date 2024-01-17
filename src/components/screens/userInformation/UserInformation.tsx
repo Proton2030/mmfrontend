@@ -39,7 +39,7 @@ const UserInformation = () => {
         islamic_education: "",
         salah: "",
         sawum: "",
-        hajab_maintain: 1,
+        hajab_maintain: "",
         religious: "",
         message_limit: 0,
         fathers_name: "",
@@ -47,7 +47,7 @@ const UserInformation = () => {
         mothers_name: "",
         mothers_occupation: "",
         no_of_brothers: 0,
-        no_of_sister: 0,
+        no_of_sisters: 0,
         total_family_member: 0,
         financial_condition: "",
         status: "ACTIVE",
@@ -161,7 +161,6 @@ const UserInformation = () => {
                             return;
                         }
                     }
-                    setScreen(prev => ++prev);
                 }
             }
             if (screen == 1) {
@@ -205,7 +204,7 @@ const UserInformation = () => {
                     userInfo.mothers_name === "" ||
                     userInfo.mothers_occupation === "" ||
                     userInfo.no_of_brothers === 0 ||
-                    userInfo.no_of_sister === 0 ||
+                    userInfo.no_of_sisters === 0 ||
                     userInfo.total_family_member === 0 ||
                     userInfo.financial_condition == ""
                 ) {

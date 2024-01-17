@@ -1,4 +1,4 @@
-import { ScrollView, Image, Dimensions, Animated, Easing } from 'react-native'
+import { ScrollView, Image, Dimensions, Animated, Easing, TouchableOpacity } from 'react-native'
 import React, { useCallback, useContext, useState } from 'react'
 import { useRoute } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
@@ -49,7 +49,15 @@ const UserDetails = () => {
             recieverId: userDetails._id
         }
         const response = await api.userChoice.addChoice(payload);
-    }, [])
+    }, []);
+
+    const handleNavigateProfileImage = () => {
+        navigation.navigate('ProfileImage', {
+            userid: userDetails._id,
+            username: userDetails.full_name,
+            imageURL: userDetails.profile_image_url
+        })
+    }
 
     const handleNavigateChat = () => {
         let roomId = "";
@@ -90,12 +98,14 @@ const UserDetails = () => {
         <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', alignItems: "center", marginTop: 15 }}>
-                    <Avatar.Image
-                        source={{
-                            uri: userDetails.profile_image_url,
-                        }}
-                        size={80}
-                    />
+                    <TouchableOpacity onPress={handleNavigateProfileImage}>
+                        <Avatar.Image
+                            source={{
+                                uri: userDetails.profile_image_url,
+                            }}
+                            size={80}
+                        />
+                    </TouchableOpacity>
                     <View style={{ marginLeft: 20 }}>
                         <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>{userDetails.full_name}</Title>
                         <Text style={{ color: "#E71B73", fontSize: 16 }}>{userDetails.age} Years</Text>
@@ -113,10 +123,14 @@ const UserDetails = () => {
                 <View>
                     <Paragraph style={styles.paragraph}>{userDetails.marital_status}</Paragraph>
                 </View>
-                <View style={{ display: "flex", flexDirection: "row" }}>
-                    <IconButton icon={choice ? "heart" : "heart-outline"} onPress={handleAddChoice} iconColor={choice ? "red" : "black"}></IconButton>
-                    <IconButton icon={"chat-outline"} onPress={handleNavigateChat}></IconButton>
-                </View>
+                {
+
+                    !editable ?
+                        <View style={{ display: "flex", flexDirection: "row" }}>
+                            <IconButton icon={choice ? "heart" : "heart-outline"} onPress={handleAddChoice} iconColor={choice ? "red" : "black"}></IconButton>
+                            <IconButton icon={"chat-outline"} onPress={handleNavigateChat}></IconButton>
+                        </View> : null
+                }
             </View>
 
 
@@ -216,8 +230,6 @@ const UserDetails = () => {
                     })}
                 </View>
 
-
-
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Partner Information</Text>
@@ -231,15 +243,14 @@ const UserDetails = () => {
                             <View key={index} style={styles.infoItem}>
                                 <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
                                 {
-                                    key.id === "age" ?
-                                        <Text style={styles.infoValue}>{userDetails[key.id]} years</Text> :
-                                        key.id === "height" ?
-                                            <Text style={styles.infoValue}>{userDetails[key.id]} feet</Text> :
-                                            key.id === "weight" ?
-                                                <Text style={styles.infoValue}>{userDetails[key.id]} kg</Text> :
+                                    key.id === "partner_age" ?
+                                        <Text style={styles.infoValue}>{`${userDetails.partner_min_age} - ${userDetails.partner_max_age}`} years</Text> :
+                                        key.id === "partner_height" ?
+                                            <Text style={styles.infoValue}>{`${userDetails.partner_min_height} - ${userDetails.partner_max_height}`} feet</Text> :
+                                            key.id === "partner_weight" ?
+                                                <Text style={styles.infoValue}>{`${userDetails.partner_min_weight} - ${userDetails.partner_max_weight}`} kg</Text> :
                                                 <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
                                 }
-
                             </View>
                         );
                     })}

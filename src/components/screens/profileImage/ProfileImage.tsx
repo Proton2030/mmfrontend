@@ -15,7 +15,6 @@ const ProfileImage = () => {
     const handleGoBack = () => {
         navigation.goBack();
     };
-
     return (
         <View style={{ flex: 1 }}>
             <Appbar.Header style={{ backgroundColor: "rose" }}>

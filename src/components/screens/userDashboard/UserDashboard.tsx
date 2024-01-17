@@ -41,7 +41,7 @@ const UserDashboard = () => {
     return (
         <>
             <Appbar.Header style={{
-                backgroundColor: '#fff5f9', shadowColor: '#000000',
+                backgroundColor: '#fde8f1', shadowColor: '#000000',
                 shadowOffset: { width: 0, height: 8 },
                 shadowOpacity: 0.8,
                 shadowRadius: 2,
@@ -60,8 +60,6 @@ const UserDashboard = () => {
                 onIndexChange={setIndex}
                 renderScene={renderScene}
             />
-
-
         </>
     );
 };

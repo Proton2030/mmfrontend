@@ -37,7 +37,7 @@ const SignUp = () => {
         islamic_education: "",
         salah: "",
         sawum: "",
-        hajab_maintain: 1,
+        hajab_maintain: "",
         religious: "",
         message_limit: 0,
         fathers_name: "",
@@ -45,7 +45,7 @@ const SignUp = () => {
         mothers_name: "",
         mothers_occupation: "",
         no_of_brothers: 0,
-        no_of_sister: 0,
+        no_of_sisters: 0,
         total_family_member: 0,
         financial_condition: "",
         status: "ACTIVE",
@@ -55,7 +55,7 @@ const SignUp = () => {
         partner_bodyColor: "",
         partner_coutry: "BANGLADESH",
         partner_education: "",
-        partner_hajab_maintain: 0,
+        partner_hajab_maintain: "",
         partner_min_height: 0,
         partner_max_height: 0,
         partner_islamic_education: "",
@@ -65,6 +65,7 @@ const SignUp = () => {
         partner_state: "",
         partner_min_weight: 0,
         partner_max_weight: 0,
+        updatedAt: new Date()
     })
 
     const handleChangeScreen = async () => {
@@ -83,7 +84,6 @@ const SignUp = () => {
         if (field === "re-password") {
             // console.log(userDetails.password);
             if (userDetails.password !== text) {
-                console.log("first")
                 setPasswordErr(true);
             }
             else {

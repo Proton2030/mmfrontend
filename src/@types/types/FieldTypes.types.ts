@@ -3,5 +3,6 @@ export interface IField{
     type: "TEXT" | "NUMBER" | "PASSWORD" | "SELECT" | "RADIO",
     label:string,
     placeHolder:string,
-    options?:string[]
+    options?:string[],
+    maxLength?:number
 }

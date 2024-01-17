@@ -68,15 +68,6 @@ const Login = () => {
                     }
                     );
                 }
-                else if (!userResponse.partner_education) {
-                    navigation.navigate('UserInfo', {
-                        screen: 'partner-details',
-                        params: {
-                            editable: false  // Another example parameter
-                        }
-                    }
-                    );
-                }
                 else if (userResponse.profile_image_url === "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg") {
                     navigation.navigate("changeImage")
                 }

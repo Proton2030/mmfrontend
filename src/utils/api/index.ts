@@ -7,6 +7,7 @@ import { addChoice } from "./userChoice/addUserChoice";
 import { getChoice } from "./userChoice/getUserChoice";
 import { unChoice } from "./userChoice/unChoice";
 import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser, getUserInfo } from "./userDetails/userDetails";
+import { updateUserMessageLimit } from "./validatePayment/validatePayment";
 
 
 export const api = {
@@ -32,6 +33,9 @@ export const api = {
         getChat:getChat,
         getChatList:getChatList,
         getNotification:getNotification
+    },
+    payment:{
+        updateUserMessageLimit:updateUserMessageLimit
     }
 }
 

@@ -44,11 +44,19 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
         }
     }
     const handleAddChoice = useCallback(() => {
+        console.log("clicked")
+        setChoice(prev => !prev);
         if (user?._id && userDetails._id) {
-            addChoice(user._id, userDetails._id)
-            setChoice(true);
+            console.log("called")
+            try {
+                addChoice(user._id, userDetails._id)
+            }
+            catch (err) {
+                console.log("error", err)
+            }
         }
-    }, [user]);
+    }, [user, setChoice]);
+    console.log("choice", choice);
     return (
         <View style={globalStyles.card}>
             <TouchableOpacity onPress={handleRouteTouserDetails}>

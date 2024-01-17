@@ -41,13 +41,15 @@ export const USER_INFO_ONE : IField[] =[
         id:"height",
         label:"Height",
         placeHolder:"Enter Your Height Here",
-        type:"NUMBER"
+        type:"NUMBER",
+        maxLength:3
     },
     {
         id:"weight",
         label:"Weight",
         placeHolder:"Enter Your Weight",
-        type:"NUMBER"
+        type:"NUMBER",
+        maxLength:3
     },
     {
         id:"body_color",
@@ -89,7 +91,8 @@ export const USER_INFO_TWO : IField[] =[
         id:"monthly_income",
         label:"Monthly Income",
         placeHolder:"Enter Your Workplace",
-        type:"NUMBER"
+        type:"NUMBER",
+        maxLength:8
     },
 ]
 
@@ -147,7 +150,7 @@ export const USER_INFO_FIVE: IField[] =[
     {
         id:"fathers_name",
         label:"Fathers Name",
-        placeHolder:"Enter Your Language",
+        placeHolder:"Enter Your Fathers Name",
         type:"TEXT"
     },
     {
@@ -172,19 +175,22 @@ export const USER_INFO_FIVE: IField[] =[
         id:"no_of_brothers",
         label:"No Of Brothers",
         placeHolder:"0",
-        type:"NUMBER"
+        type:"NUMBER",
+        maxLength:2
     },
     {
-        id:"no_of_sister",
+        id:"no_of_sisters",
         label:"No Of Sister",
         placeHolder:"0",
-        type:"NUMBER"
+        type:"NUMBER",
+        maxLength:2
     },
     {
         id:"total_family_member",
         label:"Total Family Members",
         placeHolder:"0",
-        type:"NUMBER"
+        type:"NUMBER",
+        maxLength:2
     },
     {
         id:"financial_condition",
@@ -216,6 +222,6 @@ export const USER_INFO_FIVE: IField[] =[
 // mothers_name
 // mothers_occupation
 // no_of_brothers
-// no_of_sister
+// no_of_sisters
 // total_family_members
 // financial_condition

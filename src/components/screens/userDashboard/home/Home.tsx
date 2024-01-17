@@ -7,7 +7,6 @@ import { api } from '../../../../utils/api';
 import UserCard from '../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
-import ProfileImage from '../../profileImage/ProfileImage';
 
 const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const { user } = useContext(AuthContext);
@@ -21,6 +20,7 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
             senderId: sender_id,
             recieverId: reciver_id
         }
+        console.log("-------->payload", payload);
         const response = await api.userChoice.addChoice(payload);
     }, [])
 
@@ -46,9 +46,14 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
         }
     }
 
+    const handleUnchoice = async (choiceId: string) => {
+        const response = await api.userChoice.unChoice(choiceId);
+        console.log("called")
+    }
     const getSuggestionUser = useCallback(async () => {
-        console.log(" ------>>calling api");
-        setLoading(true);
+        if (suggestedUser.length === 0) {
+            // setLoading(true);
+        }
         getSuggestionUserApi();
     }, [user, page]);
 
@@ -105,23 +110,25 @@ const Home = ({ isSearch, setIsSearch }: { isSearch: boolean, setIsSearch: React
                             onChangeText={(query) => { setSearchQuery(query) }}
                             onClearIconPress={handleClear}
                             value={searchQuery}
+                            onBlur={handleClear}
                             onSubmitEditing={handleSearh}
                             blurOnSubmit={true}
                         />
                     </View> : null
             }
-
-
-
-            <FlatList
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-                data={suggestedUser}
-                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
-                keyExtractor={user => user._id!}
-            />
-
+            {loading ? (
+                <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+            ) : (
+                <FlatList
+                    onTouchMove={() => setIsSearch(false)}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
+                    data={suggestedUser}
+                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                    keyExtractor={user => user._id!}
+                />
+            )}
         </SafeAreaView>
 
     )

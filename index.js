@@ -39,3 +39,6 @@ export default function Main() {
 }
 
 AppRegistry.registerComponent(appName, () => Main);
+// AppRegistry.runApplication('App', {
+//   rootTag: document.getElementById('root'),
+// });
