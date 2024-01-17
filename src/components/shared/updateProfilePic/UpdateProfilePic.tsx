@@ -11,7 +11,7 @@ import { api } from '../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 const windowWidth = Dimensions.get('window').width;
 
-export const UpdateProfilePic = () => {
+const UpdateProfilePic = () => {
 
     const pickImage = () => {
         const { user, setUser } = useContext(AuthContext);
@@ -100,3 +100,6 @@ const styles = StyleSheet.create({
         textAlign: "center"
     }
 })
+
+
+export default UpdateProfilePic

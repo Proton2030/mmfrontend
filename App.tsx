@@ -18,6 +18,7 @@ import PrivacyPolicy from './src/components/screens/others/privacy_policy/Privac
 import NotificationPage from './src/components/screens/others/notification/NotificationPage';
 import Payment from './src/components/shared/payment/Payment';
 import ProfileImage from './src/components/screens/profileImage/ProfileImage';
+import UpdateProfilePic from './src/components/shared/updateProfilePic/UpdateProfilePic';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,7 @@ const App = () => {
                 <Stack.Screen name='Chat' component={ChatBoard} />
                 <Stack.Screen name="UserDetails" component={UserDetails} />
                 <Stack.Screen name="ProfileImage" component={ProfileImage} />
+                <Stack.Screen name="editProfileImage" component={UpdateProfilePic} />
                 <Stack.Screen name='Notification' component={NotificationPage} />
                 <Stack.Screen name='Terms' component={TermsAndConditions} />
                 <Stack.Screen name='Privacy' component={PrivacyPolicy} />
