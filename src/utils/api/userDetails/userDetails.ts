@@ -8,6 +8,7 @@ const { patch,get } = request;
 const initialRoute = "/user";
 export const updateUserDetails = async (payload: any) => {
 	try {
+		console.log("payload",payload)
 		const endpoint = `${initialRoute}/update-user-details`;
 		const response = await patch(
 			endpoint,
@@ -17,6 +18,7 @@ export const updateUserDetails = async (payload: any) => {
 			}
 		);
 		if (response) {
+			console.log("res",response);
 			const {
 				data: { message }
 			} = response;
@@ -159,6 +161,34 @@ export const getUserInfo = async (filter:any) => {
 				data: { message }
 			} = response;
 			if (message === MESSAGE.get.succ) {
+				const {
+					data: { result }
+				} = response;
+				return result;
+			}
+		}
+		throw new Error();
+	} catch (error: any) {
+		console.log(error);
+		throw error;
+	}
+};
+
+export const updateUserImage = async (payload:any) => {
+	try {
+		const endpoint = `${initialRoute}/update-user-profile-image`;
+		const response = await patch(
+			endpoint,
+			payload,
+			{
+				...headers,
+			}
+		);
+		if (response) {
+			const {
+				data: { message }
+			} = response;
+			if (message === MESSAGE.patch.succ) {
 				const {
 					data: { result }
 				} = response;

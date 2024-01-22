@@ -10,6 +10,7 @@ import AuthContext from '../../../contexts/authContext/authContext';
 import { IUserPartnerInfo } from '../../../@types/types/userPartnerInfo';
 import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
 import SnackbarAlert from '../../shared/snackbarAlert/SnackbarAlert';
+import { storeData } from '../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -17,6 +18,8 @@ const windowHeight = Dimensions.get('window').height;
 const PartnerInformation = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("Fill the form");
     const [partnerInfo, setPartnerInfo] = useState<any>({
         partner_min_age: 0,
         partner_max_age: 0,
@@ -78,7 +81,6 @@ const PartnerInformation = () => {
         }
     }
 
-
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (type === "NUMBER") {
             setPartnerInfo(Object.assign({}, partnerInfo, { [field]: Number(text) }))
@@ -116,7 +118,9 @@ const PartnerInformation = () => {
     });
 
     const handleCompleteButtonClick = useCallback(async () => {
+        console.log("button clicked")
         if (user) {
+            setLoading(true);
             delete partnerInfo.partner_age;
             delete partnerInfo.partner_weight;
             delete partnerInfo.partner_height;
@@ -124,11 +128,17 @@ const PartnerInformation = () => {
                 userDetails: partnerInfo,
                 userObjectId: user._id
             }
+            console.log("---->tegvhgvghaHJSB", partnerInfo);
             const userInstance = await api.userDetails.updateUser(payload);
             if (userInstance) {
                 setUser(userInstance);
+                setVisible(true);
+                setMessage("Account is Completed");
                 navigation.dispatch(routeUserDashboard);
+                // const jsonUser = JSON.stringify(userInstance);
+                // storeData("@user", jsonUser);
             }
+            setLoading(false);
         }
     }, [user, partnerInfo])
 
@@ -175,6 +185,7 @@ const PartnerInformation = () => {
                 partnerInfo.partner_salah === "" ||
                 partnerInfo.partner_religious === false
             ) {
+                setVisible(true);
                 return;
             }
             handleCompleteButtonClick();
@@ -215,14 +226,14 @@ const PartnerInformation = () => {
                         <CenterForm object={partnerInfo} handleChangeText={handleChangeText} fieldList={PARTNER_INFO_THREE} /> : null
                     }
 
-                    <Button mode='contained' style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleChangeScreen}>Next</Button>
+                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleChangeScreen}>Next</Button>
                     {
                         screen !== 0 ?
                             <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleBackScreen}>Back</Button> : null
                     }
                 </View>
             </ScrollView>
-            <SnackbarAlert message='Fill the form' onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
+            <SnackbarAlert message={message} onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
 
         </>
     )

@@ -1,12 +1,12 @@
-import { signupUser } from "./auth/login";
+import { chnagePassword, signupUser } from "./auth/login";
 import { loginUser } from "./auth/login";
-import { getOtp } from "./auth/sendOtp";
+import { forgetPassOtp, getOtp } from "./auth/sendOtp";
 import { getChat, getChatList } from "./chat/chat";
 import { getNotification } from "./notification/notificaton";
 import { addChoice } from "./userChoice/addUserChoice";
 import { getChoice } from "./userChoice/getUserChoice";
 import { unChoice } from "./userChoice/unChoice";
-import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser, getUserInfo } from "./userDetails/userDetails";
+import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser, getUserInfo, updateUserImage } from "./userDetails/userDetails";
 import { updateUserMessageLimit } from "./validatePayment/validatePayment";
 
 
@@ -14,7 +14,9 @@ export const api = {
     auth:{
         login:loginUser,
         signup:signupUser,
-        getOtp: getOtp
+        getOtp: getOtp,
+        forgetPassOtp: forgetPassOtp,
+        chnagePassword:chnagePassword
     },
     userDetails:{
         updateUser:updateUserDetails,
@@ -22,7 +24,8 @@ export const api = {
         getLocationSuggestionUser:getLocationSuggestionUser,
         getMatchedSuggestionUser:getMatchedSuggestionUser,
         searchUser:searchUser,
-        getUserInfo:getUserInfo
+        getUserInfo:getUserInfo,
+        updateUserImage:updateUserImage
     },
     userChoice:{
         addChoice:addChoice,

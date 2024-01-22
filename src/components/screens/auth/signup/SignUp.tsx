@@ -9,10 +9,13 @@ import SignUpScreenThree from './signUpScreenThree/SignUpScreenThree';
 import { useNavigation } from '@react-navigation/native';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { api } from '../../../../utils/api';
+import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert';
 
 const SignUp = () => {
+    const navigation = useNavigation<any>();
     const [screen, setScreen] = useState<number>(0);
     const [otp, setOtp] = useState<string>("");
+    const [visible, setVisible] = useState<boolean>(false);
     const [passwordErr, setPasswordErr] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [userDetails, setUseDetails] = useState<IUserDetails>({
@@ -73,9 +76,24 @@ const SignUp = () => {
             if (screen === 0) {
                 setLoading(true);
                 const filter = { mobile: userDetails.mobile }
-                const otpResponse = await api.auth.getOtp(filter)
-                setOtp(otpResponse);
-                setLoading(false);
+                try {
+                    const otpResponse = await api.auth.getOtp(filter);
+                    if (otpResponse) {
+                        setOtp(otpResponse);
+                        setLoading(false);
+                    }
+                    else {
+                        setVisible(true);
+                        setLoading(false);
+                        return;
+                    }
+                }
+                catch (err) {
+                    setVisible(true);
+                    setLoading(false);
+                    return;
+                }
+
             }
             setScreen(prev => ++prev);
         }
@@ -93,26 +111,34 @@ const SignUp = () => {
         setUseDetails(Object.assign({}, userDetails, { [field]: text }))
     }, [userDetails]);
 
+    const onDismissSnackBar = () => {
+        navigation.navigate('login')
+        setVisible(false);
+    }
+
     return (
-        <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
-            <View style={globalStyles.childContainer}>
-                <Image source={signUp}
-                    style={{ width: '100%', height: undefined, aspectRatio: 1 }}
-                    resizeMode='contain' />
-            </View>
-            {
-                screen === 0 ?
-                    <SignUpScreenOne userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} loading={loading} /> : null
-            }
-            {
-                screen === 1 ?
-                    <SignUpScreenTwo userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} otp={otp} /> : null
-            }
-            {
-                screen === 2 ?
-                    <SignUpScreenThree userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} /> : null
-            }
-        </ScrollView>
+        <>
+            <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
+                <View style={globalStyles.childContainer}>
+                    <Image source={signUp}
+                        style={{ width: '100%', height: undefined, aspectRatio: 1 }}
+                        resizeMode='contain' />
+                </View>
+                {
+                    screen === 0 ?
+                        <SignUpScreenOne userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} loading={loading} mode='SIGNUP' /> : null
+                }
+                {
+                    screen === 1 ?
+                        <SignUpScreenTwo userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} otp={otp} /> : null
+                }
+                {
+                    screen === 2 ?
+                        <SignUpScreenThree userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} mode='SIGNUP' /> : null
+                }
+            </ScrollView>
+            <SnackbarAlert message='Account Already Exist,Please Login' onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
+        </>
     )
 }
 

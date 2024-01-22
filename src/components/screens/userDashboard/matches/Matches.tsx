@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Button } from 'react-native-paper'
+import { Appbar, Button } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -10,6 +10,7 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 
 const Matches = () => {
+    const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
@@ -71,12 +72,31 @@ const Matches = () => {
             <Text style={{ marginTop: 10, fontSize: 20 }}>you dont have any matches yet!</Text>
         </View>
     );
+
+    const routeToChatList = () => {
+        navigation.navigate("Chat-List");
+    }
+    const routeToNotificationList = () => {
+        navigation.navigate("Notification");
+    }
+
     useEffect(() => {
         getSuggestionUser();
     }, [getSuggestionUser]);
 
     return (
         <SafeAreaView>
+            <Appbar.Header style={{
+                backgroundColor: '#fde8f1', shadowColor: '#000000',
+                shadowOffset: { width: 0, height: 8 },
+                shadowOpacity: 0.8,
+                shadowRadius: 2,
+                elevation: 5,
+            }}>
+                <Appbar.Content title="Muslim Matrimony" titleStyle={{ color: "#E71B73", fontFamily: "cursive", fontSize: 24, fontWeight: 'bold' }} />
+                <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
+                <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
+            </Appbar.Header>
             {loading ? (
                 <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
             ) : (<>

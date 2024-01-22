@@ -1,14 +1,14 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useCallback, useContext, useState } from 'react'
-import { Avatar, Button, Card, IconButton } from 'react-native-paper'
+import { Avatar, IconButton } from 'react-native-paper'
 import { globalStyles } from '../../../globalStyles/GlobalStyles'
-import { education } from '../../../assets'
 import { IUserCardProps } from '../../../@types/props/UserCardProps.types'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import AuthContext from '../../../contexts/authContext/authContext'
 import { useNavigation } from '@react-navigation/native'
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
-import { IUserDetails } from '../../../@types/types/userDEtails.types'
+import FastImage from 'react-native-fast-image';
+import _ from 'lodash';
 
 const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
@@ -43,20 +43,20 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
             });
         }
     }
-    const handleAddChoice = useCallback(() => {
-        console.log("clicked")
-        setChoice(prev => !prev);
-        if (user?._id && userDetails._id) {
-            console.log("called")
-            try {
-                addChoice(user._id, userDetails._id)
+    const handleAddChoice = useCallback(
+        _.debounce(() => {
+            setChoice(prev => !prev);
+            if (user?._id && userDetails._id) {
+                console.log("called");
+                try {
+                    addChoice(user._id, userDetails._id);
+                } catch (err) {
+                    console.log("error", err);
+                }
             }
-            catch (err) {
-                console.log("error", err)
-            }
-        }
-    }, [user, setChoice]);
-    console.log("choice", choice);
+        }, 1000),  // Adjust the debounce delay as needed
+        [user, setChoice]
+    );
     return (
         <View style={globalStyles.card}>
             <TouchableOpacity onPress={handleRouteTouserDetails}>
@@ -90,7 +90,10 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
                     </View>
                 </View>
                 <View>
-                    <Image source={{ uri: userDetails.profile_image_url } || ""} style={globalStyles.cardImage} />
+                    <FastImage
+                        source={{ uri: userDetails.profile_image_url || "" }}
+                        style={globalStyles.cardImage}
+                    />
                 </View>
             </TouchableOpacity>
             <View style={{ display: 'flex', flexDirection: "row", columnGap: 15, paddingLeft: 10, marginTop: 10 }}>

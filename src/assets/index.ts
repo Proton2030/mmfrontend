@@ -1,4 +1,5 @@
 export {default as logo} from "./images/logo.png";
+export {default as logoBgRemove} from "./images/logo-removebg.png";
 export {default as muslim} from "./images/muslim.png";
 export {default as signUp} from "./images/signUp.png";
 export {default as hello} from "./images/hello.png";

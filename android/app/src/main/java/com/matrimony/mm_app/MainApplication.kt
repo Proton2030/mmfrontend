@@ -1,4 +1,4 @@
-package com.muslimmatrimony
+package com.matrimony.mm_app
 
 import android.app.Application
 import com.facebook.react.PackageList

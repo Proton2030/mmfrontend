@@ -55,7 +55,7 @@ const UserInformation = () => {
     })
 
     const navigation = useNavigation<any>();
-
+    const [loading, setLoading] = useState<boolean>(false);
     const handleSetDefaultData = useCallback(() => {
         if (user) {
             const tempData: any = user;
@@ -127,6 +127,17 @@ const UserInformation = () => {
         }
     }
 
+    const handleUplod = async () => {
+        if (user) {
+            const response = await api.userDetails.updateUserImage({
+                userObjectId: user._id,
+                profileImage: userInfo.profile_image_url
+            });
+            console.log("----->first", response.profile_image_url);
+            setUserInfo(Object.assign({}, userInfo, { "profile_image_url": response.profile_image_url }));
+        }
+    }
+
     const handleChangeScreen = () => {
         if (screen < 5) {
 
@@ -163,7 +174,10 @@ const UserInformation = () => {
                     }
                 }
             }
-            if (screen == 1) {
+            if (screen === 1) {
+                handleUplod();
+            }
+            if (screen == 2) {
                 if (
                     userInfo.occupation === "" ||
                     userInfo.work_place === "" ||
@@ -175,7 +189,7 @@ const UserInformation = () => {
                 }
 
             }
-            if (screen == 2) {
+            if (screen == 3) {
                 if (
                     userInfo.education === "" ||
                     userInfo.islamic_education === ""
@@ -186,7 +200,7 @@ const UserInformation = () => {
                 }
 
             }
-            if (screen == 3) {
+            if (screen == 4) {
                 if (
                     userInfo.salah === "" ||
                     userInfo.sawum === "" ||
@@ -197,7 +211,7 @@ const UserInformation = () => {
                     return;
                 }
             }
-            if (screen == 4) {
+            if (screen == 5) {
                 if (
                     userInfo.fathers_name === "" ||
                     userInfo.fathers_occupation === "" ||
@@ -220,6 +234,7 @@ const UserInformation = () => {
         }
     }
 
+
     useEffect(() => {
         handleSetDefaultData();
     }, [handleSetDefaultData])
@@ -236,45 +251,44 @@ const UserInformation = () => {
                         <Text style={globalStyles.headingText}>Please Give Your Personal Information</Text> : null
                     }
                     {screen === 1 ?
-                        <Text style={globalStyles.headingText}>Please Give Your Job Information</Text> : null
+                        <Text style={globalStyles.headingText}>Please Give Your Profile Image</Text> : null
                     }
                     {screen === 2 ?
-                        <Text style={globalStyles.headingText}>Please Give Your Educational Background</Text> : null
+                        <Text style={globalStyles.headingText}>Please Give Your Job Information</Text> : null
                     }
                     {screen === 3 ?
-                        <Text style={globalStyles.headingText}>Please Give Your Religious Information</Text> : null
+                        <Text style={globalStyles.headingText}>Please Give Your Educational Background</Text> : null
                     }
                     {screen === 4 ?
-                        <Text style={globalStyles.headingText}>Please Give Your Family Information</Text> : null
+                        <Text style={globalStyles.headingText}>Please Give Your Religious Information</Text> : null
                     }
                     {screen === 5 ?
-                        <Text style={globalStyles.headingText}>Please Give Your Profile Image</Text> : null
+                        <Text style={globalStyles.headingText}>Please Give Your Family Information</Text> : null
                     }
                 </View>
                 <View style={globalStyles.childContainer}>
 
                     {screen === 0 ?
-
                         <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} /> : null
                     }
                     {screen === 1 ?
-                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} /> : null
-                    }
-                    {screen === 2 ?
-                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} /> : null
-                    }
-                    {screen === 3 ?
-                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} /> : null
-                    }
-                    {screen === 4 ?
-                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FIVE} /> : null
-                    }
-                    {screen === 5 ?
                         <View style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
                             <Image source={{ uri: userInfo.profile_image_url }} style={styles.profileImage} />
                             <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={pickImage}>Upload</Button>
                         </View>
                         : null
+                    }
+                    {screen === 2 ?
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} /> : null
+                    }
+                    {screen === 3 ?
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} /> : null
+                    }
+                    {screen === 4 ?
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} /> : null
+                    }
+                    {screen === 5 ?
+                        <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FIVE} /> : null
                     }
                     <Button mode='contained' style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleChangeScreen}>Next</Button>
                     {

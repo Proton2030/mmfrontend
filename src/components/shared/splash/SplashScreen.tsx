@@ -1,51 +1,40 @@
-// SplashScreen.js
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import AuthContext from '../../../contexts/authContext/authContext';
-import { logo, logoBgRemove } from '../../../assets';
+// SplashScreen.tsx
 
-const SplashScreen = () => {
-    const navigation = useNavigation<any>();
-    const { user } = useContext(AuthContext);
-    const routeUserDashboard = CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'UserDashboard' }], // Replace with your desired screen name
-    });
-    const routeAuth = CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Auth' }], // Replace with your desired screen name
-    });
+import React, { useEffect, useRef } from 'react';
+import { View, Text, Animated, Easing } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+
+const AnimatedSplashScreen: React.FC = () => {
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
     useEffect(() => {
-        setTimeout(() => {
-            if (user) {
-                navigation.dispatch(routeUserDashboard); // Navigate to your main component
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: 1,
+                duration: 2000, // Adjust the duration as needed
+                easing: Easing.ease,
+                useNativeDriver: true,
             }
-            else {
-                navigation.dispatch(routeAuth);
-            }
-        }, 2500); // Set the duration in milliseconds
-    }, [user]);
+        ).start(() => {
+            // Hide splash screen once the animation is complete
+            SplashScreen.hide();
+        });
+    }, [fadeAnim]);
 
     return (
-        <View style={styles.container}>
-            {/* Your splash screen content, e.g., logo or image */}
-            <Image source={logoBgRemove} style={styles.logo} />
-        </View>
+        <Animated.View
+            style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                opacity: fadeAnim,
+            }}
+        >
+            <Text>Your App Name</Text>
+            {/* Add other components or your logo */}
+        </Animated.View>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: "#E71B73",
-        alignItems: 'center',
-    },
-    logo: {
-        width: 200,
-        height: 200,
-    },
-});
-
-export default SplashScreen;
+export default AnimatedSplashScreen;

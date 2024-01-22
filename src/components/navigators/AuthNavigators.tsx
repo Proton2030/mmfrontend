@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from '../screens/auth/login/Login';
 import SignUp from '../screens/auth/signup/SignUp';
 import UpdateProfileImage from '../screens/auth/login/updateProfileImage/UpdateProfileImage';
+import ForgetPassword from '../screens/auth/forgetPass/ForgetPassword';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -12,6 +13,7 @@ const AuthNavigators = () => {
         <AuthStack.Navigator initialRouteName='auth' screenOptions={{ headerShown: false }}>
             <AuthStack.Screen name='login' component={Login} />
             <AuthStack.Screen name='signup' component={SignUp} />
+            <AuthStack.Screen name='forget-pass' component={ForgetPassword} />
             <AuthStack.Screen name='changeImage' component={UpdateProfileImage} />
         </AuthStack.Navigator>
     )

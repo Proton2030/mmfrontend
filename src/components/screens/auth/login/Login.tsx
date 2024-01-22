@@ -53,9 +53,12 @@ const Login = () => {
     //   };
 
     const handleLoginButtonClick = useCallback(async () => {
+        console.log("-------->click login button")
         try {
             setLoading(true);
+            console.log("-------->userCredentials", userCredential);
             const userResponse = await api.auth.login(userCredential);
+            console.log("---------->user", userResponse)
             setUser(userResponse);
             if (userResponse) {
                 setLoading(false);
@@ -67,6 +70,7 @@ const Login = () => {
                         }
                     }
                     );
+                    console.log("login", userResponse);
                 }
                 else if (userResponse.profile_image_url === "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg") {
                     navigation.navigate("changeImage")
@@ -85,6 +89,10 @@ const Login = () => {
 
     }, [userCredential]);
 
+    const routeToForget = () => {
+        navigation.navigate("forget-pass");
+    }
+
 
     return (
         <>
@@ -95,7 +103,7 @@ const Login = () => {
                 </View>
                 <View style={globalStyles.childContainer}>
                     <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
-                    <Text style={loginStyle.forgetPass}>Forgotten Password ?</Text>
+                    <Text style={loginStyle.forgetPass} onPress={routeToForget}>Forgotten Password ?</Text>
                     <Button mode='contained' loading={loading} style={globalStyles.pinkButton} onPress={handleLoginButtonClick}>LogIn</Button>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', padding: 30 }}>

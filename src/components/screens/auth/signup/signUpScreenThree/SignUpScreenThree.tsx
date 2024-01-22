@@ -9,8 +9,9 @@ import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.pro
 import { api } from '../../../../../utils/api'
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert'
 import AuthContext from '../../../../../contexts/authContext/authContext'
+import { storeData } from '../../../../../utils/commonFunction/storeData'
 
-const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, error }: ISignupScreenProps) => {
+const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, mode }: ISignupScreenProps) => {
     const navigation = useNavigation<any>();
     const { user, setUser } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
@@ -23,6 +24,15 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
         routes: [
             {
                 name: 'UserInfo',
+                params: { screen: 'personal-details', editable: false },
+            },
+        ], // Replace with your desired screen name
+    });
+    const routeUserDashboard = CommonActions.reset({
+        index: 0,
+        routes: [
+            {
+                name: 'UserDashboard',
                 params: { screen: 'personal-details', editable: false },
             },
         ], // Replace with your desired screen name
@@ -40,17 +50,35 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
             setLoading(true);
             if (userDetails.password !== "") {
                 handleChangeScreen();
-                const userInstance = await api.auth.signup(userDetails);
+                let userInstance = null;
+                if (mode === "SIGNUP") {
+                    userInstance = await api.auth.signup(userDetails);
+                }
+                else {
+                    console.log("----->called")
+                    userInstance = await api.auth.chnagePassword({
+                        mobile: userDetails.mobile,
+                        newPassword: userDetails.password
+                    });
+                }
                 setLoading(false);
                 if (userInstance) {
+                    console.log("------>userInstance", userInstance)
                     setUser(userInstance);
-                    navigation.dispatch(routeUserInfo)
+                    if (mode === "FORGET") {
+                        const jsonUser = JSON.stringify(userInstance);
+                        storeData("@user", jsonUser);
+                        navigation.dispatch(routeUserDashboard);
+                    }
+                    else {
+                        navigation.dispatch(routeUserInfo)
+                    }
                 }
             }
         }
         catch (error) {
             setLoading(false);
-            onToggleSnackBar();
+            console.log("error", error)
         }
         // }
         // else {
