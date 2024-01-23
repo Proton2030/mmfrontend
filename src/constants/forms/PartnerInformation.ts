@@ -73,20 +73,5 @@ export const PARTNER_INFO_THREE:IField[]=[
         type:"SELECT",
         options:["YES","NO"]
 
-    },
-    {
-        id:"partner_hajab_maintain",
-        label:"Select Partner Hijab",
-        placeHolder:"",
-        type:"SELECT",
-        options:COMMON_OPTIONS
-
-    },
-    {
-        id:"partner_religious",
-        label:"Select Partner Religious",
-        placeHolder:"", 
-        type:"SELECT",
-        options:COMMON_OPTIONS
-    },
+    }
 ]

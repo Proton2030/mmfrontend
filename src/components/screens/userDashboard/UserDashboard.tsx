@@ -42,7 +42,7 @@ const UserDashboard = () => {
                 sceneAnimationType='shifting'
                 navigationState={{ index, routes }}
                 activeColor="#E71B73"
-                barStyle={{ backgroundColor: "#fff5f9" }}
+                barStyle={{ backgroundColor: "#fde8f1" }}
                 onIndexChange={handleIndexChange}
                 renderScene={renderScene}
             />

@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, ActivityIndicator } from 'react-native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Appbar, Button } from 'react-native-paper'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { Appbar, Button, IconButton, Tooltip } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -17,6 +17,9 @@ const Matches = () => {
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
     const [selectedPage, setSelectedPage] = useState<Map<number, number>>(new Map());
     const [loading, setLoading] = useState<boolean>(true);
+    const [topIcon, setTopIcon] = useState<boolean>(false);
+
+    const flatListRef = useRef<any>(null);
 
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
@@ -25,6 +28,14 @@ const Matches = () => {
         }
         const response = await api.userChoice.addChoice(payload);
     }, [])
+
+    const handleScrollToTop = () => {
+        if (flatListRef.current) {
+            flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+            setTopIcon(false)
+        }
+    };
+
 
     const getSuggestionUserApi = async () => {
         console.log("calling api", page)
@@ -54,6 +65,12 @@ const Matches = () => {
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const currentPosition: number = event.nativeEvent.contentOffset.y;
+        if (currentPosition > 0) {
+            setTopIcon(true)
+        }
+        else {
+            setTopIcon(false);
+        }
         if (currentPosition > page * 1000) {
             setPage(prev => prev + 1);
         }
@@ -101,14 +118,27 @@ const Matches = () => {
                 <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
             ) : (<>
                 {
-                    (suggestedUser.length > 0) ? <FlatList
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                        onScroll={handleScroll}
-                        scrollEventThrottle={16}
-                        data={suggestedUser}
-                        renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                        keyExtractor={user => user._id!} // Assuming email is a unique identifier
-                    /> :
+                    (suggestedUser.length > 0) ?
+                        <>
+                            <FlatList
+                                ref={flatListRef}
+                                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                                onScroll={handleScroll}
+                                scrollEventThrottle={16}
+                                data={suggestedUser}
+                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
+                                keyExtractor={user => user._id!} // Assuming email is a unique identifier
+                            />
+                            {
+                                topIcon ?
+                                    <View style={{ position: 'absolute', bottom: 80, right: 16, backgroundColor: '#E71B73', padding: 0, borderRadius: 50 }}>
+                                        <Tooltip title="Selected Camera">
+                                            <IconButton icon="arrow-up" size={30} iconColor='white' onPress={handleScrollToTop} />
+                                        </Tooltip>
+                                    </View> : null
+                            }
+                        </>
+                        :
                         (
                             handleEmptyListAnimation()
                         )

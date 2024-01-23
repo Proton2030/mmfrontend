@@ -13,6 +13,7 @@ import Payment from '../shared/payment/Payment';
 import AuthNavigators from './AuthNavigators';
 import ConfirmNavigators from './ConfirmNavigators';
 import AuthContext from '../../contexts/authContext/authContext';
+import SplashScreen from '../shared/splash/SplashScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,8 @@ const AppNavigators = () => {
 
     return (
         <>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
+                {/* <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} /> */}
                 {
                     user ?
                         <>

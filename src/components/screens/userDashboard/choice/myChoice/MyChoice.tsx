@@ -2,7 +2,7 @@
 
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Animated } from 'react-native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { ActivityIndicator, Appbar, Button, List } from 'react-native-paper'
+import { ActivityIndicator, Appbar, Button, IconButton, List, Tooltip } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { api } from '../../../../../utils/api';
@@ -20,8 +20,9 @@ const MyChoice = () => {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const [loading, setLoading] = useState<boolean>(true);
+    const [topIcon, setTopIcon] = useState<boolean>(false);
 
-
+    const flatListRef = useRef<any>(null);
     // const handleUnchoice = async (choiceId: string) => {
     //     const response = await api.userChoice.unChoice(choiceId);
     //     if (response && user) {
@@ -30,6 +31,13 @@ const MyChoice = () => {
     //         setChoiceList(updatedList);
     //     }
     // }
+
+    const handleScrollToTop = () => {
+        if (flatListRef.current) {
+            flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+            setTopIcon(false)
+        }
+    };
 
     const getChoiceUserApi = async () => {
         if (user) {
@@ -58,6 +66,12 @@ const MyChoice = () => {
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const currentPosition: number = event.nativeEvent.contentOffset.y;
+        if (currentPosition > 0) {
+            setTopIcon(true)
+        }
+        else {
+            setTopIcon(false);
+        }
         if (currentPosition > page * 500) {
             setPage(prev => prev + 1);
         }
@@ -117,14 +131,25 @@ const MyChoice = () => {
             ) : (<>
                 {
                     (choiceList.length > 0) ?
-                        <FlatList
-                            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-                            onScroll={handleScroll}
-                            scrollEventThrottle={16}
-                            data={choiceList}
-                            renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
-                            keyExtractor={user => user._id!}
-                        /> :
+                        <>
+                            <FlatList
+                                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+                                onScroll={handleScroll}
+                                scrollEventThrottle={16}
+                                data={choiceList}
+                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
+                                keyExtractor={user => user._id!}
+                            />
+                            {
+                                topIcon ?
+                                    <View style={{ position: 'absolute', bottom: 80, right: 16, backgroundColor: '#E71B73', padding: 0, borderRadius: 50 }}>
+                                        <Tooltip title="Selected Camera">
+                                            <IconButton icon="arrow-up" size={30} iconColor='white' onPress={handleScrollToTop} />
+                                        </Tooltip>
+                                    </View> : null
+                            }
+                        </>
+                        :
                         (
                             handleEmptyListAnimation()
                         )

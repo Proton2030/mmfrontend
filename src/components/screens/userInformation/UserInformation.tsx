@@ -30,8 +30,6 @@ const UserInformation = () => {
         height: 0,
         weight: 0,
         body_color: "",
-        eye_color: "",
-        hair_color: "",
         occupation: "",
         work_place: "",
         monthly_income: "",
@@ -39,8 +37,6 @@ const UserInformation = () => {
         islamic_education: "",
         salah: "",
         sawum: "",
-        hajab_maintain: "",
-        religious: "",
         message_limit: 0,
         fathers_name: "",
         fathers_occupation: "",
@@ -48,7 +44,6 @@ const UserInformation = () => {
         mothers_occupation: "",
         no_of_brothers: 0,
         no_of_sisters: 0,
-        total_family_member: 0,
         financial_condition: "",
         status: "ACTIVE",
         profile_image_url: "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
@@ -149,9 +144,7 @@ const UserInformation = () => {
                     userInfo.marital_status === "" ||
                     userInfo.state === "" ||
                     userInfo.height === 0 ||
-                    userInfo.weight === 0 ||
-                    userInfo.eye_color === "" ||
-                    userInfo.hair_color === ""
+                    userInfo.weight === 0
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
@@ -203,8 +196,7 @@ const UserInformation = () => {
             if (screen == 4) {
                 if (
                     userInfo.salah === "" ||
-                    userInfo.sawum === "" ||
-                    userInfo.religious === ""
+                    userInfo.sawum === ""
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
@@ -219,7 +211,6 @@ const UserInformation = () => {
                     userInfo.mothers_occupation === "" ||
                     userInfo.no_of_brothers === 0 ||
                     userInfo.no_of_sisters === 0 ||
-                    userInfo.total_family_member === 0 ||
                     userInfo.financial_condition == ""
                 ) {
                     setErrorMessage("Please fill the all data");

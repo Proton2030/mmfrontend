@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { shuffleArray } from '../../../../utils/commonFunction/suffleArray';
 import _ from 'lodash';
+import SmallLoader from '../../../shared/smallLoader/SmallLoader';
 
 const Home = () => {
     const navigation = useNavigation<any>();
@@ -184,6 +185,7 @@ const Home = () => {
                         data={suggestedUser}
                         renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
                         keyExtractor={(user, index) => `${index}`}
+                        ListFooterComponent={SmallLoader}
                     />
                     {
                         topIcon ?

@@ -79,8 +79,8 @@ android {
         applicationId "com.matrimony.mm_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 49
-        versionName "1.0.7"
+        versionCode 50
+        versionName "1.0.8"
         resConfigs "en", "fr", "es", "de", "it", "pt", "ru", "zh-rCN", "zh-rTW", "ja", "ko"
     }
     signingConfigs {

@@ -1,40 +1,39 @@
-// SplashScreen.tsx
+// SplashScreen.js
 
-import React, { useEffect, useRef } from 'react';
-import { View, Text, Animated, Easing } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import React, { useContext, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import AuthContext from '../../../contexts/authContext/authContext';
 
-const AnimatedSplashScreen: React.FC = () => {
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-
+const SplashScreen = () => {
+    const navigation = useNavigation<any>();
+    const { user } = useContext(AuthContext);
     useEffect(() => {
-        Animated.timing(
-            fadeAnim,
-            {
-                toValue: 1,
-                duration: 2000, // Adjust the duration as needed
-                easing: Easing.ease,
-                useNativeDriver: true,
+        // Simulate a loading process for demonstration purposes
+        setTimeout(() => {
+            if (user) {
+                navigation.replace('UserDashboard') // Navigate to UserDashboard after splash screen
             }
-        ).start(() => {
-            // Hide splash screen once the animation is complete
-            SplashScreen.hide();
-        });
-    }, [fadeAnim]);
+            else {
+                navigation.replace('Auth'); // Navigate to Auth after splash screen
+            }
+        }, 3000); // 3 seconds
+    }, []);
 
     return (
-        <Animated.View
-            style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                opacity: fadeAnim,
-            }}
-        >
-            <Text>Your App Name</Text>
-            {/* Add other components or your logo */}
-        </Animated.View>
+        <View style={styles.container}>
+            <Text>Loading...</Text>
+            {/* Add any other splash screen content here */}
+        </View>
     );
 };
 
-export default AnimatedSplashScreen;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
+
+export default SplashScreen;

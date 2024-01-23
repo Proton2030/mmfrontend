@@ -30,12 +30,7 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
     });
     const routeUserDashboard = CommonActions.reset({
         index: 0,
-        routes: [
-            {
-                name: 'UserDashboard',
-                params: { screen: 'personal-details', editable: false },
-            },
-        ], // Replace with your desired screen name
+        routes: [{ name: 'UserDashboard' }], // Replace with your desired screen name
     });
 
     const warn = (msg: string) => {

@@ -57,20 +57,6 @@ export const USER_INFO_ONE : IField[] =[
         placeHolder:"Body Colour",
         type:"SELECT",
         options:BODY_COLOR
-    },
-    {
-        id:"eye_color",
-        label:"Eye Color",
-        placeHolder:"",
-        type:"SELECT",
-        options:EYE_COLOR
-    },
-    {
-        id:"hair_color",
-        label:"Hair Color",
-        placeHolder:"",
-        type:"SELECT",
-        options:HAIR_COLOR
     }
 ]
 
@@ -129,21 +115,7 @@ export const USER_INFO_FOUR : IField[] =[
         placeHolder:"",
         type:"SELECT",
         options:["YES","NO"]
-    },
-    {
-        id:"hajab_maintain",
-        label:"Hajab Maintain",
-        placeHolder:"Hajab Mantain",
-        type:"SELECT",
-        options:COMMON_OPTIONS
-    },
-    {
-        id:"religious",
-        label:"religious",
-        placeHolder:"Select Your Religious",
-        type:"SELECT",
-        options:COMMON_OPTIONS
-    },
+    }
 
 ]
 export const USER_INFO_FIVE: IField[] =[
@@ -181,13 +153,6 @@ export const USER_INFO_FIVE: IField[] =[
     {
         id:"no_of_sisters",
         label:"No Of Sister",
-        placeHolder:"0",
-        type:"NUMBER",
-        maxLength:2
-    },
-    {
-        id:"total_family_member",
-        label:"Total Family Members",
         placeHolder:"0",
         type:"NUMBER",
         maxLength:2
