@@ -13,7 +13,7 @@ const UserDashboard = () => {
     const [routes] = React.useState([
         { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
         { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-        { key: 'match', title: 'Matches', focusedIcon: 'plus-circle', unfocusedIcon: 'plus-circle-outline' },
+        { key: 'match', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
         { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
         { key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' },
     ]);
