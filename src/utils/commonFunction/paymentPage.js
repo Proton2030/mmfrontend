@@ -5,7 +5,7 @@ export const initiatePayment = async (customer, packageDetails, tran_id) => {
   const store_password = '641BE6A8C765292108';
   let url = '';
   const data = {
-    total_amount: packageDetails.amount,
+    total_amount: 10,
     currency: 'BDT',
     tran_id: tran_id,
     cus_name: customer.full_name,
@@ -17,7 +17,8 @@ export const initiatePayment = async (customer, packageDetails, tran_id) => {
     cus_postcode: 1000,
     cus_country: 'Bangladesh',
     cus_phone: customer.mobile || '123',
-    success_url: `http://ec2-65-1-183-77.ap-south-1.compute.amazonaws.com:8989/api/v1/payment/success/${customer._id}/${packageDetails.message_limit}/${tran_id}`,
+    ipn_url: 'https://merchant.sslcommerz.com/',
+    success_url: `http://ec2-65-1-183-77.ap-south-1.compute.amazonaws.com:8989/api/v1/payment/success/`,
     fail_url: 'http://ec2-65-1-183-77.ap-south-1.compute.amazonaws.com:8989/api/v1/payment/fail',
     cancel_url: 'http://ec2-65-1-183-77.ap-south-1.compute.amazonaws.com:8989/api/v1/payment/cancel',
     cus_fax: customer.mobile,
