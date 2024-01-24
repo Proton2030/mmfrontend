@@ -60,24 +60,34 @@ const UserInformationPage3 = () => {
 
     const handleCompleteButtonClick = useCallback(async () => {
 
-        setLoading(true)
         if (user) {
-
+            if (
+                userInfo.education === "" ||
+                userInfo.islamic_education === "" ||
+                userInfo.salah === "" ||
+                userInfo.sawum === ""
+            ) {
+                setErrorMessage("Please fill the all data");
+                setVisible(true)
+                return;
+            }
             const payload = {
                 userDetails: userInfo,
                 userObjectId: user._id
             }
 
             try {
-
+                setLoading(true)
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo2');
+                    navigation.navigate('UserInfo4');
                 }
             } catch (error) {
                 console.log(error);
+                setLoading(false)
+                setVisible(true)
 
             }
 

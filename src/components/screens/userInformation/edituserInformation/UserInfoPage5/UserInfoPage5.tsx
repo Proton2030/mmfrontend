@@ -100,7 +100,7 @@ const UserInformationPage5 = () => {
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo2');
+                    navigation.dispatch(routeUserDashboard);
                 }
             } catch (error) {
                 console.log(error);

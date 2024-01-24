@@ -137,35 +137,35 @@ const UserInformation = () => {
         if (screen < 5) {
 
             if (screen == 0) {
-                if (
-                    userInfo.full_name === "" ||
-                    userInfo.gender === "" ||
-                    userInfo.age === 0 ||
-                    userInfo.marital_status === "" ||
-                    userInfo.state === "" ||
-                    userInfo.height === 0 ||
-                    userInfo.weight === 0
-                ) {
-                    setErrorMessage("Please fill the all data");
-                    setVisible(true)
-                    return;
-                }
-                else {
-                    if (userInfo.gender === "MALE") {
-                        if (userInfo.age < 21) {
-                            setErrorMessage("Age should not be less than 21");
-                            setVisible(true)
-                            return;
-                        }
-                    }
-                    else if (userInfo.gender === "FEMALE") {
-                        if (userInfo.age < 18) {
-                            setErrorMessage("Age should not be less than 18");
-                            setVisible(true)
-                            return;
-                        }
-                    }
-                }
+                // if (
+                //     userInfo.full_name === "" ||
+                //     userInfo.gender === "" ||
+                //     userInfo.age === 0 ||
+                //     userInfo.marital_status === "" ||
+                //     userInfo.state === "" ||
+                //     userInfo.height === 0 ||
+                //     userInfo.weight === 0
+                // ) {
+                //     setErrorMessage("Please fill the all data");
+                //     setVisible(true)
+                //     return;
+                // }
+                // else {
+                //     if (userInfo.gender === "MALE") {
+                //         if (userInfo.age < 21) {
+                //             setErrorMessage("Age should not be less than 21");
+                //             setVisible(true)
+                //             return;
+                //         }
+                //     }
+                //     else if (userInfo.gender === "FEMALE") {
+                //         if (userInfo.age < 18) {
+                //             setErrorMessage("Age should not be less than 18");
+                //             setVisible(true)
+                //             return;
+                //         }
+                //     }
+                // }
             }
             if (screen === 1) {
                 handleUplod();
@@ -224,8 +224,6 @@ const UserInformation = () => {
             handleCompleteButtonClick();
         }
     }
-
-
     useEffect(() => {
         handleSetDefaultData();
     }, [handleSetDefaultData])

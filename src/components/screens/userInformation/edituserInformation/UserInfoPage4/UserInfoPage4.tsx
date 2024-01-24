@@ -73,24 +73,37 @@ const UserInformationPage4 = () => {
 
     const handleCompleteButtonClick = useCallback(async () => {
 
-        setLoading(true)
         if (user) {
-
+            if (
+                userInfo.fathers_name === "" ||
+                userInfo.fathers_occupation === "" ||
+                userInfo.mothers_name === "" ||
+                userInfo.mothers_occupation === "" ||
+                userInfo.no_of_brothers === 0 ||
+                userInfo.no_of_sisters === 0 ||
+                userInfo.financial_condition == ""
+            ) {
+                setErrorMessage("Please fill the all data");
+                setVisible(true)
+                return;
+            }
             const payload = {
                 userDetails: userInfo,
                 userObjectId: user._id
             }
 
             try {
-
+                setLoading(true)
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo2');
+                    navigation.navigate('UserInfo5');
                 }
             } catch (error) {
                 console.log(error);
+                setLoading(false)
+                setVisible(true)
 
             }
 

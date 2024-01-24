@@ -62,17 +62,43 @@ const UserInformationPage1 = () => {
     }, [userInfo]);
 
     const handleCompleteButtonClick = useCallback(async () => {
-
-        setLoading(true)
         if (user) {
-
+            if (
+                userInfo.full_name === "" ||
+                userInfo.gender === "" ||
+                userInfo.age === 0 ||
+                userInfo.marital_status === "" ||
+                userInfo.state === "" ||
+                userInfo.height === 0 ||
+                userInfo.weight === 0
+            ) {
+                setErrorMessage("Please fill the all data");
+                setVisible(true)
+                return;
+            }
+            else {
+                if (userInfo.gender === "MALE") {
+                    if (userInfo.age < 21) {
+                        setErrorMessage("Age should not be less than 21");
+                        setVisible(true)
+                        return;
+                    }
+                }
+                else if (userInfo.gender === "FEMALE") {
+                    if (userInfo.age < 18) {
+                        setErrorMessage("Age should not be less than 18");
+                        setVisible(true)
+                        return;
+                    }
+                }
+            }
             const payload = {
                 userDetails: userInfo,
                 userObjectId: user._id
             }
 
             try {
-
+                setLoading(true)
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
@@ -81,7 +107,8 @@ const UserInformationPage1 = () => {
                 }
             } catch (error) {
                 console.log(error);
-
+                setLoading(false);
+                setVisible(true);
             }
 
         }

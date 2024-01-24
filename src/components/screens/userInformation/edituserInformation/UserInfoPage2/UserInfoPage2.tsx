@@ -62,25 +62,34 @@ const UserInformationPage2 = () => {
     };
     const handleCompleteButtonClick = useCallback(async () => {
 
-        setLoading(true)
         if (user) {
-
+            if (
+                userInfo.occupation === "" ||
+                userInfo.work_place === "" ||
+                userInfo.monthly_income === ""
+            ) {
+                setErrorMessage("Please fill the all data");
+                setVisible(true)
+                return;
+            }
             const payload = {
                 userDetails: userInfo,
                 userObjectId: user._id
             }
 
             try {
+                setLoading(true)
 
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo2');
+                    navigation.navigate('UserInfo3');
                 }
             } catch (error) {
+                setLoading(false)
                 console.log(error);
-
+                setVisible(true)
             }
 
         }
@@ -103,7 +112,8 @@ const UserInformationPage2 = () => {
                     <Image style={styles.image} source={logo} />
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <Text style={globalStyles.headingText}>Please Give Your Job Information</Text>
+                    <Text style={globalStyles.headingText}>Please Give Your Educational & Religious Background</Text>
+
                 </View>
                 <View style={globalStyles.childContainer}>
 
