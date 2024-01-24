@@ -4,7 +4,7 @@ import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { color, defaultUser, education, family, hello, imam, job, location, logo, muslimLove, weight } from '../../../assets';
 import { Button } from 'react-native-paper';
 import CenterForm from '../../shared/centerForm/CenterForm';
-import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO, USER_INFO_FIVE } from '../../../constants/forms/UserInformation';
+import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import { IUserInfo } from '../../../@types/types/userInfo.types';
 import { api } from '../../../utils/api';
@@ -278,9 +278,9 @@ const UserInformation = () => {
                     {screen === 4 ?
                         <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} /> : null
                     }
-                    {screen === 5 ?
+                    {/* {screen === 5 ?
                         <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FIVE} /> : null
-                    }
+                    } */}
                     <Button mode='contained' style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleChangeScreen}>Next</Button>
                     {
                         screen !== 0 ?

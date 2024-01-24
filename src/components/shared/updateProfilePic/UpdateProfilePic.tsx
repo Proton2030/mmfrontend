@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react'
 import CenterForm from '../centerForm/CenterForm'
-import { USER_INFO_FIVE } from '../../../constants/forms/UserInformation';
 import { IUserInfo } from '../../../@types/types/userInfo.types';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';

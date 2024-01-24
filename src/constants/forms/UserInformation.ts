@@ -98,10 +98,6 @@ export const USER_INFO_THREE : IField[] =[
         placeHolder:"Enter Your Islamic Education",
         type:"TEXT"
     },
-
-]
-
-export const USER_INFO_FOUR : IField[] =[
     {
         id:"salah",
         label:"salah",
@@ -118,7 +114,8 @@ export const USER_INFO_FOUR : IField[] =[
     }
 
 ]
-export const USER_INFO_FIVE: IField[] =[
+
+export const USER_INFO_FOUR: IField[] =[
     {
         id:"fathers_name",
         label:"Fathers Name",

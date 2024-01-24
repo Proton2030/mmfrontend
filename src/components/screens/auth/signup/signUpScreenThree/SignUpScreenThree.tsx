@@ -24,7 +24,7 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
         routes: [
             {
                 name: 'UserInfo',
-                params: { screen: 'personal-details', editable: false },
+                params: { screen: 'UserInfo1', editable: false },
             },
         ], // Replace with your desired screen name
     });

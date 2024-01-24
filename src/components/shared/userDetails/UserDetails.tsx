@@ -5,7 +5,7 @@ import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { formatKeys } from '../../../utils/commonFunction/formatKeys';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch, IconButton } from 'react-native-paper';
-import { USER_INFO_FIVE, USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
+import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
 import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
@@ -212,23 +212,7 @@ const UserDetails = () => {
                         );
                     })}
                 </View>
-                <View style={{ marginBottom: 16 }}>
-                    <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
-                        {
-                            editable ?
-                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
-                        }
-                    </View>
-                    {USER_INFO_FIVE.map((key, index) => {
-                        return (
-                            <View key={index} style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
-                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
-                            </View>
-                        );
-                    })}
-                </View>
+
 
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
