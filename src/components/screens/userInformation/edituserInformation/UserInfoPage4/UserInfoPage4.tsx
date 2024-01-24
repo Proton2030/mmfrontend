@@ -129,7 +129,7 @@ const UserInformationPage4 = () => {
                     <Image style={styles.image} source={logo} />
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <Text style={globalStyles.headingText}>Please Give Your Job Information</Text>
+                    <Text style={globalStyles.headingText}>Please Give Your Family Information</Text>
                 </View>
                 <View style={globalStyles.childContainer}>
 

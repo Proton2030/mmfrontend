@@ -28,7 +28,6 @@ const UserInformationPage5 = () => {
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo5>({
         profile_image_url: "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg",
-
     })
 
     const navigation = useNavigation<any>();
@@ -69,13 +68,18 @@ const UserInformationPage5 = () => {
         });
     };
     const handleUplod = async () => {
+        setLoading(true)
         if (user) {
             const response = await api.userDetails.updateUserImage({
                 userObjectId: user._id,
                 profileImage: userInfo.profile_image_url
             });
             console.log("----->first", response.profile_image_url);
+
             setUserInfo(Object.assign({}, userInfo, { "profile_image_url": response.profile_image_url }));
+            setUser(response);
+            setLoading(false)
+            navigation.dispatch(routeUserDashboard);
         }
     }
 
@@ -126,7 +130,7 @@ const UserInformationPage5 = () => {
                     <Image style={styles.image} source={logo} />
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <Text style={globalStyles.headingText}>Please Give Your Job Information</Text>
+                    <Text style={globalStyles.headingText}>Please Give Your Profile Image</Text>
                 </View>
                 <View style={globalStyles.childContainer}>
 
@@ -135,7 +139,7 @@ const UserInformationPage5 = () => {
                         <Image source={{ uri: userInfo.profile_image_url }} style={styles.profileImage} />
                         <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={pickImage}>Upload</Button>
                     </View>
-                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>Submit</Button>
+                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleUplod}>Submit</Button>
                     <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
 
                 </View>

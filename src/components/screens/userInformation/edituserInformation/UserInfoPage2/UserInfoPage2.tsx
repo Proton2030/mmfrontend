@@ -112,7 +112,7 @@ const UserInformationPage2 = () => {
                     <Image style={styles.image} source={logo} />
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <Text style={globalStyles.headingText}>Please Give Your Educational & Religious Background</Text>
+                    <Text style={globalStyles.headingText}>Please Give Your Job Background</Text>
 
                 </View>
                 <View style={globalStyles.childContainer}>
