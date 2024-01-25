@@ -104,6 +104,8 @@ const ChatBoard = () => {
                         type: 'text',
                     }
                     addMessage(textMessage);
+                    const updatedUser = { ...user, message_limit: user.message_limit - 1 };
+                    setUser(updatedUser);
                 }
             }
         }
@@ -244,7 +246,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
-        padding: 7,
     },
     subscriptionCard: {
         flex: 1,
