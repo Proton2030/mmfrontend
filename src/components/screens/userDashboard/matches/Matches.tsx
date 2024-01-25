@@ -86,7 +86,7 @@ const Matches = () => {
     const handleEmptyListAnimation = () => (
         <View style={{ alignItems: 'center', marginTop: 50 }}>
 
-            <Text style={{ marginTop: 10, fontSize: 20 }}>you dont have any matches yet!</Text>
+            <Text style={{ marginTop: 10, fontSize: 20 }}>No online yet yet!</Text>
         </View>
     );
 
