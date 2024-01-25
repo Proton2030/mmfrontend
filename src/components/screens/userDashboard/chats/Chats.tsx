@@ -6,11 +6,14 @@ import AuthContext from '../../../../contexts/authContext/authContext';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
+import {ActivityIndicator} from 'react-native';
 
 const Chats = () => {
   const { user } = useContext(AuthContext);
   const [chatList, setChatList] = useState<any[]>([]);
   const navigation = useNavigation<any>();
+  const[isloading,setisloading]=useState(false)
+
 
   const getChatList = useCallback(async () => {
     if (user) {
@@ -19,9 +22,11 @@ const Chats = () => {
         userObjectId: user._id,
         gender: user?.gender
       }
+      setisloading(false)
       const chatListResponse = await api.chat.getChatList(payload);
       console.log("response", chatListResponse);
       setChatList(chatListResponse)
+      setisloading(true)
     }
   }, [user]);
 
@@ -71,13 +76,19 @@ const Chats = () => {
         <Appbar.Content title="Chats" />
         <Appbar.Action icon="magnify" />
       </Appbar.Header>
-      <ScrollView contentContainerStyle={styles.container}>
-        {chatList.map((chat, index) => {
-          return (
-            <RenderChatItem item={chat} userDetails={user?.gender === "MALE" ? chat.female_user_details : chat.male_user_details} key={index} />
-          )
-        })}
-      </ScrollView>
+      {isloading ? (
+        <ScrollView contentContainerStyle={styles.container}>
+          {chatList.map((chat, index) => (
+            <RenderChatItem
+              item={chat}
+              userDetails={user?.gender === 'MALE' ? chat.female_user_details : chat.male_user_details}
+              key={index}
+            />
+          ))}
+        </ScrollView>
+      ) : (
+        <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 80 }} />
+      )}
     </>
   );
 };
