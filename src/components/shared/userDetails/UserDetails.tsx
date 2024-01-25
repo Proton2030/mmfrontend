@@ -180,7 +180,7 @@ const UserDetails = () => {
                 </View>
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education Information</Text>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education & Religious</Text>
                         {
                             editable ?
                                 <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
@@ -197,7 +197,7 @@ const UserDetails = () => {
                 </View>
                 <View style={{ marginBottom: 16 }}>
                     <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Religious Information</Text>
+                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
                         {
                             editable ?
                                 <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null

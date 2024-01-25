@@ -12,6 +12,7 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 
 import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
+import PaymentModal from '../paymentModal/PaymentModal'
 // import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
 
@@ -30,7 +31,7 @@ const ChatBoard = () => {
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [inputMessage, setInputMessage] = useState<MessageType.PartialText | null>(null);
+    const [inputMessage, setInputMessage] = useState<MessageType.Text | null>(null);
     const route = useRoute<any>();
     const { profile_image, status, name, roomId, userId, updatedAt } = route.params;
     const sender = { id: user?._id || "" };
@@ -80,17 +81,18 @@ const ChatBoard = () => {
     }
 
     const handleSendPress = async (message: MessageType.PartialText) => {
-        console.log("message", user?.message_limit);
+        // console.log("message", user?.message_limit);
         if (messages.length === 0) {
             if (user) {
-
-                const filter = {
-                    userObjectId: user._id
-                }
-                const response = await api.userDetails.getUserInfo(filter);
-                setUser(response);
-                if (response.message_limit <= 0) {
-                    setInputMessage(message);
+                if (user.message_limit <= 0) {
+                    const textMessage: MessageType.Text = {
+                        author: sender,
+                        createdAt: Date.now(),
+                        id: sender.id + uuidv4(),
+                        text: message.text,
+                        type: 'text',
+                    }
+                    setInputMessage(textMessage);
                     setModalVisible(true);
                 }
                 else {
@@ -102,6 +104,8 @@ const ChatBoard = () => {
                         type: 'text',
                     }
                     addMessage(textMessage);
+                    const updatedUser = { ...user, message_limit: user.message_limit - 1 };
+                    setUser(updatedUser);
                 }
             }
         }
@@ -126,7 +130,8 @@ const ChatBoard = () => {
                 {
                     url: url,
                     tranId: tran_id,
-                    message_limit: PAYMENT_PACKAGE_LIST[Package_number].message_limit
+                    message_limit: PAYMENT_PACKAGE_LIST[Package_number].message_limit,
+                    messages: messages
                 }
             )
             setModalVisible(false);
@@ -204,7 +209,6 @@ const ChatBoard = () => {
                     </Text>
                 </View>
 
-
                 <Appbar.Content title={``} titleStyle={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }} />
 
                 <Appbar.Action icon="dots-vertical" />
@@ -220,65 +224,7 @@ const ChatBoard = () => {
                 onSendPress={handleSendPress}
                 user={sender}
             />
-            <Modal visible={modalVisible} animationType="slide" transparent={true} onRequestClose={() => setModalVisible(false)}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Title>Choose a Subscription</Title>
-                        <View style={styles.subscriptionRow}>
-                            <Card style={styles.subscriptionCard}>
-                                <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
-                                    <Text style={{ fontWeight: 'bold' }}>Low Package</Text>
-                                </View>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>&nbsp;500৳</Text>
-                                <Text style={{ fontSize: 12 }}>&nbsp;5 persons</Text>
-
-                                <Button style={{ marginTop: 20 }} mode="contained" onPress={() => handlePaymentUpdate(0)}>pay</Button>
-
-                            </Card>
-
-                            <Card style={styles.subscriptionCard}>
-                                <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
-                                    <Text style={{ fontWeight: 'bold' }}>Medium Package</Text>
-
-                                </View>
-
-                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>&nbsp;1000৳</Text>
-                                <Text style={{ fontSize: 12 }}>&nbsp;10 persons</Text>
-
-                                <Button style={{ marginTop: 20 }} mode="contained" onPress={() => handlePaymentUpdate(0)}>pay</Button>
-
-
-                            </Card>
-
-                            <Card style={styles.subscriptionCard}>
-                                <View style={{ padding: 5, display: 'flex' }}><Avatar.Icon icon="star" size={20} />
-                                    <Text style={{ fontWeight: 'bold' }}>High Package</Text>
-
-                                </View>
-                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>&nbsp;2000৳</Text>
-                                <Text style={{ fontSize: 12 }}>&nbsp;20 persons</Text>
-
-                                <Button style={{ marginTop: 20 }} mode="contained" onPress={() => handlePaymentUpdate(0)}>pay</Button>
-
-                            </Card>
-                        </View>
-
-                        {/* Special Buy Card */}
-                        <Card style={styles.specialBuyCard}>
-                            <Card.Title title="Special Offer" subtitle="Only 150৳-   " left={(props) => <Avatar.Icon {...props} icon="sale" />} />
-                            <Card.Content>
-                                <Paragraph> chat with {name?.split(' ')[0]}! &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</Paragraph>
-                            </Card.Content>
-                            <Card.Actions>
-                                <Button mode="contained" onPress={() => handlePaymentUpdate(3)} style={styles.buyButton}>
-                                    Pay Now
-                                </Button>
-                            </Card.Actions>
-                        </Card>
-                        <Button onPress={() => setModalVisible(false)} >Close</Button>
-                    </View>
-                </View>
-            </Modal>
+            <PaymentModal modalVisible={modalVisible} setModalVisible={setModalVisible} styles={styles} handlePaymentUpdate={handlePaymentUpdate} name={name} />
         </SafeAreaProvider>
     )
 }
@@ -300,7 +246,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
-        padding: 7,
     },
     subscriptionCard: {
         flex: 1,

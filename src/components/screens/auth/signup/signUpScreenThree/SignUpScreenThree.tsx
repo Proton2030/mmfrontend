@@ -47,6 +47,7 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
                 handleChangeScreen();
                 let userInstance = null;
                 if (mode === "SIGNUP") {
+                    console.log("------------>user details", userDetails)
                     userInstance = await api.auth.signup(userDetails);
                 }
                 else {

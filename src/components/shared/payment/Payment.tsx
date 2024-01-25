@@ -1,40 +1,37 @@
-import { View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { api } from '../../../utils/api';
 
 const Payment = () => {
     const route = useRoute<any>();
     const { user, setUser } = useContext(AuthContext);
-    const { url, tranId, message_limit } = route.params;
-
-    const handlePayment = useCallback(async () => {
-        try {
-            if (user) {
-                const filter = {
-                    userObjectId: user._id
-                }
-                const response = await api.userDetails.getUserInfo(filter);
-                if (response) {
-                    console.log("------->response of user", response);
-                    setUser(response);
-                }
-            }
-        } catch (error) {
-            console.log(error);
+    const { url, tranId, message_limit, messages } = route.params;
+    const navigation = useNavigation<any>();
+    const handleValidationPayment = async () => {
+        console.log("called payment");
+        if (user) {
+            const userInstance = await api.payment.updateUserMessageLimit({
+                userObjectId: user._id,
+                message_limit: message_limit,
+                tran_id: tranId
+            });
+            setUser(userInstance);
         }
-
-    }, [user])
-
+    }
     useEffect(() => {
+        const unsubscribe = navigation.addListener('beforeRemove', (e: { preventDefault: () => void; }) => {
+            e.preventDefault(); // Prevent the screen from being removed
+            handleValidationPayment();
+            unsubscribe();
+        });
         return () => {
-            handlePayment();
+            unsubscribe();
         };
-    }, [handlePayment])
-    console.log("url", url);
+    }, [navigation]);
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <WebView source={{ uri: url }} style={{ flex: 1 }} />

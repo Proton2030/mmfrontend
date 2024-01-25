@@ -25,7 +25,7 @@ const UserInformationPage5 = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
 
-    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState<string>("Please Fill the Details");
     const [userInfo, setUserInfo] = useState<IUserInfo5>({
         profile_image_url: "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg",
     })
@@ -70,16 +70,22 @@ const UserInformationPage5 = () => {
     const handleUplod = async () => {
         setLoading(true)
         if (user) {
-            const response = await api.userDetails.updateUserImage({
-                userObjectId: user._id,
-                profileImage: userInfo.profile_image_url
-            });
-            console.log("----->first", response.profile_image_url);
-
-            setUserInfo(Object.assign({}, userInfo, { "profile_image_url": response.profile_image_url }));
-            setUser(response);
-            setLoading(false)
-            navigation.dispatch(routeUserDashboard);
+            if (userInfo.profile_image_url !== "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg") {
+                const response = await api.userDetails.updateUserImage({
+                    userObjectId: user._id,
+                    profileImage: userInfo.profile_image_url
+                });
+                console.log("----->first", response.profile_image_url);
+                setUserInfo(Object.assign({}, userInfo, { "profile_image_url": response.profile_image_url }));
+                setUser(response);
+                setLoading(false)
+                navigation.dispatch(routeUserDashboard);
+            }
+            else {
+                setErrorMessage("Please Upload Profile Image")
+                setVisible(true);
+                return;
+            }
         }
     }
 
