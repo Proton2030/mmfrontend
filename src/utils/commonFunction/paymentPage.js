@@ -5,7 +5,7 @@ export const initiatePayment = async (customer, packageDetails, tran_id) => {
   const store_password = '641BE6A8C765292108';
   let url = '';
   const data = {
-    total_amount: 10,
+    total_amount: packageDetails.amount,
     currency: 'BDT',
     tran_id: tran_id,
     cus_name: customer.full_name,
