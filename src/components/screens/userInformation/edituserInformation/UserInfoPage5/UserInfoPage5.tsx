@@ -16,7 +16,7 @@ import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
 import { IUserInfo5 } from '../../../../../@types/types/userInfo5.types';
-
+import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -84,6 +84,7 @@ const UserInformationPage5 = () => {
             else {
                 setErrorMessage("Please Upload Profile Image")
                 setVisible(true);
+                handelVibrate()
                 return;
             }
         }

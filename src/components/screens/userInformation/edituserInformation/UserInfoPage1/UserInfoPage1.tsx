@@ -12,6 +12,7 @@ import { logo } from '../../../../../assets';
 import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo } from '../../../../../@types/types/userInfo.types';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
+import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -74,6 +75,8 @@ const UserInformationPage1 = () => {
             ) {
                 setErrorMessage("Please fill the all data");
                 setVisible(true)
+                handelVibrate()
+
                 return;
             }
             else {
@@ -81,6 +84,8 @@ const UserInformationPage1 = () => {
                     if (userInfo.age < 21) {
                         setErrorMessage("Age should not be less than 21");
                         setVisible(true)
+                        handelVibrate()
+
                         return;
                     }
                 }
@@ -88,6 +93,7 @@ const UserInformationPage1 = () => {
                     if (userInfo.age < 18) {
                         setErrorMessage("Age should not be less than 18");
                         setVisible(true)
+                        handelVibrate()
                         return;
                     }
                 }
@@ -109,6 +115,7 @@ const UserInformationPage1 = () => {
                 console.log(error);
                 setLoading(false);
                 setVisible(true);
+                handelVibrate()
             }
 
         }

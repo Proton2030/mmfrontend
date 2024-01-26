@@ -11,6 +11,7 @@ import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../shared/snackbarAlert/SnackbarAlert';
+import { handelVibrate } from '../../../utils/commonFunction/systemvibration';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -178,6 +179,7 @@ const UserInformation = () => {
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
+                    handelVibrate()
                     return;
                 }
 
@@ -189,6 +191,7 @@ const UserInformation = () => {
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
+                    handelVibrate()
                     return;
                 }
 
@@ -200,6 +203,7 @@ const UserInformation = () => {
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
+                    handelVibrate()
                     return;
                 }
             }
@@ -215,6 +219,7 @@ const UserInformation = () => {
                 ) {
                     setErrorMessage("Please fill the all data");
                     setVisible(true)
+                    handelVibrate()
                     return;
                 }
             }
