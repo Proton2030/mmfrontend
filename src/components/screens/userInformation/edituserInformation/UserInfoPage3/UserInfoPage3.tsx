@@ -80,7 +80,7 @@ const UserInformationPage3 = () => {
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo4');
+                    navigation.navigate('UserInfo3_part2');
                 }
             } catch (error) {
                 console.log(error);
@@ -112,7 +112,7 @@ const UserInformationPage3 = () => {
                     <Image style={styles.image} source={logo} />
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <Text style={globalStyles.headingText}>Please Give Your Educational and Religious Information</Text>
+                    <Text style={globalStyles.headingText}>Please Give Your Educational Information</Text>
                 </View>
                 <View style={globalStyles.childContainer}>
 

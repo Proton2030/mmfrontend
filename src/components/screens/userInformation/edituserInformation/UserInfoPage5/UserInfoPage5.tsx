@@ -68,9 +68,9 @@ const UserInformationPage5 = () => {
         });
     };
     const handleUplod = async () => {
-        setLoading(true)
         if (user) {
             if (userInfo.profile_image_url !== "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg") {
+                setLoading(true)
                 const response = await api.userDetails.updateUserImage({
                     userObjectId: user._id,
                     profileImage: userInfo.profile_image_url
@@ -83,6 +83,7 @@ const UserInformationPage5 = () => {
             }
             else {
                 setErrorMessage("Please Upload Profile Image")
+                setLoading(false)
                 setVisible(true);
                 handelVibrate()
                 return;
@@ -97,7 +98,6 @@ const UserInformationPage5 = () => {
     };
     const handleCompleteButtonClick = useCallback(async () => {
 
-        setLoading(true)
         if (user) {
 
             const payload = {
@@ -106,6 +106,7 @@ const UserInformationPage5 = () => {
             }
 
             try {
+                setLoading(true)
 
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
@@ -115,6 +116,7 @@ const UserInformationPage5 = () => {
                 }
             } catch (error) {
                 console.log(error);
+                setLoading(false)
 
             }
 

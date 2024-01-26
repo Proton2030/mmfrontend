@@ -20,7 +20,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-const UserInformationPage3 = () => {
+const UserInformationPage3_part2 = () => {
     const { user, setUser } = useContext(AuthContext);
     const [screen, setScreen] = useState<number>(0);
 
@@ -111,7 +111,7 @@ const UserInformationPage3 = () => {
                     <Image style={styles.image} source={logo} />
                 </View>
                 <View style={globalStyles.childContainer}>
-                    <Text style={globalStyles.headingText}>Please Give Your Educational and Religious Information</Text>
+                    <Text style={globalStyles.headingText}>Please Give Your Religious Information</Text>
                 </View>
                 <View style={globalStyles.childContainer}>
 
@@ -128,7 +128,7 @@ const UserInformationPage3 = () => {
     )
 }
 
-export default UserInformationPage3
+export default UserInformationPage3_part2
 
 const styles = StyleSheet.create({
     image: {
