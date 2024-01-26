@@ -9,12 +9,12 @@ import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
 import { logo } from '../../../../../assets';
-import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
+import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_THREE_part2, USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo } from '../../../../../@types/types/userInfo.types';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { IUserInfo3part2 } from '../../../../../@types/types/userinfo3Part2';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -25,9 +25,9 @@ const UserInformationPage3 = () => {
     const [screen, setScreen] = useState<number>(0);
 
     const [errorMessage, setErrorMessage] = useState<string>("");
-    const [userInfo, setUserInfo] = useState<IUserInfo3>({
-        education: "",
-        islamic_education: ""
+    const [userInfo, setUserInfo] = useState<IUserInfo3part2>({
+        salah: "",
+        sawum: "",
     })
 
     const navigation = useNavigation<any>();
@@ -61,12 +61,12 @@ const UserInformationPage3 = () => {
 
         if (user) {
             if (
-                userInfo.education === "" ||
-                userInfo.islamic_education === ""
+
+                userInfo.salah === "" ||
+                userInfo.sawum === ""
             ) {
                 setErrorMessage("Please fill the all data");
                 setVisible(true)
-                handelVibrate()
                 return;
             }
             const payload = {
@@ -86,7 +86,6 @@ const UserInformationPage3 = () => {
                 console.log(error);
                 setLoading(false)
                 setVisible(true)
-                handelVibrate()
 
             }
 
@@ -117,7 +116,7 @@ const UserInformationPage3 = () => {
                 <View style={globalStyles.childContainer}>
 
 
-                    <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} />
+                    <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE_part2} />
                     <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>Next</Button>
                     <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
 
