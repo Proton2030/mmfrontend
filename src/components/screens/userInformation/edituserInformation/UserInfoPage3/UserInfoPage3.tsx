@@ -14,6 +14,7 @@ import { IUserInfo } from '../../../../../@types/types/userInfo.types';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
+import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -69,6 +70,7 @@ const UserInformationPage3 = () => {
             ) {
                 setErrorMessage("Please fill the all data");
                 setVisible(true)
+                handelVibrate()
                 return;
             }
             const payload = {
@@ -88,6 +90,7 @@ const UserInformationPage3 = () => {
                 console.log(error);
                 setLoading(false)
                 setVisible(true)
+                handelVibrate()
 
             }
 
