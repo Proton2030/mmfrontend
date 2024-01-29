@@ -24,5 +24,6 @@ export interface IUserInfo{
 	financial_condition: string,
 	status: string,
 	profile_image_url: string,
-	message_limit:number
+	message_limit:number,
+	device_token?:string
 }

@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, KeyboardAvoidingView, Image, StyleSheet, Dimensions } from 'react-native'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
-import { color, defaultUser, education, family, hello, imam, job, location, logo, muslimLove, weight } from '../../../assets';
+import { color, education, family, hello, imam, job, location, logo, muslimLove, weight } from '../../../assets';
 import { Button } from 'react-native-paper';
 import CenterForm from '../../shared/centerForm/CenterForm';
 import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../constants/forms/UserInformation';

@@ -1,6 +1,6 @@
 import { Chat, MessageType, defaultTheme } from '@flyerhq/react-native-chat-ui'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Image, Linking, Modal, StyleSheet, Text, View } from 'react-native'
+import { Image, Linking, Modal, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Appbar, Card, Paragraph, Title, Button, Avatar, useTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -13,7 +13,6 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
 import PaymentModal from '../paymentModal/PaymentModal'
-// import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 
 
 const uuidv4 = () => {
@@ -33,7 +32,7 @@ const ChatBoard = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [inputMessage, setInputMessage] = useState<MessageType.Text | null>(null);
     const route = useRoute<any>();
-    const { profile_image, status, name, roomId, userId, updatedAt } = route.params;
+    const { userDetails, roomId, updatedAt } = route.params;
     const sender = { id: user?._id || "" };
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
@@ -43,10 +42,10 @@ const ChatBoard = () => {
     const handleGenderPayload = useCallback(() => {
         if (user) {
             if (user.gender === "MALE") {
-                setGenderPayload(Object.assign({}, genderPayload, { male_user: user._id, female_user: userId }))
+                setGenderPayload(Object.assign({}, genderPayload, { male_user: user._id, female_user: userDetails._id }))
             }
             else {
-                setGenderPayload(Object.assign({}, genderPayload, { male_user: userId, female_user: user._id }))
+                setGenderPayload(Object.assign({}, genderPayload, { male_user: userDetails._id, female_user: user._id }))
             }
         }
     }, [user])
@@ -143,6 +142,14 @@ const ChatBoard = () => {
         navigation.goBack();
     };
 
+    const handleRouteTouserDetails = () => {
+        navigation.navigate('UserDetails', {
+            userDetails: userDetails,
+            editable: false,
+            updatedAt: userDetails?.updatedAt
+        })
+    }
+
     useEffect(() => {
         handleGenderPayload();
     }, [handleGenderPayload])
@@ -193,19 +200,20 @@ const ChatBoard = () => {
             }}>
                 <Appbar.BackAction onPress={handleGoBack} />
                 <View >
-                    <Avatar.Image size={40} source={{ uri: profile_image }} />
-                    {
-                        status === "ACTIVE" ?
-                            <View style={globalStyles.onlineDot} /> :
-                            <View style={globalStyles.offlineDot} />
-                    }
-
+                    <TouchableOpacity onPress={handleRouteTouserDetails}>
+                        <Avatar.Image size={40} source={{ uri: userDetails.profile_image_url }} />
+                        {
+                            userDetails.status === "ACTIVE" ?
+                                <View style={globalStyles.onlineDot} /> :
+                                <View style={globalStyles.offlineDot} />
+                        }
+                    </TouchableOpacity>
                 </View>
 
                 <View >
-                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name?.split(' ')[0]}</Text>
+                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{userDetails.full_name?.split(' ')[0]}</Text>
                     <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
-                        {status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
+                        {userDetails.status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
                     </Text>
                 </View>
 
@@ -224,7 +232,7 @@ const ChatBoard = () => {
                 onSendPress={handleSendPress}
                 user={sender}
             />
-            <PaymentModal modalVisible={modalVisible} setModalVisible={setModalVisible} styles={styles} handlePaymentUpdate={handlePaymentUpdate} name={name} />
+            <PaymentModal modalVisible={modalVisible} setModalVisible={setModalVisible} styles={styles} handlePaymentUpdate={handlePaymentUpdate} name={userDetails.full_name} />
         </SafeAreaProvider>
     )
 }

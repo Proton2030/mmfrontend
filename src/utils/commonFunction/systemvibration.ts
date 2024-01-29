@@ -1,5 +1,5 @@
 import { Vibration } from "react-native";
 
 export const handelVibrate=()=>{
-    Vibration.vibrate([200, 100, 200]);
+    Vibration.vibrate([100, 50, 100]);
 }

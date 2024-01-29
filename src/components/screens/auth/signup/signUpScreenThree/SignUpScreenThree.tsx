@@ -10,13 +10,13 @@ import { api } from '../../../../../utils/api'
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert'
 import AuthContext from '../../../../../contexts/authContext/authContext'
 import { storeData } from '../../../../../utils/commonFunction/storeData'
+import { getFCMToken } from '../../../../../utils/commonFunction/getFCMToken'
 
 const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, mode }: ISignupScreenProps) => {
     const navigation = useNavigation<any>();
     const { user, setUser } = useContext(AuthContext);
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState<boolean>(false);
-    const onToggleSnackBar = () => setVisible(!visible);
     const onDismissSnackBar = () => setVisible(false);
 
     const routeUserInfo = CommonActions.reset({
@@ -24,20 +24,27 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
         routes: [
             {
                 name: 'UserInfo',
-                params: { screen: 'UserInfo1', editable: false },
+                state: {
+                    routes: [
+                        {
+                            name: 'UserInfo1',
+                            params: { editable: false },
+                        },
+                    ],
+                },
             },
-        ], // Replace with your desired screen name
+        ],
     });
     const routeUserDashboard = CommonActions.reset({
         index: 0,
         routes: [{ name: 'UserDashboard' }], // Replace with your desired screen name
     });
 
-    const warn = (msg: string) => {
-        if (Platform.OS === 'android') {
-            ToastAndroid.show(msg, ToastAndroid.SHORT)
-        }
-    }
+    // const warn = (msg: string) => {
+    //     if (Platform.OS === 'android') {
+    //         ToastAndroid.show(msg, ToastAndroid.SHORT)
+    //     }
+    // }
 
     const handleButtonContinueClick = useCallback(async () => {
         // if (!error) {

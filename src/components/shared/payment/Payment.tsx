@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { api } from '../../../utils/api';
+import { Alert } from 'react-native';
 
 const Payment = () => {
     const route = useRoute<any>();
@@ -18,12 +19,14 @@ const Payment = () => {
                 message_limit: message_limit,
                 tran_id: tranId
             });
+            console.log("----->user", userInstance);
             setUser(userInstance);
         }
     }
     useEffect(() => {
         const unsubscribe = navigation.addListener('beforeRemove', (e: { preventDefault: () => void; }) => {
             e.preventDefault(); // Prevent the screen from being removed
+            Alert.alert("Do not close the window");
             handleValidationPayment();
             unsubscribe();
         });

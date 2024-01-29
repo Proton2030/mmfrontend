@@ -1,15 +1,14 @@
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, ActivityIndicator } from 'react-native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { Appbar, Button, IconButton, Tooltip } from 'react-native-paper'
+import { Appbar, IconButton, Tooltip } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import UserCard from '../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 
-const Matches = () => {
+const ActiveUser = () => {
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -41,12 +40,12 @@ const Matches = () => {
         console.log("calling api", page)
         if (user) {
             const filter = {
-                userObjectId: user._id,
+                gender: user.gender,
                 page: page,
                 limit: 5
             }
             try {
-                const userlist = await api.userDetails.getMatchedSuggestionUser(filter);
+                const userlist = await api.userDetails.getActiveSuggestionUser(filter);
                 setSuggestedUser(prevUserList => prevUserList.concat(userlist));
                 setRefreshing(false);
                 setLoading(false);
@@ -127,7 +126,7 @@ const Matches = () => {
                                 scrollEventThrottle={16}
                                 data={suggestedUser}
                                 renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
-                                keyExtractor={user => user._id!} // Assuming email is a unique identifier
+                                keyExtractor={(user, index) => `${index}`} // Assuming email is a unique identifier
                             />
                             {
                                 topIcon ?
@@ -149,4 +148,4 @@ const Matches = () => {
     )
 }
 
-export default Matches
+export default ActiveUser

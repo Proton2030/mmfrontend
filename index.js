@@ -4,6 +4,7 @@ import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper
 import { name as appName } from './app.json';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthContextProvider from './src/contexts/authContext/Provider';
+import messaging from '@react-native-firebase/messaging';
 
 const theme = {
   ...DefaultTheme,
@@ -15,6 +16,10 @@ const theme = {
 };
 
 export default function Main() {
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
+
   return (
     <NavigationContainer>
       <AuthContextProvider>

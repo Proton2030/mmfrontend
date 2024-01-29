@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { View, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native';
-import { Appbar, Button, IconButton, Searchbar, Tooltip } from 'react-native-paper';
+import { Appbar, Badge, Button, IconButton, Searchbar, Tooltip } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -119,6 +119,18 @@ const Home = () => {
             setLoading(false);
         }
     }
+
+    const ChatIconWithBadge = ({ unreadCount, onPress }: any) => (
+        <Appbar.Action
+            icon={() => (
+                <Badge style={{ position: 'absolute', top: -5, right: -5 }}>
+                    {unreadCount}
+                </Badge>
+            )}
+            onPress={onPress}
+            color="#000000"
+        />
+    );
 
     const routeToChatList = () => {
         navigation.navigate("Chat-List");

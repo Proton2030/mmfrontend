@@ -30,7 +30,7 @@ const PaymentModal = React.memo(({ modalVisible, setModalVisible, styles, handle
                             <Text style={{ fontSize: 15, fontWeight: 'bold' }}>&nbsp;1000৳</Text>
                             <Text style={{ fontSize: 12 }}>&nbsp;10 persons</Text>
 
-                            <Button style={{ marginTop: 20, padding: 0 }} mode="contained" onPress={() => handlePaymentUpdate(0)}>pay</Button>
+                            <Button style={{ marginTop: 20, padding: 0 }} mode="contained" onPress={() => handlePaymentUpdate(1)}>pay</Button>
                         </Card>
 
                         <Card style={styles.subscriptionCard}>
@@ -41,7 +41,7 @@ const PaymentModal = React.memo(({ modalVisible, setModalVisible, styles, handle
                             <Text style={{ fontSize: 15, fontWeight: 'bold' }}>&nbsp;2000৳</Text>
                             <Text style={{ fontSize: 12 }}>&nbsp;20 persons</Text>
 
-                            <Button style={{ marginTop: 20 }} mode="contained" onPress={() => handlePaymentUpdate(0)}>pay</Button>
+                            <Button style={{ marginTop: 20 }} mode="contained" onPress={() => handlePaymentUpdate(2)}>pay</Button>
 
                         </Card>
                     </View>

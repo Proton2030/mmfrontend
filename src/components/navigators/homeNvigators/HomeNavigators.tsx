@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import UserDetails from '../../screens/userDashboard/home/userDetails/UserDetails';
 import Home from '../../screens/userDashboard/home/Home';
+import UserDetails from '../../shared/userDetails/UserDetails';
 
 const HomeStack = createNativeStackNavigator();
 

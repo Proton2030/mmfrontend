@@ -9,6 +9,8 @@ import { useNavigation } from '@react-navigation/native'
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 import FastImage from 'react-native-fast-image';
 import _ from 'lodash';
+import { playSound } from '../../../utils/commonFunction/playSound'
+import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
@@ -35,9 +37,7 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
             }
             console.log("roomId", roomId)
             navigation.navigate('Chat', {
-                profile_image: userDetails.profile_image_url,
-                name: userDetails.full_name,
-                userId: userDetails._id,
+                userDetails: userDetails,
                 roomId: roomId,
                 updatedAt: userDetails?.updatedAt
             });
@@ -49,6 +49,7 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
             if (user?._id && userDetails._id) {
                 console.log("called");
                 try {
+                    playSound(refreshSound)
                     addChoice(user._id, userDetails._id);
                 } catch (err) {
                     console.log("error", err);

@@ -20,27 +20,51 @@ const UserDetails = () => {
     const fadeAnim = new Animated.Value(0);
     const navigation = useNavigation<any>();
 
-    const handlePartnerNavigate = () => {
+    const handleParsonalInfoNavigate = () => {
         navigation.navigate('UserInfo', {
-            screen: 'partner-details',
+            screen: 'UserInfo1',
             params: {
-                editable: false  // Another example parameter
-            }
-        }
-        );
+                editable: true,
+                // Any other parameters you want to pass
+            },
+        });
         console.log("navigate");
-
     }
-    const handleParsonalNavigate = () => {
-        console.log("clicked")
+    const handleJobInfoNavigate = () => {
         navigation.navigate('UserInfo', {
+            screen: 'UserInfo2',
             params: {
-                screen: 'personal-details',
-                editable: false  // Another example parameter
-            }
-        }
-        );
-        console.log("navigate");
+                editable: true,
+                // Any other parameters you want to pass
+            },
+        });
+    }
+    const handleEduInfoNavigate = () => {
+        navigation.navigate('UserInfo', {
+            screen: 'UserInfo3',
+            params: {
+                editable: true,
+                // Any other parameters you want to pass
+            },
+        });
+    }
+    const handleReligiousInfoNavigate = () => {
+        navigation.navigate('UserInfo', {
+            screen: 'UserInfo3_part2',
+            params: {
+                editable: true,
+                // Any other parameters you want to pass
+            },
+        });
+    }
+    const handleFamilyInfoNavigate = () => {
+        navigation.navigate('UserInfo', {
+            screen: 'UserInfo4',
+            params: {
+                editable: true,
+                // Any other parameters you want to pass
+            },
+        });
     }
 
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
@@ -70,9 +94,7 @@ const UserDetails = () => {
             }
             console.log("roomId", roomId)
             navigation.navigate('Chat', {
-                profile_image: userDetails.profile_image_url,
-                name: userDetails.full_name,
-                userId: userDetails._id,
+                userDetails: userDetails,
                 roomId: roomId
             });
         }
@@ -138,7 +160,7 @@ const UserDetails = () => {
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Personal Information</Text>
                         {
                             editable ?
-                                <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} /> : null
+                                <IconButton icon="pencil-outline" onPress={handleParsonalInfoNavigate} /> : null
                         }
                     </View>
                     {USER_INFO_ONE.map((key, index) => {
@@ -168,7 +190,7 @@ const UserDetails = () => {
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Job Information</Text>
                         {
                             editable ?
-                                <IconButton icon="pencil-outline" onPress={handleParsonalNavigate} /> : null
+                                <IconButton icon="pencil-outline" onPress={handleJobInfoNavigate} /> : null
                         }
                     </View>
                     {USER_INFO_TWO.map((key, index) => {
@@ -185,7 +207,7 @@ const UserDetails = () => {
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education</Text>
                         {
                             editable ?
-                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                                <IconButton icon="pencil-outline" onPress={handleEduInfoNavigate} /> : null
                         }
                     </View>
                     {USER_INFO_THREE.map((key, index) => {
@@ -202,7 +224,7 @@ const UserDetails = () => {
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Religious information</Text>
                         {
                             editable ?
-                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                                <IconButton icon="pencil-outline" onPress={handleReligiousInfoNavigate} /> : null
                         }
                     </View>
                     {USER_INFO_THREE_part2.map((key, index) => {
@@ -219,7 +241,7 @@ const UserDetails = () => {
                         <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
                         {
                             editable ?
-                                <IconButton icon="pencil-outline" onPress={handlePartnerNavigate} /> : null
+                                <IconButton icon="pencil-outline" onPress={handleFamilyInfoNavigate} /> : null
                         }
                     </View>
                     {USER_INFO_FOUR.map((key, index) => {

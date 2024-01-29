@@ -13,6 +13,7 @@ import { api } from '../../../../utils/api'
 import AuthContext from '../../../../contexts/authContext/authContext'
 import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert'
 import { storeData } from '../../../../utils/commonFunction/storeData'
+import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken'
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,10 +21,12 @@ const windowWidth = Dimensions.get('window').width;
 const Login = () => {
     const navigation = useNavigation<any>();
     const { setUser } = useContext(AuthContext);
+    const [token, setToken] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const [userCredential, setUserCredentail] = useState<IUserCredential>({
         userId: "",
-        password: ""
+        password: "",
+        device_token: ""
     })
     const [visible, setVisible] = React.useState(false);
 
@@ -39,8 +42,17 @@ const Login = () => {
         routes: [{ name: 'UserDashboard' }], // Replace with your desired screen name
     });
 
-    const handleChangeText = useCallback((field: string, type: string, text: string) => {
-        setUserCredentail(Object.assign({}, userCredential, { [field]: text }))
+    const handleChangeText = useCallback(async (field: string, type: string, text: string) => {
+        try {
+            if (token) {
+                setUserCredentail(Object.assign({}, userCredential, { [field]: text, "device_token": token }));
+            }
+            else {
+                setUserCredentail(Object.assign({}, userCredential, { [field]: text, "device_token": "token" }));
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }, [userCredential]);
 
     // const storeData = async (key, value) => {
@@ -64,7 +76,7 @@ const Login = () => {
                 setLoading(false);
                 if (!userResponse.full_name || !userResponse.age || !userResponse.state) {
                     navigation.navigate('UserInfo', {
-                        screen: 'personal-details',
+                        screen: 'UserInfo1',
                         params: {
                             editable: false  // Another example parameter
                         }
@@ -93,6 +105,16 @@ const Login = () => {
         navigation.navigate("forget-pass");
     }
 
+    const handleGetToken = useCallback(async () => {
+        const temp = await getFCMToken();
+        if (temp) {
+            setToken(temp);
+        }
+    }, [])
+
+    useEffect(() => {
+        handleGetToken();
+    }, [handleGetToken])
 
     return (
         <>

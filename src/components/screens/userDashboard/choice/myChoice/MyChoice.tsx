@@ -138,7 +138,7 @@ const MyChoice = () => {
                                 scrollEventThrottle={16}
                                 data={choiceList}
                                 renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
-                                keyExtractor={user => user._id!}
+                                keyExtractor={(user, index) => `${index}`}
                             />
                             {
                                 topIcon ?

@@ -6,13 +6,13 @@ import AuthContext from '../../../../contexts/authContext/authContext';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
-import {ActivityIndicator} from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 const Chats = () => {
   const { user } = useContext(AuthContext);
   const [chatList, setChatList] = useState<any[]>([]);
   const navigation = useNavigation<any>();
-  const[isloading,setisloading]=useState(false)
+  const [isloading, setisloading] = useState(false)
 
 
   const getChatList = useCallback(async () => {
@@ -32,11 +32,8 @@ const Chats = () => {
 
   const handleRouteChat = (userDetails: IUserDetails, roomId: string) => {
     navigation.navigate('Chat', {
-      profile_image: userDetails?.profile_image_url,
-      name: userDetails?.full_name,
-      userId: userDetails?._id,
+      userDetails: userDetails,
       roomId: roomId,
-      status: userDetails?.status,
       updatedAt: userDetails?.updatedAt
     });
   }

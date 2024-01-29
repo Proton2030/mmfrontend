@@ -6,7 +6,7 @@ import { getNotification } from "./notification/notificaton";
 import { addChoice } from "./userChoice/addUserChoice";
 import { getChoice } from "./userChoice/getUserChoice";
 import { unChoice } from "./userChoice/unChoice";
-import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser, getUserInfo, updateUserImage } from "./userDetails/userDetails";
+import { updateUserDetails,getAllSuggestionUser,getLocationSuggestionUser,getMatchedSuggestionUser, searchUser, getUserInfo, updateUserImage, getActiveSuggestionUser } from "./userDetails/userDetails";
 import { updateUserMessageLimit } from "./validatePayment/validatePayment";
 
 
@@ -21,6 +21,7 @@ export const api = {
     userDetails:{
         updateUser:updateUserDetails,
         getAllSuggestionUser:getAllSuggestionUser,
+        getActiveSuggestionUser:getActiveSuggestionUser,
         getLocationSuggestionUser:getLocationSuggestionUser,
         getMatchedSuggestionUser:getMatchedSuggestionUser,
         searchUser:searchUser,

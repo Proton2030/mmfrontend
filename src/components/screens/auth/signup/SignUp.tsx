@@ -10,9 +10,11 @@ import { useNavigation } from '@react-navigation/native';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { api } from '../../../../utils/api';
 import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert';
+import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
 
 const SignUp = () => {
     const navigation = useNavigation<any>();
+    const [token, setToken] = useState<string>("");
     const [screen, setScreen] = useState<number>(0);
     const [otp, setOtp] = useState<string>("");
     const [visible, setVisible] = useState<boolean>(false);
@@ -63,6 +65,7 @@ const SignUp = () => {
         partner_state: "",
         partner_min_weight: 0,
         partner_max_weight: 0,
+        device_token: "",
         updatedAt: new Date()
     })
 
@@ -72,11 +75,10 @@ const SignUp = () => {
                 setLoading(true);
                 const filter = { mobile: userDetails.mobile }
                 try {
-                    // const otpResponse = await api.auth.getOtp(filter);
-                    // if (otpResponse) {
-                    //     setOtp(otpResponse);
-                    if (true) {
-                        setOtp("1234");
+                    const otpResponse = await api.auth.getOtp(filter);
+                    if (otpResponse) {
+                        setOtp(otpResponse);
+                        // setOtp("1234");
                         setLoading(false);
                     }
                     else {
@@ -97,21 +99,39 @@ const SignUp = () => {
     }
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (field === "re-password") {
-            // console.log(userDetails.password);
             if (userDetails.password !== text) {
                 setPasswordErr(true);
             }
             else {
-                setPasswordErr(true);
+                setPasswordErr(false);
             }
         }
-        setUseDetails(Object.assign({}, userDetails, { [field]: text }))
+        try {
+            if (token) {
+                setUseDetails(Object.assign({}, userDetails, { [field]: text, "device_token": token }))
+            }
+            else {
+                setUseDetails(Object.assign({}, userDetails, { [field]: text, "device_token": "token" }))
+            }
+        } catch (err) {
+            console.log(err);
+        }
     }, [userDetails]);
 
     const onDismissSnackBar = () => {
         navigation.navigate('login')
         setVisible(false);
     }
+    const generateToken = useCallback(async () => {
+        const temp = await getFCMToken();
+        if (temp) {
+            setToken(temp);
+        }
+    }, []);
+
+    useEffect(() => {
+        generateToken();
+    }, [generateToken])
 
     return (
         <>

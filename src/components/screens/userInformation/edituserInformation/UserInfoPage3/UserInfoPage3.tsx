@@ -22,8 +22,8 @@ const windowHeight = Dimensions.get('window').height;
 
 const UserInformationPage3 = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [screen, setScreen] = useState<number>(0);
-
+    const route = useRoute<any>();
+    const { editable } = route.params;
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo3>({
         education: "",
@@ -79,8 +79,12 @@ const UserInformationPage3 = () => {
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
-                    setLoading(false)
-                    navigation.navigate('UserInfo3_part2');
+                    setLoading(false);
+                    if (editable) {
+                        navigation.navigate('UserDashboard');
+                    } else {
+                        navigation.navigate('UserInfo3_part2', { editable: false });
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -118,11 +122,14 @@ const UserInformationPage3 = () => {
 
 
                     <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} />
-                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>Next</Button>
-                    <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
-
+                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>
+                        {editable ? "Submit" : "Next"}
+                    </Button>
+                    {
+                        editable ? null :
+                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
+                    }
                 </View>
-
             </ScrollView>
             <SnackbarAlert message={errorMessage} onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
         </>

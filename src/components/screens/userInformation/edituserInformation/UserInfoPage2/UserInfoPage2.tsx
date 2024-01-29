@@ -21,8 +21,8 @@ const windowHeight = Dimensions.get('window').height;
 
 const UserInformationPage2 = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [screen, setScreen] = useState<number>(0);
-
+    const route = useRoute<any>();
+    const { editable } = route.params;
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo2>({
         occupation: "",
@@ -86,7 +86,11 @@ const UserInformationPage2 = () => {
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo3');
+                    if (editable) {
+                        navigation.navigate('UserDashboard');
+                    } else {
+                        navigation.navigate('UserInfo3', { editable: false });
+                    }
                 }
             } catch (error) {
                 setLoading(false)
@@ -122,11 +126,14 @@ const UserInformationPage2 = () => {
 
 
                     <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} />
-                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>Next</Button>
-                    <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
-
+                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>
+                        {editable ? "Submit" : "Next"}
+                    </Button>
+                    {
+                        editable ? null :
+                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
+                    }
                 </View>
-
             </ScrollView>
             <SnackbarAlert message={errorMessage} onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
         </>

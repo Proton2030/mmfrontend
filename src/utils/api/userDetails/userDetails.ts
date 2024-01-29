@@ -63,6 +63,33 @@ export const getAllSuggestionUser = async (filter: any) => {
 		throw error;
 	}
 };
+export const getActiveSuggestionUser = async (filter: any) => {
+	try {
+		const endpoint = `${initialRoute}/get-active-user-suggestion`;
+		const response = await get(
+			endpoint,
+			{
+				...headers,
+			},
+			filter
+		);
+		if (response) {
+			const {
+				data: { message }
+			} = response;
+			if (message === MESSAGE.get.succ) {
+				const {
+					data: { result }
+				} = response;
+				return result;
+			}
+		}
+		throw new Error();
+	} catch (error: any) {
+		console.log(error);
+		throw error;
+	}
+};
 export const getMatchedSuggestionUser = async (filter: any) => {
 	try {
 		const endpoint = `${initialRoute}/get-matched-user-suggestion`;
