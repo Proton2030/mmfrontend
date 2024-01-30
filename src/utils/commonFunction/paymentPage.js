@@ -3,7 +3,6 @@ const SSLCommerzPayment = require('sslcommerz-lts');
 export const initiatePayment = async (customer, packageDetails, tran_id) => {
   const store_id = 'muslimmatrimonyweblive';
   const store_password = '641BE6A8C765292108';
-  let url = '';
   const data = {
     total_amount: packageDetails.amount,
     currency: 'BDT',

@@ -12,12 +12,12 @@ import { logo } from '../../../../../assets';
 import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
 import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
 
 const UserInformationPage4 = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [screen, setScreen] = useState<number>(0);
     const route = useRoute<any>();
     const { editable } = route.params;
     const [errorMessage, setErrorMessage] = useState<string>("");
@@ -42,14 +42,6 @@ const UserInformationPage4 = () => {
             setUserInfo(user);
         }
     }, [user])
-    const routeUserDashboard = CommonActions.reset({
-        index: 0,
-        routes: [
-            {
-                name: 'UserDashboard'
-            },
-        ],
-    });
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (type === "NUMBER") {
             setUserInfo(Object.assign({}, userInfo, { [field]: Number(text) }))
@@ -94,6 +86,8 @@ const UserInformationPage4 = () => {
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
+                    const jsonUser = JSON.stringify(userInstance);
+                    storeData("@user", jsonUser);
                     setLoading(false)
                     if (editable) {
                         navigation.navigate('UserDashboard');

@@ -16,6 +16,7 @@ import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { IUserInfo3part2 } from '../../../../../@types/types/userinfo3Part2';
 import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -82,6 +83,8 @@ const UserInformationPage3_part2 = () => {
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false);
+                    const jsonUser = JSON.stringify(userInstance);
+                    storeData("@user", jsonUser);
                     if (editable) {
                         navigation.navigate('UserDashboard');
                     } else {

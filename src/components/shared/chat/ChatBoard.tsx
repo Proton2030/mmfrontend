@@ -13,6 +13,7 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
 import PaymentModal from '../paymentModal/PaymentModal'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const uuidv4 = () => {
@@ -30,7 +31,6 @@ const ChatBoard = () => {
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [inputMessage, setInputMessage] = useState<MessageType.Text | null>(null);
     const route = useRoute<any>();
     const { userDetails, roomId, updatedAt } = route.params;
     const sender = { id: user?._id || "" };
@@ -79,6 +79,7 @@ const ChatBoard = () => {
         });
     }
 
+
     const handleSendPress = async (message: MessageType.PartialText) => {
         // console.log("message", user?.message_limit);
         if (messages.length === 0) {
@@ -91,8 +92,35 @@ const ChatBoard = () => {
                         text: message.text,
                         type: 'text',
                     }
-                    setInputMessage(textMessage);
-                    setModalVisible(true);
+                    const tranId = await AsyncStorage.getItem("@tran_id");
+                    const msgLmt = await AsyncStorage.getItem("@msg_lmt");
+
+                    if (tranId && msgLmt) {
+                        try {
+                            const userInstance = await api.payment.updateUserMessageLimit({
+                                userObjectId: user._id,
+                                message_limit: Number(msgLmt),
+                                tran_id: tranId
+                            });
+
+                            AsyncStorage.removeItem("@tran_id");
+                            AsyncStorage.removeItem("@msg_lmt");
+
+                            if (userInstance.message_limit === 0) {
+                                setModalVisible(true);
+                            }
+                            else {
+                                setUser(userInstance)
+                                addMessage(textMessage);
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            setModalVisible(true);
+                        }
+                    }
+                    else {
+                        setModalVisible(true);
+                    }
                 }
                 else {
                     const textMessage: MessageType.Text = {
@@ -121,15 +149,17 @@ const ChatBoard = () => {
 
     }
 
-    const handlePaymentUpdate = async (Package_number: number,) => {
+    const handlePaymentUpdate = async (package_number: number,) => {
         const tran_id = uuidv4().toString();
-        const url = await initiatePayment(user, PAYMENT_PACKAGE_LIST[Package_number], tran_id);
+        await AsyncStorage.setItem("@tran_id", tran_id);
+        await AsyncStorage.setItem("@msg_lmt", String(PAYMENT_PACKAGE_LIST[package_number].message_limit));
+        const url = await initiatePayment(user, PAYMENT_PACKAGE_LIST[package_number], tran_id);
         if (url) {
             navigation.navigate("Payment",
                 {
                     url: url,
                     tranId: tran_id,
-                    message_limit: PAYMENT_PACKAGE_LIST[Package_number].message_limit,
+                    message_limit: PAYMENT_PACKAGE_LIST[package_number].message_limit,
                     messages: messages
                 }
             )

@@ -13,6 +13,7 @@ import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '.
 import { IUserInfo } from '../../../../../@types/types/userInfo.types';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -77,7 +78,6 @@ const UserInformationPage1 = () => {
                 setErrorMessage("Please fill the all data");
                 setVisible(true)
                 handelVibrate()
-
                 return;
             }
             else {
@@ -86,7 +86,6 @@ const UserInformationPage1 = () => {
                         setErrorMessage("Age should not be less than 21");
                         setVisible(true)
                         handelVibrate()
-
                         return;
                     }
                 }
@@ -110,6 +109,8 @@ const UserInformationPage1 = () => {
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
+                    const jsonUser = JSON.stringify(userInstance);
+                    storeData("@user", jsonUser);
                     if (editable) {
                         navigation.navigate('UserDashboard');
                     }

@@ -24,7 +24,7 @@ const Chats = () => {
       }
       setisloading(false)
       const chatListResponse = await api.chat.getChatList(payload);
-      console.log("response", chatListResponse);
+      console.log("=====>response", chatListResponse[0].lastMessage.message.text);
       setChatList(chatListResponse)
       setisloading(true)
     }
@@ -55,7 +55,7 @@ const Chats = () => {
       <View style={styles.textContainer}>
         <Text style={styles.name}>{userDetails?.full_name}</Text>
         <Text numberOfLines={1} ellipsizeMode="tail" style={styles?.message}>
-          {item.message.text}
+          {item.lastMessage.message.text}
         </Text>
       </View>
       <Text style={styles.time}>{item.time}</Text>
