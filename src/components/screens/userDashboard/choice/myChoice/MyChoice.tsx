@@ -137,7 +137,7 @@ const MyChoice = () => {
                                 onScroll={handleScroll}
                                 scrollEventThrottle={16}
                                 data={choiceList}
-                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
+                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} mode="CHOICE" />} // Assuming addChoice is defined
                                 keyExtractor={(user, index) => `${index}`}
                             />
                             {

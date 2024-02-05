@@ -15,6 +15,7 @@
     "@flyerhq/react-native-chat-ui": "^1.4.3",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-community/hooks": "^3.0.0",
+    "@react-native-community/slider": "^4.5.0",
     "@react-native-firebase/app": "^18.7.3",
     "@react-native-firebase/messaging": "^18.8.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
