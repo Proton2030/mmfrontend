@@ -4,6 +4,7 @@ import { View, FlatList, Animated, Text } from 'react-native';
 import { List, Divider, Appbar, Badge } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
+import NotificationCard from './Notificationcard';
 
 const NotificationPage = () => {
     const { user } = useContext(AuthContext);
@@ -49,6 +50,8 @@ const NotificationPage = () => {
                             icon="bell"
                             style={{ marginRight: 10 }}
                         />
+
+                        
                         {true && <Badge size={8} style={{ backgroundColor: 'green', marginLeft: -8, marginTop: 6 }} />}
                     </View>
                 )}
@@ -69,10 +72,18 @@ const NotificationPage = () => {
                         ItemSeparatorComponent={() => <Divider />}
                     />
                     :
-                    handleEmptyListAnimation()
+                    // handleEmptyListAnimation()
+                    <NotificationCard/>
+
             }
 
+
+
+            
+
         </View>
+
+        
     );
 };
 
