@@ -5,6 +5,7 @@ import { name as appName } from './app.json';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthContextProvider from './src/contexts/authContext/Provider';
 import messaging from '@react-native-firebase/messaging';
+import { useState } from 'react';
 
 const theme = {
   ...DefaultTheme,
@@ -16,22 +17,26 @@ const theme = {
 };
 
 export default function Main() {
+  const [isRoute, setIsRoute] = useState(false);
+  const handleRouteNotification = () => {
+    setIsRoute(true);
+  };
+
   messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-    console.log('Message handled in the background!', remoteMessage);
+    handleRouteNotification();
+    console.log('remoteMessage', remoteMessage);
   });
 
   return (
     <NavigationContainer>
       <AuthContextProvider>
         <PaperProvider theme={theme}>
-          <App />
+          <App route={isRoute} />
         </PaperProvider>
       </AuthContextProvider>
     </NavigationContainer>
   );
 }
 
+// Register the headless task only once
 AppRegistry.registerComponent(appName, () => Main);
-// AppRegistry.runApplication('App', {
-//   rootTag: document.getElementById('root'),
-// });

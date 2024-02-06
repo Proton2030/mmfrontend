@@ -125,7 +125,7 @@ const ActiveUser = () => {
                                 onScroll={handleScroll}
                                 scrollEventThrottle={16}
                                 data={suggestedUser}
-                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />} // Assuming addChoice is defined
+                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />} // Assuming addChoice is defined
                                 keyExtractor={(user, index) => `${index}`} // Assuming email is a unique identifier
                             />
                             {

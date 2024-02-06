@@ -37,7 +37,6 @@ const AppNavigators = () => {
                             <Stack.Screen name='Terms' component={TermsAndConditions} />
                             <Stack.Screen name='Privacy' component={PrivacyPolicy} />
                             <Stack.Screen name='Payment' component={Payment} />
-                            {/* <Stack.Screen name="Auth" component={AuthNavigators} /> */}
                             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
                         </> :
                         <>

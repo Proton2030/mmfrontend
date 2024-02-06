@@ -126,7 +126,7 @@ const Location = () => {
                                     onScroll={handleScroll}
                                     scrollEventThrottle={16}
                                     data={suggestedUser}
-                                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
                                     keyExtractor={(user, index) => `${index}`}
                                 />
                                 {

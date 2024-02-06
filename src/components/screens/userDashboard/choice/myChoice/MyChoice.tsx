@@ -1,7 +1,7 @@
 
 
 import { View, Text, ScrollView, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Animated } from 'react-native'
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { ActivityIndicator, Appbar, Button, IconButton, List, Tooltip } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../../@types/types/userDEtails.types';
 import { addChoice } from '../../../../../utils/api/userChoice/addUserChoice';
+import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 const MyChoice = () => {
     const navigation = useNavigation<any>()
@@ -98,6 +99,21 @@ const MyChoice = () => {
         navigation.navigate("Notification");
     }
 
+    const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
+        const payload = {
+            senderId: sender_id,
+            recieverId: reciver_id
+        }
+        console.log("-------->payload", payload);
+        try {
+            await api.userChoice.addChoice(payload);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            handelVibrate();
+        }
+    }, [])
+
     useEffect(() => {
         console.log("jji", choiceList);
         getChoiceUser();
@@ -137,7 +153,7 @@ const MyChoice = () => {
                                 onScroll={handleScroll}
                                 scrollEventThrottle={16}
                                 data={choiceList}
-                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} />} // Assuming addChoice is defined
+                                renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item.choice_user_details} mode="CHOICE" />} // Assuming addChoice is defined
                                 keyExtractor={(user, index) => `${index}`}
                             />
                             {

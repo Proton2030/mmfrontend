@@ -1,5 +1,5 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Avatar, IconButton } from 'react-native-paper'
 import { globalStyles } from '../../../globalStyles/GlobalStyles'
 import { IUserCardProps } from '../../../@types/props/UserCardProps.types'
@@ -12,10 +12,12 @@ import _ from 'lodash';
 import { playSound } from '../../../utils/commonFunction/playSound'
 // import { refreshSound } from '../../../assets'
 
-const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
+const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
+
+
 
     const handleRouteTouserDetails = () => {
         navigation.navigate('UserDetails', {
@@ -58,6 +60,14 @@ const UserCard = React.memo(({ userDetails, addChoice }: IUserCardProps) => {
         }, 1000),  // Adjust the debounce delay as needed
         [user, setChoice]
     );
+
+    useEffect(() => {
+        if (mode === "CHOICE") {
+            setChoice(true)
+        }
+
+    }, [])
+
     return (
         <View style={globalStyles.card}>
             <TouchableOpacity onPress={handleRouteTouserDetails}>

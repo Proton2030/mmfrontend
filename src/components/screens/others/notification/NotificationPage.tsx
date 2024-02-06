@@ -1,22 +1,27 @@
 // NotificationScreen.js
-import React, { useRef, useEffect, useContext, useState } from 'react';
+import { useRef, useEffect, useContext, useState, useCallback } from 'react';
 import { View, FlatList, Animated, Text } from 'react-native';
 import { List, Divider, Appbar, Badge } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
-import NotificationCard from './Notificationcard';
+import { useNavigation } from '@react-navigation/native';
 
 const NotificationPage = () => {
     const { user } = useContext(AuthContext);
+    const navigation = useNavigation<any>();
     const [notificationList, setNotificationList] = useState<any[]>([]);
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const handleGetNotification = useCallback(async () => {
+        if (user) {
+            const filter = {
+                user_id: user._id
+            }
+            const result = await api.chat.getNotification(filter)
+            setNotificationList(result);
+        }
+    }, [user]);
 
-
-    const handlegetNotification = async () => {
-        const result = await api.chat.getNotification(user?._id)
-        setNotificationList(result)
-    }
     const handleEmptyListAnimation = () => (
         <View style={{ alignItems: 'center', marginTop: 50 }}>
             <List.Icon icon="bell" />
@@ -35,16 +40,33 @@ const NotificationPage = () => {
 
 
     useEffect(() => {
-        handlegetNotification()
-    }, [notificationList])
+        handleGetNotification()
+    }, [handleGetNotification]);
 
+    const handleRouteChat = () => {
+        navigation.navigate("UserDashboard", { screen: "Chat-List" })
+    }
+
+    const handleRouteChooseMe = () => {
+        navigation.navigate("UserDashboard", { screen: "ChooseMe" })
+    }
+
+    const handleNavigate = (body: string) => {
+        if (body.includes("Choose")) {
+            handleRouteChooseMe();
+        }
+        else {
+            handleRouteChat();
+        }
+    }
     const renderNotificationItem = ({ item }: any) => (
         <Animated.View style={{ opacity: fadeAnim }}>
             <List.Item
                 title={item?.title}
-                description={`Notification details go here - ${item?.text}`}
+                description={item?.text}
+                onPress={() => { handleNavigate(item?.text) }}
                 left={(props) => (
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 4, paddingLeft: 10 }}>
                         <List.Icon
                             {...props}
                             icon="bell"

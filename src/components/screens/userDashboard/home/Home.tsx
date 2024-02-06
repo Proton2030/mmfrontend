@@ -1,6 +1,6 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { View, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl } from 'react-native';
-import { Appbar, Badge, Button, IconButton, Searchbar, Tooltip } from 'react-native-paper';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { View, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Text, Modal, ScrollView } from 'react-native';
+import { Appbar, Button, Checkbox, IconButton, Portal, Searchbar, Tooltip } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -10,20 +10,39 @@ import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { shuffleArray } from '../../../../utils/commonFunction/suffleArray';
 import _ from 'lodash';
 import SmallLoader from '../../../shared/smallLoader/SmallLoader';
+import Slider from '@react-native-community/slider';
+import { handelVibrate } from '../../../../utils/commonFunction/systemvibration';
+
 
 const Home = () => {
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
-    const [isSearch, setIsSearch] = React.useState<boolean>(false);
+    const [isSearch, setIsSearch] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
     const [topIcon, setTopIcon] = useState<boolean>(false);
+    const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
+    const [maritalStatus, setMaritalStatus] = useState<string[]>([]);
+    const [financialCondition, setFinancialCondition] = useState<string[]>([]);
+    const [hasSalah, setHasSalah] = useState<boolean | null>(null);
+    const [hasSawm, setHasSawm] = useState<boolean | null>(null);
+    const [sliderValue, setSliderValue] = useState(80);
 
+    const handleSliderChange = (value: any) => {
+        setSliderValue(value);
+    };
+
+    const getAgeRange = () => {
+        if (sliderValue <= 40) {
+            return `0 to ${sliderValue}`;
+        } else {
+            return `0 to 70`;
+        }
+    };
     const flatListRef = useRef<any>(null);
-
     const handleScrollToTop = () => {
         if (flatListRef.current) {
             flatListRef.current.scrollToOffset({ offset: 0, animated: true });
@@ -31,13 +50,31 @@ const Home = () => {
         }
     };
 
+    const showFilterModal = () => {
+        setFilterModalVisible(true);
+    };
+
+    const hideFilterModal = () => {
+        setFilterModalVisible(false);
+    };
+
+    const applyFilters = () => {
+
+        hideFilterModal();
+    };
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
             senderId: sender_id,
             recieverId: reciver_id
         }
         console.log("-------->payload", payload);
-        const response = await api.userChoice.addChoice(payload);
+        try {
+            await api.userChoice.addChoice(payload);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            handelVibrate();
+        }
     }, [])
 
     const getSuggestionUserApi = async (mode: string) => {
@@ -120,18 +157,6 @@ const Home = () => {
         }
     }
 
-    const ChatIconWithBadge = ({ unreadCount, onPress }: any) => (
-        <Appbar.Action
-            icon={() => (
-                <Badge style={{ position: 'absolute', top: -5, right: -5 }}>
-                    {unreadCount}
-                </Badge>
-            )}
-            onPress={onPress}
-            color="#000000"
-        />
-    );
-
     const routeToChatList = () => {
         navigation.navigate("Chat-List");
     }
@@ -163,7 +188,55 @@ const Home = () => {
                 elevation: 5,
             }}>
                 <Appbar.Content title="Muslim Matrimony" titleStyle={{ color: "#E71B73", fontFamily: "cursive", fontSize: 24, fontWeight: 'bold' }} />
-                <Appbar.Action icon="magnify" onPress={handleSearchBar} />
+                <Appbar.Action icon="filter" onPress={showFilterModal} />
+
+                <Portal>
+                    <Modal visible={filterModalVisible} onRequestClose={hideFilterModal} transparent>
+
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                            <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '90%', height: '50%' }}>
+                                <ScrollView>
+                                    <Text style={{ fontSize: 25, color: 'red', fontWeight: 'bold', marginBottom: 10 }}>Filter Options</Text>
+
+                                    {/* Marital Status */}
+                                    <Text>Marital Status</Text>
+                                    <Checkbox.Item label="Married" status={maritalStatus.includes("MARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "MARRIED"])} />
+                                    <Checkbox.Item label="Unmarried" status={maritalStatus.includes("UNMARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "UNMARRIED"])} />
+                                    <Checkbox.Item label="Divorced" status={maritalStatus.includes("DIVORCED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "DIVORCED"])} />
+                                    <Checkbox.Item label="Partner Death" status={maritalStatus.includes("PARTNER DEATH") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "PARTNER DEATH"])} />
+
+                                    {/* Financial Condition */}
+                                    <Text>Financial Condition</Text>
+                                    <Checkbox.Item label="Low" status={financialCondition.includes("LOW") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "LOW"])} />
+                                    <Checkbox.Item label="Medium" status={financialCondition.includes("MEDIUM") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "MEDIUM"])} />
+                                    <Checkbox.Item label="High" status={financialCondition.includes("HIGH") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "HIGH"])} />
+
+                                    {/* Salah */}
+                                    <Text>Has Salah</Text>
+                                    <Checkbox.Item label="Yes" status={hasSalah === true ? 'checked' : 'unchecked'} onPress={() => setHasSalah(true)} />
+                                    <Checkbox.Item label="No" status={hasSalah === false ? 'checked' : 'unchecked'} onPress={() => setHasSalah(false)} />
+
+                                    {/* Sawm */}
+                                    <Text>Has Sawm</Text>
+                                    <Checkbox.Item label="Yes" status={hasSawm === true ? 'checked' : 'unchecked'} onPress={() => setHasSawm(true)} />
+                                    <Checkbox.Item label="No" status={hasSawm === false ? 'checked' : 'unchecked'} onPress={() => setHasSawm(false)} />
+
+                                    <Text>Age</Text>
+                                    <Text>Selected Age Range: {getAgeRange()}</Text>
+                                    <Slider
+                                        style={{ width: 200, height: 40 }}
+                                        minimumValue={0}
+                                        maximumValue={1}
+                                        minimumTrackTintColor="#FFFFFF"
+                                        maximumTrackTintColor="#000000"
+                                    />
+                                    <Button mode="contained" onPress={applyFilters} style={{ marginTop: 20 }}>Apply Filters</Button>
+                                    <Button onPress={hideFilterModal} style={{ marginTop: 10 }}>Cancel</Button>
+                                </ScrollView>
+                            </View>
+                        </View>
+                    </Modal>
+                </Portal>
                 <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
                 <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
             </Appbar.Header>
@@ -195,7 +268,7 @@ const Home = () => {
                         onScroll={handleScroll}
                         scrollEventThrottle={50}
                         data={suggestedUser}
-                        renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
+                        renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
                         keyExtractor={(user, index) => `${index}`}
                         ListFooterComponent={SmallLoader}
                     />
