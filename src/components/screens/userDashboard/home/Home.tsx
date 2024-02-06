@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { View, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Text, Modal, ScrollView } from 'react-native';
 import { Appbar, Button, Checkbox, IconButton, Portal, Searchbar, Tooltip } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -11,6 +11,7 @@ import { shuffleArray } from '../../../../utils/commonFunction/suffleArray';
 import _ from 'lodash';
 import SmallLoader from '../../../shared/smallLoader/SmallLoader';
 import Slider from '@react-native-community/slider';
+import { handelVibrate } from '../../../../utils/commonFunction/systemvibration';
 
 
 const Home = () => {
@@ -18,7 +19,7 @@ const Home = () => {
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
-    const [isSearch, setIsSearch] = React.useState<boolean>(false);
+    const [isSearch, setIsSearch] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
@@ -67,7 +68,13 @@ const Home = () => {
             recieverId: reciver_id
         }
         console.log("-------->payload", payload);
-        const response = await api.userChoice.addChoice(payload);
+        try {
+            await api.userChoice.addChoice(payload);
+        } catch (err) {
+            console.log(err);
+        } finally {
+            handelVibrate();
+        }
     }, [])
 
     const getSuggestionUserApi = async (mode: string) => {

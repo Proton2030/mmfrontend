@@ -7,7 +7,8 @@
     "moduleResolution": "node16",
     "allowJs": true,
     "noEmit": true,
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+    "esModuleInterop": true
   },
   "extends": "@react-native/typescript-config/tsconfig.json"
 }
