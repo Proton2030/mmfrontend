@@ -5,6 +5,7 @@ import { List, Divider, Appbar, Badge } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
+import NotificationCard from './Notificationcard';
 
 const NotificationPage = () => {
     const { user } = useContext(AuthContext);
