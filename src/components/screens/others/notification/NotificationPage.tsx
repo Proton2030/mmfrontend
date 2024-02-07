@@ -5,6 +5,7 @@ import { List, Divider, Appbar, Badge } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
+import NotificationCard from './Notificationcard';
 
 const NotificationPage = () => {
     const { user } = useContext(AuthContext);
@@ -72,6 +73,8 @@ const NotificationPage = () => {
                             icon="bell"
                             style={{ marginRight: 10 }}
                         />
+
+                        
                         {true && <Badge size={8} style={{ backgroundColor: 'green', marginLeft: -8, marginTop: 6 }} />}
                     </View>
                 )}
@@ -92,10 +95,18 @@ const NotificationPage = () => {
                         ItemSeparatorComponent={() => <Divider />}
                     />
                     :
-                    handleEmptyListAnimation()
+                    // handleEmptyListAnimation()
+                    <NotificationCard/>
+
             }
 
+
+
+            
+
         </View>
+
+        
     );
 };
 

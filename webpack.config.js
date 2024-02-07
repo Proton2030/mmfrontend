@@ -9,12 +9,11 @@ const compileNodeModules = [
 ].map((moduleName) => path.resolve(appDirectory, `node_modules/${moduleName}`));
 
 const babelLoaderConfiguration = {
-  test: /\.(js|jsx|ts|tsx)$/, // Updated to include .jsx
-  // Add every directory that needs to be compiled by Babel during the build.
+  test: /\.(js|jsx|ts|tsx)$/,
   include: [
     path.resolve(appDirectory, 'node_modules/react-native-vector-icons'),
-    path.resolve(__dirname, 'index.web.js'), // Entry to your application
-    path.resolve(__dirname, 'App.tsx'), // Updated to .jsx
+    path.resolve(__dirname, 'index.web.js'),
+    path.resolve(__dirname, 'App.tsx'),
     path.resolve(__dirname, 'src'),
     path.resolve(__dirname, 'component'),
     ...compileNodeModules,
@@ -23,7 +22,7 @@ const babelLoaderConfiguration = {
     loader: 'babel-loader',
     options: {
       cacheDirectory: true,
-      presets,
+      presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
       plugins,
     },
   },
@@ -31,11 +30,7 @@ const babelLoaderConfiguration = {
 
 const svgLoaderConfiguration = {
   test: /\.svg$/,
-  use: [
-    {
-      loader: '@svgr/webpack',
-    },
-  ],
+  use: ['@svgr/webpack'],
 };
 
 const imageLoaderConfiguration = {
@@ -50,13 +45,28 @@ const imageLoaderConfiguration = {
 
 const tsLoaderConfiguration = {
   test: /\.(ts)x?$/,
-  exclude: /node_modules|\.d\.ts$/, // this line as well
+  exclude: /node_modules|\.d\.ts$/,
   use: {
     loader: 'ts-loader',
     options: {
       compilerOptions: {
-        noEmit: false, // this option will solve the issue
+        noEmit: false,
       },
+    },
+  },
+};
+
+const jsLoaderConfiguration = {
+  test: /\.(js|jsx)$/,
+  include: [
+    // Add paths to include for JS loaders if needed
+  ],
+  use: {
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true,
+      presets: ['@babel/preset-env', '@babel/preset-react'],
+      plugins,
     },
   },
 };
@@ -78,7 +88,7 @@ module.exports = {
     },
   },
   module: {
-    rules: [babelLoaderConfiguration, imageLoaderConfiguration, svgLoaderConfiguration, tsLoaderConfiguration],
+    rules: [babelLoaderConfiguration, imageLoaderConfiguration, svgLoaderConfiguration, tsLoaderConfiguration, jsLoaderConfiguration],
   },
   plugins: [
     new HtmlWebpackPlugin({

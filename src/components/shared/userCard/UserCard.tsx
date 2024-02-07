@@ -10,7 +10,7 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 import FastImage from 'react-native-fast-image';
 import _ from 'lodash';
 import { playSound } from '../../../utils/commonFunction/playSound'
-import { refreshSound } from '../../../assets'
+// import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
             if (user?._id && userDetails._id) {
                 console.log("called");
                 try {
-                    playSound(refreshSound)
+                    // playSound(refreshSound)
                     addChoice(user._id, userDetails._id);
                 } catch (err) {
                     console.log("error", err);
