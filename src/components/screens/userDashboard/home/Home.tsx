@@ -42,7 +42,7 @@ const Home = () => {
         setHasSalah(null);
         setHasSawm(null);
     };
-    
+
 
     const getAgeRange = () => {
         if (sliderValue <= 40) {
@@ -64,11 +64,15 @@ const Home = () => {
     };
 
     const hideFilterModal = () => {
+        setRefreshing(true);
+        setPage(1);
+        let suggestTempList = shuffleArray(suggestedUser);
+        setSuggestedUser(suggestTempList);
         setFilterModalVisible(false);
     };
 
     const applyFilters = () => {
-
+        setPage(1);
         hideFilterModal();
     };
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
@@ -205,31 +209,31 @@ const Home = () => {
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                             <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '90%', height: '50%' }}>
                                 <ScrollView>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Text style={{ fontSize: 25, color: '#E71B73', fontWeight: 'bold', marginBottom: 10 }}>Filter Options</Text>
-                                   <View style={{flexDirection: 'row',gap:2}}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <Text style={{ fontSize: 25, color: '#E71B73', fontWeight: 'bold', marginBottom: 10 }}>Filter Options</Text>
+                                        <View style={{ flexDirection: 'row', gap: 2 }}>
 
-                                   <IconButton
-                                    icon="refresh"
-                                    iconColor='white'
-                                    size={20}
-                                    style={{borderRadius:20,backgroundColor:"#E71B73",}}
-                                    onPress={handleRefreshFilters} // Add onPress handler for refreshing
-                                    />
-                                    
-                                    <IconButton
-                                    icon="close"
-                                    size={20}
-                                    iconColor='white'
-                                    onPress={hideFilterModal}
-                                    style={{borderRadius:20,backgroundColor:"#E71B73",}}
-                                    />
-                                   </View>
-                                    
+                                            <IconButton
+                                                icon="refresh"
+                                                iconColor='white'
+                                                size={20}
+                                                style={{ borderRadius: 20, backgroundColor: "#E71B73", }}
+                                                onPress={handleRefreshFilters} // Add onPress handler for refreshing
+                                            />
+
+                                            <IconButton
+                                                icon="close"
+                                                size={20}
+                                                iconColor='white'
+                                                onPress={hideFilterModal}
+                                                style={{ borderRadius: 20, backgroundColor: "#E71B73", }}
+                                            />
+                                        </View>
+
                                     </View>
 
                                     {/* Marital Status */}
-                                    <Text style={{color:"#E71B73",fontWeight:"700",fontSize:15,marginLeft:5,marginTop:5}}>Marital Status</Text>
+                                    <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5, marginTop: 5 }}>Marital Status</Text>
                                     <Checkbox.Item label="Married" status={maritalStatus.includes("MARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "MARRIED"])} />
                                     <Checkbox.Item label="Unmarried" status={maritalStatus.includes("UNMARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "UNMARRIED"])} />
                                     <Checkbox.Item label="Divorced" status={maritalStatus.includes("DIVORCED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "DIVORCED"])} />
@@ -242,28 +246,28 @@ const Home = () => {
                                     <Checkbox.Item label="High" status={financialCondition.includes("HIGH") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "HIGH"])} /> */}
 
                                     {/* Salah */}
-                                    <Text style={{color:"#E71B73",fontWeight:"700",fontSize:15,marginLeft:5}}>Has Salah</Text>
+                                    <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Has Salah</Text>
                                     <Checkbox.Item label="Yes" status={hasSalah === true ? 'checked' : 'unchecked'} onPress={() => setHasSalah(true)} />
                                     <Checkbox.Item label="No" status={hasSalah === false ? 'checked' : 'unchecked'} onPress={() => setHasSalah(false)} />
 
                                     {/* Sawm */}
-                                    <Text style={{color:"#E71B73",fontWeight:"700",fontSize:15,marginLeft:5}}>Has Sawm</Text>
+                                    <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Has Sawm</Text>
                                     <Checkbox.Item label="Yes" status={hasSawm === true ? 'checked' : 'unchecked'} onPress={() => setHasSawm(true)} />
                                     <Checkbox.Item label="No" status={hasSawm === false ? 'checked' : 'unchecked'} onPress={() => setHasSawm(false)} />
 
-                                    <Text style={{color:"#E71B73",fontWeight:"700",fontSize:15,marginLeft:5}}>Age</Text>
-                                    <Text style={{color:"#E71B73",fontWeight:"700",fontSize:15,marginLeft:5,marginTop:5}}>Selected Age Range: {getAgeRange()}</Text>
+                                    <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Age</Text>
+                                    <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5, marginTop: 5 }}>Selected Age Range: {getAgeRange()}</Text>
                                     <MultiSlider
                                         style={{ width: 200, height: 40 }}
                                         minimumValue={0}
                                         maximumValue={80}
                                         minimumTrackTintColor="#FFFFFF"
                                         maximumTrackTintColor="#000000"
-                                        value={Math.round(sliderValue)} 
-                                        onValueChange={handleSliderChange} 
+                                        value={Math.round(sliderValue)}
+                                        onValueChange={handleSliderChange}
                                     />
                                     {/* <Button mode="contained" onPress={applyFilters} style={{ marginTop: 20 }}>Apply Filters</Button> */}
-                                    
+
                                 </ScrollView>
                             </View>
                         </View>

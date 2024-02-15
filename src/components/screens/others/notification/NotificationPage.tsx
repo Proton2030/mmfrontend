@@ -1,11 +1,12 @@
 // NotificationScreen.js
 import { useRef, useEffect, useContext, useState, useCallback } from 'react';
-import { View, FlatList, Animated, Text } from 'react-native';
+import { View, FlatList, Animated, Text, Image } from 'react-native';
 import { List, Divider, Appbar, Badge } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import NotificationCard from './Notificationcard';
+import { getTimeAgo } from '../../../../utils/commonFunction/lastSeen';
 
 const NotificationPage = () => {
     const { user } = useContext(AuthContext);
@@ -19,6 +20,8 @@ const NotificationPage = () => {
                 user_id: user._id
             }
             const result = await api.chat.getNotification(filter)
+            console.log(result[0]);
+
             setNotificationList(result);
         }
     }, [user]);
@@ -64,17 +67,26 @@ const NotificationPage = () => {
         <Animated.View style={{ opacity: fadeAnim }}>
             <List.Item
                 title={item?.title}
-                description={item?.text}
+                description={<>
+                    {item?.text}
+
+                    { }</>}
                 onPress={() => { handleNavigate(item?.text) }}
+                right={(props) =>
+                    <Text>{getTimeAgo(new Date().getTime() - new Date(item.updatedAt).getTime())}</Text>
+                }
                 left={(props) => (
-                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 4, paddingLeft: 10 }}>
-                        <List.Icon
+                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 4, paddingLeft: 20 }}>
+                        {/* <List.Icon
                             {...props}
                             icon="bell"
                             style={{ marginRight: 10 }}
+                        /> */}
+                        <Image
+                            source={{ uri: 'https://img.icons8.com/?size=80&id=FewwM9h0cfY2&format=png' }}
+                            style={{ height: 40, width: 40 }}
                         />
 
-                        
                         {true && <Badge size={8} style={{ backgroundColor: 'green', marginLeft: -8, marginTop: 6 }} />}
                     </View>
                 )}
@@ -89,24 +101,24 @@ const NotificationPage = () => {
             {
                 (notificationList.length > 0) ?
                     <FlatList
-                        data={notificationList}
+                        data={notificationList.reverse()}
                         keyExtractor={(item) => item?._id}
                         renderItem={renderNotificationItem}
                         ItemSeparatorComponent={() => <Divider />}
                     />
                     :
                     // handleEmptyListAnimation()
-                    <NotificationCard/>
+                    <NotificationCard />
 
             }
 
 
 
-            
+
 
         </View>
 
-        
+
     );
 };
 
