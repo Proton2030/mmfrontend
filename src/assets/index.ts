@@ -2,6 +2,7 @@ export {default as logo} from "./images/logo.png";
 export {default as logoBgRemove} from "./images/logo-removebg.png";
 export {default as muslim} from "./images/muslim.png";
 export {default as signUp} from "./images/signUp.png";
+export {default as support} from "./images/callCenter.png";
 export {default as hello} from "./images/hello.png";
 export {default as location} from "./images/location.png";
 export {default as weight} from "./images/weight.png";

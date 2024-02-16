@@ -6,6 +6,7 @@ import More from './more/More';
 import Location from './location/Location';
 import MyChoice from './choice/myChoice/MyChoice';
 import ActiveUser from './activeUser/ActiveUser';
+import HelpAndSupport from '../others/help&support/HelpSupport';
 
 const UserDashboard = () => {
     const navigation = useNavigation<any>(); // Get the navigation object
@@ -19,7 +20,7 @@ const UserDashboard = () => {
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        home: Home,
+        home: HelpAndSupport,
         choice: MyChoice,
         activeUser: ActiveUser,
         location: Location,
@@ -28,8 +29,7 @@ const UserDashboard = () => {
 
     const handleIndexChange = (newIndex: React.SetStateAction<number>) => {
         if (index === 0 && newIndex === 0) {
-            // If the current tab is 'Home' and the new tab is also 'Home'
-            // Scroll to top
+
             navigation.scrollToTop('home');
         }
         setIndex(newIndex);
@@ -42,7 +42,7 @@ const UserDashboard = () => {
                 sceneAnimationType='shifting'
                 navigationState={{ index, routes }}
                 activeColor="#E71B73"
-                barStyle={{ backgroundColor: "#fde8f1" }}
+                barStyle={{ backgroundColor: "#fde8f1", height: 62 }}
                 onIndexChange={handleIndexChange}
                 renderScene={renderScene}
             />
