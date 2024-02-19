@@ -14,6 +14,7 @@ import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
 import PaymentModal from '../paymentModal/PaymentModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ChatMenu } from './ChateMenu'
 
 
 const uuidv4 = () => {
@@ -38,6 +39,11 @@ const ChatBoard = () => {
         male_user: "",
         female_user: ""
     });
+    const [menuVisible, setMenuVisible] = useState(false);
+
+    const openMenu = () => setMenuVisible(true);
+    const closeMenu = () => setMenuVisible(false);
+
 
     const handleGenderPayload = useCallback(() => {
         if (user) {
@@ -254,7 +260,18 @@ const ChatBoard = () => {
 
                 <Appbar.Content title={``} titleStyle={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }} />
 
-                <Appbar.Action icon="dots-vertical" />
+                {/* <Appbar.Action icon="dots-vertical" onPress={openMenu} /> */}
+                <ChatMenu
+                    visible={menuVisible}
+                    onDismiss={closeMenu}
+                    anchor={<Appbar.Action icon="dots-vertical" onPress={openMenu} />}
+                    options={[
+                        { title: 'Block', onPress: () => console.log('Option 1 selected'),icon:"block-helper" },
+                        { title: 'Report', onPress: () => console.log('Option 2 selected'),icon:"flag" }
+                    ]}
+                    style={{ backgroundColor: '#fff5f9' }} 
+                />
+
             </Appbar.Header>
             <Chat
                 theme={{

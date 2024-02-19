@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserDashboardNavigators from './UserDashboardNavigators';
@@ -15,6 +15,8 @@ import ConfirmNavigators from './ConfirmNavigators';
 import AuthContext from '../../contexts/authContext/authContext';
 import SplashScreen from '../shared/splash/SplashScreen';
 import HelpAndSupport from '../screens/others/help&support/HelpSupport';
+import { Aboutus } from '../screens/others/about us/aboutus';
+import { Icon } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +38,13 @@ const AppNavigators = () => {
                             <Stack.Screen name="ProfileImage" component={ProfileImage} />
                             <Stack.Screen name='Notification' component={NotificationPage} />
                             <Stack.Screen name='Terms' component={TermsAndConditions} />
-                            <Stack.Screen name='Privacy' component={PrivacyPolicy} />
+                            <Stack.Screen name='Privacy' component={PrivacyPolicy} 
+        
+                     />
+                      <Stack.Screen name='About Us' component={Aboutus} options={{headerShown:true,
+                            headerStyle:{
+                                backgroundColor:"#fde8f1"
+                            }}} />
                             <Stack.Screen name='Payment' component={Payment} />
                             <Stack.Screen name='Support' component={HelpAndSupport}/>
                             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
