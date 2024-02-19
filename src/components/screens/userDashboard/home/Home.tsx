@@ -13,7 +13,8 @@ import SmallLoader from '../../../shared/smallLoader/SmallLoader';
 import Slider from '@react-native-community/slider';
 import MultiSlider from '@react-native-community/slider';
 import { handelVibrate } from '../../../../utils/commonFunction/systemvibration';
-
+import axios from 'axios'; // Import axios
+import { getFilterList } from '../../../../utils/api/filter/filter';
 
 const Home = () => {
     const navigation = useNavigation<any>();
@@ -26,10 +27,9 @@ const Home = () => {
     const [suggestedUser, setSuggestedUser] = useState<IUserDetails[]>([]);
     const [topIcon, setTopIcon] = useState<boolean>(false);
     const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
-    const [maritalStatus, setMaritalStatus] = useState<string[]>([]);
-    const [financialCondition, setFinancialCondition] = useState<string[]>([]);
-    const [hasSalah, setHasSalah] = useState<boolean | null>(null);
-    const [hasSawm, setHasSawm] = useState<boolean | null>(null);
+    const [maritalStatus, setMaritalStatus] = useState<string>("");
+    const [hasSalah, setHasSalah] = useState<string>("");
+    const [hasSawm, setHasSawm] = useState<string>("");
     const [sliderValue, setSliderValue] = useState<number>(80);
 
     const handleSliderChange = (value: any) => {
@@ -37,10 +37,9 @@ const Home = () => {
     };
 
     const handleRefreshFilters = () => {
-        setMaritalStatus([]);
-        setFinancialCondition([]);
-        setHasSalah(null);
-        setHasSawm(null);
+        setMaritalStatus('');
+        setHasSalah('');
+        setHasSawm('');
     };
 
 
@@ -63,18 +62,27 @@ const Home = () => {
         setFilterModalVisible(true);
     };
 
-    const hideFilterModal = () => {
-        setRefreshing(true);
-        setPage(1);
-        let suggestTempList = shuffleArray(suggestedUser);
-        setSuggestedUser(suggestTempList);
-        setFilterModalVisible(false);
+    const hideFilterModal = async () => {
+
+        console.log("-------->filter api");
+        try {
+            const params = {
+                marital_status: maritalStatus,
+                salah: hasSalah,
+                sawum: hasSawm
+            };
+            const response = await api.filter.getFilterList(params);
+            setSuggestedUser(response);
+            // setLoading(true);
+            setFilterModalVisible(false);
+        } catch (error) {
+            console.error(error);
+            // setLoading(false);
+        }
     };
 
-    const applyFilters = () => {
-        setPage(1);
-        hideFilterModal();
-    };
+
+
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
             senderId: sender_id,
@@ -164,9 +172,13 @@ const Home = () => {
                 gender: user.gender,
                 name: searchQuery
             }
-            const response = await api.userDetails.searchUser(filter);
-            setSuggestedUser(response);
-            setLoading(false);
+            try {
+                const response = await axios.get('/search-filter', { params: filter }); // Use axios to send the request
+                setSuggestedUser(response.data.users); // Assuming the response has users array
+                setLoading(false);
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 
@@ -234,26 +246,21 @@ const Home = () => {
 
                                     {/* Marital Status */}
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5, marginTop: 5 }}>Marital Status</Text>
-                                    <Checkbox.Item label="Married" status={maritalStatus.includes("MARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "MARRIED"])} />
-                                    <Checkbox.Item label="Unmarried" status={maritalStatus.includes("UNMARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "UNMARRIED"])} />
-                                    <Checkbox.Item label="Divorced" status={maritalStatus.includes("DIVORCED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "DIVORCED"])} />
-                                    <Checkbox.Item label="Partner Death" status={maritalStatus.includes("PARTNER DEATH") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus([...maritalStatus, "PARTNER DEATH"])} />
+                                    <Checkbox.Item label="Married" status={maritalStatus.includes("MARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus("MARRIED")} />
+                                    <Checkbox.Item label="Divorced" status={maritalStatus.includes("DIVORCED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus("DIVORCED")} />
+                                    <Checkbox.Item label="Unmarried" status={maritalStatus.includes("UNMARRIED") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus("UNMARRIED")} />
+                                    <Checkbox.Item label="Partner Death" status={maritalStatus.includes("PARTNER DEATH") ? 'checked' : 'unchecked'} onPress={() => setMaritalStatus("PARTNER DEATH")} />
 
-                                    {/* Financial Condition
-                                    <Text style={{color:"#E71B73",fontWeight:"700",fontSize:15,marginLeft:5}}>Financial Condition</Text>
-                                    <Checkbox.Item label="Low" status={financialCondition.includes("LOW") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "LOW"])} />
-                                    <Checkbox.Item label="Medium" status={financialCondition.includes("MEDIUM") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "MEDIUM"])} />
-                                    <Checkbox.Item label="High" status={financialCondition.includes("HIGH") ? 'checked' : 'unchecked'} onPress={() => setFinancialCondition([...financialCondition, "HIGH"])} /> */}
 
                                     {/* Salah */}
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Has Salah</Text>
-                                    <Checkbox.Item label="Yes" status={hasSalah === true ? 'checked' : 'unchecked'} onPress={() => setHasSalah(true)} />
-                                    <Checkbox.Item label="No" status={hasSalah === false ? 'checked' : 'unchecked'} onPress={() => setHasSalah(false)} />
+                                    <Checkbox.Item label="Yes" status={hasSalah.includes("YES") ? 'checked' : 'unchecked'} onPress={() => setHasSalah("YES")} />
+                                    <Checkbox.Item label="No" status={hasSalah.includes("NO") ? 'checked' : 'unchecked'} onPress={() => setHasSalah("NO")} />
 
                                     {/* Sawm */}
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Has Sawm</Text>
-                                    <Checkbox.Item label="Yes" status={hasSawm === true ? 'checked' : 'unchecked'} onPress={() => setHasSawm(true)} />
-                                    <Checkbox.Item label="No" status={hasSawm === false ? 'checked' : 'unchecked'} onPress={() => setHasSawm(false)} />
+                                    <Checkbox.Item label="Yes" status={hasSawm.includes("YES") ? 'checked' : 'unchecked'} onPress={() => setHasSawm("YES")} />
+                                    <Checkbox.Item label="No" status={hasSawm.includes("NO") ? 'checked' : 'unchecked'} onPress={() => setHasSawm("NO")} />
 
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Age</Text>
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5, marginTop: 5 }}>Selected Age Range: {getAgeRange()}</Text>
