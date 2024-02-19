@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { View, ActivityIndicator, FlatList, NativeSyntheticEvent, NativeScrollEvent, RefreshControl, Text, Modal, ScrollView } from 'react-native';
-import { Appbar, Button, Checkbox, IconButton, Portal, Searchbar, Tooltip } from 'react-native-paper';
+import { Appbar, Badge, Button, Checkbox, IconButton, Portal, Searchbar, Tooltip } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -273,7 +273,16 @@ const Home = () => {
                         </View>
                     </Modal>
                 </Portal>
-                <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
+                <View>
+                    <Badge
+                        visible={true}
+                        size={16}
+                        style={{ position: 'absolute', top: 5, right: 5 }}
+                    >
+                        {3}
+                    </Badge>
+                    <Appbar.Action icon="chat" onPress={routeToChatList} />
+                </View>
                 <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
             </Appbar.Header>
             {
