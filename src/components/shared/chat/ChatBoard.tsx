@@ -207,6 +207,7 @@ const ChatBoard = () => {
             socket.on('receiveMessage', async (newMessage) => {
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
             });
+
             socket.on('messageSeen', async (seenMessage) => {
                 const tempMessage = messages;
                 tempMessage[tempMessage.length - 1].status = "seen";
@@ -214,13 +215,21 @@ const ChatBoard = () => {
                 setMessages(tempMessage);
                 console.log(`Message ID ${seenMessage.messageId} seen by user ${seenMessage.userId}`);
             });
+
+            // Handle the event when a new user joins
+            socket.on('newUserJoined', () => {
+                // Emit an event to mark all messages as seen
+                socket.emit('markAllMessagesAsSeen', { roomId: roomId });
+            });
         }
 
         return () => {
             socket.off('receiveMessage');
             socket.off('messageSeen');
+            socket.off('newUserJoined');
         };
     }, [roomId]);
+
 
     return (
         // Remove this provider if already registered elsewhere

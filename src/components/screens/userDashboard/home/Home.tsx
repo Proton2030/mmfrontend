@@ -40,6 +40,7 @@ const Home = () => {
         setMaritalStatus('');
         setHasSalah('');
         setHasSawm('');
+        setFilterModalVisible(false);
     };
 
 
