@@ -20,7 +20,7 @@ const UserDashboard = () => {
     ]);
 
     const renderScene = BottomNavigation.SceneMap({
-        home: HelpAndSupport,
+        home: Home,
         choice: MyChoice,
         activeUser: ActiveUser,
         location: Location,

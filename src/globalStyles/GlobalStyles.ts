@@ -11,7 +11,6 @@ export const globalStyles = StyleSheet.create(
             paddingBottom:0,
         },
         parentScrollContainer:{
-            
             paddingTop:25,
             flexGrow:1,
             justifyContent: "center",
@@ -132,5 +131,21 @@ export const globalStyles = StyleSheet.create(
             borderRadius: 5,
             backgroundColor: 'red', // red color
         },
+        circleImage:{
+            width:windowWidth/2,
+            height:windowWidth/2,
+            borderRadius:windowHeight/2
+        },
+        topScreenImage:{
+            width:windowWidth - 80,
+            height:windowHeight/3,
+            resizeMode:'contain'
+        },
+        inlineFlex:{
+            display:"flex",
+            flexDirection:"row",
+            alignItems:"center",
+            justifyContent:"space-between"
+        }
     }
 )

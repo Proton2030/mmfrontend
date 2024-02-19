@@ -91,6 +91,7 @@ const ChatBoard = () => {
                         id: sender.id + uuidv4(),
                         text: message.text,
                         type: 'text',
+                        status: 'delivered'
                     }
                     const tranId = await AsyncStorage.getItem("@tran_id");
                     const msgLmt = await AsyncStorage.getItem("@msg_lmt");
@@ -112,6 +113,8 @@ const ChatBoard = () => {
                             else {
                                 setUser(userInstance)
                                 addMessage(textMessage);
+                                console.log("called-----|1|");
+                                socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
                             }
                         } catch (error) {
                             console.log(error);
@@ -129,8 +132,11 @@ const ChatBoard = () => {
                         id: sender.id + uuidv4(),
                         text: message.text,
                         type: 'text',
+                        status: 'delivered'
                     }
                     addMessage(textMessage);
+                    console.log("called-----|2|");
+                    socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
                     const updatedUser = { ...user, message_limit: user.message_limit - 1 };
                     setUser(updatedUser);
                 }
@@ -143,10 +149,12 @@ const ChatBoard = () => {
                 id: sender.id + uuidv4(),
                 text: message.text,
                 type: 'text',
+                status: 'delivered'
             }
             addMessage(textMessage);
+            console.log("called-----|3|");
+            socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
         }
-
     }
 
     const handlePaymentUpdate = async (package_number: number,) => {
@@ -180,6 +188,10 @@ const ChatBoard = () => {
         })
     }
 
+    // const handleSeen = () =>{
+    //     set
+    // }
+
     useEffect(() => {
         handleGenderPayload();
     }, [handleGenderPayload])
@@ -188,32 +200,25 @@ const ChatBoard = () => {
         getPreviousChat();
     }, [getPreviousChat])
 
-    // useEffect(() => {
-    //     if (user && user.message_limit === 1) {
-    //         if (inputMessage) {
-    //             handleSendPress(inputMessage);
-    //         }
-    //     }
-    // }, []);
-
-    console.log("----->msg lmt", user?.message_limit);
-
     useEffect(() => {
         if (roomId !== "") {
+            socket.emit('join', roomId);
 
-            socket.emit('join', roomId);  // Replace 'roomId' with a unique room ID or user ID.
             socket.on('receiveMessage', async (newMessage) => {
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
-                // const filter = {
-                //     userObjectId: newMessage.author.id
-                // }
-                // const response = await api.userDetails.getUserInfo(filter);
-                // console.log("----->msg1 limit", response.message_limit);
-                // setUser(response);
+            });
+            socket.on('messageSeen', async (seenMessage) => {
+                const tempMessage = messages;
+                tempMessage[tempMessage.length - 1].status = "seen";
+                console.log("seen works===>", tempMessage[tempMessage.length - 1]);
+                setMessages(tempMessage);
+                console.log(`Message ID ${seenMessage.messageId} seen by user ${seenMessage.userId}`);
             });
         }
+
         return () => {
             socket.off('receiveMessage');
+            socket.off('messageSeen');
         };
     }, [roomId]);
 
@@ -254,7 +259,7 @@ const ChatBoard = () => {
             <Chat
                 theme={{
                     ...defaultTheme,
-                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "black" },
+                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "rgb(0, 0, 0)" },
                 }}
                 locale='en'
                 emptyState={renderEmptyState}

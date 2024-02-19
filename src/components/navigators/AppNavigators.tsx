@@ -14,6 +14,7 @@ import AuthNavigators from './AuthNavigators';
 import ConfirmNavigators from './ConfirmNavigators';
 import AuthContext from '../../contexts/authContext/authContext';
 import SplashScreen from '../shared/splash/SplashScreen';
+import HelpAndSupport from '../screens/others/help&support/HelpSupport';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,7 @@ const AppNavigators = () => {
     return (
         <>
             <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} /> */}
+                <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
                 {
                     user ?
                         <>
@@ -37,6 +38,7 @@ const AppNavigators = () => {
                             <Stack.Screen name='Terms' component={TermsAndConditions} />
                             <Stack.Screen name='Privacy' component={PrivacyPolicy} />
                             <Stack.Screen name='Payment' component={Payment} />
+                            <Stack.Screen name='Support' component={HelpAndSupport}/>
                             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
                         </> :
                         <>
