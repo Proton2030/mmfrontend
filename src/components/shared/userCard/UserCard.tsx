@@ -16,13 +16,15 @@ import ChoiceContext from '../../../contexts/choiceContext/choiceContext'
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
     const navigation = useNavigation<any>();
+    const { user } = useContext(AuthContext);
     const { dispatch, state } = useContext(ChoiceContext);
 
     const handleRouteTouserDetails = () => {
         navigation.navigate('UserDetails', {
             userDetails: userDetails,
             editable: false,
-            updatedAt: userDetails?.updatedAt
+            updatedAt: userDetails?.updatedAt,
+            Userchoice: choice
         });
     }
 
@@ -33,31 +35,46 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
             navigation.navigate('Chat', {
                 userDetails: userDetails,
                 roomId: roomId,
-                updatedAt: userDetails?.updatedAt
+                updatedAt: userDetails?.updatedAt,
+
             });
         }
     }
 
+    // const handleAddChoice = useCallback(
+    //     _.debounce(() => {
+    //         setChoice(prev => !prev);
+    //         if (userDetails._id) {
+    //             try {
+    //                 if (choice) {
+    //                     dispatch({ type: 'REMOVE_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to remove userDetails from choice list
+    //                 } else {
+    //                     dispatch({ type: 'ADD_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to add userDetails to choice list
+    //                 }
+    //             } catch (err) {
+    //                 console.log("error", err);
+    //             }
+    //         }
+    //     }, 1000),
+    //     [dispatch, userDetails, setChoice, state.choiceLists, choice]
+    // );
+
+
     const handleAddChoice = useCallback(
         _.debounce(() => {
             setChoice(prev => !prev);
-            if (userDetails._id) {
+            if (user?._id && userDetails._id) {
+                console.log("called");
                 try {
-                    if (choice) {
-                        dispatch({ type: 'REMOVE_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to remove userDetails from choice list
-                    } else {
-                        dispatch({ type: 'ADD_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to add userDetails to choice list
-                    }
+                    // playSound(refreshSound)
+                    addChoice(user._id, userDetails._id);
                 } catch (err) {
                     console.log("error", err);
                 }
             }
-        }, 1000),
-        [dispatch, userDetails, setChoice, state.choiceLists, choice]
+        }, 1000),  // Adjust the debounce delay as needed
+        [user, setChoice]
     );
-
-
-
 
     useEffect(() => {
         if (mode === "CHOICE") {

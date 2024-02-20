@@ -1,5 +1,5 @@
 export interface ChoiceList {
-    _id: string;
+    listItem: Object;
 }
 
 export interface Store {
