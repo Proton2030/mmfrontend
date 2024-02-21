@@ -41,6 +41,7 @@ const ChatBoard = () => {
         male_user: "",
         female_user: ""
     });
+    const [titleBlockUser, settitleBlockUser] = useState('Block')
     const [menuVisible, setMenuVisible] = useState(false);
 
     const openMenu = () => setMenuVisible(true);
@@ -208,19 +209,57 @@ const ChatBoard = () => {
         })
     }
 
+    // const handleBlockUser = () => {
+    //     console.log("--------->blocked");
+
+    //     if (blocked_by_male_user && user?.gender === "MALE") {
+    //         setIsBlock(false);
+    //         settitleBlockUser("Block")
+    //         blocked_by_male_user = false;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: false })
+    //     }
+    //     if (blocked_by_female_user && user?.gender === "FEMALE") {
+    //         setIsBlock(false);
+    //         settitleBlockUser("Block")
+    //         blocked_by_female_user = false;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: false }) // false is for unblock
+    //     }
+
+
+
+    //     if (blocked_by_male_user && user?.gender === "FEMALE") {
+    //         setIsBlock(true);
+    //         settitleBlockUser("Unblock")
+    //         blocked_by_female_user = true;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: true })
+    //     }
+    //     if (blocked_by_female_user && user?.gender === "MALE") {
+    //         setIsBlock(true);
+    //         settitleBlockUser("Unblock")
+    //         blocked_by_male_user = false;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: true }) // true is for block
+    //     }
+    // }
+
     const handleBlockUser = () => {
-        if (blocked_by_male_user && user?.gender === "MALE") {
-            setIsBlock(false);
-            blocked_by_male_user = false;
-            socket.emit('block', { roomId: roomId, userId: user?._id, status: false })
+        let newIsBlock = false;
+        let newTitleBlockUser = true;
+        if (user) {
+            if (user.gender === "MALE") {
+                newIsBlock = blocked_by_male_user;
+                newTitleBlockUser = blocked_by_male_user ? true : false;
+                socket.emit('block', { roomId: roomId, userId: user._id, status: !blocked_by_male_user });
+                console.log("_____>MALE", !blocked_by_male_user);
+            } else if (user.gender === "FEMALE") {
+                newIsBlock = blocked_by_female_user;
+                newTitleBlockUser = blocked_by_female_user ? true : false;
+                socket.emit('block', { roomId: roomId, userId: user._id, status: !blocked_by_female_user });
+            }
         }
-        else if (blocked_by_female_user && user?.gender === "FEMALE") {
-            setIsBlock(false);
-            blocked_by_female_user = false;
-            socket.emit('block', { roomId: roomId, userId: user?._id, status: false }) // false is for unblock
-        }
-        socket.emit('block', { roomId: roomId, userId: user?._id, status: true }) // true is for block 
-    }
+        setIsBlock(newIsBlock);
+        (newTitleBlockUser) ? settitleBlockUser("Unblock") : settitleBlockUser("Block");
+    };
+
 
     useEffect(() => {
         handleGenderPayload();
@@ -304,7 +343,7 @@ const ChatBoard = () => {
                     onDismiss={closeMenu}
                     anchor={<Appbar.Action icon="dots-vertical" onPress={openMenu} />}
                     options={[
-                        { title: 'Block', onPress: () => handleBlockUser(), icon: "block-helper" },
+                        { title: titleBlockUser, onPress: () => handleBlockUser(), icon: "block-helper" },
                         { title: 'Report', onPress: () => console.log('Option 2 selected'), icon: "flag" }
                     ]}
                     style={{ backgroundColor: '#fff5f9' }}
