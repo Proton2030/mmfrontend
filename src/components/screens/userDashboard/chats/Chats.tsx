@@ -24,17 +24,19 @@ const Chats = () => {
       }
       setisloading(false)
       const chatListResponse = await api.chat.getChatList(payload);
-      console.log("=====>response", chatListResponse[0].lastMessage.message.text);
+      console.log("=====>response", chatListResponse[0]);
       setChatList(chatListResponse)
       setisloading(true)
     }
   }, [user]);
 
-  const handleRouteChat = (userDetails: IUserDetails, roomId: string) => {
+  const handleRouteChat = (userDetails: IUserDetails, roomId: string, blocked_by_male_user: boolean, blocked_by_female_user: boolean) => {
     navigation.navigate('Chat', {
       userDetails: userDetails,
       roomId: roomId,
-      updatedAt: userDetails?.updatedAt
+      updatedAt: userDetails?.updatedAt,
+      blocked_by_male_user: blocked_by_male_user,
+      blocked_by_female_user: blocked_by_female_user
     });
   }
 
@@ -43,7 +45,7 @@ const Chats = () => {
   }, [getChatList])
 
   const RenderChatItem = ({ item, userDetails }: any) => (
-    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId)}>
+    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user)}>
       <View style={styles.avatarContainer}>
         <Avatar.Image size={50} source={{ uri: userDetails?.profile_image_url }} />
         {
@@ -53,8 +55,8 @@ const Chats = () => {
         }
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{userDetails?.full_name}</Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={styles?.message}>
+        <Text style={item.lastMessage.message.status !== "seen" ? [styles.name, { color: "#E71B73" }] : styles.name}>{userDetails?.full_name}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={item.lastMessage.message.status !== "seen" ? { fontWeight: "bold" } : styles?.message}>
           {item.lastMessage.message.text}
         </Text>
       </View>
