@@ -16,7 +16,7 @@ const UserDetails = () => {
     const route = useRoute<any>();
     const { user } = useContext(AuthContext);
     const [choice, setChoice] = useState<boolean>(false);
-    const { userDetails, editable } = route.params;
+    const { userDetails, editable, Userchoice } = route.params;
     const fadeAnim = new Animated.Value(0);
     const navigation = useNavigation<any>();
 
@@ -68,9 +68,11 @@ const UserDetails = () => {
     }
 
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
+        setChoice(prev => !prev);
         const payload = {
             senderId: user?._id,
-            recieverId: userDetails._id
+            recieverId: userDetails._id,
+
         }
         const response = await api.userChoice.addChoice(payload);
     }, []);
@@ -101,23 +103,19 @@ const UserDetails = () => {
     }
 
     const handleAddChoice = useCallback(() => {
+
         if (user?._id && userDetails._id) {
             addChoice(user._id, userDetails._id)
-            setChoice(true);
         }
     }, [user]);
 
     React.useEffect(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 1000,
-            easing: Easing.inOut(Easing.ease),
-            useNativeDriver: true,
-        }).start();
-    }, [fadeAnim]);
+
+        setChoice(Userchoice)
+    }, []);
 
     return (
-        <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+        <View style={[styles.container]}>
             <View style={styles.userInfoSection}>
                 <View style={{ flexDirection: 'row', alignItems: "center", marginTop: 15 }}>
                     <TouchableOpacity onPress={handleNavigateProfileImage}>
@@ -256,7 +254,7 @@ const UserDetails = () => {
 
             </ScrollView>
 
-        </Animated.View>
+        </View>
     );
 };
 

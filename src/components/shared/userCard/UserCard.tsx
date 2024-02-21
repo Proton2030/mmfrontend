@@ -10,41 +10,56 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 import FastImage from 'react-native-fast-image';
 import _ from 'lodash';
 import { playSound } from '../../../utils/commonFunction/playSound'
+import ChoiceContext from '../../../contexts/choiceContext/choiceContext'
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
     const [choice, setChoice] = useState<boolean>(false);
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
-
-
+    const { dispatch, state } = useContext(ChoiceContext);
 
     const handleRouteTouserDetails = () => {
         navigation.navigate('UserDetails', {
             userDetails: userDetails,
             editable: false,
-            updatedAt: userDetails?.updatedAt
-        })
+            updatedAt: userDetails?.updatedAt,
+            Userchoice: choice
+        });
     }
 
     const handleNavigateChat = () => {
-
         let roomId = "";
-        if (user && user._id && userDetails._id) {
-            if (user?.gender === "MALE") {
-                roomId = user._id + userDetails._id;
-            }
-            else {
-                roomId = userDetails._id + user._id;
-            }
-            console.log("roomId", roomId)
+        if (userDetails._id) {
+            // Your logic to create roomId
             navigation.navigate('Chat', {
                 userDetails: userDetails,
                 roomId: roomId,
-                updatedAt: userDetails?.updatedAt
+                updatedAt: userDetails?.updatedAt,
+
             });
         }
     }
+
+    // const handleAddChoice = useCallback(
+    //     _.debounce(() => {
+    //         setChoice(prev => !prev);
+    //         if (userDetails._id) {
+    //             try {
+    //                 if (choice) {
+    //                     dispatch({ type: 'REMOVE_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to remove userDetails from choice list
+    //                 } else {
+    //                     dispatch({ type: 'ADD_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to add userDetails to choice list
+    //                 }
+    //             } catch (err) {
+    //                 console.log("error", err);
+    //             }
+    //         }
+    //     }, 1000),
+    //     [dispatch, userDetails, setChoice, state.choiceLists, choice]
+    // );
+
+
     const handleAddChoice = useCallback(
         _.debounce(() => {
             setChoice(prev => !prev);
@@ -65,11 +80,11 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
         if (mode === "CHOICE") {
             setChoice(true)
         }
-
     }, [])
 
     return (
         <View style={globalStyles.card}>
+
             <TouchableOpacity onPress={handleRouteTouserDetails}>
                 <View style={{ display: "flex", flexDirection: "row", alignItems: "center", columnGap: 10, paddingLeft: 10, marginBottom: 15 }}>
                     <View style={globalStyles.avatarContainer}>
