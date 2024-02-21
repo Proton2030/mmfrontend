@@ -7,6 +7,7 @@ import AuthContextProvider from './src/contexts/authContext/Provider';
 import messaging from '@react-native-firebase/messaging';
 import { useState } from 'react';
 import { ChoiceContextProvider } from './src/contexts/choiceContext/choiceContext';
+import MessageSeenCountContextProvider from './src/contexts/messageSeenContext/MessageSeenCountContextProvider';
 
 const theme = {
   ...DefaultTheme,
@@ -32,9 +33,11 @@ export default function Main() {
     <NavigationContainer>
       <AuthContextProvider>
         <ChoiceContextProvider>
-          <PaperProvider theme={theme}>
-            <App route={isRoute} />
-          </PaperProvider>
+          <MessageSeenCountContextProvider>
+            <PaperProvider theme={theme}>
+              <App route={isRoute} />
+            </PaperProvider>
+          </MessageSeenCountContextProvider>
         </ChoiceContextProvider>
       </AuthContextProvider>
     </NavigationContainer>

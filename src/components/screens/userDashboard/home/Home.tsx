@@ -15,10 +15,14 @@ import MultiSlider from '@react-native-community/slider';
 import { handelVibrate } from '../../../../utils/commonFunction/systemvibration';
 import axios from 'axios'; // Import axios
 import { getFilterList } from '../../../../utils/api/filter/filter';
+import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
 
 const Home = () => {
+
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
+    const { setMessageSeenCount } = useContext(MessageSeenCountContext);
+    const { messageSeenCount } = useContext(MessageSeenCountContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [isSearch, setIsSearch] = useState<boolean>(false);
@@ -42,7 +46,6 @@ const Home = () => {
         setHasSawm('');
         setFilterModalVisible(false);
     };
-
 
     const getAgeRange = () => {
         if (sliderValue <= 40) {
@@ -193,7 +196,9 @@ const Home = () => {
     const handleSearchBar = () => {
         setIsSearch(!isSearch);
     }
-
+    const LogCount = () => {
+        console.log("-------------->MEssage seen count", messageSeenCount)
+    }
     useEffect(() => {
         getSuggestionUser();
     }, []);
@@ -203,6 +208,9 @@ const Home = () => {
             setRefreshing(false);
         }
     }, [refreshing]);
+    // useEffect(() => {
+    //     setMessageSeenCount(10);
+    // }, [setMessageSeenCount]);
 
     return (
         <SafeAreaView>
