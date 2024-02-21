@@ -14,7 +14,7 @@ import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
 import PaymentModal from '../paymentModal/PaymentModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { ChatMenu } from './ChateMenu'
+import { ChatMenu } from './chatMenu/ChatMenu'
 
 
 const uuidv4 = () => {
@@ -28,12 +28,14 @@ const uuidv4 = () => {
 const renderEmptyState = () => <Text style={{}}>Hey</Text>;
 
 const ChatBoard = () => {
-    const navigation = useNavigation<any>()
+    const navigation = useNavigation<any>();
+    const [isTyping, setIsTyping] = useState(false);
+    const [isBlock, setIsBlock] = useState<boolean>(false);
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const route = useRoute<any>();
-    const { userDetails, roomId, updatedAt } = route.params;
+    let { userDetails, roomId, updatedAt, blocked_by_male_user, blocked_by_female_user } = route.params;
     const sender = { id: user?._id || "" };
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
@@ -85,6 +87,19 @@ const ChatBoard = () => {
         });
     }
 
+    const handleStartTyping = () => {
+        if (!isTyping) {
+            setIsTyping(true);
+            socket.emit('typing', { roomId, userId: sender.id });
+        }
+    };
+
+    const handleStopTyping = () => {
+        if (isTyping) {
+            setIsTyping(false);
+            socket.emit('typing', { roomId, userId: sender.id });
+        }
+    };
 
     const handleSendPress = async (message: MessageType.PartialText) => {
         // console.log("message", user?.message_limit);
@@ -120,7 +135,6 @@ const ChatBoard = () => {
                                 setUser(userInstance)
                                 addMessage(textMessage);
                                 console.log("called-----|1|");
-                                socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
                             }
                         } catch (error) {
                             console.log(error);
@@ -142,7 +156,6 @@ const ChatBoard = () => {
                     }
                     addMessage(textMessage);
                     console.log("called-----|2|");
-                    socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
                     const updatedUser = { ...user, message_limit: user.message_limit - 1 };
                     setUser(updatedUser);
                 }
@@ -161,6 +174,7 @@ const ChatBoard = () => {
             console.log("called-----|3|");
             socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
         }
+        handleStopTyping();
     }
 
     const handlePaymentUpdate = async (package_number: number,) => {
@@ -194,9 +208,19 @@ const ChatBoard = () => {
         })
     }
 
-    // const handleSeen = () =>{
-    //     set
-    // }
+    const handleBlockUser = () => {
+        if (blocked_by_male_user && user?.gender === "MALE") {
+            setIsBlock(false);
+            blocked_by_male_user = false;
+            socket.emit('block', { roomId: roomId, userId: user?._id, status: false })
+        }
+        else if (blocked_by_female_user && user?.gender === "FEMALE") {
+            setIsBlock(false);
+            blocked_by_female_user = false;
+            socket.emit('block', { roomId: roomId, userId: user?._id, status: false }) // false is for unblock
+        }
+        socket.emit('block', { roomId: roomId, userId: user?._id, status: true }) // true is for block 
+    }
 
     useEffect(() => {
         handleGenderPayload();
@@ -207,32 +231,37 @@ const ChatBoard = () => {
     }, [getPreviousChat])
 
     useEffect(() => {
-        if (roomId !== "") {
+        if (user && roomId !== "") {
             socket.emit('join', roomId);
-
             socket.on('receiveMessage', async (newMessage) => {
+                if (newMessage.author.id !== user._id) {
+                    setMessages(prevMessages =>
+                        prevMessages.map(message =>
+                            message.author.id === user._id ? { ...message, status: "seen" } : message
+                        )
+                    );
+                }
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
             });
 
-            socket.on('messageSeen', async (seenMessage) => {
-                const tempMessage = messages;
-                tempMessage[tempMessage.length - 1].status = "seen";
-                console.log("seen works===>", tempMessage[tempMessage.length - 1]);
-                setMessages(tempMessage);
-                console.log(`Message ID ${seenMessage.messageId} seen by user ${seenMessage.userId}`);
+            socket.on('block', async (status) => {
+                setIsBlock(status.is_blocked);
             });
 
-            // Handle the event when a new user joins
-            socket.on('newUserJoined', () => {
-                // Emit an event to mark all messages as seen
-                socket.emit('markAllMessagesAsSeen', { roomId: roomId });
+            socket.on('userTyping', ({ userId: typingUserId }) => {
+                // Handle user typing event
+                if (typingUserId !== sender.id) {
+                    // Another user is typing
+                    console.log(`User ${typingUserId} is typing`);
+                    // Update UI accordingly
+                }
             });
         }
 
         return () => {
             socket.off('receiveMessage');
+            socket.off('userTyping');
             socket.off('messageSeen');
-            socket.off('newUserJoined');
         };
     }, [roomId]);
 
@@ -275,24 +304,45 @@ const ChatBoard = () => {
                     onDismiss={closeMenu}
                     anchor={<Appbar.Action icon="dots-vertical" onPress={openMenu} />}
                     options={[
-                        { title: 'Block', onPress: () => console.log('Option 1 selected'),icon:"block-helper" },
-                        { title: 'Report', onPress: () => console.log('Option 2 selected'),icon:"flag" }
+                        { title: 'Block', onPress: () => handleBlockUser(), icon: "block-helper" },
+                        { title: 'Report', onPress: () => console.log('Option 2 selected'), icon: "flag" }
                     ]}
-                    style={{ backgroundColor: '#fff5f9' }} 
+                    style={{ backgroundColor: '#fff5f9' }}
                 />
 
             </Appbar.Header>
-            <Chat
-                theme={{
-                    ...defaultTheme,
-                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "rgb(0, 0, 0)" },
-                }}
-                locale='en'
-                emptyState={renderEmptyState}
-                messages={messages}
-                onSendPress={handleSendPress}
-                user={sender}
-            />
+            {
+                isBlock || blocked_by_female_user || blocked_by_male_user ?
+                    <Chat
+                        theme={{
+                            ...defaultTheme,
+                            colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "rgb(0, 0, 0)" },
+                        }}
+                        locale='en'
+                        emptyState={renderEmptyState}
+                        messages={messages}
+                        sendButtonVisibilityMode='editing'
+                        onSendPress={handleSendPress}
+                        customBottomComponent={() => <View style={{ backgroundColor: "#ffdefb", padding: 8 }}>
+                            <Text style={{ color: "#E71B73", textAlign: "center" }}>
+                                This person is unavailable
+                            </Text>
+                        </View>}
+                        user={sender}
+                    /> :
+                    <Chat
+                        theme={{
+                            ...defaultTheme,
+                            colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "rgb(0, 0, 0)" },
+                        }}
+                        locale='en'
+                        emptyState={renderEmptyState}
+                        messages={messages}
+                        sendButtonVisibilityMode='editing'
+                        onSendPress={handleSendPress}
+                        user={sender}
+                    />
+            }
             <PaymentModal modalVisible={modalVisible} setModalVisible={setModalVisible} styles={styles} handlePaymentUpdate={handlePaymentUpdate} name={userDetails.full_name} />
         </SafeAreaProvider>
     )

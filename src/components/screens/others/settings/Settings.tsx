@@ -6,7 +6,6 @@ const SettingsPage = ({ navigation }: any) => {
     const handlePress = (option: string) => {
         console.log('Selected option:', option);
     };
-
     return (
         <View style={styles.container}>
             <Appbar.Header>
@@ -39,7 +38,6 @@ const SettingsPage = ({ navigation }: any) => {
                             left={() => <List.Icon icon="email-edit-outline" />}
                         />
                     </TouchableOpacity>
-
                     <TouchableOpacity onPress={() => handlePress('Delete Account')}>
                         <List.Item
                             title="Delete Account"

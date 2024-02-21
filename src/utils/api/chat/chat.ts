@@ -5,7 +5,7 @@ import { request } from "../api";
 
 const { get } = request;
 
-const initialRoute = "/chat";
+const initialRoute = "chat";
 
 export const getChat = async (filter: any) => {
 	try {

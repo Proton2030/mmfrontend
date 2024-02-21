@@ -235,7 +235,7 @@ const Home = () => {
                                             />
 
                                             <IconButton
-                                                icon="close"
+                                                icon="magnify"
                                                 size={20}
                                                 iconColor='white'
                                                 onPress={hideFilterModal}
@@ -282,13 +282,13 @@ const Home = () => {
                     </Modal>
                 </Portal>
                 <View>
-                    <Badge
+                    {/* <Badge
                         visible={true}
                         size={16}
                         style={{ position: 'absolute', top: 5, right: 5 }}
                     >
-                        {3}
-                    </Badge>
+                        {}
+                    </Badge> */}
                     <Appbar.Action icon="chat" onPress={routeToChatList} />
                 </View>
                 <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
