@@ -2,32 +2,27 @@ import React from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { List, Avatar, Title, Caption, Divider, Appbar } from 'react-native-paper';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
+import { useNavigation } from '@react-navigation/native';
 
-const SettingsPage = ({ navigation }: any) => {
+const SettingsPage = () => {
     const handlePress = (option: string) => {
         console.log('Selected option:', option);
     };
+    const navigation = useNavigation<any>();
+
+    const handleRouteSettings=()=>{
+        navigation.navigate("ResetPassword")
+    }
 
     return (
         <View style={styles.container}>
-            {/* <Appbar.Header>
-                <Appbar.Content title="Settings" />
-            </Appbar.Header> */}
+            
 
             <ScrollView style={styles.scrollContainer}>
-                {/* <View style={styles.header}>
-                    <Avatar.Image
-                        source={{ uri: 'https://placekitten.com/100/100' }} // Replace with your user's avatar URL
-                        size={80}
-                    />
-                    <Title style={styles.title}>Tuhin Thakur</Title>
-                    <Caption style={styles.caption}>email@example.com</Caption>
-                </View>
-
-                <Divider /> */}
+               
 
                 <List.Section style={styles.listSection}>
-                    <TouchableOpacity onPress={() => handlePress('Reset Password')}>
+                    <TouchableOpacity onPress={handleRouteSettings}>
                         <List.Item
                             title="Reset Password"
                             titleStyle={globalStyles.listtitle}
@@ -64,13 +59,6 @@ const SettingsPage = ({ navigation }: any) => {
                         />
                     </TouchableOpacity>
 
-                    {/* <TouchableOpacity onPress={() => handlePress('Block User')}>
-                        <List.Item
-                            title="Block User"
-                            left={() => <List.Icon icon="account-lock" />}
-                            
-                        />
-                    </TouchableOpacity> */}
                 </List.Section>
             </ScrollView>
         </View>

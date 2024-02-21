@@ -18,6 +18,7 @@ import HelpAndSupport from '../screens/others/help&support/HelpSupport';
 import { Aboutus } from '../screens/others/about us/aboutus';
 import { Icon } from 'react-native-paper';
 import SettingsPage from '../screens/others/settings/Settings';
+import resetpasswrod from '../screens/others/settings/Reset Password/resetpasswrod';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ const AppNavigators = () => {
                                     backgroundColor:"#fde8f1"
                                 }}}
                             />
+                             <Stack.Screen name='ResetPassword' component={resetpasswrod} options={{headerShown:true, headerStyle:{ backgroundColor:"#fde8f1" }}} />
                             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
                         </> :
                         <>
