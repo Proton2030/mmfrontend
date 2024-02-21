@@ -15,20 +15,20 @@ export const Aboutus=()=> {
         <Text style={styles.subtitle}>Where Faithful Hearts Unite for</Text>
         <Text style={styles.subtitle}>Everlasting Love</Text> 
         <View style={{marginTop:10}}>
-            <Text style={{fontWeight:"700",fontSize:15,color:"#717171",lineHeight:18}}>Decades of matchmaking expertise, exemplified by 'Patrapatri' (matrimonial classifieds) got reinvented online 
-            in the form of ABPweddings.com.As society evolved,the decision making pertaining to marriage became collaborative.The joy of customised search, shortlisting and sharing with all 
-            relevant members of family and extended family became convenient with the click of a button.But, the apprehension of fake profiles and false claims remained.ABPweddings.com attempts to remove this concern of yours
-             as the ethos of this matrimonial site from ABP Group stands for TRUST!</Text>
+            <Text style={{fontWeight:"700",fontSize:16,color:"#717171",lineHeight:18}}>Decades of matchmaking expertise, exemplified by 'Patrapatri' (matrimonial classifieds) got reinvented online 
+            in the form of Muslimmatrimony.As society evolved,the decision making pertaining to marriage became collaborative.The joy of customised search, shortlisting and sharing with all 
+            relevant members of family and extended family became convenient with the click of a button.But, the apprehension of fake profiles and false claims remained.Muslimmatrimony attempts to remove this concern of yours
+             as the ethos of this matrimonial site from Muslimmatrimony Group stands for TRUST!</Text>
         </View>
         <View style={{marginTop:10}}>
             <Title style={{fontSize:20,fontWeight:"800",color:"#E71B73"}}>Free and Convenient Registration Options</Title>
-            <Text style={{fontWeight:"500",fontSize:15,color:"#717171",lineHeight:18}}>ABPWeddings.com makes submission of a photo ID mandatory for any user who would like to connect with other users registered on the site.The documents submitted are
+            <Text style={{fontWeight:"500",fontSize:16,color:"#717171",lineHeight:18}}>Muslimmatrimony makes submission of a photo ID mandatory for any user who would like to connect with other users registered on the site.The documents submitted are
              moderated manually to match the information provided.Hence the profiles here are trustworthy unlike other matrimonial sites.One can be certain that one 
-             is communicating with a genuine person and not a fictitious profile!ABPWeddings has also attempted to create a credible profile base by introducing the concept of Trust Score.A user gets the Trust Score by successful submission of documents such as photo ID, address proof, educational qualification certificates, employment/income proof, divorce documents (if any) and other relevant documents.</Text>
+             is communicating with a genuine person and not a fictitious profile!MuslimmatrimonyWeddings has also attempted to create a credible profile base by introducing the concept of Trust Score.A user gets the Trust Score by successful submission of documents such as photo ID, address proof, educational qualification certificates, employment/income proof, divorce documents (if any) and other relevant documents.</Text>
         </View>
-        <Text style={{fontSize:15,fontWeight:"500",color:"#717171",marginTop:30}}>We uphold your trust in the highest esteem and our entire effort revolves around valuing that!After all, we believe in Real people. Real Relationships.</Text>
-        <Button style={{backgroundColor:"#E71B73",marginTop:20,marginBottom:50}}>
-            <Text style={{color:"white"}}>Register</Text>
+        <Text style={{fontSize:16,fontWeight:"500",color:"#717171",marginTop:30}}>We uphold your trust in the highest esteem and our entire effort revolves around valuing that!After all, we believe in Real people. Real Relationships.</Text>
+        <Button style={{backgroundColor:"#E71B73",marginTop:30,marginBottom:60,}}>
+            <Text style={{color:"white",fontSize:20,fontWeight:"300"}}>Register</Text>
             </Button>
     </ScrollView>
   )

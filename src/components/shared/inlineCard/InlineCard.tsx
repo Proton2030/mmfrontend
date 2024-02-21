@@ -10,13 +10,13 @@ const InlineCard = ({ icon, titleKey, onClick, value }: IInlineCardProps) => {
         <Card style={{ width: "100%", marginBottom: 16 }}>
             <Card.Content style={globalStyles.inlineFlex}>
                 <View style={[globalStyles.inlineFlex, { columnGap: 10 }]}>
-                    <Icon name={icon} />
-                    <Text>
+                    <Icon name={icon} style={{fontSize:15,color:"white"}}  />
+                    <Text style={{fontWeight:"700",fontSize:15,color:"white"}}>
                         {titleKey}
                     </Text>
                 </View>
                 <TouchableOpacity onPress={() => onClick(value)}>
-                    <Text>{value}</Text>
+                    <Text style={{fontWeight:"700",fontSize:15,color:"white"}}>{value}</Text>
                 </TouchableOpacity>
             </Card.Content>
         </Card>

@@ -17,6 +17,7 @@ import SplashScreen from '../shared/splash/SplashScreen';
 import HelpAndSupport from '../screens/others/help&support/HelpSupport';
 import { Aboutus } from '../screens/others/about us/aboutus';
 import { Icon } from 'react-native-paper';
+import SettingsPage from '../screens/others/settings/Settings';
 
 const Stack = createNativeStackNavigator();
 
@@ -38,15 +39,24 @@ const AppNavigators = () => {
                             <Stack.Screen name="ProfileImage" component={ProfileImage} />
                             <Stack.Screen name='Notification' component={NotificationPage} />
                             <Stack.Screen name='Terms' component={TermsAndConditions} />
-                            <Stack.Screen name='Privacy' component={PrivacyPolicy} 
-        
-                     />
+                            <Stack.Screen name='Privacy' component={PrivacyPolicy}/>
                       <Stack.Screen name='About Us' component={Aboutus} options={{headerShown:true,
                             headerStyle:{
                                 backgroundColor:"#fde8f1"
                             }}} />
+                            <Stack.Screen name='Settings' component={SettingsPage} 
+                            options={{headerShown:true,
+                                headerStyle:{
+                                    backgroundColor:"#fde8f1"
+                                }}}
+                            />
                             <Stack.Screen name='Payment' component={Payment} />
-                            <Stack.Screen name='Support' component={HelpAndSupport}/>
+                            <Stack.Screen name='Support' component={HelpAndSupport}
+                            options={{headerShown:true,
+                                headerStyle:{
+                                    backgroundColor:"#fde8f1"
+                                }}}
+                            />
                             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
                         </> :
                         <>

@@ -97,6 +97,13 @@ const SignUp = () => {
             setScreen(prev => ++prev);
         }
     }
+
+    const handleBackScreen = () => {
+        if (screen > 0) {
+            setScreen(prev => --prev); // Decrement the screen state
+        }
+         // Navigate back to the previous screen
+    };
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (field === "re-password") {
             if (userDetails.password !== text) {
@@ -122,6 +129,12 @@ const SignUp = () => {
         navigation.navigate('login')
         setVisible(false);
     }
+    // const navigateBack = () => {
+    //     // Define the functionality to navigate back here
+    //     // For example:
+    //     navigation.goBack(); // Assuming you're using React Navigation
+    // };
+    
     const generateToken = useCallback(async () => {
         const temp = await getFCMToken();
         if (temp) {
@@ -147,7 +160,7 @@ const SignUp = () => {
                 }
                 {
                     screen === 1 ?
-                        <SignUpScreenTwo userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} otp={otp} /> : null
+                        <SignUpScreenTwo userDetails={userDetails} handleChangeText={handleChangeText} handleChangeScreen={handleChangeScreen} otp={otp} navigateBack={handleBackScreen} /> : null
                 }
                 {
                     screen === 2 ?

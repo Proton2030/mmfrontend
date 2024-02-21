@@ -4,10 +4,12 @@ import { globalStyles } from '../../../../../globalStyles/GlobalStyles'
 import { signUp } from '../../../../../assets'
 import { Button, Icon, IconButton } from 'react-native-paper'
 import OTPTextView from 'react-native-otp-textinput'
+import { useNavigation } from '@react-navigation/native';
 import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.props'
 
-const SignUpScreenTwo = ({ handleChangeScreen, handleChangeText, userDetails, otp,navigateBack }: any) => {
+const SignUpScreenTwo = ({ handleChangeScreen, handleChangeText, userDetails, otp,navigateBack}: any) => {
     const [otpValue, setOtpValue] = React.useState('');
+    const navigation = useNavigation();
     const handleVerifyOtpButtonClick = () => {
         console.log("gen", otp)
         console.log("user", otpValue)
@@ -19,6 +21,7 @@ const SignUpScreenTwo = ({ handleChangeScreen, handleChangeText, userDetails, ot
             return;
         }
     }
+   
     return (
         <View style={[globalStyles.childContainer, { alignItems: "flex-start" }]}>
            

@@ -30,7 +30,9 @@ export const globalStyles = StyleSheet.create(
             alignItems: "center",
             justifyContent: "center",
             width:windowWidth,
-            padding:30
+            padding:30,
+            color:"black",
+            marginTop:15,
         },
         roundedInputBox: {
             width: "100%",
@@ -145,7 +147,20 @@ export const globalStyles = StyleSheet.create(
             display:"flex",
             flexDirection:"row",
             alignItems:"center",
-            justifyContent:"space-between"
+            justifyContent:"space-between",
+            backgroundColor:"#E71B73",
+            borderRadius:10
+        },
+
+        DeleteButton:{
+            backgroundColor:"red",
+            marginTop:20,
+            borderRadius:20,
+            padding:10,
+            width:"98%"
+        },
+        listtitle:{
+            fontWeight:"700"
         }
     }
 )

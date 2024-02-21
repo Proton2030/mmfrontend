@@ -23,7 +23,7 @@ const SupportContainer = () => {
 
     return (
         <View style={globalStyles.childContainer}>
-            <InlineCard icon='phone-call' titleKey='Phone 1' onClick={handleCall} value='+8801234567890' />
+            <InlineCard icon='phone-call'   titleKey='Phone 1'  onClick={handleCall} value='+8801234567890'/>
             <InlineCard icon='phone-call' titleKey='Phone 2' onClick={handleCall} value='+8801234567890' />
             <InlineCard icon='mail' titleKey='Email' onClick={handleEmailButtonPress} value='example@example.com' />
         </View>
