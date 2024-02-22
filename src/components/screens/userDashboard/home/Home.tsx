@@ -193,6 +193,15 @@ const Home = () => {
         navigation.navigate("Notification");
     }
 
+    const handlegGetUnseenMessageCount = useCallback(async () => {
+        if (user) {
+            const response = await api.chat.getUnseenMessageCount({ userObjectId: user._id });
+            console.log(user._id);
+            setMessageSeenCount(response);
+            console.log("=====>unseen message count", response);
+        }
+    }, [user])
+
     const handleSearchBar = () => {
         setIsSearch(!isSearch);
     }
@@ -208,9 +217,10 @@ const Home = () => {
             setRefreshing(false);
         }
     }, [refreshing]);
-    // useEffect(() => {
-    //     setMessageSeenCount(10);
-    // }, [setMessageSeenCount]);
+
+    useEffect(() => {
+        handlegGetUnseenMessageCount();
+    }, [handlegGetUnseenMessageCount]);
 
     return (
         <SafeAreaView>
@@ -290,13 +300,18 @@ const Home = () => {
                     </Modal>
                 </Portal>
                 <View>
-                    {/* <Badge
-                        visible={true}
-                        size={16}
-                        style={{ position: 'absolute', top: 5, right: 5 }}
-                    >
-                        {}
-                    </Badge> */}
+                    {
+                        messageSeenCount ?
+                            <Badge
+                                visible={true}
+                                size={16}
+                                style={{ position: 'absolute', top: 5, right: 5 }}
+                            >
+                                {messageSeenCount}
+                            </Badge>
+                            : null
+                    }
+
                     <Appbar.Action icon="chat" onPress={routeToChatList} />
                 </View>
                 <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
