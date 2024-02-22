@@ -15,6 +15,7 @@ import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage
 import PaymentModal from '../paymentModal/PaymentModal'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ChatMenu } from './chatMenu/ChatMenu'
+import { MessageSeenCountContext } from '../../../contexts/messageSeenContext/MessageSeenCountContextProvider'
 
 
 const uuidv4 = () => {
@@ -32,6 +33,7 @@ const ChatBoard = () => {
     const [isTyping, setIsTyping] = useState(false);
     const [isBlock, setIsBlock] = useState<boolean>(false);
     const { user, setUser } = useContext(AuthContext);
+    const { setMessageSeenCount, messageSeenCount } = useContext(MessageSeenCountContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const route = useRoute<any>();
@@ -272,6 +274,16 @@ const ChatBoard = () => {
     useEffect(() => {
         if (user && roomId !== "") {
             socket.emit('join', roomId);
+
+            //check last message is another users message and if its unseen
+            socket.emit('seenMessage', { authorId: user._id, roomId: roomId })
+
+            socket.on('seenMessage', (seenData) => {
+                if (seenData.authorId !== user._id && messageSeenCount > 0) {
+                    //decrease message cont by 1, and make the last messages status 'seen'
+                }
+            })
+
             socket.on('receiveMessage', async (newMessage) => {
                 if (newMessage.author.id !== user._id) {
                     setMessages(prevMessages =>
