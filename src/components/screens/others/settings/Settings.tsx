@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { List, Avatar, Title, Caption, Divider, Appbar } from 'react-native-paper';
+import AuthContext from '../../../../contexts/authContext/authContext';
 
 const SettingsPage = ({ navigation }: any) => {
+    const { user } = useContext(AuthContext);
     const handlePress = (option: string) => {
         console.log('Selected option:', option);
+        navigation.navigate(option);
     };
-
     return (
         <View style={styles.container}>
-            <Appbar.Header>
+            <Appbar.Header style={{ backgroundColor: '#fde8f1' }}>
                 <Appbar.Content title="Settings" />
             </Appbar.Header>
-
             <ScrollView style={styles.scrollContainer}>
                 <View style={styles.header}>
                     <Avatar.Image
-                        source={{ uri: 'https://placekitten.com/100/100' }} // Replace with your user's avatar URL
+                        source={{ uri: user?.profile_image_url }} // Replace with your user's avatar URL
                         size={80}
                     />
-                    <Title style={styles.title}>Tuhin Thakur</Title>
-                    <Caption style={styles.caption}>email@example.com</Caption>
+                    <Title style={styles.title}>{user?.full_name}</Title>
+                    <Caption style={styles.caption}>+88{user?.mobile}</Caption>
                 </View>
-
                 <Divider />
-
                 <List.Section style={styles.listSection}>
-                    <TouchableOpacity onPress={() => handlePress('Reset Password')}>
+                    <TouchableOpacity onPress={() => handlePress('ResetPassord')}>
                         <List.Item
                             title="Reset Password"
                             left={() => <List.Icon icon="lock-reset" />}
@@ -39,7 +38,6 @@ const SettingsPage = ({ navigation }: any) => {
                             left={() => <List.Icon icon="email-edit-outline" />}
                         />
                     </TouchableOpacity>
-
                     <TouchableOpacity onPress={() => handlePress('Delete Account')}>
                         <List.Item
                             title="Delete Account"
@@ -63,9 +61,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingLeft: 10
+
     },
     scrollContainer: {
+        paddingLeft: 20,
         flex: 1,
     },
     header: {

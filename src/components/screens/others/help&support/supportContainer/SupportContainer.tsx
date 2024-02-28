@@ -15,7 +15,7 @@ const SupportContainer = () => {
         const subject = 'Subject of the email'; // Replace with your desired subject
         const body = 'Body of the email'; // Replace with your desired email body
 
-        const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const mailtoUrl = `mailto:${"muslimmatrimonys@gmail.com"}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         Linking.openURL(mailtoUrl)
             .then(() => console.log('Email opened'))
             .catch((error) => console.error('Error opening email:', error));
@@ -23,9 +23,10 @@ const SupportContainer = () => {
 
     return (
         <View style={globalStyles.childContainer}>
-            <InlineCard icon='phone-call' titleKey='Phone 1' onClick={handleCall} value='+8801234567890' />
-            <InlineCard icon='phone-call' titleKey='Phone 2' onClick={handleCall} value='+8801234567890' />
-            <InlineCard icon='mail' titleKey='Email' onClick={handleEmailButtonPress} value='example@example.com' />
+            <InlineCard icon='phone-call' titleKey='Phone 1' onClick={handleCall} value='+8801897686637' buttonIcon='phone' />
+            <InlineCard icon='phone-call' titleKey='Phone 2' onClick={handleCall} value='+8801873405728' buttonIcon='phone' />
+            <InlineCard icon='phone-call' titleKey='Phone 2' onClick={handleCall} value='+8801857237427' buttonIcon='phone' />
+            <InlineCard icon='mail' titleKey='Email' onClick={handleEmailButtonPress} value='muslimmatrimonys@g...' buttonIcon='gmail' />
         </View>
     )
 }

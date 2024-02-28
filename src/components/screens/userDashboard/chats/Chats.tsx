@@ -7,9 +7,12 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { ActivityIndicator } from 'react-native';
+import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
+import { socket } from '../../../../config/config';
 
 const Chats = () => {
   const { user } = useContext(AuthContext);
+  const { messageSeenCount, setMessageSeenCount } = useContext(MessageSeenCountContext);
   const [chatList, setChatList] = useState<any[]>([]);
   const navigation = useNavigation<any>();
   const [isloading, setisloading] = useState(false)
@@ -17,24 +20,35 @@ const Chats = () => {
 
   const getChatList = useCallback(async () => {
     if (user) {
-
       const payload = {
         userObjectId: user._id,
         gender: user?.gender
       }
       setisloading(false)
       const chatListResponse = await api.chat.getChatList(payload);
-      console.log("=====>response", chatListResponse[0].lastMessage.message.text);
+      console.log("=====>response", chatListResponse[0].lastMessage);
       setChatList(chatListResponse)
       setisloading(true)
     }
   }, [user]);
 
-  const handleRouteChat = (userDetails: IUserDetails, roomId: string) => {
+
+  const handleRouteChat = (userDetails: IUserDetails, roomId: string, blocked_by_male_user: boolean, blocked_by_female_user: boolean, index: number) => {
+    const tempChatList = chatList;
+    if (tempChatList[index].lastMessage.message.status !== "seen") {
+      setMessageSeenCount(prevCount => Math.max(prevCount - 1, 0));
+      tempChatList[index].lastMessage.message.status = "seen";
+    }
+    setChatList(tempChatList);
+
+    socket.emit("seenMessage", { authorId: user?._id, roomId: roomId })
+    // item.lastMessage.message.status = "seen";
     navigation.navigate('Chat', {
       userDetails: userDetails,
       roomId: roomId,
-      updatedAt: userDetails?.updatedAt
+      updatedAt: userDetails?.updatedAt,
+      blocked_by_male_user: blocked_by_male_user,
+      blocked_by_female_user: blocked_by_female_user
     });
   }
 
@@ -42,8 +56,8 @@ const Chats = () => {
     getChatList();
   }, [getChatList])
 
-  const RenderChatItem = ({ item, userDetails }: any) => (
-    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId)}>
+  const RenderChatItem = ({ item, userDetails, index }: any) => (
+    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user, index)}>
       <View style={styles.avatarContainer}>
         <Avatar.Image size={50} source={{ uri: userDetails?.profile_image_url }} />
         {
@@ -53,8 +67,8 @@ const Chats = () => {
         }
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.name}>{userDetails?.full_name}</Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={styles?.message}>
+        <Text style={item.lastMessage.message.status !== "seen" ? [styles.name, { color: "#E71B73" }] : styles.name}>{userDetails?.full_name}</Text>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={item.lastMessage.message.author.id !== user?._id && item.lastMessage.message.status !== "seen" ? { fontWeight: "bold" } : styles?.message}>
           {item.lastMessage.message.text}
         </Text>
       </View>
@@ -78,6 +92,7 @@ const Chats = () => {
           {chatList.map((chat, index) => (
             <RenderChatItem
               item={chat}
+              index={index}
               userDetails={user?.gender === 'MALE' ? chat.female_user_details : chat.male_user_details}
               key={index}
             />

@@ -5,7 +5,7 @@ import { request } from "../api";
 
 const { patch,get } = request;
 
-const initialRoute = "/user";
+const initialRoute = "user";
 export const updateUserDetails = async (payload: any) => {
 	try {
 		console.log("payload",payload)

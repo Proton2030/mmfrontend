@@ -1,0 +1,4 @@
+export const actions = {
+    ADD_CHOICE_LIST: "ADD_CHOICE_LIST",
+    REMOVE_CHOICE_LIST: "REMOVE_CHOICE_LIST",
+};

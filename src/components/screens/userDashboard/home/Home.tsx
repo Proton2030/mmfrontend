@@ -15,10 +15,14 @@ import MultiSlider from '@react-native-community/slider';
 import { handelVibrate } from '../../../../utils/commonFunction/systemvibration';
 import axios from 'axios'; // Import axios
 import { getFilterList } from '../../../../utils/api/filter/filter';
+import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
 
 const Home = () => {
+
     const navigation = useNavigation<any>();
     const { user } = useContext(AuthContext);
+    const { setMessageSeenCount } = useContext(MessageSeenCountContext);
+    const { messageSeenCount } = useContext(MessageSeenCountContext);
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [isSearch, setIsSearch] = useState<boolean>(false);
@@ -42,7 +46,6 @@ const Home = () => {
         setHasSawm('');
         setFilterModalVisible(false);
     };
-
 
     const getAgeRange = () => {
         if (sliderValue <= 40) {
@@ -190,10 +193,21 @@ const Home = () => {
         navigation.navigate("Notification");
     }
 
+    const handlegGetUnseenMessageCount = useCallback(async () => {
+        if (user) {
+            const response = await api.chat.getUnseenMessageCount({ userObjectId: user._id });
+            console.log(user._id);
+            setMessageSeenCount(response);
+            console.log("=====>unseen message count", response);
+        }
+    }, [user])
+
     const handleSearchBar = () => {
         setIsSearch(!isSearch);
     }
-
+    const LogCount = () => {
+        console.log("-------------->MEssage seen count", messageSeenCount)
+    }
     useEffect(() => {
         getSuggestionUser();
     }, []);
@@ -203,6 +217,10 @@ const Home = () => {
             setRefreshing(false);
         }
     }, [refreshing]);
+
+    useEffect(() => {
+        handlegGetUnseenMessageCount();
+    }, [handlegGetUnseenMessageCount]);
 
     return (
         <SafeAreaView>
@@ -235,7 +253,7 @@ const Home = () => {
                                             />
 
                                             <IconButton
-                                                icon="close"
+                                                icon="magnify"
                                                 size={20}
                                                 iconColor='white'
                                                 onPress={hideFilterModal}
@@ -282,13 +300,18 @@ const Home = () => {
                     </Modal>
                 </Portal>
                 <View>
-                    <Badge
-                        visible={true}
-                        size={16}
-                        style={{ position: 'absolute', top: 5, right: 5 }}
-                    >
-                        {3}
-                    </Badge>
+                    {
+                        messageSeenCount ?
+                            <Badge
+                                visible={true}
+                                size={16}
+                                style={{ position: 'absolute', top: 5, right: 5 }}
+                            >
+                                {messageSeenCount}
+                            </Badge>
+                            : null
+                    }
+
                     <Appbar.Action icon="chat" onPress={routeToChatList} />
                 </View>
                 <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />

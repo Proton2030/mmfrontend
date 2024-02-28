@@ -6,6 +6,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthContextProvider from './src/contexts/authContext/Provider';
 import messaging from '@react-native-firebase/messaging';
 import { useState } from 'react';
+import { ChoiceContextProvider } from './src/contexts/choiceContext/choiceContext';
+import MessageSeenCountContextProvider from './src/contexts/messageSeenContext/MessageSeenCountContextProvider';
 
 const theme = {
   ...DefaultTheme,
@@ -30,9 +32,13 @@ export default function Main() {
   return (
     <NavigationContainer>
       <AuthContextProvider>
-        <PaperProvider theme={theme}>
-          <App route={isRoute} />
-        </PaperProvider>
+        <ChoiceContextProvider>
+          <MessageSeenCountContextProvider>
+            <PaperProvider theme={theme}>
+              <App route={isRoute} />
+            </PaperProvider>
+          </MessageSeenCountContextProvider>
+        </ChoiceContextProvider>
       </AuthContextProvider>
     </NavigationContainer>
   );

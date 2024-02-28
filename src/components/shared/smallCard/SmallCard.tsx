@@ -28,8 +28,11 @@ const SmallCard = ({ icon, text }: TMenuProps) => {
     const handleRouteSupport = () => {
         navigation.navigate("Support")
     }
-    const handleRouteAboutus=()=>{
+    const handleRouteAboutus = () => {
         navigation.navigate("About Us")
+    }
+    const handleRouteSettings = () => {
+        navigation.navigate("Settings");
     }
     const handleLogOut = () => {
         AsyncStorage.clear();
@@ -50,9 +53,15 @@ const SmallCard = ({ icon, text }: TMenuProps) => {
             case "Privacy Policy":
                 handleRoutePrivacy();
                 return;
-             case "About Us":
+            case "Privacy Policy":
+                handleRoutePrivacy();
+                return;
+            case "About Us":
                 handleRouteAboutus();
-                return;    
+                return;
+            case "Settings":
+                handleRouteSettings();
+                return;
             case "Help and Support":
                 handleRouteSupport();
                 return;

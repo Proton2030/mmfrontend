@@ -10,53 +10,72 @@ import { useNavigation } from '@react-navigation/native';
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import FastImage from 'react-native-fast-image';
 import _ from 'lodash';
-import { playSound } from '../../../utils/commonFunction/playSound';
+import { playSound } from '../../../utils/commonFunction/playSound'
+import ChoiceContext from '../../../contexts/choiceContext/choiceContext'
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
-  const [choice, setChoice] = useState<boolean>(false);
-  const navigation = useNavigation<any>();
-  const { user } = useContext(AuthContext);
+    const [choice, setChoice] = useState<boolean>(false);
+    const navigation = useNavigation<any>();
+    const { user } = useContext(AuthContext);
+    const { dispatch, state } = useContext(ChoiceContext);
 
-  const handleRouteTouserDetails = () => {
-    navigation.navigate('UserDetails', {
-      userDetails: userDetails,
-      editable: false,
-      updatedAt: userDetails?.updatedAt,
-    });
-  };
-
-  const handleNavigateChat = () => {
-    let roomId = '';
-    if (user && user._id && userDetails._id) {
-      if (user?.gender === 'MALE') {
-        roomId = user._id + userDetails._id;
-      } else {
-        roomId = userDetails._id + user._id;
-      }
-      console.log('roomId', roomId);
-      navigation.navigate('Chat', {
-        userDetails: userDetails,
-        roomId: roomId,
-        updatedAt: userDetails?.updatedAt,
-      });
+    const handleRouteTouserDetails = () => {
+        navigation.navigate('UserDetails', {
+            userDetails: userDetails,
+            editable: false,
+            updatedAt: userDetails?.updatedAt,
+            Userchoice: choice
+        });
     }
-  };
-  const handleAddChoice = useCallback(
-    _.debounce(() => {
-      setChoice((prev) => !prev);
-      if (user?._id && userDetails._id) {
-        console.log('called');
-        try {
-          // playSound(refreshSound)
-          addChoice(user._id, userDetails._id);
-        } catch (err) {
-          console.log('error', err);
+
+    const handleNavigateChat = () => {
+        let roomId = "";
+        if (userDetails._id) {
+            // Your logic to create roomId
+            navigation.navigate('Chat', {
+                userDetails: userDetails,
+                roomId: roomId,
+                updatedAt: userDetails?.updatedAt,
+
+            });
         }
-      }
-    }, 1000), // Adjust the debounce delay as needed
-    [user, setChoice],
-  );
+    }
+
+    // const handleAddChoice = useCallback(
+    //     _.debounce(() => {
+    //         setChoice(prev => !prev);
+    //         if (userDetails._id) {
+    //             try {
+    //                 if (choice) {
+    //                     dispatch({ type: 'REMOVE_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to remove userDetails from choice list
+    //                 } else {
+    //                     dispatch({ type: 'ADD_CHOICE_LIST', payload: { choiceList: userDetails } }); // Dispatch action to add userDetails to choice list
+    //                 }
+    //             } catch (err) {
+    //                 console.log("error", err);
+    //             }
+    //         }
+    //     }, 1000),
+    //     [dispatch, userDetails, setChoice, state.choiceLists, choice]
+    // );
+
+
+    const handleAddChoice = useCallback(
+        _.debounce(() => {
+            setChoice(prev => !prev);
+            if (user?._id && userDetails._id) {
+                console.log("called");
+                try {
+                    // playSound(refreshSound)
+                    addChoice(user._id, userDetails._id);
+                } catch (err) {
+                    console.log("error", err);
+                }
+            }
+        }, 1000),  // Adjust the debounce delay as needed
+        [user, setChoice]
+    );
 
   useEffect(() => {
     if (mode === 'CHOICE') {
