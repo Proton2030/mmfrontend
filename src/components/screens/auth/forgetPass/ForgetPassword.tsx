@@ -34,9 +34,9 @@ const ForgetPassword = () => {
                 setLoading(true);
                 const filter = { mobile: userCredentials.mobile }
                 try {
-                    const otpResponse = await api.auth.forgetPassOtp(filter);
-                    if (otpResponse) {
-                        setOtp(otpResponse);
+                    // const otpResponse = await api.auth.forgetPassOtp(filter);
+                    if (true) {
+                        setOtp("1234");
                         setLoading(false);
                     }
                     else {

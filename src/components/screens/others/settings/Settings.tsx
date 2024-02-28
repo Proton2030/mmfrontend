@@ -7,10 +7,11 @@ const SettingsPage = ({ navigation }: any) => {
     const { user } = useContext(AuthContext);
     const handlePress = (option: string) => {
         console.log('Selected option:', option);
+        navigation.navigate(option);
     };
     return (
         <View style={styles.container}>
-            <Appbar.Header>
+            <Appbar.Header style={{ backgroundColor: '#fde8f1' }}>
                 <Appbar.Content title="Settings" />
             </Appbar.Header>
             <ScrollView style={styles.scrollContainer}>
@@ -24,7 +25,7 @@ const SettingsPage = ({ navigation }: any) => {
                 </View>
                 <Divider />
                 <List.Section style={styles.listSection}>
-                    <TouchableOpacity onPress={() => handlePress('Reset Password')}>
+                    <TouchableOpacity onPress={() => handlePress('ResetPassord')}>
                         <List.Item
                             title="Reset Password"
                             left={() => <List.Icon icon="lock-reset" />}
@@ -60,9 +61,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingLeft: 10
+
     },
     scrollContainer: {
+        paddingLeft: 20,
         flex: 1,
     },
     header: {

@@ -1,4 +1,4 @@
-import { chnagePassword, signupUser } from "./auth/login";
+import { ResetPassword, chnagePassword, signupUser } from "./auth/login";
 import { loginUser } from "./auth/login";
 import { forgetPassOtp, getOtp } from "./auth/sendOtp";
 import { getChat, getChatList, getUnseenMessageCount } from "./chat/chat";
@@ -17,7 +17,8 @@ export const api = {
         signup: signupUser,
         getOtp: getOtp,
         forgetPassOtp: forgetPassOtp,
-        chnagePassword: chnagePassword
+        chnagePassword: chnagePassword,
+        ResetPassword: ResetPassword
     },
     userDetails: {
         updateUser: updateUserDetails,

@@ -18,6 +18,7 @@ import HelpAndSupport from '../screens/others/help&support/HelpSupport';
 import { Aboutus } from '../screens/others/about us/aboutus';
 import { Icon } from 'react-native-paper';
 import SettingsPage from '../screens/others/settings/Settings';
+import PasswordReset from '../screens/others/settings/passwordReset/PasswordReset';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ const AppNavigators = () => {
                             <Stack.Screen name='Terms' component={TermsAndConditions} />
                             <Stack.Screen name='Privacy' component={PrivacyPolicy} />
                             <Stack.Screen name='Settings' component={SettingsPage} />
+                            <Stack.Screen name='ResetPassord' component={PasswordReset} />
                             <Stack.Screen name='About Us' component={Aboutus} options={{
                                 headerShown: true,
                                 headerStyle: {
