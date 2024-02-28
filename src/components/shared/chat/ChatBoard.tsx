@@ -285,6 +285,8 @@ const ChatBoard = () => {
                             message.author.id === user._id ? { ...message, status: "seen" } : message
                         )
                     );
+                    console.log("seen called");
+                    socket.emit('seenMessage', { authorId: user._id, roomId: roomId });
                 }
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
             });
@@ -311,16 +313,17 @@ const ChatBoard = () => {
     }, [roomId]);
 
     useEffect(() => {
-        messages.length !== 0 && console.log("no of messages", messages[messages.length - 1].id);
+        // messages.length !== 0 && console.log("no of messages", messages[messages.length - 1]);
         if (user && messages.length !== 0 && messages[messages.length - 1].author.id !== user._id && messages[messages.length - 1].status !== "seen") {
             console.log("unseen called")
             user && socket.emit('seenMessage', { authorId: user._id, roomId: roomId });
-            setMessageSeenCount(0)
+            // setMessageSeenCount(0)
         }
 
         socket.on('seenMessage', (seenData) => {
             if (user && seenData.authorId !== user._id && messageSeenCount > 0) {
                 //decrease message cont by 1, and make the last messages status 'seen'
+                console.log("seen recieved")
                 if (messages[messages.length - 1].author.id === user._id) {
                     const tempMessages = messages;
                     tempMessages[tempMessages.length - 1].status = "seen";
