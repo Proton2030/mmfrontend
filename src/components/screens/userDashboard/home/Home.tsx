@@ -94,11 +94,10 @@ const Home = () => {
         }
         console.log("-------->payload", payload);
         try {
+            handelVibrate();
             await api.userChoice.addChoice(payload);
         } catch (err) {
             console.log(err);
-        } finally {
-            handelVibrate();
         }
     }, [])
 
@@ -312,7 +311,7 @@ const Home = () => {
                             : null
                     }
 
-                    <Appbar.Action icon="chat" onPress={routeToChatList} />
+                    <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
                 </View>
                 <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
             </Appbar.Header>
