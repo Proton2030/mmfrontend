@@ -174,7 +174,7 @@ const ChatBoard = () => {
                 status: 'delivered'
             }
             addMessage(textMessage);
-            console.log("called-----|3|");
+            // console.log("called-----|3|");
             socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
         }
         handleStopTyping();
@@ -251,7 +251,7 @@ const ChatBoard = () => {
                 newIsBlock = blocked_by_male_user;
                 newTitleBlockUser = blocked_by_male_user ? true : false;
                 socket.emit('block', { roomId: roomId, userId: user._id, status: !blocked_by_male_user });
-                console.log("_____>MALE", !blocked_by_male_user);
+                // console.log("_____>MALE", !blocked_by_male_user);
             } else if (user.gender === "FEMALE") {
                 newIsBlock = blocked_by_female_user;
                 newTitleBlockUser = blocked_by_female_user ? true : false;
@@ -276,13 +276,7 @@ const ChatBoard = () => {
             socket.emit('join', roomId);
 
             //check last message is another users message and if its unseen
-            socket.emit('seenMessage', { authorId: user._id, roomId: roomId })
 
-            socket.on('seenMessage', (seenData) => {
-                if (seenData.authorId !== user._id && messageSeenCount > 0) {
-                    //decrease message cont by 1, and make the last messages status 'seen'
-                }
-            })
 
             socket.on('receiveMessage', async (newMessage) => {
                 if (newMessage.author.id !== user._id) {
@@ -315,6 +309,26 @@ const ChatBoard = () => {
             socket.off('messageSeen');
         };
     }, [roomId]);
+
+    useEffect(() => {
+        messages.length !== 0 && console.log("no of messages", messages[messages.length - 1].id);
+        if (user && messages.length !== 0 && messages[messages.length - 1].author.id !== user._id && messages[messages.length - 1].status !== "seen") {
+            console.log("unseen called")
+            user && socket.emit('seenMessage', { authorId: user._id, roomId: roomId });
+            setMessageSeenCount(0)
+        }
+
+        socket.on('seenMessage', (seenData) => {
+            if (user && seenData.authorId !== user._id && messageSeenCount > 0) {
+                //decrease message cont by 1, and make the last messages status 'seen'
+                if (messages[messages.length - 1].author.id === user._id) {
+                    const tempMessages = messages;
+                    tempMessages[tempMessages.length - 1].status = "seen";
+                    setMessages(tempMessages);
+                }
+            }
+        })
+    }, [user, messages])
 
 
     return (

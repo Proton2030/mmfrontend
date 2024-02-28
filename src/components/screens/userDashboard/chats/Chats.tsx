@@ -24,13 +24,17 @@ const Chats = () => {
       }
       setisloading(false)
       const chatListResponse = await api.chat.getChatList(payload);
-      console.log("=====>response", chatListResponse[0]);
+      console.log("=====>response", chatListResponse[0].lastMessage);
       setChatList(chatListResponse)
       setisloading(true)
     }
   }, [user]);
 
-  const handleRouteChat = (userDetails: IUserDetails, roomId: string, blocked_by_male_user: boolean, blocked_by_female_user: boolean) => {
+  const handleRouteChat = (userDetails: IUserDetails, roomId: string, blocked_by_male_user: boolean, blocked_by_female_user: boolean, index: number) => {
+    const tempChatList = chatList;
+    tempChatList[index].lastMessage.message.status = "seen";
+    setChatList(tempChatList);
+    // item.lastMessage.message.status = "seen";
     navigation.navigate('Chat', {
       userDetails: userDetails,
       roomId: roomId,
@@ -44,8 +48,8 @@ const Chats = () => {
     getChatList();
   }, [getChatList])
 
-  const RenderChatItem = ({ item, userDetails }: any) => (
-    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user)}>
+  const RenderChatItem = ({ item, userDetails, index }: any) => (
+    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user, index)}>
       <View style={styles.avatarContainer}>
         <Avatar.Image size={50} source={{ uri: userDetails?.profile_image_url }} />
         {
@@ -56,7 +60,7 @@ const Chats = () => {
       </View>
       <View style={styles.textContainer}>
         <Text style={item.lastMessage.message.status !== "seen" ? [styles.name, { color: "#E71B73" }] : styles.name}>{userDetails?.full_name}</Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={item.lastMessage.message.status !== "seen" ? { fontWeight: "bold" } : styles?.message}>
+        <Text numberOfLines={1} ellipsizeMode="tail" style={item.lastMessage.message.author.id !== user?._id && item.lastMessage.message.status !== "seen" ? { fontWeight: "bold" } : styles?.message}>
           {item.lastMessage.message.text}
         </Text>
       </View>
@@ -80,6 +84,7 @@ const Chats = () => {
           {chatList.map((chat, index) => (
             <RenderChatItem
               item={chat}
+              index={index}
               userDetails={user?.gender === 'MALE' ? chat.female_user_details : chat.male_user_details}
               key={index}
             />
