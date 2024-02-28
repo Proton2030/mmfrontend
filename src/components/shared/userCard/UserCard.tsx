@@ -99,11 +99,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
                 {userDetails.full_name || 'Test Account'}
                 <Text style={{ color: 'black', fontSize: 15 }}>&nbsp;({userDetails.age} yrs)</Text>
               </Text>
-              {userDetails.is_verified ? (
-                <IconMI name="verified" size={18} color="#E71B73" />
-              ) : (
-                <IconMI name="verified" size={18} color="#838383" />
-              )}
+              {userDetails.is_verified ? <IconMI name="verified" size={18} color="#E71B73" /> : null}
             </View>
             <View style={globalStyles.iconText}>
               <Icon name="map-marker-alt" size={18} color="#E71B73" />
