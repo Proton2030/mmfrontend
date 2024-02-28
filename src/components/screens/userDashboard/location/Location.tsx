@@ -126,8 +126,8 @@ const Location = () => {
                                     onScroll={handleScroll}
                                     scrollEventThrottle={16}
                                     data={suggestedUser}
-                                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} />}
-                                    keyExtractor={user => user._id!}
+                                    renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
+                                    keyExtractor={(user, index) => `${index}`}
                                 />
                                 {
                                     topIcon ?

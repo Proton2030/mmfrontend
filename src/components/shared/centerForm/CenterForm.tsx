@@ -31,6 +31,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                         label={field.label}
                                         defaultValue={object[field.id] || ""}
                                         placeholder={field.placeHolder}
+                                        value={object[field.id] ? object[field.id].toString() : ""}
                                         maxLength={field.maxLength || 250}
                                         onChangeText={(text) => handleChangeText(field.id, field.type, text)}
                                         theme={{

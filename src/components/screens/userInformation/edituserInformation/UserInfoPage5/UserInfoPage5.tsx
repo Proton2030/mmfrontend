@@ -17,6 +17,7 @@ import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
 import { IUserInfo5 } from '../../../../../@types/types/userInfo5.types';
 import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -79,6 +80,8 @@ const UserInformationPage5 = () => {
                 setUserInfo(Object.assign({}, userInfo, { "profile_image_url": response.profile_image_url }));
                 setUser(response);
                 setLoading(false)
+                const jsonUser = JSON.stringify(response);
+                storeData("@user", jsonUser);
                 navigation.dispatch(routeUserDashboard);
             }
             else {

@@ -6,7 +6,7 @@ const { get } = request;
 
 const initialRoute = "/chat";
 
-export const getNotification = async (userId: any) => {
+export const getNotification = async (filter: any) => {
 	try {
 		const endpoint = `${initialRoute}/get-notification`;
 		const response = await get(
@@ -14,7 +14,7 @@ export const getNotification = async (userId: any) => {
 			{
 				...headers,
 			},
-            userId
+            filter
 		);
 		if (response) {
 			const {

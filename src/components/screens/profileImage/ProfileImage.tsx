@@ -8,15 +8,15 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 const ProfileImage = () => {
     const { user } = useContext(AuthContext);
-    const navigation = useNavigation();
+    const navigation = useNavigation<any>();
     const route = useRoute<any>();
     const { userid, username, imageURL }: any = route.params;
 
     const handleGoBack = () => {
         navigation.goBack();
     };
-    const handlenavigate = () => {
-        // navigation.navigate("editProfileImage")
+    const handlenavigateChangeProfilrImage = () => {
+        navigation.navigate("changeImage");
     }
     return (
         <View style={{ flex: 1 }}>
@@ -26,14 +26,13 @@ const ProfileImage = () => {
                     <Text style={{ fontSize: 22, fontWeight: 'bold', color: 'black', marginLeft: 5 }}>&nbsp;{username}</Text>
                 </View>
                 {
-                    (user?._id == userid) ? <Appbar.Action icon="pencil" />
+                    (user?._id == userid) ? <Appbar.Action icon="pencil" onPress={handlenavigateChangeProfilrImage} />
                         :
                         null
                 }
-
             </Appbar.Header>
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Image source={{ uri: imageURL }} style={{ width: 300, height: 300, resizeMode: 'cover' }} />
+                <Image source={{ uri: imageURL }} style={{ width: "100%", height: 400, resizeMode: 'cover' }} />
             </View>
         </View>
     );

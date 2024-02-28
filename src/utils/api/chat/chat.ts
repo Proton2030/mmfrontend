@@ -5,11 +5,38 @@ import { request } from "../api";
 
 const { get } = request;
 
-const initialRoute = "/chat";
+const initialRoute = "chat";
 
 export const getChat = async (filter: any) => {
 	try {
 		const endpoint = `${initialRoute}/get-chat-by-room`;
+		const response = await get(
+			endpoint,
+			{
+				...headers,
+			},
+            filter
+		);
+		if (response) {
+			const {
+				data: { message }
+			} = response;
+			if (message === MESSAGE.get.succ) {
+				const {
+					data: { result }
+				} = response;
+				return result;
+			}
+		}
+		throw new Error();
+	} catch (error: any) {
+		console.log(error);
+		throw error;
+	}
+};
+export const getUnseenMessageCount = async (filter: any) => {
+	try {
+		const endpoint = `${initialRoute}/get-unseen-message`;
 		const response = await get(
 			endpoint,
 			{

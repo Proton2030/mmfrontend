@@ -5,7 +5,6 @@ import { globalStyles } from '../../../../../globalStyles/GlobalStyles'
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { IUserDetails } from '../../../../../@types/types/userDEtails.types';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
-import UserDetails from '../../../userDashboard/home/userDetails/UserDetails';
 import { api } from '../../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import { logo } from '../../../../../assets';
@@ -53,7 +52,7 @@ const UpdateProfileImage = () => {
             const userInstance = await api.userDetails.updateUser(payload);
             if (userInstance) {
                 setUser(userInstance);
-                navigation.navigate('UserDashboard');
+                navigation.navigate('UserDashboard', { screen: "User" });
             }
         }
     }

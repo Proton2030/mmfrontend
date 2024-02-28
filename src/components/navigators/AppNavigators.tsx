@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserDashboardNavigators from './UserDashboardNavigators';
@@ -14,6 +14,11 @@ import AuthNavigators from './AuthNavigators';
 import ConfirmNavigators from './ConfirmNavigators';
 import AuthContext from '../../contexts/authContext/authContext';
 import SplashScreen from '../shared/splash/SplashScreen';
+import HelpAndSupport from '../screens/others/help&support/HelpSupport';
+import { Aboutus } from '../screens/others/about us/aboutus';
+import { Icon } from 'react-native-paper';
+import SettingsPage from '../screens/others/settings/Settings';
+import PasswordReset from '../screens/others/settings/passwordReset/PasswordReset';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +29,7 @@ const AppNavigators = () => {
     return (
         <>
             <Stack.Navigator initialRouteName='SplashScreen' screenOptions={{ headerShown: false }}>
-                {/* <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} /> */}
+                <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
                 {
                     user ?
                         <>
@@ -36,8 +41,16 @@ const AppNavigators = () => {
                             <Stack.Screen name='Notification' component={NotificationPage} />
                             <Stack.Screen name='Terms' component={TermsAndConditions} />
                             <Stack.Screen name='Privacy' component={PrivacyPolicy} />
+                            <Stack.Screen name='Settings' component={SettingsPage} />
+                            <Stack.Screen name='ResetPassord' component={PasswordReset} />
+                            <Stack.Screen name='About Us' component={Aboutus} options={{
+                                headerShown: true,
+                                headerStyle: {
+                                    backgroundColor: "#fde8f1"
+                                }
+                            }} />
                             <Stack.Screen name='Payment' component={Payment} />
-                            {/* <Stack.Screen name="Auth" component={AuthNavigators} /> */}
+                            <Stack.Screen name='Support' component={HelpAndSupport} />
                             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
                         </> :
                         <>

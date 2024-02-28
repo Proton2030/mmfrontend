@@ -5,7 +5,7 @@ import { request } from "../api";
 
 const { patch,get } = request;
 
-const initialRoute = "/user";
+const initialRoute = "user";
 export const updateUserDetails = async (payload: any) => {
 	try {
 		console.log("payload",payload)
@@ -39,6 +39,33 @@ export const updateUserDetails = async (payload: any) => {
 export const getAllSuggestionUser = async (filter: any) => {
 	try {
 		const endpoint = `${initialRoute}/get-all-user-suggestion`;
+		const response = await get(
+			endpoint,
+			{
+				...headers,
+			},
+			filter
+		);
+		if (response) {
+			const {
+				data: { message }
+			} = response;
+			if (message === MESSAGE.get.succ) {
+				const {
+					data: { result }
+				} = response;
+				return result;
+			}
+		}
+		throw new Error();
+	} catch (error: any) {
+		console.log(error);
+		throw error;
+	}
+};
+export const getActiveSuggestionUser = async (filter: any) => {
+	try {
+		const endpoint = `${initialRoute}/get-active-user-suggestion`;
 		const response = await get(
 			endpoint,
 			{

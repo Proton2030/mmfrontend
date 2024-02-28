@@ -7,9 +7,28 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:57247023736:android:43785b082ea2ef9536a38d",
+        "android_client_info": {
+          "package_name": "com.muslim_matrimony.dr_proton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmvFDAHjFQYR4P7uAQFdobcat5xWxjHEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:57247023736:android:32621038fa3a61f736a38d",
         "android_client_info": {
-          "package_name": "com.matrimony.mm_app"
+          "package_name": "com.muslimmatrimony"
         }
       },
       "oauth_client": [],

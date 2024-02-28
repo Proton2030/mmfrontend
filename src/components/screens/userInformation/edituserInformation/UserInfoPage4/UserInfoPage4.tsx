@@ -10,21 +10,16 @@ import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
 import { logo } from '../../../../../assets';
 import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
-import { IUserInfo } from '../../../../../@types/types/userInfo.types';
-import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
-import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
-import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
 import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 
 const UserInformationPage4 = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [screen, setScreen] = useState<number>(0);
-
+    const route = useRoute<any>();
+    const { editable } = route.params;
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo4>({
         message_limit: 0,
@@ -47,14 +42,6 @@ const UserInformationPage4 = () => {
             setUserInfo(user);
         }
     }, [user])
-    const routeUserDashboard = CommonActions.reset({
-        index: 0,
-        routes: [
-            {
-                name: 'UserDashboard'
-            },
-        ],
-    });
     const handleChangeText = useCallback((field: string, type: string, text: string) => {
         if (type === "NUMBER") {
             setUserInfo(Object.assign({}, userInfo, { [field]: Number(text) }))
@@ -99,8 +86,14 @@ const UserInformationPage4 = () => {
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
+                    const jsonUser = JSON.stringify(userInstance);
+                    storeData("@user", jsonUser);
                     setLoading(false)
-                    navigation.navigate('UserInfo5');
+                    if (editable) {
+                        navigation.navigate('UserDashboard');
+                    } else {
+                        navigation.navigate('UserInfo5', { editable: false });
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -139,8 +132,10 @@ const UserInformationPage4 = () => {
 
                     <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} />
                     <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>Next</Button>
-                    <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
-
+                    {
+                        editable ? null :
+                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
+                    }
                 </View>
 
             </ScrollView>

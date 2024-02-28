@@ -1,6 +1,6 @@
 import { Chat, MessageType, defaultTheme } from '@flyerhq/react-native-chat-ui'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
-import { Image, Linking, Modal, StyleSheet, Text, View } from 'react-native'
+import { Image, Linking, Modal, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Appbar, Card, Paragraph, Title, Button, Avatar, useTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -13,7 +13,8 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen'
 import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
 import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage'
 import PaymentModal from '../paymentModal/PaymentModal'
-// import { initiatePayment } from '../../../utils/commonFunction/paymentPage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ChatMenu } from './chatMenu/ChatMenu'
 
 
 const uuidv4 = () => {
@@ -27,26 +28,33 @@ const uuidv4 = () => {
 const renderEmptyState = () => <Text style={{}}>Hey</Text>;
 
 const ChatBoard = () => {
-    const navigation = useNavigation<any>()
+    const navigation = useNavigation<any>();
+    const [isTyping, setIsTyping] = useState(false);
+    const [isBlock, setIsBlock] = useState<boolean>(false);
     const { user, setUser } = useContext(AuthContext);
     const [messages, setMessages] = useState<MessageType.Any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [inputMessage, setInputMessage] = useState<MessageType.Text | null>(null);
     const route = useRoute<any>();
-    const { profile_image, status, name, roomId, userId, updatedAt } = route.params;
+    let { userDetails, roomId, updatedAt, blocked_by_male_user, blocked_by_female_user } = route.params;
     const sender = { id: user?._id || "" };
     const [genderPayload, setGenderPayload] = useState<any>({
         male_user: "",
         female_user: ""
     });
+    const [titleBlockUser, settitleBlockUser] = useState('Block')
+    const [menuVisible, setMenuVisible] = useState(false);
+
+    const openMenu = () => setMenuVisible(true);
+    const closeMenu = () => setMenuVisible(false);
+
 
     const handleGenderPayload = useCallback(() => {
         if (user) {
             if (user.gender === "MALE") {
-                setGenderPayload(Object.assign({}, genderPayload, { male_user: user._id, female_user: userId }))
+                setGenderPayload(Object.assign({}, genderPayload, { male_user: user._id, female_user: userDetails._id }))
             }
             else {
-                setGenderPayload(Object.assign({}, genderPayload, { male_user: userId, female_user: user._id }))
+                setGenderPayload(Object.assign({}, genderPayload, { male_user: userDetails._id, female_user: user._id }))
             }
         }
     }, [user])
@@ -80,6 +88,20 @@ const ChatBoard = () => {
         });
     }
 
+    const handleStartTyping = () => {
+        if (!isTyping) {
+            setIsTyping(true);
+            socket.emit('typing', { roomId, userId: sender.id });
+        }
+    };
+
+    const handleStopTyping = () => {
+        if (isTyping) {
+            setIsTyping(false);
+            socket.emit('typing', { roomId, userId: sender.id });
+        }
+    };
+
     const handleSendPress = async (message: MessageType.PartialText) => {
         // console.log("message", user?.message_limit);
         if (messages.length === 0) {
@@ -91,9 +113,38 @@ const ChatBoard = () => {
                         id: sender.id + uuidv4(),
                         text: message.text,
                         type: 'text',
+                        status: 'delivered'
                     }
-                    setInputMessage(textMessage);
-                    setModalVisible(true);
+                    const tranId = await AsyncStorage.getItem("@tran_id");
+                    const msgLmt = await AsyncStorage.getItem("@msg_lmt");
+
+                    if (tranId && msgLmt) {
+                        try {
+                            const userInstance = await api.payment.updateUserMessageLimit({
+                                userObjectId: user._id,
+                                message_limit: Number(msgLmt),
+                                tran_id: tranId
+                            });
+
+                            AsyncStorage.removeItem("@tran_id");
+                            AsyncStorage.removeItem("@msg_lmt");
+
+                            if (userInstance.message_limit === 0) {
+                                setModalVisible(true);
+                            }
+                            else {
+                                setUser(userInstance)
+                                addMessage(textMessage);
+                                console.log("called-----|1|");
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            setModalVisible(true);
+                        }
+                    }
+                    else {
+                        setModalVisible(true);
+                    }
                 }
                 else {
                     const textMessage: MessageType.Text = {
@@ -102,8 +153,10 @@ const ChatBoard = () => {
                         id: sender.id + uuidv4(),
                         text: message.text,
                         type: 'text',
+                        status: 'delivered'
                     }
                     addMessage(textMessage);
+                    console.log("called-----|2|");
                     const updatedUser = { ...user, message_limit: user.message_limit - 1 };
                     setUser(updatedUser);
                 }
@@ -116,21 +169,26 @@ const ChatBoard = () => {
                 id: sender.id + uuidv4(),
                 text: message.text,
                 type: 'text',
+                status: 'delivered'
             }
             addMessage(textMessage);
+            console.log("called-----|3|");
+            socket.emit('messageSeen', { roomId: roomId, messageId: textMessage.id, userId: sender.id });
         }
-
+        handleStopTyping();
     }
 
-    const handlePaymentUpdate = async (Package_number: number,) => {
+    const handlePaymentUpdate = async (package_number: number,) => {
         const tran_id = uuidv4().toString();
-        const url = await initiatePayment(user, PAYMENT_PACKAGE_LIST[Package_number], tran_id);
+        await AsyncStorage.setItem("@tran_id", tran_id);
+        await AsyncStorage.setItem("@msg_lmt", String(PAYMENT_PACKAGE_LIST[package_number].message_limit));
+        const url = await initiatePayment(user, PAYMENT_PACKAGE_LIST[package_number], tran_id);
         if (url) {
             navigation.navigate("Payment",
                 {
                     url: url,
                     tranId: tran_id,
-                    message_limit: PAYMENT_PACKAGE_LIST[Package_number].message_limit,
+                    message_limit: PAYMENT_PACKAGE_LIST[package_number].message_limit,
                     messages: messages
                 }
             )
@@ -143,6 +201,66 @@ const ChatBoard = () => {
         navigation.goBack();
     };
 
+    const handleRouteTouserDetails = () => {
+        navigation.navigate('UserDetails', {
+            userDetails: userDetails,
+            editable: false,
+            updatedAt: userDetails?.updatedAt
+        })
+    }
+
+    // const handleBlockUser = () => {
+    //     console.log("--------->blocked");
+
+    //     if (blocked_by_male_user && user?.gender === "MALE") {
+    //         setIsBlock(false);
+    //         settitleBlockUser("Block")
+    //         blocked_by_male_user = false;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: false })
+    //     }
+    //     if (blocked_by_female_user && user?.gender === "FEMALE") {
+    //         setIsBlock(false);
+    //         settitleBlockUser("Block")
+    //         blocked_by_female_user = false;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: false }) // false is for unblock
+    //     }
+
+
+
+    //     if (blocked_by_male_user && user?.gender === "FEMALE") {
+    //         setIsBlock(true);
+    //         settitleBlockUser("Unblock")
+    //         blocked_by_female_user = true;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: true })
+    //     }
+    //     if (blocked_by_female_user && user?.gender === "MALE") {
+    //         setIsBlock(true);
+    //         settitleBlockUser("Unblock")
+    //         blocked_by_male_user = false;
+    //         socket.emit('block', { roomId: roomId, userId: user?._id, status: true }) // true is for block
+    //     }
+    // }
+
+    const handleBlockUser = () => {
+        let newIsBlock = false;
+        let newTitleBlockUser = true;
+        if (user) {
+            if (user.gender === "MALE") {
+                newIsBlock = blocked_by_male_user;
+                newTitleBlockUser = blocked_by_male_user ? true : false;
+                socket.emit('block', { roomId: roomId, userId: user._id, status: !blocked_by_male_user });
+                console.log("_____>MALE", !blocked_by_male_user);
+            } else if (user.gender === "FEMALE") {
+                newIsBlock = blocked_by_female_user;
+                newTitleBlockUser = blocked_by_female_user ? true : false;
+                socket.emit('block', { roomId: roomId, userId: user._id, status: !blocked_by_female_user });
+            }
+        }
+        setIsBlock(newIsBlock);
+        (newTitleBlockUser) ? settitleBlockUser("Unblock") : settitleBlockUser("Block");
+    };
+
+
     useEffect(() => {
         handleGenderPayload();
     }, [handleGenderPayload])
@@ -151,34 +269,47 @@ const ChatBoard = () => {
         getPreviousChat();
     }, [getPreviousChat])
 
-    // useEffect(() => {
-    //     if (user && user.message_limit === 1) {
-    //         if (inputMessage) {
-    //             handleSendPress(inputMessage);
-    //         }
-    //     }
-    // }, []);
-
-    console.log("----->msg lmt", user?.message_limit);
-
     useEffect(() => {
-        if (roomId !== "") {
-
-            socket.emit('join', roomId);  // Replace 'roomId' with a unique room ID or user ID.
+        if (user && roomId !== "") {
+            socket.emit('join', roomId);
             socket.on('receiveMessage', async (newMessage) => {
+                if (newMessage.author.id !== user._id) {
+                    setMessages(prevMessages =>
+                        prevMessages.map(message =>
+                            message.author.id === user._id ? { ...message, status: "seen" } : message
+                        )
+                    );
+                }
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
-                // const filter = {
-                //     userObjectId: newMessage.author.id
-                // }
-                // const response = await api.userDetails.getUserInfo(filter);
-                // console.log("----->msg1 limit", response.message_limit);
-                // setUser(response);
+            });
+
+            socket.on('seenMessage', (seenData) => {
+                if (seenData.authorId !== user._id) {
+                    console.log("seen recieved");
+                }
+            })
+
+            socket.on('block', async (status) => {
+                setIsBlock(status.is_blocked);
+            });
+
+            socket.on('userTyping', ({ userId: typingUserId }) => {
+                // Handle user typing event
+                if (typingUserId !== sender.id) {
+                    // Another user is typing
+                    console.log(`User ${typingUserId} is typing`);
+                    // Update UI accordingly
+                }
             });
         }
+
         return () => {
             socket.off('receiveMessage');
+            socket.off('userTyping');
+            socket.off('messageSeen');
         };
     }, [roomId]);
+
 
     return (
         // Remove this provider if already registered elsewhere
@@ -193,38 +324,71 @@ const ChatBoard = () => {
             }}>
                 <Appbar.BackAction onPress={handleGoBack} />
                 <View >
-                    <Avatar.Image size={40} source={{ uri: profile_image }} />
-                    {
-                        status === "ACTIVE" ?
-                            <View style={globalStyles.onlineDot} /> :
-                            <View style={globalStyles.offlineDot} />
-                    }
-
+                    <TouchableOpacity onPress={handleRouteTouserDetails}>
+                        <Avatar.Image size={40} source={{ uri: userDetails.profile_image_url }} />
+                        {
+                            userDetails.status === "ACTIVE" ?
+                                <View style={globalStyles.onlineDot} /> :
+                                <View style={globalStyles.offlineDot} />
+                        }
+                    </TouchableOpacity>
                 </View>
 
                 <View >
-                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{name?.split(' ')[0]}</Text>
+                    <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{userDetails.full_name?.split(' ')[0]}</Text>
                     <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
-                        {status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
+                        {userDetails.status === "ACTIVE" ? "(Online)" : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
                     </Text>
                 </View>
 
                 <Appbar.Content title={``} titleStyle={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }} />
 
-                <Appbar.Action icon="dots-vertical" />
+                {/* <Appbar.Action icon="dots-vertical" onPress={openMenu} /> */}
+                <ChatMenu
+                    visible={menuVisible}
+                    onDismiss={closeMenu}
+                    anchor={<Appbar.Action icon="dots-vertical" onPress={openMenu} />}
+                    options={[
+                        { title: titleBlockUser, onPress: () => handleBlockUser(), icon: "block-helper" },
+                        { title: 'Report', onPress: () => console.log('Option 2 selected'), icon: "flag" }
+                    ]}
+                    style={{ backgroundColor: '#fff5f9' }}
+                />
+
             </Appbar.Header>
-            <Chat
-                theme={{
-                    ...defaultTheme,
-                    colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "black" },
-                }}
-                locale='en'
-                emptyState={renderEmptyState}
-                messages={messages}
-                onSendPress={handleSendPress}
-                user={sender}
-            />
-            <PaymentModal modalVisible={modalVisible} setModalVisible={setModalVisible} styles={styles} handlePaymentUpdate={handlePaymentUpdate} name={name} />
+            {
+                isBlock || blocked_by_female_user || blocked_by_male_user ?
+                    <Chat
+                        theme={{
+                            ...defaultTheme,
+                            colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "rgb(0, 0, 0)" },
+                        }}
+                        locale='en'
+                        emptyState={renderEmptyState}
+                        messages={messages}
+                        sendButtonVisibilityMode='editing'
+                        onSendPress={handleSendPress}
+                        customBottomComponent={() => <View style={{ backgroundColor: "#ffdefb", padding: 8 }}>
+                            <Text style={{ color: "#E71B73", textAlign: "center" }}>
+                                This person is unavailable
+                            </Text>
+                        </View>}
+                        user={sender}
+                    /> :
+                    <Chat
+                        theme={{
+                            ...defaultTheme,
+                            colors: { ...defaultTheme.colors, primary: "#E71B73", inputBackground: "#ffdefb", inputText: "rgb(0, 0, 0)" },
+                        }}
+                        locale='en'
+                        emptyState={renderEmptyState}
+                        messages={messages}
+                        sendButtonVisibilityMode='editing'
+                        onSendPress={handleSendPress}
+                        user={sender}
+                    />
+            }
+            <PaymentModal modalVisible={modalVisible} setModalVisible={setModalVisible} styles={styles} handlePaymentUpdate={handlePaymentUpdate} name={userDetails.full_name} />
         </SafeAreaProvider>
     )
 }

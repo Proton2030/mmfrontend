@@ -15,6 +15,8 @@ import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { IUserInfo3part2 } from '../../../../../@types/types/userinfo3Part2';
+import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -22,8 +24,8 @@ const windowHeight = Dimensions.get('window').height;
 
 const UserInformationPage3_part2 = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [screen, setScreen] = useState<number>(0);
-
+    const route = useRoute<any>();
+    const { editable } = route.params;
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo3part2>({
         salah: "",
@@ -66,7 +68,8 @@ const UserInformationPage3_part2 = () => {
                 userInfo.sawum === ""
             ) {
                 setErrorMessage("Please fill the all data");
-                setVisible(true)
+                setVisible(true);
+                handelVibrate();
                 return;
             }
             const payload = {
@@ -79,14 +82,20 @@ const UserInformationPage3_part2 = () => {
                 const userInstance = await api.userDetails.updateUser(payload);
                 if (userInstance) {
                     setUser(userInstance);
-                    setLoading(false)
-                    navigation.navigate('UserInfo4');
+                    setLoading(false);
+                    const jsonUser = JSON.stringify(userInstance);
+                    storeData("@user", jsonUser);
+                    if (editable) {
+                        navigation.navigate('UserDashboard');
+                    } else {
+                        navigation.navigate('UserInfo4', { editable: false });
+                    }
                 }
             } catch (error) {
                 console.log(error);
                 setLoading(false)
                 setVisible(true)
-
+                handelVibrate()
             }
 
         }

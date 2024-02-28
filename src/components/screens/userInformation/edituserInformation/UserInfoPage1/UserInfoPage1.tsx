@@ -13,15 +13,14 @@ import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_TWO } from '.
 import { IUserInfo } from '../../../../../@types/types/userInfo.types';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
-
 
 const UserInformationPage1 = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [screen, setScreen] = useState<number>(0);
-
+    const navigation = useNavigation<any>();
+    const route = useRoute<any>();
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [userInfo, setUserInfo] = useState<IUserInfo1>({
         full_name: "",
@@ -35,8 +34,8 @@ const UserInformationPage1 = () => {
         body_color: ""
     })
 
-    const navigation = useNavigation<any>();
     const [loading, setLoading] = useState<boolean>(false);
+    const { editable } = route.params;
     const handleSetDefaultData = useCallback(() => {
         if (user) {
             const tempData: any = user;
@@ -50,6 +49,9 @@ const UserInformationPage1 = () => {
             setUserInfo(Object.assign({}, userInfo, { [field]: Number(text) }))
         }
         if (field === "gender") {
+            if (editable === true) {
+                return;
+            }
             if (text === "MALE") {
                 setUserInfo(Object.assign({}, userInfo, { age: 21, [field]: text }))
             }
@@ -76,7 +78,6 @@ const UserInformationPage1 = () => {
                 setErrorMessage("Please fill the all data");
                 setVisible(true)
                 handelVibrate()
-
                 return;
             }
             else {
@@ -85,7 +86,6 @@ const UserInformationPage1 = () => {
                         setErrorMessage("Age should not be less than 21");
                         setVisible(true)
                         handelVibrate()
-
                         return;
                     }
                 }
@@ -109,7 +109,14 @@ const UserInformationPage1 = () => {
                 if (userInstance) {
                     setUser(userInstance);
                     setLoading(false)
-                    navigation.navigate('UserInfo2');
+                    const jsonUser = JSON.stringify(userInstance);
+                    storeData("@user", jsonUser);
+                    if (editable) {
+                        navigation.navigate('UserDashboard');
+                    }
+                    else {
+                        navigation.navigate('UserInfo2', { editable: false });
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -149,8 +156,13 @@ const UserInformationPage1 = () => {
 
 
                     <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} />
-                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>Next</Button>
-                    <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
+                    <Button mode='contained' loading={loading} style={[globalStyles.pinkButton, { marginBottom: 18 }]} onPress={handleCompleteButtonClick}>
+                        {editable ? "Update" : "Next"}
+                    </Button>
+                    {
+                        editable ? null :
+                            <Button mode='outlined' style={globalStyles.lightPinkButton} onPress={handleGoBack}>Back</Button>
+                    }
                 </View>
 
             </ScrollView>

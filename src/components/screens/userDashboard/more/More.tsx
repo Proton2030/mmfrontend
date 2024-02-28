@@ -2,13 +2,10 @@ import { View, Text, ScrollView, Image } from 'react-native'
 import React, { useContext } from 'react'
 import SmallCard from '../../../shared/smallCard/SmallCard'
 import { MENU_OPTION } from '../../../../constants/MenuOption'
-import { defaultUser } from '../../../../assets'
 import { globalStyles } from '../../../../globalStyles/GlobalStyles'
 import { Appbar, Avatar } from 'react-native-paper'
 import AuthContext from '../../../../contexts/authContext/authContext'
 import { useNavigation } from '@react-navigation/native'
-
-
 
 const More = () => {
     const navigation = useNavigation<any>();
