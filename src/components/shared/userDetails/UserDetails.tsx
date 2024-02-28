@@ -1,16 +1,33 @@
-import { ScrollView, Image, Dimensions, Animated, Easing, TouchableOpacity } from 'react-native'
-import React, { useCallback, useContext, useState } from 'react'
+import { ScrollView, Image, Dimensions, Animated, Easing, TouchableOpacity } from 'react-native';
+import React, { useCallback, useContext, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { formatKeys } from '../../../utils/commonFunction/formatKeys';
 import { View, StyleSheet } from 'react-native';
-import { Avatar, Title, Caption, Paragraph, Drawer, Text, TouchableRipple, Switch, IconButton } from 'react-native-paper';
-import { USER_INFO_FOUR, USER_INFO_ONE, USER_INFO_THREE, USER_INFO_THREE_part2, USER_INFO_TWO } from '../../../constants/forms/UserInformation';
+import {
+  Avatar,
+  Title,
+  Caption,
+  Paragraph,
+  Drawer,
+  Text,
+  TouchableRipple,
+  Switch,
+  IconButton,
+} from 'react-native-paper';
+import {
+  USER_INFO_FOUR,
+  USER_INFO_ONE,
+  USER_INFO_THREE,
+  USER_INFO_THREE_part2,
+  USER_INFO_TWO,
+} from '../../../constants/forms/UserInformation';
 import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { api } from '../../../utils/api';
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const UserDetails = () => {
     const route = useRoute<any>();
@@ -20,52 +37,52 @@ const UserDetails = () => {
     const fadeAnim = new Animated.Value(0);
     const navigation = useNavigation<any>();
 
-    const handleParsonalInfoNavigate = () => {
-        navigation.navigate('UserInfo', {
-            screen: 'UserInfo1',
-            params: {
-                editable: true,
-                // Any other parameters you want to pass
-            },
-        });
-        console.log("navigate");
-    }
-    const handleJobInfoNavigate = () => {
-        navigation.navigate('UserInfo', {
-            screen: 'UserInfo2',
-            params: {
-                editable: true,
-                // Any other parameters you want to pass
-            },
-        });
-    }
-    const handleEduInfoNavigate = () => {
-        navigation.navigate('UserInfo', {
-            screen: 'UserInfo3',
-            params: {
-                editable: true,
-                // Any other parameters you want to pass
-            },
-        });
-    }
-    const handleReligiousInfoNavigate = () => {
-        navigation.navigate('UserInfo', {
-            screen: 'UserInfo3_part2',
-            params: {
-                editable: true,
-                // Any other parameters you want to pass
-            },
-        });
-    }
-    const handleFamilyInfoNavigate = () => {
-        navigation.navigate('UserInfo', {
-            screen: 'UserInfo4',
-            params: {
-                editable: true,
-                // Any other parameters you want to pass
-            },
-        });
-    }
+  const handleParsonalInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo1',
+      params: {
+        editable: true,
+        // Any other parameters you want to pass
+      },
+    });
+    console.log('navigate');
+  };
+  const handleJobInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo2',
+      params: {
+        editable: true,
+        // Any other parameters you want to pass
+      },
+    });
+  };
+  const handleEduInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo3',
+      params: {
+        editable: true,
+        // Any other parameters you want to pass
+      },
+    });
+  };
+  const handleReligiousInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo3_part2',
+      params: {
+        editable: true,
+        // Any other parameters you want to pass
+      },
+    });
+  };
+  const handleFamilyInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo4',
+      params: {
+        editable: true,
+        // Any other parameters you want to pass
+      },
+    });
+  };
 
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         setChoice(prev => !prev);
@@ -77,30 +94,29 @@ const UserDetails = () => {
         const response = await api.userChoice.addChoice(payload);
     }, []);
 
-    const handleNavigateProfileImage = () => {
-        navigation.navigate('ProfileImage', {
-            userid: userDetails._id,
-            username: userDetails.full_name,
-            imageURL: userDetails.profile_image_url
-        })
-    }
+  const handleNavigateProfileImage = () => {
+    navigation.navigate('ProfileImage', {
+      userid: userDetails._id,
+      username: userDetails.full_name,
+      imageURL: userDetails.profile_image_url,
+    });
+  };
 
-    const handleNavigateChat = () => {
-        let roomId = "";
-        if (user && user._id && userDetails._id) {
-            if (user?.gender === "MALE") {
-                roomId = user._id + userDetails._id;
-            }
-            else {
-                roomId = userDetails._id + user._id;
-            }
-            console.log("roomId", roomId)
-            navigation.navigate('Chat', {
-                userDetails: userDetails,
-                roomId: roomId
-            });
-        }
+  const handleNavigateChat = () => {
+    let roomId = '';
+    if (user && user._id && userDetails._id) {
+      if (user?.gender === 'MALE') {
+        roomId = user._id + userDetails._id;
+      } else {
+        roomId = userDetails._id + user._id;
+      }
+      console.log('roomId', roomId);
+      navigation.navigate('Chat', {
+        userDetails: userDetails,
+        roomId: roomId,
+      });
     }
+  };
 
     const handleAddChoice = useCallback(() => {
 
@@ -127,7 +143,7 @@ const UserDetails = () => {
                         />
                     </TouchableOpacity>
                     <View style={{ marginLeft: 20 }}>
-                        <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>{userDetails.full_name}</Title>
+                        <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>{userDetails.full_name}{userDetails.is_verified ? <Icon name="verified" size={18} /> : null}</Title>
                         <Text style={{ color: "#E71B73", fontSize: 16 }}>{userDetails.age} Years</Text>
                         <Text style={{ color: "#E71B73", fontSize: 16 }}>Lives in {userDetails.state || "N/A"}</Text>
                         {
@@ -259,78 +275,78 @@ const UserDetails = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-    },
-    userInfoSection: {
-        paddingLeft: 20,
-        backgroundColor: '#fde8f1',
-        paddingBottom: 8,
-        display: "flex",
-        flexDirection: "row",
-        width: "100%",
-    },
-    userInfoSectionTwo: {
-        paddingLeft: 20,
-        backgroundColor: '#fde8f1',
-        paddingBottom: 8,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "100%",
-    },
-    title: {
-        fontSize: 24,
-        marginTop: 15,
-        fontWeight: 'bold',
-        color: '#E71B73',
-    },
-    caption: {
-        fontSize: 14,
-        lineHeight: 14,
-        color: '#E71B73',
-    },
-    row: {
-        flexDirection: 'row',
-        marginBottom: 10,
-    },
-    paragraph: {
-        fontWeight: 'bold',
-        marginRight: 3,
-        color: '#E71B73',
-    },
-    infoBoxWrapper: {
-        flexDirection: 'row',
-        height: 80,
-        backgroundColor: '#ecf0f1',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-    },
-    infoBox: {
-        alignItems: 'center',
-    },
-    menuWrapper: {
-        marginTop: 10,
-        padding: 20,
-    },
-    infoItem: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "100%",
-        marginBottom: 10,
-        backgroundColor: '#f9f9f9',
-        padding: 10,
-        borderRadius: 8,
-    },
-    infoLabel: {
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    infoValue: {
-        color: '#555',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  userInfoSection: {
+    paddingLeft: 20,
+    backgroundColor: '#fde8f1',
+    paddingBottom: 8,
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+  },
+  userInfoSectionTwo: {
+    paddingLeft: 20,
+    backgroundColor: '#fde8f1',
+    paddingBottom: 8,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  title: {
+    fontSize: 24,
+    marginTop: 15,
+    fontWeight: 'bold',
+    color: '#E71B73',
+  },
+  caption: {
+    fontSize: 14,
+    lineHeight: 14,
+    color: '#E71B73',
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  paragraph: {
+    fontWeight: 'bold',
+    marginRight: 3,
+    color: '#E71B73',
+  },
+  infoBoxWrapper: {
+    flexDirection: 'row',
+    height: 80,
+    backgroundColor: '#ecf0f1',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  infoBox: {
+    alignItems: 'center',
+  },
+  menuWrapper: {
+    marginTop: 10,
+    padding: 20,
+  },
+  infoItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 10,
+    backgroundColor: '#f9f9f9',
+    padding: 10,
+    borderRadius: 8,
+  },
+  infoLabel: {
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  infoValue: {
+    color: '#555',
+  },
 });
 
 export default UserDetails;
