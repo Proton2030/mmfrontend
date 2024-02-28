@@ -7,9 +7,12 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
 import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { ActivityIndicator } from 'react-native';
+import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
+import { socket } from '../../../../config/config';
 
 const Chats = () => {
   const { user } = useContext(AuthContext);
+  const { messageSeenCount, setMessageSeenCount } = useContext(MessageSeenCountContext);
   const [chatList, setChatList] = useState<any[]>([]);
   const navigation = useNavigation<any>();
   const [isloading, setisloading] = useState(false)
@@ -17,7 +20,6 @@ const Chats = () => {
 
   const getChatList = useCallback(async () => {
     if (user) {
-
       const payload = {
         userObjectId: user._id,
         gender: user?.gender
@@ -30,10 +32,16 @@ const Chats = () => {
     }
   }, [user]);
 
+
   const handleRouteChat = (userDetails: IUserDetails, roomId: string, blocked_by_male_user: boolean, blocked_by_female_user: boolean, index: number) => {
     const tempChatList = chatList;
-    tempChatList[index].lastMessage.message.status = "seen";
+    if (tempChatList[index].lastMessage.message.status !== "seen") {
+      setMessageSeenCount(prevCount => Math.max(prevCount - 1, 0));
+      tempChatList[index].lastMessage.message.status = "seen";
+    }
     setChatList(tempChatList);
+
+    socket.emit("seenMessage", { authorId: user?._id, roomId: roomId })
     // item.lastMessage.message.status = "seen";
     navigation.navigate('Chat', {
       userDetails: userDetails,

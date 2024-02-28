@@ -276,7 +276,7 @@ const ChatBoard = () => {
             socket.emit('join', roomId);
 
             //check last message is another users message and if its unseen
-
+            messages.length !== 0 && messages[messages.length - 1].author.id !== user._id && socket.emit('seenMessage', { authorId: user._id, roomId: roomId });
 
             socket.on('receiveMessage', async (newMessage) => {
                 if (newMessage.author.id !== user._id) {
@@ -290,6 +290,12 @@ const ChatBoard = () => {
                 }
                 setMessages(prevMessages => [newMessage, ...prevMessages]);
             });
+
+            socket.on('seenMessage', (seenData) => {
+                if (seenData.authorId !== user._id) {
+                    console.log("seen recieved");
+                }
+            })
 
             socket.on('block', async (status) => {
                 setIsBlock(status.is_blocked);
@@ -312,26 +318,28 @@ const ChatBoard = () => {
         };
     }, [roomId]);
 
-    useEffect(() => {
-        // messages.length !== 0 && console.log("no of messages", messages[messages.length - 1]);
-        if (user && messages.length !== 0 && messages[messages.length - 1].author.id !== user._id && messages[messages.length - 1].status !== "seen") {
-            console.log("unseen called")
-            user && socket.emit('seenMessage', { authorId: user._id, roomId: roomId });
-            // setMessageSeenCount(0)
-        }
+    // console.log("message", messages);
 
-        socket.on('seenMessage', (seenData) => {
-            if (user && seenData.authorId !== user._id && messageSeenCount > 0) {
-                //decrease message cont by 1, and make the last messages status 'seen'
-                console.log("seen recieved")
-                if (messages[messages.length - 1].author.id === user._id) {
-                    const tempMessages = messages;
-                    tempMessages[tempMessages.length - 1].status = "seen";
-                    setMessages(tempMessages);
-                }
-            }
-        })
-    }, [user, messages])
+    // useEffect(() => {
+    //     // messages.length !== 0 && console.log("no of messages", messages[messages.length - 1]);
+    //     if (user && messages.length !== 0 && messages[messages.length - 1].author.id !== user._id && messages[messages.length - 1].status !== "seen") {
+    //         console.log("unseen called")
+    //         user && socket.emit('seenMessage', { authorId: user._id, roomId: roomId });
+    //         // setMessageSeenCount(0)
+    //     }
+
+    //     socket.on('seenMessage', (seenData) => {
+    //         if (user && seenData.authorId !== user._id && messageSeenCount > 0) {
+    //             //decrease message cont by 1, and make the last messages status 'seen'
+    //             console.log("seen recieved")
+    //             if (messages[messages.length - 1].author.id === user._id) {
+    //                 const tempMessages = messages;
+    //                 tempMessages[tempMessages.length - 1].status = "seen";
+    //                 setMessages(tempMessages);
+    //             }
+    //         }
+    //     })
+    // }, [user, messages])
 
 
     return (
