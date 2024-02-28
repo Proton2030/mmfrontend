@@ -11,41 +11,67 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import FastImage from 'react-native-fast-image';
 import _ from 'lodash';
 import { playSound } from '../../../utils/commonFunction/playSound'
+import ChoiceContext from '../../../contexts/choiceContext/choiceContext';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
   const [choice, setChoice] = useState<boolean>(false);
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
-
-
+  const { dispatch, state } = useContext(ChoiceContext);
 
   const handleRouteTouserDetails = () => {
     navigation.navigate('UserDetails', {
       userDetails: userDetails,
       editable: false,
-      updatedAt: userDetails?.updatedAt
-    })
+      updatedAt: userDetails?.updatedAt,
+      Userchoice: choice
+    });
   }
 
   const handleNavigateChat = () => {
-
-    let roomId = "";
+    let roomId = '';
     if (user && user._id && userDetails._id) {
-      if (user?.gender === "MALE") {
+      if (user?.gender === 'MALE') {
         roomId = user._id + userDetails._id;
-      }
-      else {
+      } else {
         roomId = userDetails._id + user._id;
       }
-      console.log("roomId", roomId)
+      console.log('roomId', roomId);
       navigation.navigate('Chat', {
         userDetails: userDetails,
         roomId: roomId,
-        updatedAt: userDetails?.updatedAt
       });
     }
-  }
+  };
+
+
+  // const handleRouteTouserDetails = () => {
+  //   navigation.navigate('UserDetails', {
+  //     userDetails: userDetails,
+  //     editable: false,
+  //     updatedAt: userDetails?.updatedAt
+  //   })
+  // }
+
+  // const handleNavigateChat = () => {
+
+  //   let roomId = "";
+  //   if (user && user._id && userDetails._id) {
+  //     if (user?.gender === "MALE") {
+  //       roomId = user._id + userDetails._id;
+  //     }
+  //     else {
+  //       roomId = userDetails._id + user._id;
+  //     }
+  //     console.log("roomId", roomId)
+  //     navigation.navigate('Chat', {
+  //       userDetails: userDetails,
+  //       roomId: roomId,
+  //       updatedAt: userDetails?.updatedAt
+  //     });
+  //   }
+  // }
   const handleAddChoice = useCallback(
     () => {
       setChoice(prev => !prev);
