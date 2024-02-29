@@ -45,6 +45,7 @@ const Home = () => {
         setHasSalah('');
         setHasSawm('');
         setFilterModalVisible(false);
+        getSuggestionUserApi("REFRESH");
     };
 
     const getAgeRange = () => {
@@ -67,10 +68,12 @@ const Home = () => {
     };
 
     const hideFilterModal = async () => {
-
+        const gender = (user?.gender === "MALE") ? "FEMALE" : "MALE"
         console.log("-------->filter api");
+
         try {
             const params = {
+                gender: gender,
                 marital_status: maritalStatus,
                 salah: hasSalah,
                 sawum: hasSawm
@@ -84,8 +87,6 @@ const Home = () => {
             // setLoading(false);
         }
     };
-
-
 
     const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
         const payload = {
@@ -134,7 +135,7 @@ const Home = () => {
     //     console.log("called")
     // }
     const getSuggestionUser = useCallback(async () => {
-        getSuggestionUserApi("FRESH");
+        getSuggestionUserApi("REFRESH");
     }, [user, page]);
 
     const debouncedFetchData = _.debounce(() => {
@@ -158,8 +159,10 @@ const Home = () => {
     const handleClear = () => {
         setSearchQuery("");
         setIsSearch(false);
-        setSuggestedUser([]);
+        // setSuggestedUser([])
+        // getSuggestionUserApi("REFRESH");
         getSuggestionUser();
+        setFilterModalVisible(false)
     }
 
     const handleRefresh = useCallback(() => {
@@ -205,7 +208,7 @@ const Home = () => {
         setIsSearch(!isSearch);
     }
     const LogCount = () => {
-        console.log("-------------->MEssage seen count", messageSeenCount)
+        console.log("-------------->Message seen count", messageSeenCount)
     }
     useEffect(() => {
         getSuggestionUser();
@@ -237,30 +240,34 @@ const Home = () => {
                     <Modal visible={filterModalVisible} onRequestClose={hideFilterModal} transparent>
 
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-                            <View style={{ backgroundColor: 'white', padding: 10, borderRadius: 10, width: '90%', height: '50%' }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '90%', backgroundColor: 'white', paddingHorizontal: 10, borderTopRightRadius: 20, borderTopLeftRadius: 20, paddingTop: 5 }}>
+                                <Text style={{ fontSize: 25, color: '#E71B73', fontWeight: 'bold', marginBottom: 10 }}>Filter Options</Text>
+                                <View style={{ flexDirection: 'row', gap: 2 }}>
+
+                                    <IconButton
+                                        icon="refresh"
+                                        iconColor='white'
+                                        size={20}
+                                        style={{ borderRadius: 20, backgroundColor: "#E71B73", }}
+                                        onPress={handleRefreshFilters} // Add onPress handler for refreshing
+                                    />
+
+                                    <IconButton
+                                        icon="magnify"
+                                        size={20}
+                                        iconColor='white'
+                                        onPress={hideFilterModal}
+                                        style={{ borderRadius: 20, backgroundColor: "#E71B73", }}
+                                    />
+                                </View>
+
+                            </View>
+                            <View style={{ backgroundColor: 'white', padding: 10, width: '90%', height: '50%', borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}>
+
+
+
                                 <ScrollView>
-                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Text style={{ fontSize: 25, color: '#E71B73', fontWeight: 'bold', marginBottom: 10 }}>Filter Options</Text>
-                                        <View style={{ flexDirection: 'row', gap: 2 }}>
 
-                                            <IconButton
-                                                icon="refresh"
-                                                iconColor='white'
-                                                size={20}
-                                                style={{ borderRadius: 20, backgroundColor: "#E71B73", }}
-                                                onPress={handleRefreshFilters} // Add onPress handler for refreshing
-                                            />
-
-                                            <IconButton
-                                                icon="magnify"
-                                                size={20}
-                                                iconColor='white'
-                                                onPress={hideFilterModal}
-                                                style={{ borderRadius: 20, backgroundColor: "#E71B73", }}
-                                            />
-                                        </View>
-
-                                    </View>
 
                                     {/* Marital Status */}
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5, marginTop: 5 }}>Marital Status</Text>
@@ -280,7 +287,7 @@ const Home = () => {
                                     <Checkbox.Item label="Yes" status={hasSawm.includes("YES") ? 'checked' : 'unchecked'} onPress={() => setHasSawm("YES")} />
                                     <Checkbox.Item label="No" status={hasSawm.includes("NO") ? 'checked' : 'unchecked'} onPress={() => setHasSawm("NO")} />
 
-                                    <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Age</Text>
+                                    {/* <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5 }}>Age</Text>
                                     <Text style={{ color: "#E71B73", fontWeight: "700", fontSize: 15, marginLeft: 5, marginTop: 5 }}>Selected Age Range: {getAgeRange()}</Text>
                                     <MultiSlider
                                         style={{ width: 200, height: 40 }}
@@ -290,7 +297,7 @@ const Home = () => {
                                         maximumTrackTintColor="#000000"
                                         value={Math.round(sliderValue)}
                                         onValueChange={handleSliderChange}
-                                    />
+                                    /> */}
                                     {/* <Button mode="contained" onPress={applyFilters} style={{ marginTop: 20 }}>Apply Filters</Button> */}
 
                                 </ScrollView>
