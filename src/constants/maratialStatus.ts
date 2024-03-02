@@ -1,0 +1,3 @@
+export const MARATAL_STATUS = [
+    "MARRIED", "UNMARRIED", "DIVORCED", "PARTNER DEATH"
+]

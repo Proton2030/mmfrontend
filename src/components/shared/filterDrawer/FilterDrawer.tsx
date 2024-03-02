@@ -1,28 +1,46 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { SafeAreaView, View, Text, ScrollView, TextInput, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon2 from 'react-native-vector-icons/Ionicons'
 import { globalStyles } from "../../../globalStyles/GlobalStyles";
 import { COLORS } from "../../../constants/theme";
 import { IconButton } from "react-native-paper";
+import { BODY_COLOR } from "../../../constants/color";
+import { districts_of_bangladesh } from "../../../constants/bangladeshDistricts";
+import Autocomplete from "../autocomplete/Autocomplete";
+import { MARATAL_STATUS } from "../../../constants/maratialStatus";
+import RangeSlider from 'rn-range-slider';
 
 const FilterDrawer = ({ navigation, toggleDrawer, applyFilters, }: any) => {
-    const [location, setLocation] = useState("");
+
+    const [location, setLocation] = useState<any>(null);
     const [maritalStatus, setMaritalStatus] = useState<any>(null);
     const [hasSalah, setHasSalah] = useState<any>(null);
     const [hasSawm, setHasSawm] = useState<any>(null);
+    const [body_color, setbody_color] = useState<any>(null);
+    const [inputValue, setInputValue] = useState<string>('');
 
     const handleRefreshFilters = () => {
         setMaritalStatus(null);
         setHasSalah(null);
         setHasSawm(null);
+        setbody_color(null)
+        setLocation(null)
+        setInputValue('')
+    };
 
+    const handleSelectDistrict = (selectedDistrict: string) => {
+        setLocation(
+            (prevState: string) => (prevState === selectedDistrict ? null : selectedDistrict)
+        )
     };
 
     return (
         <SafeAreaView style={globalStyles.container}>
+
             <View style={globalStyles.headerFilter}>
                 <View style={globalStyles.headerFilter}>
-                    <Icon name="filter" size={24} color={COLORS.primary} />
+                    <Icon2 name="filter" size={25} color={COLORS.primary} />
                     <Text style={globalStyles.title && { fontSize: 30, paddingLeft: 5, color: COLORS.primary, fontWeight: '400' }}>Filter</Text>
                 </View>
                 <TouchableOpacity style={globalStyles.iconHeader}>
@@ -30,57 +48,51 @@ const FilterDrawer = ({ navigation, toggleDrawer, applyFilters, }: any) => {
                     <IconButton icon={'close'} onPress={toggleDrawer} />
                 </TouchableOpacity>
             </View>
-            <ScrollView style={globalStyles.container}>
+
+            <ScrollView style={globalStyles.container && { marginTop: 1 }}>
+
                 <View style={globalStyles.item}>
                     <Text style={globalStyles.title}>District</Text>
-                    <TextInput
-                        value={location}
-                        placeholder="Where do you live?"
-                        style={globalStyles.input}
-                        onChangeText={setLocation}
-                    />
+                    <Autocomplete
+                        options={districts_of_bangladesh}
+                        onSelect={handleSelectDistrict} inputValue={inputValue} setInputValue={setInputValue} />
                 </View>
+
                 <View style={globalStyles.item}>
                     <Text style={globalStyles.title}>Marital Status</Text>
+
                     <View style={globalStyles.row}>
-                        <TouchableOpacity
-                            onPress={() => setMaritalStatus(
-                                (prevState: string) => (prevState === "MARRIED" ? null : "MARRIED")
+                        {
+                            MARATAL_STATUS.map((item) =>
+                                <TouchableOpacity
+                                    onPress={() => setMaritalStatus(
+                                        (prevState: string) => (prevState === item ? null : item)
+                                    )}
+                                    style={[globalStyles.category, { borderColor: maritalStatus === item ? COLORS.primary : COLORS.grey }]}
+                                >
+                                    <Text style={[globalStyles.subtitle, { color: maritalStatus === item ? COLORS.primary : COLORS.grey }]}>{item.toLowerCase()}</Text>
+                                </TouchableOpacity>
                             )}
-                            style={[globalStyles.category, { borderColor: maritalStatus === "MARRIED" ? COLORS.primary : COLORS.grey }]}
-                        >
-                            <Text style={[globalStyles.subtitle, { color: maritalStatus === "MARRIED" ? COLORS.primary : COLORS.grey }]}>Married</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => setMaritalStatus(
-                                (prevState: string) => (prevState === "UNMARRIED" ? null : "UNMARRIED")
-                            )}
-                            style={[globalStyles.category, { borderColor: maritalStatus === "UNMARRIED" ? COLORS.primary : COLORS.grey }]}
-                        >
-                            <Text style={[globalStyles.subtitle, { color: maritalStatus === "UNMARRIED" ? COLORS.primary : COLORS.grey }]}>Unarried</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => setMaritalStatus(
-                                (prevState: string) => (prevState === "DIVORCED" ? null : "DIVORCED")
-                            )}
-                            style={[globalStyles.category, { borderColor: maritalStatus === "DIVORCED" ? COLORS.primary : COLORS.grey }]}
-                        >
-                            <Text style={[globalStyles.subtitle, { color: maritalStatus === "DIVORCED" ? COLORS.primary : COLORS.grey }]}>Divorced</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => setMaritalStatus(
-                                (prevState: string) => (prevState === "PARTNER DEATH" ? null : "PARTNER DEATH")
-                            )}
-                            style={[globalStyles.category, { borderColor: maritalStatus === "PARTNER DEATH" ? COLORS.primary : COLORS.grey }]}
-                        >
-                            <Text style={[globalStyles.subtitle, { color: maritalStatus === "PARTNER DEATH" ? COLORS.primary : COLORS.grey }]}>Partner Death</Text>
-                        </TouchableOpacity>
-
                     </View>
                 </View>
+
+                <View style={globalStyles.item}>
+                    <Text style={globalStyles.title}>Body Color</Text>
+                    <View style={globalStyles.row}>
+                        {
+                            BODY_COLOR.map((item) =>
+                                <TouchableOpacity
+                                    onPress={() => setbody_color(
+                                        (prevState: string) => (prevState === item ? null : item)
+                                    )}
+                                    style={[globalStyles.category, { borderColor: body_color === item ? COLORS.primary : COLORS.grey }]}
+                                >
+                                    <Text style={[globalStyles.subtitle, { color: body_color === item ? COLORS.primary : COLORS.grey }]}>{item}</Text>
+                                </TouchableOpacity>
+                            )}
+                    </View>
+                </View>
+
                 <View style={globalStyles.item}>
                     <Text style={globalStyles.title}>FILTER</Text>
                     <View style={globalStyles.line} />
@@ -110,7 +122,7 @@ const FilterDrawer = ({ navigation, toggleDrawer, applyFilters, }: any) => {
                 </View>
                 <TouchableOpacity
                     style={globalStyles.button}
-                    onPress={() => applyFilters({ location, maritalStatus, hasSalah, hasSawm })}
+                    onPress={() => applyFilters({ location, maritalStatus, hasSalah, hasSawm, body_color })}
                 >
                     <Text style={globalStyles.buttonTxt}>Apply Filters</Text>
                 </TouchableOpacity>

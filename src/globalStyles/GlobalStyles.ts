@@ -151,17 +151,17 @@ export const globalStyles = StyleSheet.create(
         },
         container: {
             flex: 1,
-            margin: 5,
+            marginHorizontal: 10,
         },
         item: {
-            marginVertical: 10,
+            marginVertical: 5,
         },
         headerFilter: {
             display: 'flex',
             justifyContent: 'space-between',
             flexDirection: 'row',
             alignItems: 'center',
-            paddingLeft: 5
+
         },
         title: {
             color: COLORS.title,
@@ -209,7 +209,6 @@ export const globalStyles = StyleSheet.create(
             paddingLeft: 10
         },
         button: {
-            marginTop: 30,
             backgroundColor: COLORS.primary,
             borderRadius: 5,
             padding: 10,
@@ -236,5 +235,11 @@ export const globalStyles = StyleSheet.create(
             backgroundColor: 'rgba(0, 0, 0, 0.1)',
             opacity: 1,
         },
+        autocompleteContainer: {
+
+        },
+        autocompleteItem: {
+
+        }
     }
 )

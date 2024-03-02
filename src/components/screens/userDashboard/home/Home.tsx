@@ -72,22 +72,23 @@ const Home = () => {
     };
 
 
-    const hideFilterModal = async (filterOptions: { maritalStatus: any; hasSalah: any; hasSawm: any; }) => {
+    const hideFilterModal = async (filterOptions: { maritalStatus: any; hasSalah: any; hasSawm: any; body_color: any; location: any }) => {
         const gender = (user?.gender === "MALE") ? "FEMALE" : "MALE";
         console.log(filterOptions)
         try {
             const params = {
                 gender: gender,
+                body_color: filterOptions?.body_color,
+                state: filterOptions?.location,
                 marital_status: filterOptions?.maritalStatus,
                 salah: filterOptions?.hasSalah,
                 sawum: filterOptions?.hasSawm
             };
             const response = await api.filter.getFilterList(params);
-            setSuggestedUser(response);
             toggleDrawer()
+            setSuggestedUser(response);
         } catch (error) {
             console.error(error);
-            // setLoading(false);
         }
     };
 
@@ -296,7 +297,7 @@ const Home = () => {
             </View>
 
             {drawerVisible && <View style={globalStyles.overlay} />}
-            <Animated.View style={{ position: 'absolute', top: 0, right: drawerVisible ? 0 : -80, width: '100%', height: '100%', transform: [{ translateX }], paddingLeft: 10 }}>
+            <Animated.View style={{ position: 'absolute', top: 0, right: drawerVisible ? 0 : -120, width: '100%', height: '100%', transform: [{ translateX }], paddingLeft: 10 }}>
                 <View style={{ backgroundColor: 'white', position: 'absolute', right: 0, width: '80%', height: '100%' }}>
                     <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
                 </View>
