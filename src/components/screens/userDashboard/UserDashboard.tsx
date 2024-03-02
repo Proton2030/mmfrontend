@@ -7,6 +7,7 @@ import Location from './location/Location';
 import MyChoice from './choice/myChoice/MyChoice';
 import ActiveUser from './activeUser/ActiveUser';
 import HelpAndSupport from '../others/help&support/HelpSupport';
+import Drawer from '../../shared/filterDrawer/FilterDrawer';
 
 const UserDashboard = () => {
     const navigation = useNavigation<any>(); // Get the navigation object
