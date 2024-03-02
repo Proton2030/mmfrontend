@@ -99,11 +99,10 @@ const Home = () => {
         }
         console.log("-------->payload", payload);
         try {
+            handelVibrate();
             await api.userChoice.addChoice(payload);
         } catch (err) {
             console.log(err);
-        } finally {
-            handelVibrate();
         }
     }, [])
 
@@ -230,6 +229,7 @@ const Home = () => {
     }, [handlegGetUnseenMessageCount]);
 
     return (
+
         <>
             <View style={{ flex: 1 }}>
                 <Appbar.Header
