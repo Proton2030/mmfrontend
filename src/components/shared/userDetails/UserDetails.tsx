@@ -14,6 +14,7 @@ import {
   TouchableRipple,
   Switch,
   IconButton,
+  useTheme,
 } from 'react-native-paper';
 import {
   USER_INFO_FOUR,
@@ -28,14 +29,23 @@ import AuthContext from '../../../contexts/authContext/authContext';
 import { api } from '../../../utils/api';
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { getAppThemeMode } from '../../../utils/commonFunction/getAppThemeMode';
+import { DarkThemeColor, LightThemeColor } from '../../../constants/theme/themeColor';
+import UiContext from '../../../contexts/uiContext/UIContext';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { OTHERS } from '../../../constants/texts/others/Others';
 
 const UserDetails = () => {
-    const route = useRoute<any>();
-    const { user } = useContext(AuthContext);
-    const [choice, setChoice] = useState<boolean>(false);
-    const { userDetails, editable, Userchoice } = route.params;
-    const fadeAnim = new Animated.Value(0);
-    const navigation = useNavigation<any>();
+  const { colors } = useTheme();
+  const {
+    ui: { language, theme },
+  } = useContext(UiContext);
+  const route = useRoute<any>();
+  const { user } = useContext(AuthContext);
+  const [choice, setChoice] = useState<boolean>(false);
+  const { userDetails, editable, Userchoice } = route.params;
+  const fadeAnim = new Animated.Value(0);
+  const navigation = useNavigation<any>();
 
   const handleParsonalInfoNavigate = () => {
     navigation.navigate('UserInfo', {
@@ -84,15 +94,14 @@ const UserDetails = () => {
     });
   };
 
-    const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
-        setChoice(prev => !prev);
-        const payload = {
-            senderId: user?._id,
-            recieverId: userDetails._id,
-
-        }
-        const response = await api.userChoice.addChoice(payload);
-    }, []);
+  const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
+    setChoice((prev) => !prev);
+    const payload = {
+      senderId: user?._id,
+      recieverId: userDetails._id,
+    };
+    const response = await api.userChoice.addChoice(payload);
+  }, []);
 
   const handleNavigateProfileImage = () => {
     navigation.navigate('ProfileImage', {
@@ -118,170 +127,157 @@ const UserDetails = () => {
     }
   };
 
-    const handleAddChoice = useCallback(() => {
+  const handleAddChoice = useCallback(() => {
+    if (user?._id && userDetails._id) {
+      addChoice(user._id, userDetails._id);
+    }
+  }, [user]);
 
-        if (user?._id && userDetails._id) {
-            addChoice(user._id, userDetails._id)
-        }
-    }, [user]);
+  React.useEffect(() => {
+    setChoice(Userchoice);
+  }, []);
 
-    React.useEffect(() => {
-
-        setChoice(Userchoice)
-    }, []);
-
-    return (
-        <View style={[styles.container]}>
-            <View style={styles.userInfoSection}>
-                <View style={{ flexDirection: 'row', alignItems: "center", marginTop: 15 }}>
-                    <TouchableOpacity onPress={handleNavigateProfileImage}>
-                        <Avatar.Image
-                            source={{
-                                uri: userDetails.profile_image_url,
-                            }}
-                            size={80}
-                        />
-                    </TouchableOpacity>
-                    <View style={{ marginLeft: 20 }}>
-                        <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>{userDetails.full_name}{userDetails.is_verified ? <Icon name="verified" size={18} /> : null}</Title>
-                        <Text style={{ color: "#E71B73", fontSize: 16 }}>{userDetails.age} Years</Text>
-                        <Text style={{ color: "#E71B73", fontSize: 16 }}>Lives in {userDetails.state || "N/A"}</Text>
-                        {
-                            userDetails.status === "ACTIVE" ?
-                                <Text>online</Text> :
-                                <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
-                        }
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.userInfoSectionTwo}>
-                <View>
-                    <Paragraph style={styles.paragraph}>{userDetails.marital_status}</Paragraph>
-                </View>
-                {
-
-                    !editable ?
-                        <View style={{ display: "flex", flexDirection: "row" }}>
-                            <IconButton icon={choice ? "heart" : "heart-outline"} onPress={handleAddChoice} iconColor={choice ? "red" : "black"}></IconButton>
-                            <IconButton icon={"chat-outline"} onPress={handleNavigateChat}></IconButton>
-                        </View> : null
-                }
-            </View>
-            <ScrollView style={styles.menuWrapper}>
-                <View style={{ marginBottom: 16 }}>
-                    <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Personal Information</Text>
-                        {
-                            editable ?
-                                <IconButton icon="pencil-outline" onPress={handleParsonalInfoNavigate} /> : null
-                        }
-                    </View>
-                    {USER_INFO_ONE.map((key, index) => {
-                        return (
-                            <View key={index} style={styles.infoItem}>
-                                {
-                                    key.id === "state" ?
-                                        <Text style={styles.infoLabel}>District</Text>
-                                        :
-                                        <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
-                                }
-                                {
-                                    key.id === "age" ?
-                                        <Text style={styles.infoValue}>{userDetails[key.id]} years</Text> :
-                                        key.id === "height" ?
-                                            <Text style={styles.infoValue}>{userDetails[key.id]} feet</Text> :
-                                            key.id === "weight" ?
-                                                <Text style={styles.infoValue}>{userDetails[key.id]} kg</Text> :
-                                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
-                                }
-                            </View>
-                        );
-                    })}
-                </View>
-                <View style={{ marginBottom: 16 }}>
-                    <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Job Information</Text>
-                        {
-                            editable ?
-                                <IconButton icon="pencil-outline" onPress={handleJobInfoNavigate} /> : null
-                        }
-                    </View>
-                    {USER_INFO_TWO.map((key, index) => {
-                        return (
-                            <View key={index} style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
-                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
-                            </View>
-                        );
-                    })}
-                </View>
-                <View style={{ marginBottom: 16 }}>
-                    <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Education</Text>
-                        {
-                            editable ?
-                                <IconButton icon="pencil-outline" onPress={handleEduInfoNavigate} /> : null
-                        }
-                    </View>
-                    {USER_INFO_THREE.map((key, index) => {
-                        return (
-                            <View key={index} style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
-                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
-                            </View>
-                        );
-                    })}
-                </View>
-                <View style={{ marginBottom: 16 }}>
-                    <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Religious information</Text>
-                        {
-                            editable ?
-                                <IconButton icon="pencil-outline" onPress={handleReligiousInfoNavigate} /> : null
-                        }
-                    </View>
-                    {USER_INFO_THREE_part2.map((key, index) => {
-                        return (
-                            <View key={index} style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
-                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
-                            </View>
-                        );
-                    })}
-                </View>
-                <View style={{ marginBottom: 16 }}>
-                    <View style={globalStyles.iconText}>
-                        <Text style={[globalStyles.mediumText, { marginBottom: 18, color: "#E71B73" }]}>Family Information</Text>
-                        {
-                            editable ?
-                                <IconButton icon="pencil-outline" onPress={handleFamilyInfoNavigate} /> : null
-                        }
-                    </View>
-                    {USER_INFO_FOUR.map((key, index) => {
-                        return (
-                            <View key={index} style={styles.infoItem}>
-                                <Text style={styles.infoLabel}>{formatKeys(key.id)}</Text>
-                                <Text style={styles.infoValue}>{userDetails[key.id]}</Text>
-                            </View>
-                        );
-                    })}
-                </View>
-
-            </ScrollView>
-
+  return (
+    <View style={[styles.container]}>
+      <View style={styles.userInfoSection}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
+          <TouchableOpacity onPress={handleNavigateProfileImage}>
+            <Avatar.Image
+              source={{
+                uri: userDetails.profile_image_url,
+              }}
+              size={80}
+            />
+          </TouchableOpacity>
+          <View style={{ marginLeft: 20 }}>
+            <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>
+              {userDetails.full_name}
+              {userDetails.is_verified ? <Icon name="verified" size={18} /> : null}
+            </Title>
+            <Text style={{ color: '#E71B73', fontSize: 16 }}>{userDetails.age} Years</Text>
+            <Text style={{ color: '#E71B73', fontSize: 16 }}>
+              {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}
+            </Text>
+            {userDetails.status === 'ACTIVE' ? (
+              <Text>online</Text>
+            ) : (
+              <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
+            )}
+          </View>
         </View>
-    );
+      </View>
+
+      <View style={styles.userInfoSectionTwo}>
+        <View>
+          <Paragraph style={styles.paragraph}>{userDetails.marital_status}</Paragraph>
+        </View>
+        {!editable ? (
+          <View style={{ display: 'flex', flexDirection: 'row' }}>
+            <IconButton
+              icon={choice ? 'heart' : 'heart-outline'}
+              onPress={handleAddChoice}
+              iconColor={choice ? 'red' : colors.scrim}
+            ></IconButton>
+            <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton>
+          </View>
+        ) : null}
+      </View>
+      <ScrollView style={styles.menuWrapper}>
+        <View style={{ marginBottom: 16 }}>
+          <View style={globalStyles.iconText}>
+            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Personal Information</Text>
+            {editable ? <IconButton icon="pencil-outline" onPress={handleParsonalInfoNavigate} /> : null}
+          </View>
+          {USER_INFO_ONE.map((key, index) => {
+            return (
+              <View key={index} style={styles.infoItem}>
+                {key.id === 'state' ? (
+                  <Text style={styles.infoLabel}>District</Text>
+                ) : (
+                  <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
+                )}
+                {key.id === 'age' ? (
+                  <Text>{userDetails[key.id]} years</Text>
+                ) : key.id === 'height' ? (
+                  <Text>{userDetails[key.id]} feet</Text>
+                ) : key.id === 'weight' ? (
+                  <Text>{userDetails[key.id]} kg</Text>
+                ) : (
+                  <Text>{userDetails[key.id]}</Text>
+                )}
+              </View>
+            );
+          })}
+        </View>
+        <View style={{ marginBottom: 16 }}>
+          <View style={globalStyles.iconText}>
+            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Job Information</Text>
+            {editable ? <IconButton icon="pencil-outline" onPress={handleJobInfoNavigate} /> : null}
+          </View>
+          {USER_INFO_TWO.map((key, index) => {
+            return (
+              <View key={index} style={styles.infoItem}>
+                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
+                <Text>{userDetails[key.id]}</Text>
+              </View>
+            );
+          })}
+        </View>
+        <View style={{ marginBottom: 16 }}>
+          <View style={globalStyles.iconText}>
+            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Education</Text>
+            {editable ? <IconButton icon="pencil-outline" onPress={handleEduInfoNavigate} /> : null}
+          </View>
+          {USER_INFO_THREE.map((key, index) => {
+            return (
+              <View key={index} style={styles.infoItem}>
+                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
+                <Text>{userDetails[key.id]}</Text>
+              </View>
+            );
+          })}
+        </View>
+        <View style={{ marginBottom: 16 }}>
+          <View style={globalStyles.iconText}>
+            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Religious information</Text>
+            {editable ? <IconButton icon="pencil-outline" onPress={handleReligiousInfoNavigate} /> : null}
+          </View>
+          {USER_INFO_THREE_part2.map((key, index) => {
+            return (
+              <View key={index} style={styles.infoItem}>
+                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
+                <Text>{userDetails[key.id]}</Text>
+              </View>
+            );
+          })}
+        </View>
+        <View style={{ marginBottom: 16 }}>
+          <View style={globalStyles.iconText}>
+            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Family Information</Text>
+            {editable ? <IconButton icon="pencil-outline" onPress={handleFamilyInfoNavigate} /> : null}
+          </View>
+          {USER_INFO_FOUR.map((key, index) => {
+            return (
+              <View key={index} style={styles.infoItem}>
+                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
+                <Text>{userDetails[key.id]}</Text>
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
   },
   userInfoSection: {
     paddingLeft: 20,
-    backgroundColor: '#fde8f1',
+    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
     paddingBottom: 8,
     display: 'flex',
     flexDirection: 'row',
@@ -289,7 +285,7 @@ const styles = StyleSheet.create({
   },
   userInfoSectionTwo: {
     paddingLeft: 20,
-    backgroundColor: '#fde8f1',
+    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
     paddingBottom: 8,
     display: 'flex',
     flexDirection: 'row',
@@ -320,7 +316,7 @@ const styles = StyleSheet.create({
   infoBoxWrapper: {
     flexDirection: 'row',
     height: 80,
-    backgroundColor: '#ecf0f1',
+    // backgroundColor: '#ecf0f1',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
@@ -330,22 +326,18 @@ const styles = StyleSheet.create({
   menuWrapper: {
     marginTop: 10,
     padding: 20,
+    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.background : LightThemeColor.background,
   },
   infoItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     marginBottom: 10,
-    backgroundColor: '#f9f9f9',
     padding: 10,
     borderRadius: 8,
   },
   infoLabel: {
     fontWeight: 'bold',
-    color: '#333',
-  },
-  infoValue: {
-    color: '#555',
   },
 });
 

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Appbar, Avatar, Text } from 'react-native-paper';
+import { Appbar, Avatar, Text, useTheme } from 'react-native-paper';
 import { api } from '../../../../utils/api';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
@@ -11,64 +11,85 @@ import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext
 import { socket } from '../../../../config/config';
 
 const Chats = () => {
+  const { colors } = useTheme();
   const { user } = useContext(AuthContext);
   const { messageSeenCount, setMessageSeenCount } = useContext(MessageSeenCountContext);
   const [chatList, setChatList] = useState<any[]>([]);
   const navigation = useNavigation<any>();
-  const [isloading, setisloading] = useState(false)
-
+  const [isloading, setisloading] = useState(false);
 
   const getChatList = useCallback(async () => {
     if (user) {
       const payload = {
         userObjectId: user._id,
-        gender: user?.gender
-      }
-      setisloading(false)
+        gender: user?.gender,
+      };
+      setisloading(false);
       const chatListResponse = await api.chat.getChatList(payload);
-      console.log("=====>response", chatListResponse[0].lastMessage);
-      setChatList(chatListResponse)
-      setisloading(true)
+      console.log('=====>response', chatListResponse[0].lastMessage);
+      setChatList(chatListResponse);
+      setisloading(true);
     }
   }, [user]);
 
-
-  const handleRouteChat = (userDetails: IUserDetails, roomId: string, blocked_by_male_user: boolean, blocked_by_female_user: boolean, index: number) => {
+  const handleRouteChat = (
+    userDetails: IUserDetails,
+    roomId: string,
+    blocked_by_male_user: boolean,
+    blocked_by_female_user: boolean,
+    index: number,
+  ) => {
     const tempChatList = chatList;
-    if (tempChatList[index].lastMessage.message.status !== "seen") {
-      setMessageSeenCount(prevCount => Math.max(prevCount - 1, 0));
-      tempChatList[index].lastMessage.message.status = "seen";
+    if (tempChatList[index].lastMessage.message.status !== 'seen') {
+      setMessageSeenCount((prevCount) => Math.max(prevCount - 1, 0));
+      tempChatList[index].lastMessage.message.status = 'seen';
     }
     setChatList(tempChatList);
 
-    socket.emit("seenMessage", { authorId: user?._id, roomId: roomId })
+    socket.emit('seenMessage', { authorId: user?._id, roomId: roomId });
     // item.lastMessage.message.status = "seen";
     navigation.navigate('Chat', {
       userDetails: userDetails,
       roomId: roomId,
       updatedAt: userDetails?.updatedAt,
       blocked_by_male_user: blocked_by_male_user,
-      blocked_by_female_user: blocked_by_female_user
+      blocked_by_female_user: blocked_by_female_user,
     });
-  }
+  };
 
   useEffect(() => {
     getChatList();
-  }, [getChatList])
+  }, [getChatList]);
 
   const RenderChatItem = ({ item, userDetails, index }: any) => (
-    <TouchableOpacity key={item.id} style={styles.chatItem} onPress={() => handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user, index)}>
+    <TouchableOpacity
+      key={item.id}
+      style={styles.chatItem}
+      onPress={() =>
+        handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user, index)
+      }
+    >
       <View style={styles.avatarContainer}>
         <Avatar.Image size={50} source={{ uri: userDetails?.profile_image_url }} />
-        {
-          userDetails?.status === "ACTIVE" ?
-            <View style={globalStyles?.onlineDot} /> :
-            <View style={globalStyles?.offlineDot} />
-        }
+        {userDetails?.status === 'ACTIVE' ? (
+          <View style={globalStyles?.onlineDot} />
+        ) : (
+          <View style={globalStyles?.offlineDot} />
+        )}
       </View>
       <View style={styles.textContainer}>
-        <Text style={item.lastMessage.message.status !== "seen" ? [styles.name, { color: "#E71B73" }] : styles.name}>{userDetails?.full_name}</Text>
-        <Text numberOfLines={1} ellipsizeMode="tail" style={item.lastMessage.message.author.id !== user?._id && item.lastMessage.message.status !== "seen" ? { fontWeight: "bold" } : styles?.message}>
+        <Text style={item.lastMessage.message.status !== 'seen' ? [styles.name, { color: '#E71B73' }] : styles.name}>
+          {userDetails?.full_name}
+        </Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={
+            item.lastMessage.message.author.id !== user?._id && item.lastMessage.message.status !== 'seen'
+              ? { fontWeight: 'bold' }
+              : styles?.message
+          }
+        >
           {item.lastMessage.message.text}
         </Text>
       </View>
@@ -77,13 +98,16 @@ const Chats = () => {
   );
   return (
     <>
-      <Appbar.Header style={{
-        backgroundColor: '#fff5f9', shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
-      }}>
+      <Appbar.Header
+        style={{
+          backgroundColor: colors.secondary,
+          shadowColor: '#000000',
+          shadowOffset: { width: 0, height: 8 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2,
+          elevation: 5,
+        }}
+      >
         <Appbar.Content title="Chats" />
         <Appbar.Action icon="magnify" />
       </Appbar.Header>
@@ -113,7 +137,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontWeight: 'bold',
     color: '#333',
-    fontSize: 20
+    fontSize: 20,
   },
   chatItem: {
     flexDirection: 'row',
@@ -151,5 +175,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-export default Chats
+export default Chats;

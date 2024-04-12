@@ -1,4 +1,4 @@
-package com.muslim_matrimony.dr_proton
+package com.muslim_matrimony.dr_proton_tech
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

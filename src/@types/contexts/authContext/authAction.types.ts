@@ -1,6 +1,6 @@
-import { Store } from "./store.types";
+import { Store } from './store.types';
 
 export type AuthAction = {
-	type: string;
-	payload: Store;
+  type: string;
+  payload: Store;
 };

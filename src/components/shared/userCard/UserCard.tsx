@@ -1,6 +1,6 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Avatar, IconButton } from 'react-native-paper';
+import { Avatar, IconButton, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { IUserCardProps } from '../../../@types/props/UserCardProps.types';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -10,129 +10,136 @@ import { useNavigation } from '@react-navigation/native';
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import FastImage from 'react-native-fast-image';
 import _ from 'lodash';
-import { playSound } from '../../../utils/commonFunction/playSound'
+import { playSound } from '../../../utils/commonFunction/playSound';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { OTHERS } from '../../../constants/texts/others/Others';
+import UiContext from '../../../contexts/uiContext/UIContext';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
   const [choice, setChoice] = useState<boolean>(false);
+  const {
+    ui: { language },
+  } = useContext(UiContext);
+  const { colors } = useTheme();
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
-
-
 
   const handleRouteTouserDetails = () => {
     navigation.navigate('UserDetails', {
       userDetails: userDetails,
       editable: false,
-      updatedAt: userDetails?.updatedAt
-    })
-  }
+      updatedAt: userDetails?.updatedAt,
+    });
+  };
 
   const handleNavigateChat = () => {
-
-    let roomId = "";
+    let roomId = '';
     if (user && user._id && userDetails._id) {
-      if (user?.gender === "MALE") {
+      if (user?.gender === 'MALE') {
         roomId = user._id + userDetails._id;
-      }
-      else {
+      } else {
         roomId = userDetails._id + user._id;
       }
-      console.log("roomId", roomId)
+      console.log('roomId', roomId);
       navigation.navigate('Chat', {
         userDetails: userDetails,
         roomId: roomId,
-        updatedAt: userDetails?.updatedAt
+        updatedAt: userDetails?.updatedAt,
       });
     }
-  }
+  };
   const handleAddChoice = useCallback(
     () => {
-      setChoice(prev => !prev);
+      setChoice((prev) => !prev);
       if (user?._id && userDetails._id) {
-        console.log("called");
+        console.log('called');
         try {
           // playSound(refreshSound)
           addChoice(user._id, userDetails._id);
         } catch (err) {
-          console.log("error", err);
+          console.log('error', err);
         }
       }
     }, // Adjust the debounce delay as needed
-    [user, setChoice]
+    [user, setChoice],
   );
 
   useEffect(() => {
-    if (mode === "CHOICE") {
-      setChoice(true)
+    if (mode === 'CHOICE') {
+      setChoice(true);
     }
-
-  }, [])
+  }, []);
 
   return (
     <View style={globalStyles.card}>
       <TouchableOpacity onPress={handleRouteTouserDetails}>
-        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", columnGap: 10, paddingLeft: 10, marginBottom: 15 }}>
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            columnGap: 10,
+            paddingLeft: 10,
+            marginBottom: 15,
+          }}
+        >
           <View style={globalStyles.avatarContainer}>
             <Avatar.Image size={45} source={{ uri: userDetails.profile_image_url }} />
-            {
-              userDetails.status === "ACTIVE" ?
-                <View style={globalStyles.onlineDot} /> :
-                <View style={globalStyles.offlineDot} />
-            }
+            {userDetails.status === 'ACTIVE' ? (
+              <View style={globalStyles.onlineDot} />
+            ) : (
+              <View style={globalStyles.offlineDot} />
+            )}
           </View>
-          <View style={{ display: "flex", width: "100%" }}>
-            <Text style={{ color: "#E71B73", fontSize: 18, fontWeight: "bold" }}>{userDetails.full_name || "Test Account"}
-              <Text style={{ color: "black", fontSize: 15 }}>
-                &nbsp;({userDetails.age} yrs)
-              </Text>
+          <View style={{ display: 'flex', width: '100%' }}>
+            <Text style={{ color: '#E71B73', fontSize: 18, fontWeight: 'bold' }}>
+              {userDetails.full_name || 'Test Account'}
+              <Text style={{ color: colors.scrim, fontSize: 15 }}>&nbsp;({userDetails.age} yrs)</Text>
             </Text>
             <View style={globalStyles.iconText}>
               <Icon name="map-marker-alt" size={18} color="#E71B73" />
-              <View style={{ display: "flex", flexDirection: "row", columnGap: 20 }}>
-                <Text style={{ color: "black", fontSize: 14 }}>
-                  Lives In {userDetails.state || "N/A"}</Text>
-                {
-                  userDetails.status === "ACTIVE" ?
-                    <Text>online</Text> :
-                    <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
-                }
+              <View style={{ display: 'flex', flexDirection: 'row', columnGap: 20 }}>
+                <Text style={{ color: colors.scrim, fontSize: 14 }}>
+                  {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}
+                </Text>
+                {userDetails.status === 'ACTIVE' ? (
+                  <Text>online</Text>
+                ) : (
+                  <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
+                )}
               </View>
             </View>
           </View>
         </View>
         <View>
-          <FastImage
-            source={{ uri: userDetails.profile_image_url || "" }}
-            style={globalStyles.cardImage}
-          />
+          <FastImage source={{ uri: userDetails.profile_image_url || '' }} style={globalStyles.cardImage} />
         </View>
       </TouchableOpacity>
-      <View style={{ display: 'flex', flexDirection: "row", columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
+      <View style={{ display: 'flex', flexDirection: 'row', columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
         <View style={globalStyles.iconText}>
           <Icon name="ruler-vertical" size={18} color="#E71B73" />
-          <Text style={{ color: "#6e6d6d" }}>{userDetails.height} ft</Text>
+          <Text style={{ color: colors.tertiary }}>{userDetails.height} ft</Text>
         </View>
         <View style={globalStyles.iconText}>
           <Icon name="dumbbell" size={18} color="#E71B73" />
-          <Text style={{ color: "#6e6d6d" }}>{userDetails.weight} kg</Text>
+          <Text style={{ color: colors.tertiary }}>{userDetails.weight} kg</Text>
         </View>
         <View style={globalStyles.iconText}>
           <Icon name="ring" size={18} color="#E71B73" />
-          <Text style={{ color: "#6e6d6d" }}>{userDetails.marital_status}</Text>
+          <Text style={{ color: colors.tertiary }}>{userDetails.marital_status}</Text>
         </View>
         <View style={globalStyles.iconText}>
           <Icon name="child" size={18} color="#E71B73" />
-          <Text style={{ color: "#6e6d6d" }}>{userDetails.body_color}</Text>
+          <Text style={{ color: colors.tertiary }}>{userDetails.body_color}</Text>
         </View>
-
       </View>
 
       <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
         <IconButton
           icon={choice ? 'heart' : 'heart-outline'}
           onPress={handleAddChoice}
-          iconColor={choice ? 'red' : 'black'}
+          iconColor={choice ? 'red' : colors.scrim}
         ></IconButton>
         <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton>
       </View>
