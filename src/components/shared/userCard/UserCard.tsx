@@ -14,6 +14,7 @@ import { playSound } from '../../../utils/commonFunction/playSound';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
 import UiContext from '../../../contexts/uiContext/UIContext';
+import ChoiceContext from '../../../contexts/choiceContext/choiceContext';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
@@ -24,14 +25,16 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
+  const { dispatch, state } = useContext(ChoiceContext);
 
   const handleRouteTouserDetails = () => {
     navigation.navigate('UserDetails', {
       userDetails: userDetails,
       editable: false,
       updatedAt: userDetails?.updatedAt,
+      Userchoice: choice
     });
-  };
+  }
 
   const handleNavigateChat = () => {
     let roomId = '';
@@ -49,6 +52,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
       });
     }
   };
+
   const handleAddChoice = useCallback(
     () => {
       setChoice((prev) => !prev);
