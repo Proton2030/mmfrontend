@@ -1,44 +1,68 @@
-import { TMenuProps } from "../@types/props/MenuProps.types";
+import { TMenu } from '../@types/props/MenuProps.types';
 
-export const MENU_OPTION:TMenuProps[]=[
-    {
-        icon:"user",
-        route:"",
-        text:"My Profile"
+export const MENU_OPTION: TMenu[] = [
+  {
+    icon: 'user',
+    route: 'My Profile',
+    text: {
+      ENGLISH: 'My Profile',
+      BENGALI: 'আমার প্রোফাইল',
     },
-    {
-        icon:"clock",
-        route:"",
-        text:"Payment History"
+  },
+  {
+    icon: 'clock',
+    route: 'Payment History',
+    text: {
+      ENGLISH: 'Payment History',
+      BENGALI: 'পেমেন্ট রেকর্ড',
     },
-    {
-        icon:"cog",
-        route:"",
-        text:"Settings"
+  },
+  {
+    icon: 'cog',
+    route: 'Settings',
+    text: {
+      ENGLISH: 'Settings',
+      BENGALI: 'সেটিংস',
     },
-    {
-        icon:"book",
-        route:"",
-        text:"About Us"
+  },
+  {
+    icon: 'book',
+    route: 'About Us',
+    text: {
+      ENGLISH: 'About Us',
+      BENGALI: 'আমাদের সম্পর্কে',
     },
-    {
-        icon:"handshake",
-        route:"",
-        text:"Privacy Policy"
+  },
+  {
+    icon: 'handshake',
+    route: 'Privacy Policy',
+    text: {
+      ENGLISH: 'Privacy Policy',
+      BENGALI: 'গোপনীয়তা নীতিমালা',
     },
-    {
-        icon:"star",
-        route:"",
-        text:"Terms and Condition"
+  },
+  {
+    icon: 'star',
+    route: 'Terms & Conditions',
+    text: {
+      ENGLISH: 'Terms & Conditions',
+      BENGALI: 'শর্তাবলী এবং নির্দেশাবলী',
     },
-    {
-        icon:"headphones",
-        route:"",
-        text:"Help and Support"
+  },
+  {
+    icon: 'headphones',
+    route: 'Help & Support',
+    text: {
+      ENGLISH: 'Help & Support',
+      BENGALI: 'সাহায্য এবং সমর্থন',
     },
-    {
-        icon:"sign-out-alt",
-        route:"",
-        text:"Logout"
+  },
+  {
+    icon: 'sign-out-alt',
+    route: 'Logout',
+    text: {
+      ENGLISH: 'Logout',
+      BENGALI: 'লগআউট',
     },
-]
+  },
+];

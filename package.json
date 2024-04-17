@@ -1,5 +1,5 @@
 {
-  "name": "com.muslim_matrimony.dr_proton",
+  "name": "com.muslim_matrimony.dr_proton_tech",
   "version": "1.0.4",
   "private": true,
   "scripts": {
@@ -34,6 +34,7 @@
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.14.1",
     "react-native-google-signin": "^2.1.1",
+    "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^7.1.0",
     "react-native-otp-textinput": "^1.1.5",
     "react-native-pager-view": "^6.2.3",

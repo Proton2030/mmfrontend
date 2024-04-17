@@ -74,12 +74,12 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.muslim_matrimony.dr_proton"
+    namespace "com.muslim_matrimony.dr_proton_tech"
     defaultConfig {
-        applicationId "com.muslim_matrimony.dr_proton"
+        applicationId "com.muslim_matrimony.dr_proton_tech"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        versionCode 5
         versionName "1.1.1"
         resConfigs "en", "fr", "es", "de", "it", "pt", "ru", "zh-rCN", "zh-rTW", "ja", "ko"
     }
