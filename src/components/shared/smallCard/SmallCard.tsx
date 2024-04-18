@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { Card } from 'react-native-paper';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { TMenuProps } from '../../../@types/props/MenuProps.types';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import CustomDialog from '../customDialog/CustomDialog';
