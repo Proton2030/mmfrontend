@@ -45,7 +45,9 @@ const More = () => {
           {user ? (
             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
               <Avatar.Image size={45} source={{ uri: user.profile_image_url }} />
-              <Text style={[globalStyles.headingText, { textAlign: 'left' }]}>{user.full_name}</Text>
+              <Text style={[globalStyles.headingText, { textAlign: 'left', color: colors.primary }]}>
+                {user.full_name}
+              </Text>
             </View>
           ) : null}
         </View>

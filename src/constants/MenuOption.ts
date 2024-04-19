@@ -2,7 +2,7 @@ import { TMenu } from '../@types/props/MenuProps.types';
 
 export const MENU_OPTION: TMenu[] = [
   {
-    icon: 'user',
+    icon: 'account',
     route: 'My Profile',
     text: {
       ENGLISH: 'My Profile',
@@ -58,7 +58,7 @@ export const MENU_OPTION: TMenu[] = [
     },
   },
   {
-    icon: 'sign-out-alt',
+    icon: 'logout',
     route: 'Logout',
     text: {
       ENGLISH: 'Logout',

@@ -1,10 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { TextInput, Button, Text, Appbar, useTheme } from 'react-native-paper';
 import axios from 'axios';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { api } from '../../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
@@ -15,14 +14,15 @@ const PasswordReset = () => {
   const navigation = useNavigation<any>();
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [passwordsMatch, setPasswordsMatch] = useState(true); // State to track whether passwords match
 
   const handleGoBack = () => {
     navigation.goBack();
   };
 
   const handleSubmit = async () => {
-    if (oldPassword === newPassword) {
+    if (oldPassword === newPassword && newPassword === confirmNewPassword) {
       setSnackbarVisible(true);
       return;
     }
@@ -41,16 +41,33 @@ const PasswordReset = () => {
     }
   };
 
+  // Function to handle changes in the Confirm New Password field
+  const handleConfirmPasswordChange = (text) => {
+    setConfirmNewPassword(text);
+    setPasswordsMatch(text === newPassword); // Check if Confirm New Password matches New Password
+  };
+
   return (
     <>
-      <Appbar.Header style={{ backgroundColor: '#fde8f1' }}>
-        <Appbar.Content title="Settings" />
+      <Appbar.Header style={{ backgroundColor: colors.secondary, paddingLeft: 20 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" size={20} color={colors.primary} style={{ marginRight: 15 }} />
+        </TouchableOpacity>
+        <Text style={{ fontWeight: '800', fontSize: 23, color: colors.onSurface }}>Settings</Text>
       </Appbar.Header>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingVertical: 20,
+          paddingHorizontal: 30,
+          backgroundColor: colors.background,
+        }}
+      >
         <View style={styles.formContainer}>
           <Text style={styles.heading}>Change Password</Text>
           <View style={styles.inputContainer}>
             <TextInput
+              mode="outlined"
               label="Old Password"
               value={oldPassword}
               onChangeText={(text) => setOldPassword(text)}
@@ -60,6 +77,7 @@ const PasswordReset = () => {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
+              mode="outlined"
               label="New Password"
               value={newPassword}
               onChangeText={(text) => setNewPassword(text)}
@@ -67,6 +85,17 @@ const PasswordReset = () => {
               style={styles.input}
             />
           </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              mode="outlined"
+              label="Confirm New Password"
+              value={confirmNewPassword}
+              onChangeText={handleConfirmPasswordChange} // Call the new function for Confirm New Password change
+              secureTextEntry
+              style={styles.input}
+            />
+          </View>
+          {!passwordsMatch && <Text style={styles.passwordMismatch}>Passwords do not match</Text>}
 
           <Button
             mode="contained"
@@ -111,6 +140,11 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+  },
+  passwordMismatch: {
+    color: 'red',
+    marginTop: -7,
+    marginBottom: 10,
   },
 });
 
