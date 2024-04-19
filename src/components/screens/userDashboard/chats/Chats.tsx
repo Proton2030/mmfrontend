@@ -26,7 +26,6 @@ const Chats = () => {
       };
       setisloading(false);
       const chatListResponse = await api.chat.getChatList(payload);
-      console.log('=====>response', chatListResponse[0].lastMessage);
       setChatList(chatListResponse);
       setisloading(true);
     }
@@ -113,14 +112,20 @@ const Chats = () => {
       </Appbar.Header>
       {isloading ? (
         <ScrollView contentContainerStyle={styles.container}>
-          {chatList.map((chat, index) => (
-            <RenderChatItem
-              item={chat}
-              index={index}
-              userDetails={user?.gender === 'MALE' ? chat.female_user_details : chat.male_user_details}
-              key={index}
-            />
-          ))}
+          {chatList.length > 0 ? (
+            chatList.map((chat, index) => (
+              <RenderChatItem
+                item={chat}
+                index={index}
+                userDetails={user?.gender === 'MALE' ? chat.female_user_details : chat.male_user_details}
+                key={index}
+              />
+            ))
+          ) : (
+            <View>
+              <Text>No Chats Here</Text>
+            </View>
+          )}
         </ScrollView>
       ) : (
         <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 80 }} />
