@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet, useColorScheme } from 'react-native';
 import { COLORS, SIZES } from '../constants/theme';
 import { getAppThemeMode } from '../utils/commonFunction/getAppThemeMode';
-import { DarkThemeColor, LightThemeColor } from '../constants/theme/themeColor';
+import { DarkThemeColor, LightThemeColor, ThemeColor } from '../constants/theme/themeColor';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -11,7 +11,7 @@ const globalStylesList = () => {
     parent: {
       flex: 1,
       paddingBottom: 0,
-      backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.background : LightThemeColor.background,
+      backgroundColor: ThemeColor.background,
     },
     parentScrollContainer: {
       paddingTop: 25,
@@ -24,7 +24,7 @@ const globalStylesList = () => {
       justifyContent: 'space-around',
       alignItems: 'center',
       padding: 30,
-      backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.background : LightThemeColor.background,
+      backgroundColor: ThemeColor.background,
     },
     innerContainer: {
       width: '100%',
@@ -45,34 +45,34 @@ const globalStylesList = () => {
       width: '100%',
       marginTop: 15,
       backgroundColor: '#E71B73',
-      color: getAppThemeMode() === 'dark' ? DarkThemeColor.scrim : LightThemeColor.scrim,
+      color: ThemeColor.scrim,
       padding: 6,
     },
     pinkButtonText: {
-      color: getAppThemeMode() === 'dark' ? DarkThemeColor.scrim : LightThemeColor.scrim,
+      color: ThemeColor.scrim,
     },
     lightPinkButton: {
-      backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
-      borderColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
+      backgroundColor: ThemeColor.secondary,
+      borderColor: ThemeColor.secondary,
       width: '100%',
       padding: 6,
     },
     textStyle: {
-      color: getAppThemeMode() === 'dark' ? DarkThemeColor.scrim : LightThemeColor.scrim,
+      color: ThemeColor.scrim,
     },
     label: {
       color: '#595857',
     },
     headingText: {
       fontSize: 25,
-      color: getAppThemeMode() === 'dark' ? DarkThemeColor.scrim : LightThemeColor.scrim,
+      color: ThemeColor.scrim,
       fontWeight: 'bold',
       textAlign: 'center',
       textTransform: 'capitalize',
     },
     mediumText: {
       fontSize: 20,
-      color: getAppThemeMode() === 'dark' ? DarkThemeColor.scrim : LightThemeColor.scrim,
+      color: ThemeColor.scrim,
       fontWeight: 'bold',
       textAlign: 'left',
       textTransform: 'capitalize',
@@ -91,12 +91,28 @@ const globalStylesList = () => {
       borderWidth: 1,
       borderRadius: 10,
     },
+    scrollContainer: {
+      paddingLeft: 20,
+      flex: 1,
+    },
+    cardContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    optionContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      columnGap: 10,
+    },
+    listSection: {
+      marginTop: 20,
+      paddingRight: 15,
+    },
     selectText: {
       color: '#595857',
       textAlign: 'left',
     },
     menuCard: {
-      backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
       color: '#E71B73',
       marginBottom: 12,
     },
@@ -108,7 +124,7 @@ const globalStylesList = () => {
       paddingBottom: 20,
       borderWidth: 0,
       borderBottomWidth: 2,
-      borderColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
+      borderColor: ThemeColor.secondary,
     },
     cardImage: {
       width: windowWidth,
@@ -183,6 +199,7 @@ const globalStylesList = () => {
       borderWidth: 1.2,
       borderRadius: 5,
       borderColor: COLORS.grey,
+      color: 'white',
     },
     row: {
       flexDirection: 'row',
@@ -201,7 +218,7 @@ const globalStylesList = () => {
       paddingHorizontal: 10,
     },
     text: {
-      color: COLORS.title,
+      color: COLORS.primary,
       fontSize: SIZES.h4,
     },
     line: {

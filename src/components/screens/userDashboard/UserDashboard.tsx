@@ -8,8 +8,12 @@ import MyChoice from './choice/myChoice/MyChoice';
 import ActiveUser from './activeUser/ActiveUser';
 import HelpAndSupport from '../others/help&support/HelpSupport';
 import Drawer from '../../shared/filterDrawer/FilterDrawer';
+import { StatusBar } from 'react-native';
+import UiContext from '../../../contexts/uiContext/UIContext';
+import { useContext } from 'react';
 
 const UserDashboard = () => {
+  const { ui } = useContext(UiContext);
   const navigation = useNavigation<any>(); // Get the navigation object
   const { colors } = useTheme();
   const [index, setIndex] = React.useState(0);
@@ -45,6 +49,12 @@ const UserDashboard = () => {
 
   return (
     <>
+      {ui?.theme === 'DARK' ? (
+        <StatusBar animated={true} backgroundColor={colors.secondary} barStyle={'light-content'} />
+      ) : (
+        <StatusBar animated={true} backgroundColor={colors.secondary} barStyle={'dark-content'} />
+      )}
+
       {index !== 0 ? (
         <Appbar.Header
           style={{
