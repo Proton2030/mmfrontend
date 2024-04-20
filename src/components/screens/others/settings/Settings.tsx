@@ -6,6 +6,7 @@ import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
+import MenuCard from '../../../shared/UseCrads/UseCrads';
 
 const SettingsPage = ({ navigation }: any) => {
   const { colors } = useTheme();
@@ -28,7 +29,7 @@ const SettingsPage = ({ navigation }: any) => {
   const handleThemeChange = (theme: 'LIGHT' | 'DARK') => {
     if (theme) {
       setUi({ ...ui, theme });
-      console.log('===>theme', theme);
+      console.log('===>theme', ui.theme);
     }
   };
 
@@ -39,7 +40,7 @@ const SettingsPage = ({ navigation }: any) => {
         ENGLISH: 'Change Password',
         BENGALI: 'পাসওয়ার্ড পরিবর্তন করুন',
       },
-      route: 'ResetPassword',
+      route: 'ResetPassord',
       color: '#E71B73',
       onPress: handlePress,
     },
@@ -66,8 +67,8 @@ const SettingsPage = ({ navigation }: any) => {
     {
       icon: 'theme-light-dark',
       text: {
-        ENGLISH: 'Change App Theme',
-        BENGALI: 'অ্যাপ থিম পরিবর্তন করুন',
+        ENGLISH: ui.theme !== 'LIGHT' ? 'Change App Theme to light' : 'Change App Theme to Dark',
+        BENGALI: ui.theme !== 'LIGHT' ? 'লাইট মোডে থিম পরিবর্তন করুন' : 'ডার্ক মোডে থিম পরিবর্তন করুন',
       },
       route: null,
       color: '#E71B73',
@@ -77,8 +78,8 @@ const SettingsPage = ({ navigation }: any) => {
     {
       icon: 'language-fortran',
       text: {
-        ENGLISH: 'Change App Language',
-        BENGALI: 'অ্যাপ ভাষা পরিবর্তন করুন',
+        ENGLISH: ui.language === 'ENGLISH' ? 'Change App Language to Bengali' : 'Change App Language to English',
+        BENGALI: ui.language === 'ENGLISH' ? 'বাংলায় ভাষা পরিবর্তন করুন' : 'ইংরেজিতে ভাষা পরিবর্তন করুন',
       },
       route: null,
       color: '#E71B73',
@@ -95,49 +96,15 @@ const SettingsPage = ({ navigation }: any) => {
         </TouchableOpacity>
         <Text style={{ fontWeight: '800', fontSize: 23, color: colors.onSurface }}>Settings</Text>
       </Appbar.Header>
-      <ScrollView style={styles.scrollContainer}>
-        <List.Section style={styles.listSection}>
+      <ScrollView style={globalStyles.scrollContainer}>
+        <List.Section style={globalStyles.listSection}>
           {options.map((option, index) => (
-            <Card
-              key={index}
-              style={globalStyles.menuCard}
-              onPress={() => option.onPress(option.route ? option.route : option.pressArg)}
-            >
-              <Card.Content>
-                <View style={styles.cardContainer}>
-                  <View style={styles.optionContainer}>
-                    <Icon2 name={option.icon} size={20} color={option.color} />
-                    <Text style={globalStyles.menucardText}>{option.text[ui.language]}</Text>
-                  </View>
-                  <Icon2 name="arrow-right" size={20} color={option.color} />
-                </View>
-              </Card.Content>
-            </Card>
+            <MenuCard option={option} ui={ui} index={index} />
           ))}
         </List.Section>
       </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollContainer: {
-    paddingLeft: 20,
-    flex: 1,
-  },
-  cardContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  optionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 10,
-  },
-  listSection: {
-    marginTop: 20,
-    paddingRight: 15,
-  },
-});
 
 export default SettingsPage;

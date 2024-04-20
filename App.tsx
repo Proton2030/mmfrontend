@@ -7,12 +7,35 @@ import AppNavigators from './src/components/navigators/AppNavigators';
 import { PermissionsAndroid } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, PaperProvider, MD3DarkTheme as DarkTheme } from 'react-native-paper';
+import { DarkThemeColor, LightThemeColor, ThemeColor } from './src/constants/theme/themeColor';
+import UiContext from './src/contexts/uiContext/UIContext';
+
+const lightTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    ...LightThemeColor,
+  },
+};
+
+const darkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    ...DarkThemeColor,
+  },
+};
 
 const App = ({ isRoute }: any) => {
   const { user } = useContext(AuthContext);
+  const {
+    ui: { theme },
+  } = useContext(UiContext);
   const { colors } = useTheme();
   const appState = useAppState();
   const navigation = useNavigation<any>();
+  const paperTheme = theme === 'DARK' ? darkTheme : lightTheme;
   useEffect(() => {
     if (appState === 'active') {
       if (user) {
@@ -36,13 +59,13 @@ const App = ({ isRoute }: any) => {
   }, [isRoute]);
 
   return (
-    <>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
+    <PaperProvider theme={paperTheme}>
+      <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'} />
       {/* <NavigationContainer> */}
       <AppNavigators />
       {/* </NavigationContainer> */}
       {/* <ConfirmationPage /> */}
-    </>
+    </PaperProvider>
   );
 };
 
