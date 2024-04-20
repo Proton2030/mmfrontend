@@ -1,7 +1,7 @@
 // NotificationScreen.js
 import { useRef, useEffect, useContext, useState, useCallback } from 'react';
 import { View, FlatList, Animated, Text, Image, TouchableOpacity } from 'react-native';
-import { List, Divider, Appbar, Badge, useTheme } from 'react-native-paper';
+import { List, Divider, Appbar, Badge, useTheme, Button } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
@@ -30,8 +30,16 @@ const NotificationPage = () => {
 
   const handleEmptyListAnimation = () => (
     <View style={{ alignItems: 'center', marginTop: 50 }}>
-      <List.Icon icon="bell" />
-      <Text style={{ marginTop: 10 }}>No notification available</Text>
+      <Image
+        style={{ height: 300, width: 200 }}
+        source={{
+          uri: 'https://threedio-cdn.icons8.com/Nt5PSzGUiBmsGEn3ZU7RBpcdhOGeSK26VkWvtI35KlE/rs:fit:1024:1024/czM6Ly90aHJlZWRp/by1wcm9kL3ByZXZp/ZXdzLzM2OS81NTM2/MzA2Ny1mNjIzLTRk/MzMtYTQ0NC04MWJm/MGIyZTE4ODgucG5n.png',
+        }}
+      />
+      <Text style={{ fontWeight: '700', fontSize: 23 }}>No notifications yet</Text>
+      <Button onPress={() => navigation.goBack()}>
+        <Text>Go Back</Text>
+      </Button>
     </View>
   );
   useEffect(() => {
@@ -70,7 +78,7 @@ const NotificationPage = () => {
         marginTop: 10,
         marginHorizontal: 10,
         borderRadius: 20,
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: colors.secondary,
       }}
     >
@@ -81,7 +89,7 @@ const NotificationPage = () => {
         }}
         description={
           <>
-            <Text style={{ fontWeight: '400', fontSize: 9, color: colors.tertiary }}>{item?.text}</Text>
+            <Text style={{ fontWeight: '400', fontSize: 10, color: colors.tertiary }}>{item?.text}</Text>
           </>
         }
         onPress={() => {
@@ -129,8 +137,7 @@ const NotificationPage = () => {
           renderItem={renderNotificationItem}
         />
       ) : (
-        // handleEmptyListAnimation()
-        <NotificationCard />
+        handleEmptyListAnimation()
       )}
     </View>
   );
