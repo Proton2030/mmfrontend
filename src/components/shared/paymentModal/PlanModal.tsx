@@ -1,112 +1,90 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { Animated, View, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
-import PaymentModal from './PaymentModal';
-import { Avatar, Button, Card, Paragraph, useTheme } from 'react-native-paper';
-import { color } from '../../../assets';
+import { useRef, useEffect, useState } from 'react';
+import { Animated, View, StyleSheet, Dimensions, Text, TouchableOpacity, PanResponder } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import PlanCards from './plancards/PlanCards';
+import SpecialCard from './specialCard/SpecialCard';
+import axios from 'axios';
+import { api } from '../../../utils/api';
 
 const { height } = Dimensions.get('window');
 
-const BottomDrawer = ({ modalVisible, setModalVisible }: any) => {
+const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: any) => {
   const { colors } = useTheme();
   const translateY = useRef(new Animated.Value(height)).current;
+  const [plans, setPlans] = useState([]);
 
-  // Effect to open/close the bottom drawer based on modalVisible state
+  // Initialize PanResponder
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (e, gestureState) => {
+        // Limit the translateY value within the screen bounds
+        if (gestureState.dy > 0 && gestureState.dy <= height * 0.45) {
+          translateY.setValue(gestureState.dy);
+        }
+      },
+      onPanResponderRelease: (e, gestureState) => {
+        // Determine whether to open or close the drawer based on release position
+        if (gestureState.dy > height * 0.15) {
+          closeDrawer();
+        } else {
+          openDrawer();
+        }
+      },
+    }),
+  ).current;
+
+  const openDrawer = () => {
+    Animated.timing(translateY, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeDrawer = () => {
+    Animated.timing(translateY, {
+      toValue: height,
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setModalVisible(false));
+  };
+
+  const getAllPlans = async () => {
+    const response = await api.payment.getALlPlans();
+    console.log(response);
+    setPlans(response);
+  };
+
   useEffect(() => {
     if (modalVisible) {
-      // Animate the drawer to open
-      Animated.timing(translateY, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
+      openDrawer();
+      getAllPlans();
     } else {
-      // Animate the drawer to close
-      Animated.timing(translateY, {
-        toValue: height,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
+      closeDrawer();
     }
   }, [modalVisible]);
 
   return (
     <>
       {modalVisible && (
-        <TouchableOpacity style={styles.background} onPress={() => setModalVisible(false)}>
+        <TouchableOpacity style={styles.background} onPress={() => closeDrawer()}>
           <View style={styles.transparent} />
         </TouchableOpacity>
       )}
 
-      <Animated.View style={[styles.drawer, { transform: [{ translateY }] }]}>
+      <Animated.View style={[styles.drawer, { transform: [{ translateY }] }]} {...panResponder.panHandlers}>
+        <View style={styles.handlepull} />
+
         <Text style={{ fontSize: 20, fontWeight: '700', color: colors.primary, marginTop: 3, marginBottom: 12 }}>
           Subscription Plans
         </Text>
         <View style={styles.handle}>
-          {[1, 2, 3].map((item) => (
-            <Card
-              style={{
-                marginRight: 10,
-                height: 100,
-                width: 100,
-                marginLeft: 6,
-                backgroundColor: colors.background,
-                padding: 5,
-              }}
-            >
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontWeight: 'bold',
-                  color: colors.primary,
-                  marginTop: 3,
-                  marginBottom: 2,
-                }}
-              >
-                Low Package
-              </Text>
-              <Text style={{ fontSize: 13, fontWeight: 'bold' }}>&nbsp;1000৳</Text>
-              <Text style={{ fontSize: 12 }}>&nbsp;10 persons</Text>
-              <Card
-                style={{
-                  marginTop: 20,
-                  padding: 0,
-                  backgroundColor: colors.primary,
-                  borderRadius: 50,
-                  width: 'auto',
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                }}
-              >
-                <Text style={{ color: 'white', textAlign: 'center' }}>Pay</Text>
-              </Card>
-            </Card>
+          {plans.map((item, index) => (
+            <PlanCards key={index} item={item} />
           ))}
         </View>
-        <Card
-          style={{ marginVertical: 4, height: 100, padding: 10, backgroundColor: colors.background, marginTop: 20 }}
-        >
-          <View style={{ flexDirection: 'row', gap: 5, justifyContent: 'space-between', alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', gap: 5 }}>
-              <Avatar.Icon size={26} icon="sale" />
-              <Text style={{ fontSize: 17, fontWeight: '700', color: colors.primary }}>Special Offer</Text>
-            </View>
-
-            <Text style={{ ontSize: 17, fontWeight: '700', color: colors.primary }}>&nbsp;Only 150৳</Text>
-          </View>
-          <Text style={{ fontSize: 14, fontWeight: 'bold', marginLeft: 15, marginVertical: 8 }}>Chat with Lia</Text>
-          <Card
-            style={{
-              padding: 0,
-              backgroundColor: colors.primary,
-              borderRadius: 50,
-              width: 'auto',
-              paddingHorizontal: 10,
-              paddingVertical: 10,
-            }}
-          >
-            <Text style={{ color: 'white', textAlign: 'center' }}>Pay</Text>
-          </Card>
-        </Card>
+        <SpecialCard />
       </Animated.View>
     </>
   );
@@ -120,19 +98,27 @@ const styles = StyleSheet.create({
   transparent: {
     flex: 1,
   },
+  handlepull: {
+    width: 50,
+    height: 5,
+    backgroundColor: '#ccc',
+    borderRadius: 2.5,
+    alignSelf: 'center',
+    marginBottom: 10,
+  },
   drawer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: height * 0.43, // Adjust the height of the drawer as needed
+    height: height * 0.45, // Adjust the height of the drawer as needed
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
   },
   handle: {
-    marginBottom: 10,
+    marginBottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-around',
   },

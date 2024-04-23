@@ -15,7 +15,7 @@ import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage
 import PaymentModal from '../paymentModal/PaymentModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChatMenu } from './chatMenu/ChatMenu';
-import BottomDrawer from '../paymentModal/planModal';
+import BottomDrawer from '../paymentModal/PlanModal';
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -392,7 +392,11 @@ const ChatBoard = () => {
           user={sender}
         />
       )}
-      <BottomDrawer modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <BottomDrawer
+        handlePaymentUpdate={handlePaymentUpdate}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
 
       {/* <PaymentModal
         modalVisible={modalVisible}
