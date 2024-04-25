@@ -23,16 +23,16 @@ const FilterDrawer = ({ navigation, toggleDrawer, applyFilters }: any) => {
     <SafeAreaView style={{ flex: 1, paddingTop: 30, backgroundColor: colors.background }}>
       <View style={globalStyles.headerFilter}>
         <View style={globalStyles.headerFilter}>
-          <Icon name="filter" size={24} color={COLORS.primary} />
+          {/* <Icon name="filter" size={24} color={COLORS.primary} /> */}
           <Text
-            style={globalStyles.title && { fontSize: 30, paddingLeft: 5, color: colors.primary, fontWeight: '400' }}
+            style={globalStyles.title && { fontSize: 30, paddingLeft: 5, color: colors.tertiary, fontWeight: '500' }}
           >
             Filter
           </Text>
         </View>
         <TouchableOpacity style={globalStyles.iconHeader}>
           <IconButton icon={'reload'} onPress={handleRefreshFilters} />
-          <IconButton icon={'close'} onPress={toggleDrawer} />
+          {/* <IconButton icon={'close'} onPress={toggleDrawer} /> */}
         </TouchableOpacity>
       </View>
       <ScrollView style={globalStyles.container}>
