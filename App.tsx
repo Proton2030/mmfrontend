@@ -66,7 +66,6 @@ const App = ({ isRoute }: any) => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PaperProvider theme={paperTheme}>
-        <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'} />
         <AppNavigators />
       </PaperProvider>
     </GestureHandlerRootView>

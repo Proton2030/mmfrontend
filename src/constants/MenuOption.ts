@@ -1,30 +1,30 @@
 import { TMenu } from '../@types/props/MenuProps.types';
 
 export const MENU_OPTION: TMenu[] = [
-  {
-    icon: 'account',
-    route: 'My Profile',
-    text: {
-      ENGLISH: 'My Profile',
-      BENGALI: 'আমার প্রোফাইল',
-    },
-  },
-  {
-    icon: 'clock',
-    route: 'Payment History',
-    text: {
-      ENGLISH: 'Payment History',
-      BENGALI: 'পেমেন্ট রেকর্ড',
-    },
-  },
-  {
-    icon: 'cog',
-    route: 'Settings',
-    text: {
-      ENGLISH: 'Settings',
-      BENGALI: 'সেটিংস',
-    },
-  },
+  // {
+  //   icon: 'account',
+  //   route: 'My Profile',
+  //   text: {
+  //     ENGLISH: 'My Profile',
+  //     BENGALI: 'আমার প্রোফাইল',
+  //   },
+  // },
+  // {
+  //   icon: 'clock',
+  //   route: 'Payment History',
+  //   text: {
+  //     ENGLISH: 'Payment History',
+  //     BENGALI: 'পেমেন্ট রেকর্ড',
+  //   },
+  // },
+  // {
+  //   icon: 'cog',
+  //   route: 'Settings',
+  //   text: {
+  //     ENGLISH: 'Settings',
+  //     BENGALI: 'সেটিংস',
+  //   },
+  // },
   {
     icon: 'book',
     route: 'About Us',

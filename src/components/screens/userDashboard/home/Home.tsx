@@ -252,10 +252,10 @@ const Home = () => {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <DrawerLayout
           ref={drawerRef}
-          drawerWidth={300}
+          drawerWidth={330}
           drawerPosition="right"
           drawerBackgroundColor={colors.background}
           renderNavigationView={() => <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />}

@@ -50,9 +50,9 @@ const UserDashboard = () => {
   return (
     <>
       {ui?.theme === 'DARK' ? (
-        <StatusBar animated={true} backgroundColor={colors.secondary} barStyle={'light-content'} />
+        <StatusBar animated={true} translucent={true} backgroundColor={'transparent'} barStyle={'light-content'} />
       ) : (
-        <StatusBar animated={true} backgroundColor={colors.secondary} barStyle={'dark-content'} />
+        <StatusBar animated={true} translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'} />
       )}
 
       {index !== 0 ? (
@@ -79,7 +79,12 @@ const UserDashboard = () => {
         sceneAnimationType="shifting"
         navigationState={{ index, routes }}
         activeColor="#E71B73"
-        barStyle={{ backgroundColor: colors.secondary, height: 70 }}
+        barStyle={{
+          backgroundColor: colors.background,
+          height: 70,
+          borderTopColor: '#d9d9d9',
+          borderTopWidth: 0.5,
+        }}
         onIndexChange={handleIndexChange}
         renderScene={renderScene}
       />
