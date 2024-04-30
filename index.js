@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthContextProvider from './src/contexts/authContext/Provider';
 import UiContextProvider from './src/contexts/uiContext/Provider';
 import messaging from '@react-native-firebase/messaging';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChoiceContextProvider } from './src/contexts/choiceContext/choiceContext';
 import MessageSeenCountContextProvider from './src/contexts/messageSeenContext/MessageSeenCountContextProvider';
 
@@ -20,6 +20,17 @@ export default function Main() {
     handleRouteNotification();
     console.log('remoteMessage', remoteMessage);
   });
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      const {
+        notification: {body},
+      } = remoteMessage;
+      Alert.alert(body);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <NavigationContainer>

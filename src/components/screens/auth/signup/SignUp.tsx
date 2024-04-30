@@ -75,8 +75,8 @@ const SignUp = () => {
         setLoading(true);
         const filter = { mobile: userDetails.mobile };
         try {
-          const otpResponse = await api.auth.getOtp(filter);
-          if (otpResponse) {
+          // const otpResponse = await api.auth.getOtp(filter);
+          if (true) {
             // setOtp(otpResponse);
             setOtp('1234');
             setLoading(false);
@@ -127,6 +127,10 @@ const SignUp = () => {
     }
   }, []);
 
+  const navigateBack = () => {
+    setScreen((prev) => --prev);
+  };
+
   useEffect(() => {
     generateToken();
   }, [generateToken]);
@@ -151,6 +155,7 @@ const SignUp = () => {
             userDetails={userDetails}
             handleChangeText={handleChangeText}
             handleChangeScreen={handleChangeScreen}
+            navigateBack={navigateBack}
             otp={otp}
           />
         ) : null}
