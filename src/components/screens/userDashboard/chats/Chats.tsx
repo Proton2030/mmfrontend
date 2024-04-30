@@ -111,7 +111,7 @@ const Chats = () => {
         <Appbar.Action icon="magnify" />
       </Appbar.Header>
       {isloading ? (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.background }]}>
           {chatList.length > 0 ? (
             chatList.map((chat, index) => (
               <RenderChatItem
