@@ -30,7 +30,7 @@ export default function ProgressBar({ totalCoins, usedCoins }: any) {
           styles.progress,
           {
             width: `${100 - usedPercentage}%`,
-            backgroundColor: '#f0f6fb',
+            backgroundColor: '#d9d9d9',
           },
         ]}
       />
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: '80%',
     marginTop: 2,
+    backgroundColor: '#d9d9d9',
   },
   progress: {
     height: '100%',

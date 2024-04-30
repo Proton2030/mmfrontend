@@ -23,7 +23,7 @@ const More = () => {
     navigation.navigate('Notification');
   };
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <ScrollView style={{ flex: 1, backgroundColor: colors.background }}>
       <PointDashBoard />
       <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         {MENU_OPTION.map((menu, index) => {

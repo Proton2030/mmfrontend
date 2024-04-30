@@ -13,6 +13,15 @@ const globalStylesList = () => {
       paddingBottom: 0,
       backgroundColor: ThemeColor.background,
     },
+    btn: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 12,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      backgroundColor: ThemeColor.secondary,
+    },
     parentScrollContainer: {
       paddingTop: 25,
       flexGrow: 1,

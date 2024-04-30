@@ -4,8 +4,13 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { COLORS } from '../../../constants/theme';
 import ProgressContainer from './ProgressContainer/ProgressContainer';
 import ProgressBar from './progress/Progress';
+import { useNavigation } from '@react-navigation/native';
+import { globalStyles } from '../../../globalStyles/GlobalStyles';
+import { Card, useTheme } from 'react-native-paper';
 
 export default function PointDashBoard() {
+  const navigation = useNavigation<any>();
+  const { colors } = useTheme();
   return (
     <View style={styles.container}>
       <View>
@@ -13,17 +18,32 @@ export default function PointDashBoard() {
           <ProgressContainer />
 
           <TouchableOpacity
-            onPress={() => {
-              // handle onPress
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 12,
+              marginHorizontal: 8,
+              backgroundColor: colors.secondary,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
+            onPress={() => navigation.navigate('Settings')}
           >
-            <View style={styles.action}>
-              <FeatherIcon color={COLORS.primary} name="settings" size={22} />
-            </View>
+            <FeatherIcon color={COLORS.primary} name="settings" size={22} />
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.title}>Message Limit</Text>
+        <Text
+          style={{
+            fontSize: 27,
+            fontWeight: '700',
+            color: colors.scrim,
+            marginTop: 24,
+            marginBottom: 16,
+          }}
+        >
+          Message Limit
+        </Text>
 
         <View style={styles.search}>
           <View style={styles.searchInput}>
@@ -33,7 +53,7 @@ export default function PointDashBoard() {
                   marginBottom: 7,
                   flexDirection: 'row',
                   gap: 10,
-                  backgroundColor: 'white',
+                  backgroundColor: colors.surface,
                   shadowColor: '#000',
                   width: 100,
                   shadowOffset: {
@@ -49,7 +69,7 @@ export default function PointDashBoard() {
                 }}
               >
                 <FeatherIcon color={COLORS.grey} name="user" size={18} />
-                <Text style={{ fontWeight: '600', fontSize: 16 }}>6 left</Text>
+                <Text style={{ fontWeight: '600', fontSize: 16, color: colors.tertiary }}>6 left</Text>
               </View>
               <View
                 style={{
@@ -63,11 +83,19 @@ export default function PointDashBoard() {
             <ProgressBar totalCoins={5} usedCoins={3} />
           </View>
 
-          <TouchableOpacity>
-            <View style={styles.btn}>
-              <Text style={styles.btnText}>Recharge</Text>
-            </View>
-          </TouchableOpacity>
+          <Card
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 12,
+              paddingVertical: 8,
+              paddingHorizontal: 16,
+              backgroundColor: colors.secondary,
+            }}
+          >
+            <Text style={styles.btnText}>Recharge</Text>
+          </Card>
         </View>
       </View>
     </View>
@@ -144,16 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  /** Button */
-  btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: '#fde8f1',
-  },
+
   btnText: {
     fontSize: 15,
     fontWeight: '600',

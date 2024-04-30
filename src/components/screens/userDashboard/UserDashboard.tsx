@@ -82,7 +82,7 @@ const UserDashboard = () => {
         barStyle={{
           backgroundColor: colors.background,
           height: 70,
-          borderTopColor: '#d9d9d9',
+          borderTopColor: colors.onSurfaceDisabled,
           borderTopWidth: 0.5,
         }}
         onIndexChange={handleIndexChange}
