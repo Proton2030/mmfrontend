@@ -7,11 +7,12 @@ import { Appbar, Avatar, useTheme } from 'react-native-paper';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
 import UiContext from '../../../../contexts/uiContext/UIContext';
+import PointDashBoard from '../../../shared/userDashboard/PointDashBoard';
 
 const More = () => {
   const { colors } = useTheme();
   const {
-    ui: { language, theme },
+    ui: { language },
   } = useContext(UiContext);
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
@@ -22,40 +23,25 @@ const More = () => {
     navigation.navigate('Notification');
   };
   return (
-    <>
-      {/* <Appbar.Header
-        style={{
-          backgroundColor: colors.secondary,
-          shadowColor: '#000000',
-          shadowOffset: { width: 0, height: 8 },
-          shadowOpacity: 0.8,
-          shadowRadius: 2,
-          elevation: 5,
-        }}
-      >
-        <Appbar.Content
-          title="Muslim Matrimony"
-          titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
-        />
-        <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
-        <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
-      </Appbar.Header> */}
-      <ScrollView contentContainerStyle={{ paddingLeft: 20, paddingRight: 20 }}>
-        <View style={{ marginBottom: 30, marginTop: 30 }}>
-          {user ? (
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-              <Avatar.Image size={45} source={{ uri: user.profile_image_url }} />
-              <Text style={[globalStyles.headingText, { textAlign: 'left', color: colors.primary }]}>
-                {user.full_name}
-              </Text>
-            </View>
-          ) : null}
-        </View>
+    <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <PointDashBoard />
+
+      <View style={{}}>
+        {user ? (
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
+            <Avatar.Image size={45} source={{ uri: user.profile_image_url }} />
+            <Text style={[globalStyles.headingText, { textAlign: 'left', color: colors.primary }]}>
+              {user.full_name}
+            </Text>
+          </View>
+        ) : null}
+      </View>
+      <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         {MENU_OPTION.map((menu, index) => {
           return <SmallCard icon={menu.icon} route={menu.route} text={menu.text[language]} key={index} />;
         })}
-      </ScrollView>
-    </>
+      </View>
+    </ScrollView>
   );
 };
 

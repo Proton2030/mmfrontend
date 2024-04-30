@@ -213,12 +213,34 @@ const globalStylesList = () => {
     category: {
       margin: 3,
       borderRadius: 15,
-      borderWidth: 1.2,
       padding: 5,
-      paddingHorizontal: 10,
+      paddingHorizontal: 20,
+      backgroundColor: 'white',
+      // Color of the shadow
+      shadowOffset: { width: 0, height: 2 }, // Offset of the shadow (horizontal, vertical)
+      shadowOpacity: 1, // Opacity of the shadow
+      shadowRadius: 3, // Radius of the shadow
+      elevation: 2, // Required for Android to show the shadow
     },
+    filter: {
+      margin: 3,
+      borderRadius: 15,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      backgroundColor: 'white',
+      // Color of the shadow
+      shadowOffset: { width: 0, height: 2 }, // Offset of the shadow (horizontal, vertical)
+      shadowOpacity: 1, // Opacity of the shadow
+      shadowRadius: 3, // Radius of the shadow
+      elevation: 2, // Required for Android to show the shadow
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      borderStartColor: 'white',
+      marginBottom: 5,
+    },
+
     text: {
-      color: COLORS.primary,
+      color: 'gray',
       fontSize: SIZES.h4,
     },
     line: {
@@ -233,14 +255,23 @@ const globalStylesList = () => {
     },
     button: {
       marginTop: 30,
-      backgroundColor: COLORS.primary,
-      borderRadius: 5,
+      backgroundColor: '#E71B73',
+      borderRadius: 25,
       padding: 10,
       alignItems: 'center',
       justifyContent: 'center',
+      elevation: 8,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      marginBottom: 10,
+      marginHorizontal: 5,
+      borderWidth: 0.9,
+      borderColor: COLORS.lightGrey,
     },
     buttonTxt: {
-      color: COLORS.white,
+      color: 'white',
       fontWeight: 'bold',
       fontSize: SIZES.h4,
     },
@@ -258,6 +289,19 @@ const globalStylesList = () => {
       bottom: 0,
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
       opacity: 1,
+    },
+    shadowView: {
+      paddingHorizontal: 10,
+      borderRadius: 25,
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: 'white',
+      shadowColor: 'black',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3,
+      elevation: 4,
+      marginHorizontal: 5,
     },
   });
 };

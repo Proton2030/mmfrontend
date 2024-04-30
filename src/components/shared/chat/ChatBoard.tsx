@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChatMenu } from './chatMenu/ChatMenu';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { DarkThemeColor, LightThemeColor } from '../../../constants/theme/themeColor';
+import BottomDrawer from '../paymentModal/PlanModal';
 
 const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
@@ -382,6 +383,7 @@ const ChatBoard = () => {
         />
       ) : (
         <Chat
+
           theme={
             theme === 'LIGHT'
               ? {
@@ -403,13 +405,15 @@ const ChatBoard = () => {
           user={sender}
         />
       )}
-      <PaymentModal
+
+      {/* <PaymentModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         styles={styles}
         handlePaymentUpdate={handlePaymentUpdate}
         name={userDetails.full_name}
       />
+      /> */}
     </SafeAreaProvider>
   );
 };

@@ -10,6 +10,8 @@ import { useTheme } from 'react-native-paper';
 import { MD3LightTheme as DefaultTheme, PaperProvider, MD3DarkTheme as DarkTheme } from 'react-native-paper';
 import { DarkThemeColor, LightThemeColor, ThemeColor } from './src/constants/theme/themeColor';
 import UiContext from './src/contexts/uiContext/UIContext';
+import SplashScreen from 'react-native-splash-screen';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const lightTheme = {
   ...DefaultTheme,
@@ -52,6 +54,9 @@ const App = ({ isRoute }: any) => {
   }, []);
 
   useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+  useEffect(() => {
     if (isRoute) {
       console.log('======>notification');
       navigation.navigate('Notification');
@@ -59,13 +64,11 @@ const App = ({ isRoute }: any) => {
   }, [isRoute]);
 
   return (
-    <PaperProvider theme={paperTheme}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'} />
-      {/* <NavigationContainer> */}
-      <AppNavigators />
-      {/* </NavigationContainer> */}
-      {/* <ConfirmationPage /> */}
-    </PaperProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider theme={paperTheme}>
+        <AppNavigators />
+      </PaperProvider>
+    </GestureHandlerRootView>
   );
 };
 

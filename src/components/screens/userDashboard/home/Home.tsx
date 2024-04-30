@@ -13,6 +13,7 @@ import {
   Animated,
   Easing,
   TouchableOpacity,
+  DrawerLayoutAndroid,
 } from 'react-native';
 import { Appbar, Badge, Button, Checkbox, IconButton, Portal, Searchbar, Tooltip, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -29,6 +30,7 @@ import axios from 'axios'; // Import axios
 import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
 import FilterDrawer from '../../../shared/filterDrawer/FilterDrawer';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
+import { DrawerLayout } from 'react-native-gesture-handler';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -63,6 +65,7 @@ const Home = () => {
   }, [drawerVisible]);
 
   const toggleDrawer = () => {
+    console.log('Toggle drawer function called');
     setDrawerVisible(!drawerVisible);
     Animated.timing(animation, {
       toValue: drawerVisible ? 0 : 1,
@@ -216,6 +219,16 @@ const Home = () => {
       console.log('=====>unseen message count', response);
     }
   }, [user]);
+  const drawerRef = useRef<DrawerLayoutAndroid>(null);
+
+  const openDrawer = () => {
+    if (drawerRef.current) {
+      console.log('Opening drawer');
+      drawerRef.current.openDrawer();
+    } else {
+      console.warn('Drawer reference is null. Unable to open drawer.');
+    }
+  };
 
   const handleSearchBar = () => {
     setIsSearch(!isSearch);
@@ -239,65 +252,73 @@ const Home = () => {
 
   return (
     <>
-      <View style={{ flex: 1 }}>
-        <Appbar.Header
-          style={{
-            backgroundColor: colors.secondary,
-            shadowColor: '#000000',
-            shadowOffset: { width: 0, height: 8 },
-            shadowOpacity: 0.8,
-            shadowRadius: 2,
-            elevation: 5,
-          }}
+      <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
+        <DrawerLayout
+          ref={drawerRef}
+          drawerWidth={330}
+          drawerPosition="right"
+          drawerBackgroundColor={colors.background}
+          renderNavigationView={() => <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />}
         >
-          <Appbar.Content
-            title="Muslim Matrimony"
-            titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
-          />
-          <TouchableOpacity onPress={toggleDrawer}>
-            <Appbar.Action icon="account-filter" size={26} />
-          </TouchableOpacity>
-          <Badge visible={messageSeenCount > 0} size={16} style={{ position: 'absolute', top: 5, right: 5 }}>
-            {messageSeenCount}
-          </Badge>
-          <Appbar.Action icon="chat-processing" onPress={routeToChatList} />
-          <Appbar.Action icon="bell" onPress={routeToNotificationList} />
-        </Appbar.Header>
-
-        {isSearch && (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Searchbar
-              style={{
-                flex: 1,
-                margin: 10,
-                backgroundColor: '#fff5f9',
-              }}
-              elevation={3}
-              placeholder="Search User"
-              onChangeText={(query) => {
-                setSearchQuery(query);
-              }}
-              onClearIconPress={handleClear}
-              value={searchQuery}
-              onSubmitEditing={handleSearch}
+          <Appbar.Header
+            style={{
+              backgroundColor: colors.secondary,
+              shadowColor: '#000000',
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.8,
+              shadowRadius: 2,
+              elevation: 5,
+            }}
+          >
+            <Appbar.Content
+              title="Muslim Matrimony"
+              titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
             />
-          </View>
-        )}
+            <TouchableOpacity onPress={openDrawer}>
+              <Appbar.Action icon="account-filter" size={26} />
+            </TouchableOpacity>
+            <Badge visible={messageSeenCount > 0} size={16} style={{ position: 'absolute', top: 5, right: 5 }}>
+              {messageSeenCount}
+            </Badge>
+            <Appbar.Action icon="chat-processing" onPress={routeToChatList} />
+            <Appbar.Action icon="bell" onPress={routeToNotificationList} />
+          </Appbar.Header>
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
-        ) : (
-          <FlatList
-            ref={flatListRef}
-            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-            onScroll={handleScroll}
-            scrollEventThrottle={50}
-            data={suggestedUser}
-            renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
-            keyExtractor={(user, index) => `${index}`}
-            ListFooterComponent={SmallLoader}
-          />
-        )}
+          {isSearch && (
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Searchbar
+                style={{
+                  flex: 1,
+                  margin: 10,
+                  backgroundColor: '#fff5f9',
+                }}
+                elevation={3}
+                placeholder="Search User"
+                onChangeText={(query) => {
+                  setSearchQuery(query);
+                }}
+                onClearIconPress={handleClear}
+                value={searchQuery}
+                onSubmitEditing={handleSearch}
+              />
+            </View>
+          )}
+          {loading ? (
+            <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+          ) : (
+            <FlatList
+              ref={flatListRef}
+              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+              onScroll={handleScroll}
+              scrollEventThrottle={50}
+              data={suggestedUser}
+              renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
+              keyExtractor={(user, index) => `${index}`}
+              ListFooterComponent={SmallLoader}
+            />
+          )}
+        </DrawerLayout>
+
         {topIcon && (
           <View
             style={{
@@ -316,7 +337,7 @@ const Home = () => {
         )}
       </View>
 
-      {drawerVisible && <View style={globalStyles.overlay} />}
+      {/* {drawerVisible && <View style={globalStyles.overlay} />}
       <Animated.View
         style={{
           position: 'absolute',
@@ -331,7 +352,7 @@ const Home = () => {
         <View style={{ backgroundColor: 'white', position: 'absolute', right: 0, width: '80%', height: '100%' }}>
           <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
         </View>
-      </Animated.View>
+      </Animated.View> */}
     </>
   );
 };

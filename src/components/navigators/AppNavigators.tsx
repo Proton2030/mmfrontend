@@ -30,7 +30,7 @@ const AppNavigators = () => {
   return (
     <>
       <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
+        {/* <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} /> */}
         {user ? (
           <>
             <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
