@@ -9,6 +9,25 @@
       "client_info": {
         "mobilesdk_app_id": "1:57247023736:android:43785b082ea2ef9536a38d",
         "android_client_info": {
+          "package_name": "com.matrimony.mm_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmvFDAHjFQYR4P7uAQFdobcat5xWxjHEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57247023736:android:d5b8c7bb9a084ed536a38d",
+        "android_client_info": {
           "package_name": "com.muslim_matrimony.dr_proton_tech"
         }
       },

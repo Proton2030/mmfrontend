@@ -1,4 +1,4 @@
-import { Chat, MessageType, defaultTheme } from '@flyerhq/react-native-chat-ui';
+import { Chat, MessageType, darkTheme, defaultTheme } from '@flyerhq/react-native-chat-ui';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Image, Linking, Modal, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -15,6 +15,8 @@ import { PAYMENT_PACKAGE_LIST } from '../../../constants/packages/paymentPackage
 import PaymentModal from '../paymentModal/PaymentModal';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ChatMenu } from './chatMenu/ChatMenu';
+import UiContext from '../../../contexts/uiContext/UIContext';
+import { DarkThemeColor, LightThemeColor } from '../../../constants/theme/themeColor';
 import BottomDrawer from '../paymentModal/PlanModal';
 
 const uuidv4 = () => {
@@ -28,6 +30,10 @@ const uuidv4 = () => {
 const renderEmptyState = () => <Text style={{}}>Hey</Text>;
 
 const ChatBoard = () => {
+  const {
+    ui: { theme },
+  } = useContext(UiContext);
+  const { colors } = useTheme();
   const navigation = useNavigation<any>();
   const [isTyping, setIsTyping] = useState(false);
   const [isBlock, setIsBlock] = useState<boolean>(false);
@@ -307,7 +313,7 @@ const ChatBoard = () => {
     <SafeAreaProvider>
       <Appbar.Header
         style={{
-          backgroundColor: '#fff5f9',
+          backgroundColor: colors.secondary,
           shadowColor: '#000000',
           shadowOffset: { width: 0, height: 8 },
           shadowOpacity: 0.8,
@@ -328,8 +334,10 @@ const ChatBoard = () => {
         </View>
 
         <View>
-          <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7 }}>{userDetails.full_name?.split(' ')[0]}</Text>
-          <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10 }}>
+          <Text style={{ fontSize: 18, textAlign: 'left', marginLeft: 7, color: colors.scrim }}>
+            {userDetails.full_name?.split(' ')[0]}
+          </Text>
+          <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10, color: colors.scrim }}>
             {userDetails.status === 'ACTIVE'
               ? '(Online)'
               : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
@@ -347,7 +355,7 @@ const ChatBoard = () => {
             { title: titleBlockUser, onPress: () => handleBlockUser(), icon: 'block-helper' },
             { title: 'Report', onPress: () => console.log('Option 2 selected'), icon: 'flag' },
           ]}
-          style={{ backgroundColor: '#fff5f9' }}
+          style={colors.secondary}
         />
       </Appbar.Header>
       {isBlock || blocked_by_female_user || blocked_by_male_user ? (
@@ -375,15 +383,20 @@ const ChatBoard = () => {
         />
       ) : (
         <Chat
-          theme={{
-            ...defaultTheme,
-            colors: {
-              ...defaultTheme.colors,
-              primary: '#E71B73',
-              inputBackground: '#ffdefb',
-              inputText: 'rgb(0, 0, 0)',
-            },
-          }}
+
+          theme={
+            theme === 'LIGHT'
+              ? {
+                  ...defaultTheme,
+                  colors: {
+                    ...defaultTheme.colors,
+                    primary: '#E71B73',
+                    inputBackground: '#ffdefb',
+                    inputText: 'rgb(0, 0, 0)',
+                  },
+                }
+              : darkTheme
+          }
           locale="en"
           emptyState={renderEmptyState}
           messages={messages}
@@ -392,11 +405,6 @@ const ChatBoard = () => {
           user={sender}
         />
       )}
-      <BottomDrawer
-        handlePaymentUpdate={handlePaymentUpdate}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
 
       {/* <PaymentModal
         modalVisible={modalVisible}
@@ -404,6 +412,7 @@ const ChatBoard = () => {
         styles={styles}
         handlePaymentUpdate={handlePaymentUpdate}
         name={userDetails.full_name}
+      />
       /> */}
     </SafeAreaProvider>
   );
