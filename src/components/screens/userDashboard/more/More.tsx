@@ -26,16 +26,6 @@ const More = () => {
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <PointDashBoard />
 
-      <View style={{}}>
-        {user ? (
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', columnGap: 10 }}>
-            <Avatar.Image size={45} source={{ uri: user.profile_image_url }} />
-            <Text style={[globalStyles.headingText, { textAlign: 'left', color: colors.primary }]}>
-              {user.full_name}
-            </Text>
-          </View>
-        ) : null}
-      </View>
       <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         {MENU_OPTION.map((menu, index) => {
           return <SmallCard icon={menu.icon} route={menu.route} text={menu.text[language]} key={index} />;
