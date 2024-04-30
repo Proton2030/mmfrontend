@@ -25,7 +25,6 @@ const More = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
       <PointDashBoard />
-
       <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         {MENU_OPTION.map((menu, index) => {
           return <SmallCard icon={menu.icon} route={menu.route} text={menu.text[language]} key={index} />;

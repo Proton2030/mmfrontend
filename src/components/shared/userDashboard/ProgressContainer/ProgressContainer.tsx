@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity, Image, StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../../../../constants/theme';
+import AuthContext from '../../../../contexts/authContext/authContext';
 
 const ProgressContainer = () => {
+  const { user } = useContext(AuthContext);
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
       <TouchableOpacity
@@ -10,16 +12,10 @@ const ProgressContainer = () => {
           // handle onPress
         }}
       >
-        <Image
-          alt=""
-          source={{
-            uri: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
-          }}
-          style={styles.avatar}
-        />
+        <Image alt="" source={{ uri: user?.profile_image_url }} style={styles.avatar} />
       </TouchableOpacity>
       <View>
-        <Text style={{ fontSize: 20, fontWeight: '700' }}>Tuhin Thakur</Text>
+        <Text style={{ fontSize: 20, fontWeight: '700' }}>{user?.full_name}</Text>
         <TouchableOpacity
           onPress={() => {
             // handle onPress
