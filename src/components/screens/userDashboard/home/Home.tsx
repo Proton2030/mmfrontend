@@ -229,6 +229,14 @@ const Home = () => {
       console.warn('Drawer reference is null. Unable to open drawer.');
     }
   };
+  const closeDrawer = () => {
+    if (drawerRef.current) {
+      console.log('closing drawer');
+      drawerRef.current.closeDrawer();
+    } else {
+      console.warn('Drawer reference is null. Unable to open drawer.');
+    }
+  };
 
   const handleSearchBar = () => {
     setIsSearch(!isSearch);
@@ -258,7 +266,9 @@ const Home = () => {
           drawerWidth={330}
           drawerPosition="right"
           drawerBackgroundColor={colors.background}
-          renderNavigationView={() => <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />}
+          renderNavigationView={() => (
+            <FilterDrawer closeDrawer={closeDrawer} toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
+          )}
         >
           <Appbar.Header
             style={{

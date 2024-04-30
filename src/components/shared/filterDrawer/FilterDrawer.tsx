@@ -8,7 +8,7 @@ import { Card, IconButton, useTheme } from 'react-native-paper';
 import { ThemeColor } from '../../../constants/theme/themeColor';
 import DualRange from '../dualRange/DualRange';
 
-const FilterDrawer = ({ navigation, toggleDrawer, applyFilters }: any) => {
+const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
   const [location, setLocation] = useState('');
   const [maritalStatus, setMaritalStatus] = useState<any>(null);
@@ -21,6 +21,11 @@ const FilterDrawer = ({ navigation, toggleDrawer, applyFilters }: any) => {
     setHasSawm(null);
   };
 
+  const applyFilter = () => {
+    applyFilters({ location, maritalStatus, hasSalah, hasSawm });
+    closeDrawer();
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, paddingTop: 42, backgroundColor: '#f8f8f8', paddingHorizontal: 5 }}>
       <View style={styles.header}>
@@ -30,11 +35,7 @@ const FilterDrawer = ({ navigation, toggleDrawer, applyFilters }: any) => {
           <View style={styles.headerAction} />
 
           <View style={styles.headerAction}>
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}
-            >
+            <TouchableOpacity onPress={handleRefreshFilters}>
               <Icon color="gray" name="reload-circle-sharp" size={35} />
             </TouchableOpacity>
           </View>
@@ -157,9 +158,9 @@ const FilterDrawer = ({ navigation, toggleDrawer, applyFilters }: any) => {
           <Text style={{ color: colors.tertiary, fontWeight: 'bold', fontSize: SIZES.h3, marginVertical: 5 }}>AGE</Text>
           <DualRange />
         </View>
-        <Card style={globalStyles.button} onPress={() => applyFilters({ location, maritalStatus, hasSalah, hasSawm })}>
+        <TouchableOpacity style={globalStyles.button} onPress={applyFilter}>
           <Text style={globalStyles.buttonTxt}>Apply Filters</Text>
-        </Card>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
