@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: 'hidden',
     width: '80%',
+    marginTop: 2,
   },
   progress: {
     height: '100%',
