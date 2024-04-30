@@ -2,9 +2,14 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, Image, StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../../../../constants/theme';
 import AuthContext from '../../../../contexts/authContext/authContext';
+import { useNavigation } from '@react-navigation/native';
 
 const ProgressContainer = () => {
   const { user } = useContext(AuthContext);
+  const navigation = useNavigation<any>();
+  const routeToChatList = () => {
+    navigation.navigate('Chat-List');
+  };
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
       <TouchableOpacity
