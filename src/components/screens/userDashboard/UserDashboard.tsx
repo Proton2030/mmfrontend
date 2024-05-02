@@ -8,13 +8,15 @@ import MyChoice from './choice/myChoice/MyChoice';
 import ActiveUser from './activeUser/ActiveUser';
 import HelpAndSupport from '../others/help&support/HelpSupport';
 import Drawer from '../../shared/filterDrawer/FilterDrawer';
-import { StatusBar } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { useContext } from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const UserDashboard = () => {
   const { ui } = useContext(UiContext);
-  const navigation = useNavigation<any>(); // Get the navigation object
+  const navigation = useNavigation<any>();
   const { colors } = useTheme();
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -62,16 +64,25 @@ const UserDashboard = () => {
             shadowColor: '#000000',
             shadowOffset: { width: 0, height: 8 },
             shadowOpacity: 0.8,
-            shadowRadius: 2,
-            elevation: 5,
+            shadowRadius: 20,
+            borderBottomWidth: 0.5,
+            borderBottomColor: colors.onSurfaceDisabled,
+            elevation: 4,
           }}
         >
           <Appbar.Content
             title="Muslim Matrimony"
             titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
           />
-          <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
-          <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
+
+          <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
+            <TouchableOpacity onPress={routeToChatList}>
+              <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.scrim} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={routeToNotificationList}>
+              <Ionicons name="notifications-outline" size={28} color={colors.scrim} />
+            </TouchableOpacity>
+          </View>
         </Appbar.Header>
       ) : null}
       <BottomNavigation

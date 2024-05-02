@@ -7,6 +7,7 @@ import AuthContext from '../../../../contexts/authContext/authContext';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import MenuCard from '../../../shared/UseCrads/UseCrads';
+import { storeData } from '../../../../utils/commonFunction/storeData';
 
 const SettingsPage = ({ navigation }: any) => {
   const { colors } = useTheme();
@@ -23,6 +24,8 @@ const SettingsPage = ({ navigation }: any) => {
       setUi({ ...ui, language });
 
       console.log('===>language', language);
+      const changelanguage = JSON.stringify({ ...ui, language });
+      storeData('@ui', changelanguage);
     }
   };
 
@@ -30,6 +33,8 @@ const SettingsPage = ({ navigation }: any) => {
     if (theme) {
       setUi({ ...ui, theme });
       console.log('===>theme', ui.theme);
+      const changetheme = JSON.stringify({ ...ui, theme });
+      storeData('@ui', changetheme);
     }
   };
 

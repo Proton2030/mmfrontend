@@ -22,6 +22,9 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
   const handleRouteTerms = () => {
     navigation.navigate('Terms');
   };
+  const handleRoutePaymentHistory = () => {
+    navigation.navigate('paymentHistory');
+  };
   const handleRoutePrivacy = () => {
     navigation.navigate('Privacy');
   };
@@ -64,6 +67,9 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
         return;
       case 'Help and Support':
         handleRouteSupport();
+        return;
+      case 'paymentHistory':
+        handleRoutePaymentHistory();
         return;
     }
   };

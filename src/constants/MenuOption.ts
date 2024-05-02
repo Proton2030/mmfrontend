@@ -9,14 +9,14 @@ export const MENU_OPTION: TMenu[] = [
   //     BENGALI: 'আমার প্রোফাইল',
   //   },
   // },
-  // {
-  //   icon: 'clock',
-  //   route: 'Payment History',
-  //   text: {
-  //     ENGLISH: 'Payment History',
-  //     BENGALI: 'পেমেন্ট রেকর্ড',
-  //   },
-  // },
+  {
+    icon: 'clock',
+    route: 'paymentHistory',
+    text: {
+      ENGLISH: 'Payment History',
+      BENGALI: 'পেমেন্ট রেকর্ড',
+    },
+  },
   // {
   //   icon: 'cog',
   //   route: 'Settings',

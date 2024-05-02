@@ -31,6 +31,7 @@ import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext
 import FilterDrawer from '../../../shared/filterDrawer/FilterDrawer';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { DrawerLayout } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -260,7 +261,7 @@ const Home = () => {
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
+      <View style={{ flex: 1, backgroundColor: colors.background }}>
         <DrawerLayout
           ref={drawerRef}
           drawerWidth={330}
@@ -276,22 +277,34 @@ const Home = () => {
               shadowColor: '#000000',
               shadowOffset: { width: 0, height: 8 },
               shadowOpacity: 0.8,
-              shadowRadius: 2,
-              elevation: 5,
+              shadowRadius: 20,
+              borderBottomWidth: 0.5,
+              borderBottomColor: colors.onSurfaceDisabled,
             }}
           >
             <Appbar.Content
               title="Muslim Matrimony"
               titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
             />
-            <TouchableOpacity onPress={openDrawer}>
-              <Appbar.Action icon="account-filter" size={26} />
-            </TouchableOpacity>
-            <Badge visible={messageSeenCount > 0} size={16} style={{ position: 'absolute', top: 5, right: 5 }}>
-              {messageSeenCount}
-            </Badge>
-            <Appbar.Action icon="chat-processing" onPress={routeToChatList} />
-            <Appbar.Action icon="bell" onPress={routeToNotificationList} />
+
+            <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
+              <TouchableOpacity onPress={openDrawer}>
+                <Ionicons name="filter-circle-outline" size={28} color={colors.scrim} />
+              </TouchableOpacity>
+              <Badge
+                visible={messageSeenCount > 0}
+                size={16}
+                style={{ position: 'absolute', top: 0, right: 5, backgroundColor: colors.primary }}
+              >
+                {messageSeenCount}
+              </Badge>
+              <TouchableOpacity onPress={routeToChatList}>
+                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.scrim} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={routeToNotificationList}>
+                <Ionicons name="notifications-outline" size={26} color={colors.scrim} />
+              </TouchableOpacity>
+            </View>
           </Appbar.Header>
 
           {isSearch && (

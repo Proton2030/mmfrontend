@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../../../../constants/theme';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
-import { useTheme } from 'react-native-paper';
+import { Card, useTheme } from 'react-native-paper';
 
 const ProgressContainer = () => {
   const { user } = useContext(AuthContext);
@@ -25,22 +25,24 @@ const ProgressContainer = () => {
         <Image alt="" source={{ uri: user?.profile_image_url }} style={styles.avatar} />
       </TouchableOpacity>
       <View>
-        <Text style={{ fontSize: 20, fontWeight: '700', color: colors.scrim }}>{user?.full_name}</Text>
-        <TouchableOpacity onPress={handleRouteMyProfile}>
-          <View
+        <Text style={{ fontSize: 18, fontWeight: '700', color: colors.primary }}>{user?.full_name}</Text>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            borderRadius: 8,
+            paddingHorizontal: 4,
+          }}
+          onPress={handleRouteMyProfile}
+        >
+          <Text
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 8,
-              paddingVertical: 6,
-              paddingHorizontal: 4,
-              marginTop: 5,
-              backgroundColor: colors.secondary,
+              fontSize: 14,
+              fontWeight: '500',
+              color: colors.tertiary,
             }}
           >
-            <Text style={styles.btnText}>View Profile</Text>
-          </View>
+            View Profile
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -69,12 +71,12 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontSize: 14,
-    fontWeight: '600',
-    color: COLORS.primary,
+    fontWeight: '500',
+    color: COLORS.grey,
   },
   avatar: {
-    width: 75,
-    height: 75,
+    width: 50,
+    height: 50,
     borderRadius: 9999,
   },
 });

@@ -19,12 +19,7 @@ export default function ProgressBar({ totalCoins, usedCoins }: any) {
             borderBottomRightRadius: 5,
           },
         ]}
-      >
-        {/* <View style={styles.inputIcon}>
-          <FeatherIcon color="white" name="box" size={16} />
-        </View> */}
-      </View>
-      {/* Gray section for remaining coins */}
+      ></View>
       <View
         style={[
           styles.progress,
@@ -41,11 +36,11 @@ export default function ProgressBar({ totalCoins, usedCoins }: any) {
 const styles = StyleSheet.create({
   progressBarContainer: {
     flexDirection: 'row',
-    height: 6,
+    height: 5,
     borderRadius: 8,
     overflow: 'hidden',
     width: '80%',
-    marginTop: 2,
+    marginTop: 8,
     backgroundColor: '#d9d9d9',
   },
   progress: {
