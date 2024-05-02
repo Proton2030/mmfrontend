@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
   View,
-  ActivityIndicator,
   FlatList,
   NativeSyntheticEvent,
   NativeScrollEvent,
@@ -15,7 +14,18 @@ import {
   TouchableOpacity,
   DrawerLayoutAndroid,
 } from 'react-native';
-import { Appbar, Badge, Button, Checkbox, IconButton, Portal, Searchbar, Tooltip, useTheme } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Appbar,
+  Badge,
+  Button,
+  Checkbox,
+  IconButton,
+  Portal,
+  Searchbar,
+  Tooltip,
+  useTheme,
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
@@ -54,7 +64,6 @@ const Home = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [animation] = useState(new Animated.Value(0));
   const [showOverlay, setShowOverlay] = useState(false);
-
   useEffect(() => {
     if (drawerVisible) {
       setTimeout(() => {
@@ -239,6 +248,15 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    // Set a timeout to turn off loading after 3 seconds
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 3000); // 3000 milliseconds = 3 seconds
+
+    // Clean up the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
   const handleSearchBar = () => {
     setIsSearch(!isSearch);
   };
@@ -327,7 +345,7 @@ const Home = () => {
             </View>
           )}
           {loading ? (
-            <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
+            <ActivityIndicator size="small" color="#E71B73" style={{ marginTop: 20 }} />
           ) : (
             <FlatList
               ref={flatListRef}

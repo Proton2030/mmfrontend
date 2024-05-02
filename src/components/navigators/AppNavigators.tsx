@@ -22,6 +22,7 @@ import PasswordReset from '../screens/others/settings/passwordReset/PasswordRese
 import Language from '../screens/language/Language';
 import { EpmtyPage } from '../screens/emptyPage/EmptyPage';
 import { PaymentHistory } from '../screens/paymentHistory/PaymnetHistory';
+import { TransitionPresets } from '@react-navigation/stack';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,13 @@ const AppNavigators = () => {
 
   return (
     <>
-      <Stack.Navigator initialRouteName="SplashScreen" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        initialRouteName="SplashScreen"
+        screenOptions={{
+          headerShown: false,
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
         {user ? (
           <>

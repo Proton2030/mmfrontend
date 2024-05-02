@@ -6,7 +6,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export const EpmtyPage = () => {
+export const EpmtyPage = ({ text1, text2 }: any) => {
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
   return (
@@ -35,9 +35,13 @@ export const EpmtyPage = () => {
         </View>
       </View>
 
-      <Text style={styles.emptyTitle}>Your payment inbox is empty</Text>
+      {/* <Text style={styles.emptyTitle}>Your payment inbox is empty</Text>
 
-      <Text style={styles.emptyDescription}>Once you buy a a plan, you'll see payment history here</Text>
+      <Text style={styles.emptyDescription}>Once you buy a a plan, you'll see payment history here</Text> */}
+
+      <Text style={styles.emptyTitle}>{text1}</Text>
+
+      <Text style={styles.emptyDescription}>{text2}</Text>
     </View>
   );
 };

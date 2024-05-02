@@ -19,7 +19,10 @@ export const PaymentHistory = () => {
         <Text style={{ fontWeight: '800', fontSize: 23, color: colors.primary }}>Payment History</Text>
       </Appbar.Header>
       <View style={styles.container}>
-        <EpmtyPage />
+        <EpmtyPage
+          text1={'Your payment inbox is empty'}
+          text2={"Once you buy a a plan, you'll see payment history here"}
+        />
 
         <TouchableOpacity
           onPress={() => {

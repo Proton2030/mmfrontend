@@ -9,6 +9,7 @@ import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { ActivityIndicator } from 'react-native';
 import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
 import { socket } from '../../../../config/config';
+import { EpmtyPage } from '../../emptyPage/EmptyPage';
 
 const Chats = () => {
   const { colors } = useTheme();
@@ -122,9 +123,10 @@ const Chats = () => {
               />
             ))
           ) : (
-            <View>
-              <Text>No Chats Here</Text>
-            </View>
+            <EpmtyPage
+              text1={'Your chat inbox is empty'}
+              text2={'Start Conversation and your chats will appear here '}
+            />
           )}
         </ScrollView>
       ) : (
