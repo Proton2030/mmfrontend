@@ -307,7 +307,7 @@ const Home = () => {
 
             <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
               <TouchableOpacity onPress={openDrawer}>
-                <Ionicons name="filter-circle-outline" size={28} color={colors.scrim} />
+                <Ionicons name="filter-circle-outline" size={28} color={colors.primary} />
               </TouchableOpacity>
               <Badge
                 visible={messageSeenCount > 0}
@@ -317,10 +317,10 @@ const Home = () => {
                 {messageSeenCount}
               </Badge>
               <TouchableOpacity onPress={routeToChatList}>
-                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.scrim} />
+                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
               </TouchableOpacity>
               <TouchableOpacity onPress={routeToNotificationList}>
-                <Ionicons name="notifications-outline" size={26} color={colors.scrim} />
+                <Ionicons name="notifications-outline" size={26} color={colors.primary} />
               </TouchableOpacity>
             </View>
           </Appbar.Header>

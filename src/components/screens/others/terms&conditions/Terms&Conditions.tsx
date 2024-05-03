@@ -55,7 +55,7 @@ export default function Example() {
             property laws.
           </Paragraph>
         </View>
-
+        <View style={{ height: 100 }}></View>
         {/* Add more sections as needed */}
       </ScrollView>
       <View

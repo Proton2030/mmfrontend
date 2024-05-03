@@ -1,14 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text } from 'react-native';
 import { Appbar, useTheme } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { EpmtyPage } from '../emptyPage/EmptyPage';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
 export const PaymentHistory = () => {
   const { colors } = useTheme();
+  const { ui } = useContext(UiContext);
   const navigation = useNavigation<any>();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
@@ -37,7 +39,7 @@ export const PaymentHistory = () => {
               borderRadius: 8,
               paddingVertical: 10,
               paddingHorizontal: 20,
-              backgroundColor: colors.primary,
+              backgroundColor: ui?.theme === 'DARK' ? colors.surface : colors.primary,
               marginTop: 'auto',
               marginHorizontal: 24,
             }}

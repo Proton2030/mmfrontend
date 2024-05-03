@@ -91,9 +91,9 @@ const UserDashboard = () => {
         navigationState={{ index, routes }}
         activeColor="#E71B73"
         barStyle={{
-          backgroundColor: colors.background,
+          backgroundColor: ui.theme === 'DARK' ? 'black' : colors.background,
           height: 70,
-          borderTopColor: colors.onSurfaceDisabled,
+          borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
           borderTopWidth: 0.5,
         }}
         onIndexChange={handleIndexChange}

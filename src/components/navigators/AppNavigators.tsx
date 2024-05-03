@@ -36,7 +36,7 @@ const AppNavigators = () => {
         initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false,
-          ...TransitionPresets.SlideFromRightIOS,
+          // ...TransitionPresets.SlideFromRightIOS,
         }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
