@@ -5,6 +5,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { styles } from './subcriptionStyles';
 import { COLORS } from '../../../constants/theme';
 import { useTheme } from 'react-native-paper';
+import { api } from '../../../utils/api';
+import { useNavigation } from '@react-navigation/native';
 
 const items = [
   {
@@ -31,9 +33,17 @@ const items = [
 ];
 
 export const SubscriptionPage = () => {
+  const navigation = useNavigation<any>();
   const { colors } = useTheme();
   const [value, setValue] = useState(0);
   const [displayedPoints, setDisplayedPoints] = useState([]);
+  const [plans, setPlans] = useState([]);
+
+  const getAllPlans = async () => {
+    const response = await api.payment.getALlPlans();
+    console.log('=====>plan parent', response);
+    setPlans(response);
+  };
 
   useEffect(() => {
     setDisplayedPoints([]);
@@ -42,29 +52,46 @@ export const SubscriptionPage = () => {
 
     points.forEach((point, index) => {
       setTimeout(() => {
-        setDisplayedPoints((prevPoints) => [...prevPoints, point]);
+        setDisplayedPoints((prevPoints): any => [...prevPoints, point]);
       }, index * 100);
     });
 
     return () => clearTimeout();
   }, [value]);
 
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await api.payment.getALlPlans();
+        // Assuming `response` is an array of plan objects
+        setPlans(response);
+      } catch (error) {
+        console.error('Error fetching plans:', error);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
   return (
-    <LinearGradient colors={['#8324ff', '#d781c4', colors.secondary]} style={styles.gradientBackground}>
+    <LinearGradient colors={['#8324ff', '#8324ff', '#d781c4', colors.secondary]} style={styles.gradientBackground}>
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.title}>Subscription Plans</Text>
           <View style={styles.radioContainer}>
-            {items.map(({ label, users, description, price }, index) => {
+            {plans.map((plan: any, index) => {
               const isActive = value === index;
+
               return (
-                <TouchableOpacity style={{ flexBasis: '44%' }} key={index} onPress={() => setValue(index)}>
+                <TouchableOpacity style={{ flexBasis: '44%' }} key={plan._id} onPress={() => setValue(index)}>
                   <View style={[styles.radio, isActive && styles.radioActive]}>
                     <View style={styles.radioTop}>
-                      <Text style={isActive ? styles.radioLabelActive : styles.radioLabel}>{label}</Text>
-                      <Text style={isActive ? styles.radioUsersActive : styles.radioUsers}>{users}</Text>
+                      <Text style={isActive ? styles.radioLabelActive : styles.radioLabel}>{plan.plan_name}</Text>
+                      <Text style={isActive ? styles.radioUsersActive : styles.radioUsers}>
+                        <AntDesign name="checkcircle" size={15} />
+                      </Text>
                     </View>
-                    <Text style={isActive ? styles.radioPriceActive : styles.radioPrice}>{price}</Text>
+                    <Text style={isActive ? styles.radioPriceActive : styles.radioPrice}>${plan.plan_price}</Text>
                     <View
                       style={{
                         width: 'auto',
@@ -81,7 +108,7 @@ export const SubscriptionPage = () => {
                       )}
                     </View>
                     <Text style={isActive ? styles.radioDescriptionActive : styles.radioDescription}>
-                      {description}
+                      Chat Count: {plan?.chat_count}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -101,7 +128,7 @@ export const SubscriptionPage = () => {
       </SafeAreaView>
       <TouchableOpacity
         onPress={() => {
-          // handle onPress
+          navigation.navigate('paymentPage');
         }}
       >
         <View

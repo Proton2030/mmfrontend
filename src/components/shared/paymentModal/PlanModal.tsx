@@ -53,7 +53,7 @@ const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: an
 
   const getAllPlans = async () => {
     const response = await api.payment.getALlPlans();
-    console.log(response);
+    console.log('=====>plan parent', response);
     setPlans(response);
   };
 
