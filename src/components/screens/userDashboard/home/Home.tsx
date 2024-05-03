@@ -42,10 +42,12 @@ import FilterDrawer from '../../../shared/filterDrawer/FilterDrawer';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import UiContext from '../../../../contexts/uiContext/UIContext';
 
 const Home = () => {
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
+  const { ui } = useContext(UiContext);
   const { user } = useContext(AuthContext);
   const { setMessageSeenCount } = useContext(MessageSeenCountContext);
   const { messageSeenCount } = useContext(MessageSeenCountContext);
@@ -291,13 +293,13 @@ const Home = () => {
         >
           <Appbar.Header
             style={{
-              backgroundColor: colors.secondary,
+              backgroundColor: ui?.theme === 'DARK' ? colors.surface : colors.secondary,
               shadowColor: '#000000',
               shadowOffset: { width: 0, height: 8 },
               shadowOpacity: 0.8,
               shadowRadius: 20,
               borderBottomWidth: 0.5,
-              borderBottomColor: colors.onSurfaceDisabled,
+              borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
             }}
           >
             <Appbar.Content

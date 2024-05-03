@@ -103,6 +103,7 @@ export default function PointDashBoard() {
                 paddingHorizontal: 16,
                 backgroundColor: colors.surface,
               }}
+              onPress={() => navigation.navigate('subscriptionPage')}
             >
               <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>Recharge</Text>
             </Card>

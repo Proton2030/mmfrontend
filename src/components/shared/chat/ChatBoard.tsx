@@ -383,7 +383,6 @@ const ChatBoard = () => {
         />
       ) : (
         <Chat
-
           theme={
             theme === 'LIGHT'
               ? {
@@ -406,14 +405,13 @@ const ChatBoard = () => {
         />
       )}
 
-      {/* <PaymentModal
+      <BottomDrawer
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         styles={styles}
         handlePaymentUpdate={handlePaymentUpdate}
         name={userDetails.full_name}
       />
-      /> */}
     </SafeAreaProvider>
   );
 };

@@ -38,6 +38,7 @@
     "react-native-google-signin": "^2.1.1",
     "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^7.1.0",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-otp-textinput": "^1.1.5",
     "react-native-pager-view": "^6.2.3",
     "react-native-paper": "^5.11.4",

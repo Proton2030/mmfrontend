@@ -32,9 +32,9 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
       userDetails: userDetails,
       editable: false,
       updatedAt: userDetails?.updatedAt,
-      Userchoice: choice
+      Userchoice: choice,
     });
-  }
+  };
 
   const handleNavigateChat = () => {
     let roomId = '';

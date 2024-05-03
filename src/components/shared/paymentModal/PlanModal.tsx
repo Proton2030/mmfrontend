@@ -5,6 +5,7 @@ import PlanCards from './plancards/PlanCards';
 import SpecialCard from './specialCard/SpecialCard';
 import axios from 'axios';
 import { api } from '../../../utils/api';
+import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
 
 const { height } = Dimensions.get('window');
 
@@ -76,15 +77,7 @@ const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: an
       <Animated.View style={[styles.drawer, { transform: [{ translateY }] }]} {...panResponder.panHandlers}>
         <View style={styles.handlepull} />
 
-        <Text style={{ fontSize: 20, fontWeight: '700', color: colors.primary, marginTop: 3, marginBottom: 12 }}>
-          Subscription Plans
-        </Text>
-        <View style={styles.handle}>
-          {plans.map((item, index) => (
-            <PlanCards key={index} item={item} />
-          ))}
-        </View>
-        <SpecialCard />
+        <SubscriptionPage />
       </Animated.View>
     </>
   );
@@ -93,7 +86,6 @@ const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: an
 const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   transparent: {
     flex: 1,
@@ -101,21 +93,21 @@ const styles = StyleSheet.create({
   handlepull: {
     width: 50,
     height: 5,
-    backgroundColor: '#ccc',
+    backgroundColor: 'white',
     borderRadius: 2.5,
     alignSelf: 'center',
-    marginBottom: 10,
+    marginBottom: -20,
+    zIndex: 50,
   },
   drawer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: height * 0.45, // Adjust the height of the drawer as needed
+    height: height * 0.87,
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 20,
   },
   handle: {
     marginBottom: 0,

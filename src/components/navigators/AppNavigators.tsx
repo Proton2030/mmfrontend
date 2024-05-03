@@ -23,6 +23,7 @@ import Language from '../screens/language/Language';
 import { EpmtyPage } from '../screens/emptyPage/EmptyPage';
 import { PaymentHistory } from '../screens/paymentHistory/PaymnetHistory';
 import { TransitionPresets } from '@react-navigation/stack';
+import { SubscriptionPage } from '../screens/subscriptionPage/SubscriptionPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,7 @@ const AppNavigators = () => {
             <Stack.Screen name="Terms" component={TermsAndConditions} />
             <Stack.Screen name="Privacy" component={PrivacyPolicy} />
             <Stack.Screen name="Settings" component={SettingsPage} />
+            <Stack.Screen name="subscriptionPage" component={SubscriptionPage} />
             <Stack.Screen name="paymentHistory" component={PaymentHistory} />
             <Stack.Screen name="ResetPassord" component={PasswordReset} />
             <Stack.Screen
