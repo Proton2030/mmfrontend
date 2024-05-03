@@ -8,9 +8,12 @@ import { useNavigation } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { Card, useTheme } from 'react-native-paper';
 import AuthContext from '../../../contexts/authContext/authContext';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
 export default function PointDashBoard() {
   const { user } = useContext(AuthContext);
+  const { ui, setUi } = useContext(UiContext);
+
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
 
@@ -35,7 +38,7 @@ export default function PointDashBoard() {
             shadowOpacity: 0.3,
             shadowRadius: 4,
             elevation: 3,
-            backgroundColor: colors.background,
+            backgroundColor: colors.surface,
             borderColor: colors.onSurfaceDisabled,
             borderRadius: 12,
           }}
@@ -98,9 +101,10 @@ export default function PointDashBoard() {
                 borderRadius: 12,
                 paddingVertical: 8,
                 paddingHorizontal: 16,
+                backgroundColor: colors.surface,
               }}
             >
-              <Text style={styles.btnText}>Recharge</Text>
+              <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>Recharge</Text>
             </Card>
           </View>
         </View>

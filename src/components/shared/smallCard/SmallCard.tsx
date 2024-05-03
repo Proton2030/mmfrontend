@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { Card } from 'react-native-paper';
+import { Card, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { TMenuProps } from '../../../@types/props/MenuProps.types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,10 +8,13 @@ import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import CustomDialog from '../customDialog/CustomDialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
 const SmallCard = ({ icon, text, route }: TMenuProps) => {
   const navigation = useNavigation<any>();
   const { user, setUser } = useContext(AuthContext);
+  const { ui } = useContext(UiContext);
+  const { colors } = useTheme();
   const [visible, setVisible] = useState<boolean>(false);
   const handleRouteMyProfile = () => {
     navigation.navigate('UserDetails', {
@@ -75,7 +78,11 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
   };
   return (
     <>
-      <Card style={globalStyles.menuCard} onPress={handleClick}>
+      <Card
+        contentStyle={{ backgroundColor: colors.surface, borderRadius: 12 }}
+        style={globalStyles.menuCard}
+        onPress={handleClick}
+      >
         <Card.Content>
           <View
             style={{
@@ -93,9 +100,9 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
               }}
             >
               <Icon name={icon} size={20} color="#E71B73" />
-              <Text style={globalStyles.menucardText}>{text}</Text>
+              <Text style={{ color: colors.primary }}>{text}</Text>
             </View>
-            <Icon name="arrow-right" size={20} color="#E71B73" />
+            <Icon name="arrow-right" size={20} color={colors.primary} />
           </View>
         </Card.Content>
       </Card>

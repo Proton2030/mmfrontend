@@ -34,6 +34,7 @@ import { DarkThemeColor, LightThemeColor } from '../../../constants/theme/themeC
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const UserDetails = () => {
   const { colors } = useTheme();
@@ -138,8 +139,23 @@ const UserDetails = () => {
   }, []);
 
   return (
-    <View style={[styles.container]}>
-      <View style={styles.userInfoSection}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.secondary,
+        paddingTop: 30,
+      }}
+    >
+      <View
+        style={{
+          paddingLeft: 20,
+          backgroundColor: colors.secondary,
+          paddingBottom: 8,
+          display: 'flex',
+          flexDirection: 'row',
+          width: '100%',
+        }}
+      >
         <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
           <TouchableOpacity onPress={handleNavigateProfileImage}>
             <Avatar.Image
@@ -167,22 +183,42 @@ const UserDetails = () => {
         </View>
       </View>
 
-      <View style={styles.userInfoSectionTwo}>
+      <View
+        style={{
+          paddingLeft: 20,
+          backgroundColor: colors.secondary,
+          paddingBottom: 8,
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+        }}
+      >
         <View>
           <Paragraph style={styles.paragraph}>{userDetails.marital_status}</Paragraph>
         </View>
         {!editable ? (
-          <View style={{ display: 'flex', flexDirection: 'row' }}>
+          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingRight: 20 }}>
             <IconButton
               icon={choice ? 'heart' : 'heart-outline'}
               onPress={handleAddChoice}
               iconColor={choice ? 'red' : colors.scrim}
             ></IconButton>
-            <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton>
+            <TouchableOpacity onPress={handleNavigateChat}>
+              <Ionicons name="chatbubble-ellipses-outline" size={24} color={colors.scrim} />
+            </TouchableOpacity>
+            {/* <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton> */}
           </View>
         ) : null}
       </View>
-      <ScrollView style={styles.menuWrapper}>
+      <ScrollView
+        style={{
+          marginTop: 10,
+          padding: 20,
+          backgroundColor: colors.background,
+        }}
+      >
         <View style={{ marginBottom: 16 }}>
           <View style={globalStyles.iconText}>
             <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Personal Information</Text>

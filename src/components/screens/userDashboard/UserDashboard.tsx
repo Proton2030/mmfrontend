@@ -77,10 +77,10 @@ const UserDashboard = () => {
 
           <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
             <TouchableOpacity onPress={routeToChatList}>
-              <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.scrim} />
+              <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.primary} />
             </TouchableOpacity>
             <TouchableOpacity onPress={routeToNotificationList}>
-              <Ionicons name="notifications-outline" size={28} color={colors.scrim} />
+              <Ionicons name="notifications-outline" size={28} color={colors.primary} />
             </TouchableOpacity>
           </View>
         </Appbar.Header>

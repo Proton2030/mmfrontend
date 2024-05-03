@@ -25,14 +25,14 @@ export const MENU_OPTION: TMenu[] = [
   //     BENGALI: 'সেটিংস',
   //   },
   // },
-  {
-    icon: 'book',
-    route: 'About Us',
-    text: {
-      ENGLISH: 'About Us',
-      BENGALI: 'আমাদের সম্পর্কে',
-    },
-  },
+  // {
+  //   icon: 'book',
+  //   route: 'About Us',
+  //   text: {
+  //     ENGLISH: 'About Us',
+  //     BENGALI: 'আমাদের সম্পর্কে',
+  //   },
+  // },
   {
     icon: 'handshake',
     route: 'Privacy Policy',
@@ -43,7 +43,7 @@ export const MENU_OPTION: TMenu[] = [
   },
   {
     icon: 'star',
-    route: 'Terms & Conditions',
+    route: 'Terms and Condition',
     text: {
       ENGLISH: 'Terms & Conditions',
       BENGALI: 'শর্তাবলী এবং নির্দেশাবলী',
@@ -51,7 +51,7 @@ export const MENU_OPTION: TMenu[] = [
   },
   {
     icon: 'headphones',
-    route: 'Help & Support',
+    route: 'Help and Support',
     text: {
       ENGLISH: 'Help & Support',
       BENGALI: 'সাহায্য এবং সমর্থন',
