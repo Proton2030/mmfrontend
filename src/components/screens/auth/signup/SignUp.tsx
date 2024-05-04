@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import SignUpScreenOne from './signUpScreenOne/SignUpScreenOne';
 import { signUp } from '../../../../assets';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import SignUpScreenTwo from './signUpScreenTwo/SignUpScreenTwo';
 import SignUpScreenThree from './signUpScreenThree/SignUpScreenThree';
 import { useNavigation } from '@react-navigation/native';
@@ -14,6 +14,7 @@ import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
 
 const SignUp = () => {
   const navigation = useNavigation<any>();
+  const { colors } = useTheme();
   const [token, setToken] = useState<string>('');
   const [screen, setScreen] = useState<number>(0);
   const [otp, setOtp] = useState<string>('');
@@ -137,7 +138,10 @@ const SignUp = () => {
 
   return (
     <>
-      <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
+      <ScrollView
+        style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
+        contentContainerStyle={globalStyles.parentScrollContainer}
+      >
         <View style={globalStyles.childContainer}>
           <Image source={signUp} style={{ width: '100%', height: undefined, aspectRatio: 1 }} resizeMode="contain" />
         </View>

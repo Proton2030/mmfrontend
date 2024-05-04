@@ -9,7 +9,7 @@ import DocumentPicker from 'react-native-document-picker';
 const PaymentPage = () => {
   const { colors } = useTheme();
   const [paymentOption, setPaymentOption] = useState(null);
-  const [paymentId, setPaymentId] = useState('1234567890');
+  const [paymentId, setPaymentId] = useState('01791395226');
   const [screenshotUri, setScreenshotUri] = useState(null);
 
   const handleCopyPaymentId = () => {

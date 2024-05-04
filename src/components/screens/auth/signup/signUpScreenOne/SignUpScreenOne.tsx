@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { muslim, signUp } from '../../../../../assets';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
 import { SIGNUP_SCREEN_ONE } from '../../../../../constants/forms/SignUp';
 import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.props';
@@ -12,6 +12,7 @@ import { SCREEN_ONE } from '../../../../../constants/texts/auth/signup/screenOne
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 
 const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, loading }: ISignupScreenProps) => {
+  const { colors } = useTheme();
   const {
     ui: { language, theme },
   } = useContext(UiContext);
@@ -23,18 +24,18 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
   return (
     <View>
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
-        <Text style={[globalStyles.mediumText, { marginBottom: 8 }]}>
+        <Text style={[globalStyles.mediumText, { marginBottom: 8 }, { color: colors.scrim }]}>
           {selectLanguage(SCREEN_ONE.request, language)}
           <Text style={{ color: '#E71B73' }}>&nbsp; {selectLanguage(SCREEN_ONE.phone, language)}</Text>
         </Text>
-        <Text>{selectLanguage(SCREEN_ONE.greeting, language)}</Text>
+        <Text style={{ color: colors.tertiary }}>{selectLanguage(SCREEN_ONE.greeting, language)}</Text>
       </View>
       <View style={globalStyles.childContainer}>
         <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
         <Button
           mode="contained"
           loading={loading}
-          style={globalStyles.pinkButton}
+          style={{ backgroundColor: colors.primary, borderColor: colors.secondary, width: '100%', padding: 6 }}
           labelStyle={globalStyles.pinkButtonText}
           onPress={handleGenerateOtpClick}
         >

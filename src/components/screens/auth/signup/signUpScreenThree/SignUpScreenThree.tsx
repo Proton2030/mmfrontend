@@ -3,7 +3,7 @@ import React, { useCallback, useContext, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
 import { SIGNUP_SCREEN_THREE } from '../../../../../constants/forms/SignUp';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import { CommonActions, NavigationProp, useNavigation } from '@react-navigation/native';
 import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.props';
 import { api } from '../../../../../utils/api';
@@ -17,6 +17,7 @@ import { SCREEN_THREE_TEXT } from '../../../../../constants/texts/auth/signup/sc
 
 const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, mode }: ISignupScreenProps) => {
   const navigation = useNavigation<any>();
+  const { colors } = useTheme();
   const {
     ui: { language, theme },
   } = useContext(UiContext);
@@ -94,10 +95,10 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
   return (
     <>
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
-        <Text style={[globalStyles.mediumText, { marginBottom: 8 }]}>
+        <Text style={[globalStyles.mediumText, { marginBottom: 8 }, { color: colors.tertiary }]}>
           {selectLanguage(SCREEN_THREE_TEXT.enter, language)}
         </Text>
-        <Text>{selectLanguage(SCREEN_THREE_TEXT.details, language)}</Text>
+        <Text style={{ color: colors.tertiary }}>{selectLanguage(SCREEN_THREE_TEXT.details, language)}</Text>
         <View style={{ width: '100%', marginTop: 20 }}>
           <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_THREE} object={userDetails} />
         </View>

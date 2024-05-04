@@ -7,10 +7,12 @@ import AuthContext from '../../../contexts/authContext/authContext';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { Image } from 'react-native';
 import { logo } from '../../../assets';
+import { useTheme } from 'react-native-paper';
 
 const SplashScreen = () => {
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
+  const { colors } = useTheme();
   const routeUserDashboard = CommonActions.reset({
     index: 0,
     routes: [{ name: 'UserDashboard' }], // Replace with your desired screen name
@@ -37,7 +39,15 @@ const SplashScreen = () => {
   }, [user]);
 
   return (
-    <View style={[globalStyles.parentView]}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        padding: 30,
+        backgroundColor: colors.background,
+      }}
+    >
       <Image source={logo} style={globalStyles.circleImage} />
     </View>
   );

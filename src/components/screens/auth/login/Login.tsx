@@ -124,10 +124,23 @@ const Login = () => {
 
   return (
     <>
-      <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
+      <ScrollView
+        style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
+        contentContainerStyle={globalStyles.parentScrollContainer}
+      >
         <View style={loginStyle.viewBox}>
           <Image style={loginStyle.image} source={logo} />
-          <Text style={globalStyles.headingText}>Muslim Matrimony</Text>
+          <Text
+            style={{
+              fontSize: 25,
+              color: colors.scrim,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              textTransform: 'capitalize',
+            }}
+          >
+            Muslim Matrimony
+          </Text>
         </View>
         <View style={globalStyles.childContainer}>
           <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
@@ -149,7 +162,7 @@ const Login = () => {
             style={{
               flex: 1,
               height: 1,
-              backgroundColor: getAppThemeMode() === 'light' ? LightThemeColor.scrim : DarkThemeColor.scrim,
+              backgroundColor: colors.tertiary,
             }}
           />
           <View>
@@ -157,7 +170,7 @@ const Login = () => {
               style={{
                 width: 80,
                 textAlign: 'center',
-                color: getAppThemeMode() === 'light' ? LightThemeColor.tertiary : DarkThemeColor.tertiary,
+                color: colors.tertiary,
               }}
             >
               {selectLanguage(LOGIN_TEXT.new_user, ui.language)}
@@ -167,14 +180,14 @@ const Login = () => {
             style={{
               flex: 1,
               height: 1,
-              backgroundColor: getAppThemeMode() === 'light' ? LightThemeColor.tertiary : DarkThemeColor.tertiary,
+              backgroundColor: colors.tertiary,
             }}
           />
         </View>
         <View style={globalStyles.childContainer}>
           <Button
             mode="outlined"
-            style={globalStyles.lightPinkButton}
+            style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
             theme={{ colors: { primary: colors.primary } }}
             onPress={handleSignUpButtonClick}
           >

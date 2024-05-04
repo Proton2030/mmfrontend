@@ -81,7 +81,7 @@ const globalStylesList = () => {
     },
     mediumText: {
       fontSize: 20,
-      color: ThemeColor.scrim,
+
       fontWeight: 'bold',
       textAlign: 'left',
       textTransform: 'capitalize',

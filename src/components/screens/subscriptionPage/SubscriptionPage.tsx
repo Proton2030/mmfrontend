@@ -8,30 +8,6 @@ import { useTheme } from 'react-native-paper';
 import { api } from '../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 
-const items = [
-  {
-    label: 'Monthly',
-    users: <AntDesign name="checkcircle" size={15} />,
-    price: '$9.99',
-    description: '10 Credits',
-    points: ['Unlimited access', 'Priority support', 'Free updates'],
-  },
-  {
-    label: 'Yearly',
-    users: <AntDesign name="checkcircle" size={15} />,
-    price: '$99.99',
-    description: '120 Credits',
-    points: ['Unlimited access', 'Priority support', 'Free updates'],
-  },
-  {
-    label: 'Weekly',
-    users: <AntDesign name="checkcircle" size={15} />,
-    price: '$4.99',
-    description: '5 Credits',
-    points: ['Limited access', 'Priority support', 'Limited updates'],
-  },
-];
-
 export const SubscriptionPage = () => {
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
@@ -45,19 +21,19 @@ export const SubscriptionPage = () => {
     setPlans(response);
   };
 
-  useEffect(() => {
-    setDisplayedPoints([]);
+  // useEffect(() => {
+  //   setDisplayedPoints([]);
 
-    const { points } = items[value];
+  //   const { points } = items[value];
 
-    points.forEach((point, index) => {
-      setTimeout(() => {
-        setDisplayedPoints((prevPoints): any => [...prevPoints, point]);
-      }, index * 100);
-    });
+  //   points.forEach((point, index) => {
+  //     setTimeout(() => {
+  //       setDisplayedPoints((prevPoints): any => [...prevPoints, point]);
+  //     }, index * 100);
+  //   });
 
-    return () => clearTimeout();
-  }, [value]);
+  //   return () => clearTimeout();
+  // }, [value]);
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -91,7 +67,7 @@ export const SubscriptionPage = () => {
                         <AntDesign name="checkcircle" size={15} />
                       </Text>
                     </View>
-                    <Text style={isActive ? styles.radioPriceActive : styles.radioPrice}>${plan.plan_price}</Text>
+                    <Text style={isActive ? styles.radioPriceActive : styles.radioPrice}>BDT{plan.plan_price}</Text>
                     <View
                       style={{
                         width: 'auto',
@@ -116,14 +92,14 @@ export const SubscriptionPage = () => {
             })}
           </View>
 
-          <View style={styles.pointsContainer}>
+          {/* <View style={styles.pointsContainer}>
             {displayedPoints.map((point, index) => (
               <View key={index} style={styles.pointRow}>
                 <AntDesign name="check" size={17} color="white" style={styles.pointIcon} />
                 <Text style={styles.pointText}>{point}</Text>
               </View>
             ))}
-          </View>
+          </View> */}
         </View>
       </SafeAreaView>
       <TouchableOpacity
