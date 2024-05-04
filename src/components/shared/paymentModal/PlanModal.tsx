@@ -76,8 +76,7 @@ const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: an
 
       <Animated.View style={[styles.drawer, { transform: [{ translateY }] }]} {...panResponder.panHandlers}>
         <View style={styles.handlepull} />
-
-        <SubscriptionPage />
+        <SubscriptionPage handlePaymentUpdate={handlePaymentUpdate} />
       </Animated.View>
     </>
   );

@@ -4,7 +4,7 @@ import { request } from '../api';
 
 const { get } = request;
 
-const initialRoute = '/subscription';
+const initialRoute = 'subscription';
 
 export const getALlPlans = async () => {
   try {

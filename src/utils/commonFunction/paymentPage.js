@@ -1,10 +1,13 @@
 const SSLCommerzPayment = require('sslcommerz-lts');
 
 export const initiatePayment = async (customer, packageDetails, tran_id) => {
+  console.log('====>customer', customer);
+  console.log('====>package', packageDetails.plan_price);
+  console.log('====>tran', tran_id);
   const store_id = 'muslimmatrimonyweblive';
   const store_password = '641BE6A8C765292108';
   const data = {
-    total_amount: packageDetails.amount,
+    total_amount: Number(packageDetails.plan_price),
     currency: 'BDT',
     tran_id: tran_id,
     cus_name: customer.full_name,
@@ -34,8 +37,8 @@ export const initiatePayment = async (customer, packageDetails, tran_id) => {
     value_c: 'ref003_C',
     value_d: 'ref004_D',
     shipping_method: 'NO',
-    product_name: packageDetails.product_name,
-    product_category: packageDetails.product_category,
+    product_name: packageDetails.plan_name,
+    product_category: packageDetails.plan_name,
     product_profile: 'telecom-vertical',
   };
   const ssclz = new SSLCommerzPayment(store_id, store_password, true);

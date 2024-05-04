@@ -182,17 +182,18 @@ const ChatBoard = () => {
     handleStopTyping();
   };
 
-  const handlePaymentUpdate = async (package_number: number) => {
+  const handlePaymentUpdate = async (plan: any) => {
     const tran_id = uuidv4().toString();
     await AsyncStorage.setItem('@tran_id', tran_id);
-    await AsyncStorage.setItem('@msg_lmt', String(PAYMENT_PACKAGE_LIST[package_number].message_limit));
-    const url = await initiatePayment(user, PAYMENT_PACKAGE_LIST[package_number], tran_id);
+    await AsyncStorage.setItem('@msg_lmt', String(plan.chat_count));
+    console.log('====>plan', plan);
+    const url = await initiatePayment(user, plan, tran_id);
+    console.log('====>url', url);
     if (url) {
-      navigation.navigate('Payment', {
+      navigation.navigate('paymentPage', {
         url: url,
         tranId: tran_id,
-        message_limit: PAYMENT_PACKAGE_LIST[package_number].message_limit,
-        messages: messages,
+        message_limit: plan.chat_count,
       });
       setModalVisible(false);
     }

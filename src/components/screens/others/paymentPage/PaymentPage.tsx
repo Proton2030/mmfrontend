@@ -5,12 +5,16 @@ import { useTheme } from 'react-native-paper';
 import { styles } from './style';
 import Clipboard from '@react-native-clipboard/clipboard';
 import DocumentPicker from 'react-native-document-picker';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const PaymentPage = () => {
   const { colors } = useTheme();
-  const [paymentOption, setPaymentOption] = useState(null);
-  const [paymentId, setPaymentId] = useState('01791395226');
+  const navigation = useNavigation<any>();
+  const route = useRoute<any>();
+  const [paymentOption, setPaymentOption] = useState<string | null>(null);
+  const [paymentId, setPaymentId] = useState<string | null>('1234567890');
   const [screenshotUri, setScreenshotUri] = useState(null);
+  const { url, tranId, message_limit } = route.params;
 
   const handleCopyPaymentId = () => {
     Clipboard.setString(paymentId);
@@ -33,6 +37,15 @@ const PaymentPage = () => {
     }
   };
 
+  const handleOnlinePayment = () => {
+    setPaymentOption('online');
+    navigation.navigate('Payment', {
+      url,
+      tranId,
+      message_limit,
+    });
+  };
+
   const handleSubmit = () => {
     if (paymentOption === 'manual' && screenshotUri) {
       Alert.alert('Submission Successful', 'Your payment proof has been submitted.');
@@ -47,7 +60,7 @@ const PaymentPage = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Choose a Payment Option</Text>
         <View style={styles.paymentOptionsContainer}>
-          <TouchableOpacity style={styles.paymentOptionButton} onPress={() => setPaymentOption('online')}>
+          <TouchableOpacity style={styles.paymentOptionButton} onPress={handleOnlinePayment}>
             <Text style={styles.paymentOptionText}>Online Payment</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.paymentOptionButton} onPress={() => setPaymentOption('manual')}>
