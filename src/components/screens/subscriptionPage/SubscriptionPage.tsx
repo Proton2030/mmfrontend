@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -7,8 +7,36 @@ import { COLORS } from '../../../constants/theme';
 import { useTheme } from 'react-native-paper';
 import { api } from '../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
-export const SubscriptionPage = () => {
+const items = [
+  {
+    label: 'Monthly',
+    users: <AntDesign name="checkcircle" size={15} />,
+    price: '$9.9',
+    description: '10 Credits',
+    points: ['Unlimited access', 'Priority support', 'Free updates'],
+  },
+  {
+    label: 'Yearly',
+    users: <AntDesign name="checkcircle" size={15} />,
+    price: '$99.99',
+    description: '120 Credits',
+    points: ['Unlimited access', 'Priority support', 'Free updates'],
+  },
+  {
+    label: 'Weekly',
+    users: <AntDesign name="checkcircle" size={15} />,
+    price: '$4.99',
+    description: '5 Credits',
+    points: ['Limited access', 'Priority support', 'Limited updates'],
+  },
+];
+
+export const SubscriptionPage = ({ handlePaymentUpdate }: any) => {
+  const {
+    ui: { theme },
+  } = useContext(UiContext);
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
   const [value, setValue] = useState(0);
@@ -50,7 +78,14 @@ export const SubscriptionPage = () => {
   }, []);
 
   return (
-    <LinearGradient colors={['#8324ff', '#8324ff', '#d781c4', colors.secondary]} style={styles.gradientBackground}>
+    <LinearGradient
+      colors={[
+        theme === 'DARK' ? '#00004d' : '#DA0C81',
+        theme === 'DARK' ? '#201658' : '#FF4B91',
+        theme === 'DARK' ? '#1130a2' : '#7360DF',
+      ]}
+      style={styles.gradientBackground}
+    >
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text style={styles.title}>Subscription Plans</Text>
@@ -67,7 +102,7 @@ export const SubscriptionPage = () => {
                         <AntDesign name="checkcircle" size={15} />
                       </Text>
                     </View>
-                    <Text style={isActive ? styles.radioPriceActive : styles.radioPrice}>BDT{plan.plan_price}</Text>
+                    <Text style={isActive ? styles.radioPriceActive : styles.radioPrice}>৳ {plan.plan_price}</Text>
                     <View
                       style={{
                         width: 'auto',
@@ -102,11 +137,7 @@ export const SubscriptionPage = () => {
           </View> */}
         </View>
       </SafeAreaView>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('paymentPage');
-        }}
-      >
+      <TouchableOpacity onPress={() => handlePaymentUpdate(plans[value])}>
         <View
           style={{
             flexDirection: 'row',
@@ -115,13 +146,13 @@ export const SubscriptionPage = () => {
             borderRadius: 8,
             paddingVertical: 10,
             paddingHorizontal: 20,
-            backgroundColor: colors.primary,
+            backgroundColor: 'white',
             marginTop: 'auto',
             marginHorizontal: 24,
             marginBottom: 20,
           }}
         >
-          <Text style={styles.btnText}>Continue</Text>
+          <Text style={[styles.btnText, { color: 'black' }]}>Continue</Text>
         </View>
       </TouchableOpacity>
     </LinearGradient>
