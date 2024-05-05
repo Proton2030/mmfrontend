@@ -15,6 +15,8 @@ import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import ChoiceContext from '../../../contexts/choiceContext/choiceContext';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
@@ -35,6 +37,11 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
       Userchoice: choice,
     });
   };
+
+  function capitalizeFirstLetter(text: any) {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
 
   const handleNavigateChat = () => {
     let roomId = '';
@@ -76,7 +83,15 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
   }, []);
 
   return (
-    <View style={globalStyles.card}>
+    <View
+      style={{
+        marginTop: 40,
+        paddingBottom: 20,
+        borderWidth: 0,
+        borderBottomWidth: 2,
+        borderColor: colors.surfaceDisabled,
+      }}
+    >
       <TouchableOpacity onPress={handleRouteTouserDetails}>
         <View
           style={{
@@ -102,7 +117,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
               <Text style={{ color: colors.scrim, fontSize: 15 }}>&nbsp;({userDetails.age} yrs)</Text>
             </Text>
             <View style={globalStyles.iconText}>
-              <Icon name="map-marker-alt" size={18} color="#E71B73" />
+              <Ionicons name="location-sharp" size={16} color="#E71B73" />
               <View style={{ display: 'flex', flexDirection: 'row', columnGap: 20 }}>
                 <Text style={{ color: colors.scrim, fontSize: 14 }}>
                   {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}
@@ -122,30 +137,44 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
       </TouchableOpacity>
       <View style={{ display: 'flex', flexDirection: 'row', columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
         <View style={globalStyles.iconText}>
-          <Icon name="ruler-vertical" size={18} color="#E71B73" />
+          <MaterialCommunityIcons name="human-male-height" size={18} color="#E71B73" />
           <Text style={{ color: colors.tertiary }}>{userDetails.height} ft</Text>
         </View>
         <View style={globalStyles.iconText}>
-          <Icon name="dumbbell" size={18} color="#E71B73" />
+          <MaterialCommunityIcons name="weight-kilogram" size={18} color="#E71B73" />
           <Text style={{ color: colors.tertiary }}>{userDetails.weight} kg</Text>
         </View>
         <View style={globalStyles.iconText}>
-          <Icon name="ring" size={18} color="#E71B73" />
-          <Text style={{ color: colors.tertiary }}>{userDetails.marital_status}</Text>
+          <MaterialCommunityIcons name="ring" size={18} color="#E71B73" />
+          <Text style={{ color: colors.tertiary }}>{capitalizeFirstLetter(userDetails.marital_status)}</Text>
         </View>
         <View style={globalStyles.iconText}>
-          <Icon name="child" size={18} color="#E71B73" />
-          <Text style={{ color: colors.tertiary }}>{userDetails.body_color}</Text>
+          <Ionicons name="body" size={18} color="#E71B73" />
+          <Text style={{ color: colors.tertiary }}>{capitalizeFirstLetter(userDetails.body_color)}</Text>
         </View>
       </View>
 
-      <View style={{ display: 'flex', flexDirection: 'row', marginTop: 10 }}>
-        <IconButton
+      <View
+        style={{ display: 'flex', flexDirection: 'row', marginTop: 20, alignItems: 'center', gap: 15, paddingLeft: 20 }}
+      >
+        {/* <IconButton
           icon={choice ? 'heart' : 'heart-outline'}
           onPress={handleAddChoice}
           iconColor={choice ? 'red' : colors.scrim}
-        ></IconButton>
-        <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton>
+        ></IconButton> */}
+        <TouchableOpacity onPress={handleAddChoice} style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+          {choice ? (
+            <Ionicons name="heart" size={25} color={colors.primary} />
+          ) : (
+            <Ionicons name="heart-outline" size={25} color={colors.tertiary} />
+          )}
+          {/* <Text>Like</Text> */}
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleNavigateChat} style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+          <Ionicons name="chatbubble-ellipses-outline" size={24} color={colors.tertiary} />
+          {/* <Text>Chat</Text> */}
+        </TouchableOpacity>
+        {/* <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton> */}
       </View>
     </View>
   );

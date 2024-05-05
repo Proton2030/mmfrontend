@@ -100,22 +100,39 @@ const Home = () => {
     }
   };
 
-  const hideFilterModal = async (filterOptions: { maritalStatus: any; hasSalah: any; hasSawm: any }) => {
+  const hideFilterModal = async (filterOptions: {
+    maritalStatus: any;
+    hasSalah: any;
+    hasSawm: any;
+    location: any;
+    minAge: number | null;
+    maxAge: number | null;
+  }) => {
     const gender = user?.gender === 'MALE' ? 'FEMALE' : 'MALE';
     console.log(filterOptions);
     try {
+      // Combine minAge and maxAge into a single age range string
+
       const params = {
+        minAge: filterOptions?.minAge,
+        maxAge: filterOptions?.maxAge,
         gender: gender,
         marital_status: filterOptions?.maritalStatus,
         salah: filterOptions?.hasSalah,
         sawum: filterOptions?.hasSawm,
       };
+
+      // Perform the API call with the params
       const response = await api.filter.getFilterList(params);
+
+      // Update suggested users based on the response
       setSuggestedUser(response);
+
+      // Close the drawer
       toggleDrawer();
     } catch (error) {
       console.error(error);
-      // setLoading(false);
+      // Handle the error as needed
     }
   };
 
@@ -298,7 +315,8 @@ const Home = () => {
               shadowOffset: { width: 0, height: 8 },
               shadowOpacity: 0.8,
               shadowRadius: 20,
-              borderBottomWidth: 0.5,
+              borderBottomWidth: 0.3,
+              borderBottomColor: colors.onSurfaceDisabled,
               borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
             }}
           >
@@ -347,7 +365,7 @@ const Home = () => {
             </View>
           )}
           {loading ? (
-            <ActivityIndicator size="small" color="#E71B73" style={{ marginTop: 20 }} />
+            <ActivityIndicator size="small" color="#E71B73" style={{ marginTop: 10 }} />
           ) : (
             <FlatList
               ref={flatListRef}

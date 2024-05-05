@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { SafeAreaView, View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -7,30 +7,51 @@ import { COLORS, SIZES } from '../../../constants/theme';
 import { Card, IconButton, useTheme } from 'react-native-paper';
 import { ThemeColor } from '../../../constants/theme/themeColor';
 import DualRange from '../dualRange/DualRange';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
 const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
+  const { ui } = useContext(UiContext);
   const [location, setLocation] = useState('');
   const [maritalStatus, setMaritalStatus] = useState<any>(null);
   const [hasSalah, setHasSalah] = useState<any>(null);
   const [hasSawm, setHasSawm] = useState<any>(null);
+  const [minAge, setMinAge] = useState<number | null>(null);
+  const [maxAge, setMaxAge] = useState<number | null>(null);
 
   const handleRefreshFilters = () => {
     setMaritalStatus(null);
     setHasSalah(null);
     setHasSawm(null);
+    setMinAge(null);
+    setMaxAge(null);
   };
 
   const applyFilter = () => {
-    applyFilters({ location, maritalStatus, hasSalah, hasSawm });
+    applyFilters({ location, maritalStatus, hasSalah, hasSawm, minAge, maxAge });
     closeDrawer();
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingTop: 42, backgroundColor: '#f8f8f8', paddingHorizontal: 5 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        paddingTop: 42,
+        backgroundColor: colors.background,
+        paddingHorizontal: 5,
+      }}
+    >
       <View style={styles.header}>
         <View style={styles.headerTop}>
-          <Text style={styles.headerTitle}>&nbsp;Filter User</Text>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: '500',
+              color: colors.tertiary,
+            }}
+          >
+            &nbsp;Filter User
+          </Text>
 
           <View style={styles.headerAction} />
 
@@ -54,11 +75,67 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
           >
             District
           </Text>
-          <View style={globalStyles.shadowView}>
+          <View style={[globalStyles.shadowView, { backgroundColor: colors.surface }]}>
             <Icon color="gray" name="search" size={23} />
-            <TextInput value={location} placeholder="Where do you live?" style={{}} onChangeText={setLocation} />
+            <TextInput
+              value={location}
+              placeholderTextColor={colors.tertiary}
+              placeholder="Where do you live?"
+              style={{}}
+              onChangeText={setLocation}
+            />
           </View>
         </View>
+
+        <View style={globalStyles.item}>
+          <Text
+            style={{
+              color: colors.tertiary,
+              fontWeight: 'bold',
+              fontSize: SIZES.h3,
+              marginVertical: 5,
+              marginLeft: 10,
+            }}
+          >
+            Age Range
+          </Text>
+          <View style={globalStyles.row}>
+            {[
+              { label: '18-22', minAge: 17, maxAge: 22 },
+              { label: '23-26', minAge: 23, maxAge: 26 },
+              { label: '27-31', minAge: 27, maxAge: 31 },
+              { label: '32-38', minAge: 32, maxAge: 38 },
+              { label: '39-45', minAge: 39, maxAge: 45 },
+              { label: 'age>45', minAge: 46, maxAge: 100 },
+            ].map((ageRange, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  setMinAge(ageRange.minAge);
+                  setMaxAge(ageRange.maxAge);
+                }}
+                style={[
+                  globalStyles.category,
+                  {
+                    shadowColor:
+                      minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : COLORS.title,
+                  },
+                  { backgroundColor: colors.surface },
+                ]}
+              >
+                <Text
+                  style={[
+                    globalStyles.subtitle,
+                    { color: minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : 'gray' },
+                  ]}
+                >
+                  {ageRange.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
         <View style={globalStyles.item}>
           <Text
             style={{
@@ -77,6 +154,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
               style={[
                 globalStyles.category,
                 { shadowColor: maritalStatus === 'MARRIED' ? COLORS.primary : COLORS.title },
+                { backgroundColor: colors.surface },
               ]}
             >
               <Text style={[globalStyles.subtitle, { color: maritalStatus === 'MARRIED' ? COLORS.primary : 'gray' }]}>
@@ -89,10 +167,11 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
               style={[
                 globalStyles.category,
                 { shadowColor: maritalStatus === 'UNMARRIED' ? COLORS.primary : COLORS.title },
+                { backgroundColor: colors.surface },
               ]}
             >
               <Text style={[globalStyles.subtitle, { color: maritalStatus === 'UNMARRIED' ? COLORS.primary : 'gray' }]}>
-                Unarried
+                Unmarried
               </Text>
             </TouchableOpacity>
 
@@ -101,6 +180,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
               style={[
                 globalStyles.category,
                 { shadowColor: maritalStatus === 'DIVORCED' ? COLORS.primary : COLORS.title },
+                { backgroundColor: colors.surface },
               ]}
             >
               <Text style={[globalStyles.subtitle, { color: maritalStatus === 'DIVORCED' ? COLORS.primary : 'gray' }]}>
@@ -115,6 +195,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
               style={[
                 globalStyles.category,
                 { shadowColor: maritalStatus === 'PARTNER DEATH' ? COLORS.primary : COLORS.title },
+                { backgroundColor: colors.surface },
               ]}
             >
               <Text
@@ -125,13 +206,14 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
             </TouchableOpacity>
           </View>
         </View>
+
         <View style={globalStyles.item}>
           <Text style={{ color: colors.tertiary, fontWeight: 'bold', fontSize: SIZES.h3, marginVertical: 5 }}>
             FILTER
           </Text>
           <TouchableOpacity
             onPress={() => setHasSalah((prevState: string) => (prevState === 'YES' ? null : 'YES'))}
-            style={globalStyles.filter}
+            style={[globalStyles.filter, { backgroundColor: colors.surface }]}
           >
             <Text style={globalStyles.text}>Salah</Text>
             {hasSalah === 'YES' ? (
@@ -145,7 +227,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
             onPress={() => {
               setHasSawm((prevState: string) => (prevState === 'YES' ? null : 'YES'));
             }}
-            style={globalStyles.filter}
+            style={[globalStyles.filter, { backgroundColor: colors.surface }]}
           >
             <Text style={globalStyles.text}>Sawm</Text>
             {hasSawm === 'YES' ? (
@@ -154,10 +236,8 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
               <MaterialIcons name="radio-button-unchecked" size={20} color={COLORS.grey} />
             )}
           </TouchableOpacity>
-
-          <Text style={{ color: colors.tertiary, fontWeight: 'bold', fontSize: SIZES.h3, marginVertical: 5 }}>AGE</Text>
-          <DualRange />
         </View>
+
         <TouchableOpacity style={globalStyles.button} onPress={applyFilter}>
           <Text style={globalStyles.buttonTxt}>Apply Filters</Text>
         </TouchableOpacity>

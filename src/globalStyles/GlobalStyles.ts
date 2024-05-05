@@ -224,8 +224,7 @@ const globalStylesList = () => {
       borderRadius: 15,
       padding: 5,
       paddingHorizontal: 20,
-      backgroundColor: 'white',
-      // Color of the shadow
+      // backgroundColor: 'white',
       shadowOffset: { width: 0, height: 2 }, // Offset of the shadow (horizontal, vertical)
       shadowOpacity: 1, // Opacity of the shadow
       shadowRadius: 3, // Radius of the shadow
@@ -263,10 +262,10 @@ const globalStylesList = () => {
       paddingLeft: 10,
     },
     button: {
-      marginTop: 30,
+      marginTop: 20,
       backgroundColor: '#E71B73',
       borderRadius: 25,
-      padding: 10,
+      padding: 14,
       alignItems: 'center',
       justifyContent: 'center',
       elevation: 4,
@@ -276,8 +275,6 @@ const globalStylesList = () => {
       shadowRadius: 4,
       marginBottom: 10,
       marginHorizontal: 5,
-      borderWidth: 0.9,
-      borderColor: COLORS.lightGrey,
     },
     buttonTxt: {
       color: 'white',
