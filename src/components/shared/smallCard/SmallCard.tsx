@@ -3,12 +3,13 @@ import React, { useContext, useState } from 'react';
 import { Card, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { TMenuProps } from '../../../@types/props/MenuProps.types';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import CustomDialog from '../customDialog/CustomDialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UiContext from '../../../contexts/uiContext/UIContext';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SmallCard = ({ icon, text, route }: TMenuProps) => {
   const navigation = useNavigation<any>();
@@ -89,6 +90,7 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'space-between',
+              paddingVertical: 2,
             }}
           >
             <View
@@ -99,10 +101,10 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
                 columnGap: 10,
               }}
             >
-              <Icon name={icon} size={20} color="#E71B73" />
-              <Text style={{ color: colors.primary }}>{text}</Text>
+              <Icon name={icon} size={18} color="#E71B73" />
+              <Text style={{ color: colors.scrim }}>{text}</Text>
             </View>
-            <Icon name="arrow-right" size={20} color={colors.primary} />
+            <MaterialIcons name="arrow-forward-ios" size={18} color={colors.primary} />
           </View>
         </Card.Content>
       </Card>

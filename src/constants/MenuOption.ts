@@ -34,7 +34,7 @@ export const MENU_OPTION: TMenu[] = [
   //   },
   // },
   {
-    icon: 'handshake',
+    icon: 'shield',
     route: 'Privacy Policy',
     text: {
       ENGLISH: 'Privacy Policy',
@@ -42,7 +42,7 @@ export const MENU_OPTION: TMenu[] = [
     },
   },
   {
-    icon: 'star',
+    icon: 'alert-triangle',
     route: 'Terms and Condition',
     text: {
       ENGLISH: 'Terms & Conditions',
@@ -58,7 +58,7 @@ export const MENU_OPTION: TMenu[] = [
     },
   },
   {
-    icon: 'logout',
+    icon: 'log-out',
     route: 'Logout',
     text: {
       ENGLISH: 'Logout',

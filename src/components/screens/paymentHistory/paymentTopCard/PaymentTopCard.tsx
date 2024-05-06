@@ -5,53 +5,69 @@ import { Appbar, Avatar, Card, useTheme } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { EpmtyPage } from '../emptyPage/EmptyPage';
-import UiContext from '../../../contexts/uiContext/UIContext';
-import { PaymentHistoryTopCard } from './paymentTopCard/PaymentTopCard';
-import { PaymentHistoryCard } from './paymenthistoryList/PaymentHostoryList';
 
-export const PaymentHistory = () => {
+export const PaymentHistoryTopCard = () => {
   const { colors } = useTheme();
-  const navigation = useNavigation<any>();
-  const paymentHistoryData = [1, 2, 3, 4];
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <Appbar.Header style={{ backgroundColor: colors.secondary, paddingLeft: 20 }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={20} color={colors.primary} style={{ marginRight: 15 }} />
-        </TouchableOpacity>
-        <Text style={{ fontWeight: '500', fontSize: 23, color: colors.primary }}>Payment History</Text>
-      </Appbar.Header>
-      <View style={styles.container}>
-        <PaymentHistoryTopCard />
 
+  const navigation = useNavigation<any>();
+  return (
+    <View
+      style={{
+        paddingHorizontal: 20,
+      }}
+    >
+      <TouchableOpacity
+        style={{
+          height: 140,
+          width: '100%',
+          backgroundColor: colors.surface,
+          borderRadius: 20,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 10 },
+          shadowOpacity: 0.25,
+          shadowRadius: 20,
+          elevation: 3,
+          padding: 18,
+          justifyContent: 'space-between',
+          flexDirection: 'column',
+        }}
+      >
+        {/* First View */}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', justifyContent: 'center' }}>
+            <Avatar.Icon size={26} icon="sale" />
+            <Text style={{ fontSize: 20, color: colors.scrim, fontWeight: '400' }}>Basic plan</Text>
+          </View>
+
+          <View
+            style={{
+              borderWidth: 0.8,
+              borderRadius: 40,
+              paddingHorizontal: 10,
+              paddingVertical: 3,
+              borderColor: colors.primary,
+            }}
+          >
+            <Text style={{ fontSize: 14, color: colors.primary }}>Active</Text>
+          </View>
+        </View>
+
+        {/* Divider */}
         <View
           style={{
-            paddingHorizontal: 20,
-            marginTop: 40,
+            height: 1,
+            backgroundColor: '#ddd', // You can change the color as needed
+            marginVertical: 10, // Add margin if you want space around the divider
           }}
-        >
-          {/* <View
-            style={{
-              height: 1,
-              backgroundColor: '#ddd', // You can change the color as needed
-              marginVertical: 10, // Add margin if you want space around the divider
-            }}
-          /> */}
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginBottom: 5 }}
-          >
-            <Text style={{ fontWeight: '500', fontSize: 14, marginVertical: 10, color: colors.scrim }}>
-              Past Transactions
-            </Text>
-            <Text style={{ fontWeight: '500', fontSize: 14, marginVertical: 10, color: colors.primary }}>See All</Text>
-          </View>
-          {paymentHistoryData.map((item, index) => (
-            <PaymentHistoryCard key={index} />
-          ))}
+        />
+
+        {/* Second View */}
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Text style={{ fontSize: 16, color: colors.backdrop, fontWeight: '600' }}>Total Spent:</Text>
+          <Text style={{ fontSize: 26, color: colors.scrim }}>৳ 699.00</Text>
         </View>
-      </View>
-    </SafeAreaView>
+      </TouchableOpacity>
+    </View>
   );
 };
 

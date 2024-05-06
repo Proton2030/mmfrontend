@@ -120,6 +120,7 @@ const Home = () => {
         marital_status: filterOptions?.maritalStatus,
         salah: filterOptions?.hasSalah,
         sawum: filterOptions?.hasSawm,
+        state: filterOptions?.location,
       };
 
       // Perform the API call with the params
