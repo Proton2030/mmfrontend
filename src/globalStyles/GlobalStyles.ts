@@ -308,6 +308,7 @@ const globalStylesList = () => {
       shadowRadius: 3,
       elevation: 4,
       marginHorizontal: 5,
+      paddingVertical: 2
     },
   });
 };

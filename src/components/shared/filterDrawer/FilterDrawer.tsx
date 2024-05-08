@@ -8,6 +8,7 @@ import { Card, IconButton, useTheme } from 'react-native-paper';
 import { ThemeColor } from '../../../constants/theme/themeColor';
 import DualRange from '../dualRange/DualRange';
 import UiContext from '../../../contexts/uiContext/UIContext';
+import SelectDropdown from 'react-native-select-dropdown';
 
 const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
@@ -76,16 +77,32 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
             District
           </Text>
           <View style={[globalStyles.shadowView, { backgroundColor: colors.surface }]}>
-            <Icon color="gray" name="search" size={23} />
-            <TextInput
-              value={location}
-              placeholderTextColor={colors.tertiary}
-              placeholder="Where do you live?"
-              style={{}}
-              onChangeText={setLocation}
+            <SelectDropdown
+              defaultButtonText="Select District"
+              buttonStyle={{
+                width: '100%',
+                backgroundColor: colors.surface,
+                borderRadius: 20
+              }}
+              buttonTextStyle={globalStyles.selectText}
+              dropdownIconPosition="left"
+              renderDropdownIcon={() => <Icon name="chevron-down" size={24} color="gray" />}
+              data={[
+                "Dhaka",
+                "Pirojpur",
+                "Chittagong",
+                "Khulna",
+                "Rajshahi",
+                "Barishal",
+                "Sylhet",
+                "Rangpur",
+                "Mymensingh",
+              ]}
+              onSelect={(selectedItem: any) => setLocation(selectedItem)}
             />
           </View>
         </View>
+
 
         <View style={globalStyles.item}>
           <Text
