@@ -13,7 +13,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
   const { ui } = useContext(UiContext);
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState<string | null>(null);
   const [maritalStatus, setMaritalStatus] = useState<any>(null);
   const [hasSalah, setHasSalah] = useState<any>(null);
   const [hasSawm, setHasSawm] = useState<any>(null);
