@@ -26,6 +26,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
     setMinAge(null);
     setMaxAge(null);
     setLocation(null);
+    applyFilters({ location: null, maritalStatus: null, hasSalah: null, hasSawm: null, minAge: null, maxAge: null });
   };
 
   const applyFilter = () => {
