@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import {
   View,
   FlatList,
@@ -249,7 +249,7 @@ const Home = () => {
       console.log('=====>unseen message count', response);
     }
   }, [user]);
-  const drawerRef = useRef<DrawerLayoutAndroid>(null);
+  const drawerRef = useRef<DrawerLayoutAndroid | null>(null);
 
   const openDrawer = () => {
     if (drawerRef.current) {
@@ -301,7 +301,7 @@ const Home = () => {
     <>
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <DrawerLayout
-          ref={drawerRef}
+          ref={drawerRef as unknown as RefObject<DrawerLayout>}
           drawerWidth={330}
           drawerPosition="right"
           drawerBackgroundColor={colors.background}
@@ -376,7 +376,7 @@ const Home = () => {
               data={suggestedUser}
               renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
               keyExtractor={(user, index) => `${index}`}
-              ListFooterComponent={SmallLoader}
+              ListFooterComponent={() => <>{loading ? <SmallLoader /> : null}</>}
             />
           )}
         </DrawerLayout>
