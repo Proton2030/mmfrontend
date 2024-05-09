@@ -5,9 +5,11 @@ import { Appbar, Avatar, Card, useTheme } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import UiContext from '../../../../contexts/uiContext/UIContext';
 
 export const PaymentHistoryTopCard = () => {
   const { colors } = useTheme();
+  const { ui } = useContext(UiContext);
 
   const navigation = useNavigation<any>();
   return (
@@ -63,7 +65,11 @@ export const PaymentHistoryTopCard = () => {
 
         {/* Second View */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Text style={{ fontSize: 16, color: colors.backdrop, fontWeight: '600' }}>Total Spent:</Text>
+          <Text
+            style={{ fontSize: 16, color: ui.theme === 'DARK' ? colors.scrim : colors.backdrop, fontWeight: '600' }}
+          >
+            Total Spent:
+          </Text>
           <Text style={{ fontSize: 26, color: colors.scrim }}>৳ 699.00</Text>
         </View>
       </TouchableOpacity>

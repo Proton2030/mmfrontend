@@ -4,11 +4,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { COLORS, SIZES } from '../../../constants/theme';
-import { Card, IconButton, useTheme } from 'react-native-paper';
-import { ThemeColor } from '../../../constants/theme/themeColor';
-import DualRange from '../dualRange/DualRange';
+import { Button, useTheme } from 'react-native-paper';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import SelectDropdown from 'react-native-select-dropdown';
+import { districts_of_bangladesh } from '../../../constants/bangladeshDistricts';
 
 const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
@@ -26,6 +25,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
     setHasSawm(null);
     setMinAge(null);
     setMaxAge(null);
+    setLocation(null);
   };
 
   const applyFilter = () => {
@@ -46,7 +46,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
         <View style={styles.headerTop}>
           <Text
             style={{
-              fontSize: 30,
+              fontSize: 27,
               fontWeight: '500',
               color: colors.tertiary,
             }}
@@ -54,55 +54,35 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
             &nbsp;Filter User
           </Text>
 
-          <View style={styles.headerAction} />
-
           <View style={styles.headerAction}>
-            <TouchableOpacity onPress={handleRefreshFilters}>
-              <Icon color="gray" name="reload-circle-sharp" size={35} />
+            {/* <TouchableOpacity onPress={handleRefreshFilters}> */}
+            <TouchableOpacity onPress={() => closeDrawer()}>
+              <Icon color="gray" name="close-circle-outline" size={30} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <ScrollView style={globalStyles.container}>
         <View style={globalStyles.item}>
-          <Text
-            style={{
-              color: colors.tertiary,
-              fontWeight: 'bold',
-              fontSize: SIZES.h3,
-              marginVertical: 5,
-              marginLeft: 10,
-            }}
-          >
-            District
-          </Text>
           <View style={[globalStyles.shadowView, { backgroundColor: colors.surface }]}>
             <SelectDropdown
               defaultButtonText="Select District"
               buttonStyle={{
                 width: '100%',
                 backgroundColor: colors.surface,
-                borderRadius: 20
+                borderRadius: 20,
               }}
               buttonTextStyle={globalStyles.selectText}
               dropdownIconPosition="left"
+              rowStyle={{ borderRadius: 20 }}
+              dropdownStyle={{ borderRadius: 20, marginTop: -20 }}
+              rowTextStyle={{ fontSize: 16 }}
               renderDropdownIcon={() => <Icon name="chevron-down" size={24} color="gray" />}
-              data={[
-                "Dhaka",
-                "Pirojpur",
-                "Chittagong",
-                "Khulna",
-                "Rajshahi",
-                "Barishal",
-                "Sylhet",
-                "Rangpur",
-                "Mymensingh",
-              ]}
+              data={districts_of_bangladesh}
               onSelect={(selectedItem: any) => setLocation(selectedItem)}
             />
           </View>
         </View>
-
 
         <View style={globalStyles.item}>
           <Text
@@ -258,6 +238,7 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
         <TouchableOpacity style={globalStyles.button} onPress={applyFilter}>
           <Text style={globalStyles.buttonTxt}>Apply Filters</Text>
         </TouchableOpacity>
+        <Button onPress={handleRefreshFilters}>Clear Filters</Button>
       </ScrollView>
     </SafeAreaView>
   );

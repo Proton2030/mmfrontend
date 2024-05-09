@@ -20,10 +20,17 @@ export default function PointDashBoard() {
   const routeToPaymentHistory = () => {
     navigation.navigate('paymentHistory');
   };
+  const handleRouteMyProfile = () => {
+    navigation.navigate('UserDetails', {
+      userDetails: user,
+      editable: true,
+    });
+  };
   return (
     <View style={styles.container}>
       <View>
-        <View
+        <TouchableOpacity
+          onPress={handleRouteMyProfile}
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
@@ -44,7 +51,7 @@ export default function PointDashBoard() {
           }}
         >
           <ProgressContainer />
-        </View>
+        </TouchableOpacity>
         <View
           style={{
             marginHorizontal: 10,

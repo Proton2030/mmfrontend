@@ -13,6 +13,7 @@ export { default as imam } from './images/imam.png';
 export { default as family } from './images/family.png';
 export { default as muslimLove } from './images/muslimLove.png';
 export { default as welcome } from './images/Welcome.png';
+export { default as noR } from './images/noR.png';
 // export {default as refreshSound} from "./music/refresh.wav";
 // export {default as defaultUser} from "./images/defaultUser.jpg";
 // export {default as defaultUser} from "./images/defaultUser.jpg";

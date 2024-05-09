@@ -58,52 +58,6 @@ export default function Example() {
         <View style={{ height: 100 }}></View>
         {/* Add more sections as needed */}
       </ScrollView>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: colors.inverseOnSurface,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingTop: 12,
-          paddingHorizontal: 16,
-          paddingBottom: 10,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.22,
-          shadowRadius: 2.22,
-          elevation: 3,
-        }}
-      >
-        <View />
-        <TouchableOpacity
-          onPress={() => {
-            // handle onPress
-          }}
-        >
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 8,
-              paddingVertical: 10,
-              paddingHorizontal: 20,
-              backgroundColor: colors.primary,
-            }}
-          >
-            <Text style={{ fontSize: 18, lineHeight: 26, fontWeight: '600', color: colors.background }}>Agree</Text>
-
-            {/* <MaterialCommunityIcons color={colors.background} name="arrow-right" size={18} style={{ marginLeft: 12 }} /> */}
-          </View>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }

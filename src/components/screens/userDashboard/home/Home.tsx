@@ -13,6 +13,7 @@ import {
   Easing,
   TouchableOpacity,
   DrawerLayoutAndroid,
+  Image,
 } from 'react-native';
 import {
   ActivityIndicator,
@@ -43,6 +44,7 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UiContext from '../../../../contexts/uiContext/UIContext';
+import { noR } from '../../../../assets';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -345,7 +347,23 @@ const Home = () => {
               </TouchableOpacity>
             </View>
           </Appbar.Header>
-
+          {suggestedUser?.length === 0 && (
+            <>
+              <Image
+                style={{
+                  height: 350,
+                  width: '80%',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  marginTop: 100,
+                }}
+                source={noR}
+              />
+              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600', color: colors.scrim }}>
+                No result found
+              </Text>
+            </>
+          )}
           {isSearch && (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Searchbar

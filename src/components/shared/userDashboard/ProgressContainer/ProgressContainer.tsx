@@ -17,13 +17,8 @@ const ProgressContainer = () => {
   };
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-      <TouchableOpacity
-        onPress={() => {
-          // handle onPress
-        }}
-      >
-        <Image alt="" source={{ uri: user?.profile_image_url }} style={styles.avatar} />
-      </TouchableOpacity>
+      <Image alt="" source={{ uri: user?.profile_image_url }} style={styles.avatar} />
+
       <View>
         <Text style={{ fontSize: 18, fontWeight: '700', color: colors.primary }}>{user?.full_name}</Text>
         <TouchableOpacity
@@ -32,7 +27,6 @@ const ProgressContainer = () => {
             borderRadius: 8,
             paddingHorizontal: 4,
           }}
-          onPress={handleRouteMyProfile}
         >
           <Text
             style={{
