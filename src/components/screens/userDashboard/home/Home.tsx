@@ -303,7 +303,7 @@ const Home = () => {
     <>
       <View style={{ flex: 1, backgroundColor: colors.background }}>
         <DrawerLayout
-          ref={drawerRef as unknown as RefObject<DrawerLayout>}
+          ref={drawerRef}
           drawerWidth={330}
           drawerPosition="right"
           drawerBackgroundColor={colors.background}
