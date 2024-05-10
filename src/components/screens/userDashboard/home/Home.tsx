@@ -45,6 +45,7 @@ import { DrawerLayout } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { noR } from '../../../../assets';
+import { BackHandler } from 'react-native';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -68,6 +69,8 @@ const Home = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [animation] = useState(new Animated.Value(0));
   const [showOverlay, setShowOverlay] = useState(false);
+  const drawerRef = useRef<any>(null);
+
   useEffect(() => {
     if (drawerVisible) {
       setTimeout(() => {
@@ -101,7 +104,26 @@ const Home = () => {
       setTopIcon(false);
     }
   };
+  const handleBackPress = () => {
+    if (drawerRef.current && typeof drawerRef.current.isDrawerOpen === 'function') {
+      if (drawerRef.current.isDrawerOpen()) {
+        drawerRef.current.closeDrawer();
+        return true; // Prevent default back button behavior
+      }
+    }
+    return false; // Otherwise, let the default behavior occur
+  };
 
+  // Add back button event listener on component mount
+  useEffect(() => {
+    // Add event listener
+
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    // Clean up event listener on unmount
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    };
+  }, []);
   const hideFilterModal = async (filterOptions: {
     maritalStatus: any;
     hasSalah: any;
@@ -251,7 +273,6 @@ const Home = () => {
       console.log('=====>unseen message count', response);
     }
   }, [user]);
-  const drawerRef = useRef<DrawerLayoutAndroid | null>(null);
 
   const openDrawer = () => {
     if (drawerRef.current) {
@@ -335,15 +356,15 @@ const Home = () => {
               <Badge
                 visible={messageSeenCount > 0}
                 size={16}
-                style={{ position: 'absolute', top: 0, right: 5, backgroundColor: colors.primary }}
+                style={{ position: 'absolute', top: 0, right: 2, backgroundColor: colors.primary }}
               >
                 {messageSeenCount}
               </Badge>
-              <TouchableOpacity onPress={routeToChatList}>
-                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
-              </TouchableOpacity>
               <TouchableOpacity onPress={routeToNotificationList}>
                 <Ionicons name="notifications-outline" size={26} color={colors.primary} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={routeToChatList}>
+                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
               </TouchableOpacity>
             </View>
           </Appbar.Header>

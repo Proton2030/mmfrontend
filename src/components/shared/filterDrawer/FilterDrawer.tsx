@@ -1,17 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { SafeAreaView, View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { SafeAreaView, View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { COLORS, SIZES } from '../../../constants/theme';
 import { Button, useTheme } from 'react-native-paper';
-import UiContext from '../../../contexts/uiContext/UIContext';
 import SelectDropdown from 'react-native-select-dropdown';
 import { districts_of_bangladesh } from '../../../constants/bangladeshDistricts';
+import { useNavigation } from '@react-navigation/native';
 
-const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
+const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
-  const { ui } = useContext(UiContext);
+  const navigation = useNavigation<any>();
   const [location, setLocation] = useState<string | null>(null);
   const [maritalStatus, setMaritalStatus] = useState<any>(null);
   const [hasSalah, setHasSalah] = useState<any>(null);
@@ -33,6 +33,17 @@ const FilterDrawer = ({ navigation, closeDrawer, applyFilters }: any) => {
     applyFilters({ location, maritalStatus, hasSalah, hasSawm, minAge, maxAge });
     closeDrawer();
   };
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e: { preventDefault: () => void }) => {
+      e.preventDefault(); // Prevent the screen from being removed
+      console.log('clode drawer');
+      unsubscribe();
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation]);
 
   return (
     <SafeAreaView

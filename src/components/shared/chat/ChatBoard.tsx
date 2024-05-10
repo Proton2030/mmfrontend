@@ -356,7 +356,7 @@ const ChatBoard = () => {
             { title: titleBlockUser, onPress: () => handleBlockUser(), icon: 'block-helper' },
             { title: 'Report', onPress: () => console.log('Option 2 selected'), icon: 'flag' },
           ]}
-          style={colors.secondary}
+          style={{ top: 70 }}
         />
       </Appbar.Header>
       {isBlock || blocked_by_female_user || blocked_by_male_user ? (

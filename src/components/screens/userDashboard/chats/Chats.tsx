@@ -64,7 +64,18 @@ const Chats = () => {
   const RenderChatItem = ({ item, userDetails, index }: any) => (
     <TouchableOpacity
       key={item.id}
-      style={styles.chatItem}
+      // style={styles.chatItem}
+      style={{
+        backgroundColor: colors.surface,
+        marginBottom: 10,
+        borderRadius: 20,
+        borderWidth: 0,
+        borderColor: colors.secondary,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 17,
+        paddingHorizontal: 20,
+      }}
       onPress={() =>
         handleRouteChat(userDetails, item.roomId, item.blocked_by_male_user, item.blocked_by_female_user, index)
       }
@@ -139,7 +150,7 @@ const Chats = () => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 16,
+    padding: 14,
   },
   infoLabel: {
     fontWeight: 'bold',
