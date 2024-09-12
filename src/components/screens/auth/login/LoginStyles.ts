@@ -15,16 +15,13 @@ export const loginStyle = StyleSheet.create({
     height: 20,
   },
   image: {
-    width: windowWidth / 4,
-    height: windowWidth / 4, // Make the height equal to the width
-    borderRadius: windowWidth / 8, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
+    width: windowWidth / 3,
+    resizeMode: 'contain',
   },
   viewBox: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     textAlign: 'center',
   },
 });

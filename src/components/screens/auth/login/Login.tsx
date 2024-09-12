@@ -1,12 +1,11 @@
-import { View, Text, Image, Dimensions, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import CenterForm from '../../../shared/centerForm/CenterForm';
-import { IField } from '../../../../@types/types/FieldTypes.types';
 import { LOGIN_SCREEN } from '../../../../constants/forms/Login';
 import { Button, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { loginStyle } from './LoginStyles';
-import { logo } from '../../../../assets';
+import { fullLogo, logo } from '../../../../assets';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { IUserCredential } from '../../../../@types/types/userCredential.types';
 import { api } from '../../../../utils/api';
@@ -14,8 +13,6 @@ import AuthContext from '../../../../contexts/authContext/authContext';
 import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert';
 import { storeData } from '../../../../utils/commonFunction/storeData';
 import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
-import { getAppThemeMode } from '../../../../utils/commonFunction/getAppThemeMode';
-import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
@@ -129,17 +126,17 @@ const Login = () => {
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
         <View style={loginStyle.viewBox}>
-          <Image style={loginStyle.image} source={logo} />
+          <Image style={loginStyle.image} source={fullLogo} />
           <Text
             style={{
               fontSize: 25,
               color: colors.scrim,
               fontWeight: 'bold',
-              textAlign: 'center',
+              textAlign: 'left',
               textTransform: 'capitalize',
             }}
           >
-            Muslim Matrimony
+            Welcome back {'\u{1F44B}'} Ready to meet someone new?
           </Text>
         </View>
         <View style={globalStyles.childContainer}>

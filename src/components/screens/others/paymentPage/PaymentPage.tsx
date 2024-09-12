@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from 'react-native-paper';
 import { styles } from './style';
@@ -12,13 +12,15 @@ const PaymentPage = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const [paymentOption, setPaymentOption] = useState<string | null>(null);
-  const [paymentId, setPaymentId] = useState<string | null>('1234567890');
-  const [screenshotUri, setScreenshotUri] = useState(null);
+  const [paymentId, setPaymentId] = useState<string | null>(null);
+  const [screenshotUri, setScreenshotUri] = useState<File | null>(null);
   const { url, tranId, message_limit } = route.params;
 
   const handleCopyPaymentId = () => {
-    Clipboard.setString(paymentId);
-    Alert.alert('Payment ID Copied', 'The payment ID has been copied to your clipboard.');
+    if (paymentId) {
+      Clipboard.setString(paymentId);
+      Alert.alert('Payment ID Copied', 'The payment ID has been copied to your clipboard.');
+    }
   };
 
   const handleUploadScreenshot = async () => {
