@@ -139,12 +139,11 @@ const Login = () => {
         </View>
         <View style={globalStyles.childContainer}>
           <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
-          <Text style={loginStyle.forgetPass} onPress={routeToForget}>
-            {selectLanguage(LOGIN_TEXT.forget_password, ui.language)}
-          </Text>
+
           <TouchableOpacity
             style={{
-              backgroundColor: colors.primary, borderColor: colors.primary, width: "100%", paddingHorizontal: 6, paddingVertical: 13, marginTop: -10,
+              backgroundColor: colors.primary, borderColor: colors.primary, width: "100%", paddingHorizontal: 6, paddingVertical: 13,
+              marginTop: 5,
               borderTopEndRadius: 25, borderBottomEndRadius: 25, borderTopLeftRadius: 25
             }}
             onPress={handleLoginButtonClick}
@@ -170,6 +169,20 @@ const Login = () => {
             }}>
               Don't have an account?{' '}
               <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={routeToForget}
+            style={{ marginTop: 'auto' }}>
+            <Text style={{
+              fontSize: 15,
+              fontWeight: '600',
+              color: '#222',
+              textAlign: 'center',
+              letterSpacing: 0.15,
+              marginTop: 3,
+            }}>
+              <Text style={{ textDecorationLine: 'underline' }}>{selectLanguage(LOGIN_TEXT.forget_password, ui.language)}?</Text>
             </Text>
           </TouchableOpacity>
         </View>

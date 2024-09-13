@@ -44,7 +44,7 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UiContext from '../../../../contexts/uiContext/UIContext';
-import { noR } from '../../../../assets';
+import { fullLogo, logo, noR } from '../../../../assets';
 import { BackHandler } from 'react-native';
 
 const Home = () => {
@@ -322,7 +322,7 @@ const Home = () => {
 
   return (
     <>
-      <View style={{ flex: 1, backgroundColor: colors.background }}>
+      <View style={{ flex: 1, backgroundColor: ui?.theme === 'DARK' ? colors.surface : "white" }}>
         <DrawerLayout
           ref={drawerRef}
           drawerWidth={330}
@@ -334,24 +334,43 @@ const Home = () => {
         >
           <Appbar.Header
             style={{
-              backgroundColor: ui?.theme === 'DARK' ? colors.surface : colors.secondary,
-              shadowColor: '#000000',
-              shadowOffset: { width: 0, height: 8 },
-              shadowOpacity: 0.8,
-              shadowRadius: 20,
-              borderBottomWidth: 0.3,
+              backgroundColor: ui?.theme === 'DARK' ? colors.surface : "white",
               borderBottomColor: colors.onSurfaceDisabled,
               borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingLeft: 10,
             }}
           >
-            <Appbar.Content
+            {/* <Appbar.Content
               title="Muslim Matrimony"
               titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
-            />
+            /> */}
+            <View style={{
+              alignItems: "center",
+              paddingLeft: 10,
+              flexDirection: "row",
+              gap: 10,
+              paddingTop: 20
+
+            }}>
+              <Image style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
+                source={{ uri: "https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=" }} />
+              <View>
+                <Text style={{ fontWeight: "600", color: colors.onBackground, fontSize: 18 }}>
+                  Kawther
+                </Text>
+                <Text style={{ fontWeight: "600", color: colors.tertiary, fontSize: 12 }}>
+                  Kolkata , West Bengal
+                </Text>
+              </View>
+
+            </View>
 
             <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
               <TouchableOpacity onPress={openDrawer}>
-                <Ionicons name="filter-circle-outline" size={28} color={colors.primary} />
+                <Ionicons name="account-filter-outline" size={28} color={colors.primary} />
               </TouchableOpacity>
               <Badge
                 visible={messageSeenCount > 0}
