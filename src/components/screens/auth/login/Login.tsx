@@ -1,8 +1,8 @@
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import CenterForm from '../../../shared/centerForm/CenterForm';
 import { LOGIN_SCREEN } from '../../../../constants/forms/Login';
-import { Button, useTheme } from 'react-native-paper';
+import { ActivityIndicator, Button, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { loginStyle } from './LoginStyles';
 import { fullLogo, logo } from '../../../../assets';
@@ -122,32 +122,18 @@ const Login = () => {
   return (
     <>
       <ScrollView
-        style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
+        style={{ flex: 1, paddingBottom: 0, backgroundColor: "white" }}
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
         <View style={loginStyle.viewBox}>
+          <Image style={globalStyles.loginImage} source={{ uri: "https://media.istockphoto.com/id/1291886001/vector/one-paper-heart-on-white-background-for-valentines-women-mother-day-greeting.jpg?s=612x612&w=0&k=20&c=wwIAORczr_Cv_g0M53ncxwWJUaDMF3zxLWGy1YiWamg=" }} />
           <Image style={loginStyle.image} source={fullLogo} />
-          <Text
-            style={{
-              fontSize: 25,
-              color: colors.scrim,
-              fontWeight: 'bold',
-              textAlign: 'left',
-              textTransform: 'capitalize',
-            }}
-          >
-            Welcome back
+          <Text style={{ textAlign: "left", fontWeight: "500", fontSize: 40, color: "black" }}>
+            Wellcome back
+
           </Text>
-          <Text
-            style={{
-              fontSize: 25,
-              color: colors.scrim,
-              fontWeight: 'bold',
-              textAlign: 'left',
-              textTransform: 'capitalize',
-            }}
-          >
-            Ready to meet someone new?
+          <Text style={{ color: colors.primary, textAlign: "left", fontWeight: "500", fontSize: 40, marginTop: -10 }}>
+            Please Login
           </Text>
 
         </View>
@@ -156,17 +142,38 @@ const Login = () => {
           <Text style={loginStyle.forgetPass} onPress={routeToForget}>
             {selectLanguage(LOGIN_TEXT.forget_password, ui.language)}
           </Text>
-          <Button
-            mode="contained"
-            loading={loading}
-            style={globalStyles.pinkButton}
-            labelStyle={globalStyles.pinkButtonText}
+          <TouchableOpacity
+            style={{
+              backgroundColor: colors.primary, borderColor: colors.primary, width: "100%", paddingHorizontal: 6, paddingVertical: 13, marginTop: -10,
+              borderTopEndRadius: 25, borderBottomEndRadius: 25, borderTopLeftRadius: 25
+            }}
             onPress={handleLoginButtonClick}
-          >
-            <Text style={globalStyles.textStyle}>{selectLanguage(LOGIN_TEXT.login_button, ui.language)}</Text>
-          </Button>
+          >{
+              loading ? (
+                <ActivityIndicator size="small" color="white" />
+              ) : (
+                <Text style={{ fontWeight: "400", fontSize: 20, justifyContent: "center", textAlign: "center", color: "white" }}>{selectLanguage(LOGIN_TEXT.login_button, ui.language)}</Text>
+              )}
+
+
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleSignUpButtonClick}
+            style={{ marginTop: 'auto' }}>
+            <Text style={{
+              fontSize: 15,
+              fontWeight: '600',
+              color: '#222',
+              textAlign: 'center',
+              letterSpacing: 0.15,
+              marginTop: 20,
+            }}>
+              Don't have an account?{' '}
+              <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 30 }}>
+        {/* <View style={{ flexDirection: 'row', alignItems: 'center', padding: 30 }}>
           <View
             style={{
               flex: 1,
@@ -192,8 +199,8 @@ const Login = () => {
               backgroundColor: colors.tertiary,
             }}
           />
-        </View>
-        <View style={globalStyles.childContainer}>
+        </View> */}
+        {/* <View style={globalStyles.childContainer}>
           <Button
             mode="outlined"
             style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
@@ -202,7 +209,7 @@ const Login = () => {
           >
             {selectLanguage(LOGIN_TEXT.signup_button, ui.language)}
           </Button>
-        </View>
+        </View> */}
       </ScrollView>
       <SnackbarAlert message="Wrong Credential" onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
     </>

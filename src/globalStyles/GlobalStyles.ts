@@ -42,7 +42,7 @@ const globalStylesList = () => {
       alignItems: 'center',
       justifyContent: 'center',
       width: windowWidth,
-      padding: 30,
+      padding: 20,
     },
     roundedInputBox: {
       width: '100%',
@@ -51,7 +51,7 @@ const globalStylesList = () => {
     },
     pinkButton: {
       width: '100%',
-      marginTop: 15,
+      marginTop: 0,
       backgroundColor: '#E71B73',
       color: ThemeColor.scrim,
       padding: 6,
@@ -98,7 +98,15 @@ const globalStylesList = () => {
       transform: [{ rotate: '-30deg' }], // Rotate 90 degrees (or adjust as needed)
       marginTop: -40
     },
+    loginImage: {
+      width: windowWidth + 90,
+      height: windowHeight / 4,
+      resizeMode: 'cover',
+      transform: [{ rotate: '30deg' }], // Rotate 90 degrees (or adjust as needed)
+      marginTop: -40,
+      marginLeft: -40
 
+    },
     selectField: {
       width: '100%',
       borderColor: 'gray',

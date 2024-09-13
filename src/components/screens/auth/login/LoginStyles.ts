@@ -15,7 +15,7 @@ export const loginStyle = StyleSheet.create({
     height: 20,
   },
   image: {
-    width: windowWidth / 3,
+    width: windowWidth / 2,
     resizeMode: 'contain',
   },
   viewBox: {
@@ -23,5 +23,6 @@ export const loginStyle = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     textAlign: 'center',
+    paddingLeft: 20
   },
 });
