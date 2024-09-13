@@ -136,8 +136,20 @@ const Login = () => {
               textTransform: 'capitalize',
             }}
           >
-            Welcome back {'\u{1F44B}'} Ready to meet someone new?
+            Welcome back
           </Text>
+          <Text
+            style={{
+              fontSize: 25,
+              color: colors.scrim,
+              fontWeight: 'bold',
+              textAlign: 'left',
+              textTransform: 'capitalize',
+            }}
+          >
+            Ready to meet someone new?
+          </Text>
+
         </View>
         <View style={globalStyles.childContainer}>
           <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />

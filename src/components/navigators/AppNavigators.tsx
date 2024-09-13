@@ -74,7 +74,7 @@ const AppNavigators = () => {
         ) : (
           <>
             {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
-            <Stack.Screen name="Language" component={Language} />
+            <Stack.Screen name="Language" component={Language} options={{ headerShown: false }} />
             <Stack.Screen name="Auth" component={AuthNavigators} />
             <Stack.Screen name="Confirm" component={ConfirmNavigators} />
           </>

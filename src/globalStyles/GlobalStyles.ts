@@ -26,7 +26,6 @@ const globalStylesList = () => {
       paddingTop: 25,
       flexGrow: 1,
       justifyContent: 'center',
-      alignItems: 'center',
     },
     parentView: {
       flex: 1,
@@ -58,7 +57,7 @@ const globalStylesList = () => {
       padding: 6,
     },
     pinkButtonText: {
-      color: ThemeColor.scrim,
+      color: ThemeColor.secondary,
     },
     lightPinkButton: {
       backgroundColor: ThemeColor.secondary,
@@ -88,9 +87,18 @@ const globalStylesList = () => {
     },
     middleImage: {
       width: windowWidth,
-      height: windowHeight / 2,
+      height: windowHeight / 3,
       resizeMode: 'cover',
+
     },
+    landinImage: {
+      width: windowWidth + 140,
+      height: windowHeight / 3,
+      resizeMode: 'cover',
+      transform: [{ rotate: '-30deg' }], // Rotate 90 degrees (or adjust as needed)
+      marginTop: -40
+    },
+
     selectField: {
       width: '100%',
       borderColor: 'gray',
