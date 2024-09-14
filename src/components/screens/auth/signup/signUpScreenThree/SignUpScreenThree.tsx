@@ -95,11 +95,15 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
   return (
     <>
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
-        <Text style={[globalStyles.mediumText, { marginBottom: 8 }, { color: colors.tertiary }]}>
+        {/* <Text style={[globalStyles.mediumText, { marginBottom: 8 }, { color: colors.tertiary }]}>
           {selectLanguage(SCREEN_THREE_TEXT.enter, language)}
+        </Text> */}
+        <Text style={[globalStyles.headingText, { color: colors.scrim, marginBottom: 4 }]}>
+          {selectLanguage(SCREEN_THREE_TEXT.enter, language)}
+          <Text style={{ color: '#E71B73' }}>&nbsp; {selectLanguage(SCREEN_THREE_TEXT.password, language)}</Text>
         </Text>
-        <Text style={{ color: colors.tertiary }}>{selectLanguage(SCREEN_THREE_TEXT.details, language)}</Text>
-        <View style={{ width: '100%', marginTop: 20 }}>
+        {/* <Text style={{ color: colors.tertiary }}>{selectLanguage(SCREEN_THREE_TEXT.details, language)}</Text> */}
+        <View style={{ width: '100%' }}>
           <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_THREE} object={userDetails} />
         </View>
         <Button

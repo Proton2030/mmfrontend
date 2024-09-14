@@ -1,7 +1,11 @@
 export const CONFITM_PAGE_TEXT = {
   heading: {
-    ENGLISH: 'This App Is Only For Muslim',
-    BENGALI: 'এই অ্যাপটি শুধুমাত্র ইসলামিক ধর্মাবলম্বীদের জন্য',
+    ENGLISH: 'This App Is Only',
+    BENGALI: 'এই অ্যাপটি শুধুমাত্র',
+  },
+  muslim: {
+    ENGLISH: 'For Muslim',
+    BENGALI: 'ইসলামিক ধর্মাবলম্বীদের জন্য',
   },
   continue: {
     ENGLISH: 'Are You Sure to Continue ?',

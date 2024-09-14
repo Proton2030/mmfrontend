@@ -35,58 +35,77 @@ const Language = () => {
 
   return (
     <ScrollView
-      style={{ flex: 1, paddingBottom: 0, backgroundColor: "white" }}
+      style={{ flex: 1, paddingBottom: 0, backgroundColor: 'white' }}
       contentContainerStyle={globalStyles.parentScrollContainer}
     >
-
-      <View style={[globalStyles.childContainer,]}>
+      <View style={[globalStyles.childContainer]}>
         <Image
-          source={{ uri: "https://www.shutterstock.com/image-vector/two-hearts-simple-one-line-260nw-2410879045.jpg" }}
+          source={{ uri: 'https://www.shutterstock.com/image-vector/two-hearts-simple-one-line-260nw-2410879045.jpg' }}
           style={globalStyles.landinImage}
         />
       </View>
       <Animated.View style={{ paddingLeft: 20, transform: [{ translateY }] }}>
-        <Text style={{ textAlign: "left", fontWeight: "500", fontSize: 50, color: "black" }}>
-          Select your
-
-        </Text>
-        <Text style={{ color: colors.primary, textAlign: "left", fontWeight: "500", fontSize: 50, marginTop: -15 }}>
+        <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 50, color: 'black' }}>Select your</Text>
+        <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 50, marginTop: -15 }}>
           Language
         </Text>
-        <Text style={{ textAlign: "left", fontWeight: "500", fontSize: 16, color: "gray", width: "60%", marginTop: 10 }}>
+        <Text
+          style={{ textAlign: 'left', fontWeight: '500', fontSize: 16, color: 'gray', width: '60%', marginTop: 10 }}
+        >
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime neque no
         </Text>
-        <View style={{ marginTop: 20, flexDirection: "row", width: "100%", alignItems: "center", gap: 10 }}>
+        <View style={{ marginTop: 20, flexDirection: 'row', width: '100%', alignItems: 'center', gap: 10 }}>
           <TouchableOpacity
             style={{
-              backgroundColor: colors.primary, borderColor: colors.primary, width: 150, paddingHorizontal: 6, paddingVertical: 13,
-              borderTopEndRadius: 25, borderBottomEndRadius: 25, borderTopLeftRadius: 25
+              backgroundColor: colors.primary,
+              borderColor: colors.primary,
+              width: 150,
+              paddingHorizontal: 6,
+              paddingVertical: 13,
+              borderTopEndRadius: 25,
+              borderBottomEndRadius: 25,
+              borderTopLeftRadius: 25,
             }}
             onPress={() => handleLanguageChange('ENGLISH')}
           >
-            <Text style={{ fontWeight: "400", fontSize: 20, justifyContent: "center", textAlign: "center", color: "white" }}>
+            <Text
+              style={{ fontWeight: '400', fontSize: 20, justifyContent: 'center', textAlign: 'center', color: 'white' }}
+            >
               English
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{
-              backgroundColor: colors.secondary, borderColor: colors.primary, width: 150, paddingHorizontal: 6, paddingVertical: 13,
-              borderTopEndRadius: 25, borderBottomLeftRadius: 25, borderTopLeftRadius: 25
+              backgroundColor: colors.secondary,
+              borderColor: colors.primary,
+              width: 150,
+              paddingHorizontal: 6,
+              paddingVertical: 13,
+              borderTopEndRadius: 25,
+              borderBottomLeftRadius: 25,
+              borderTopLeftRadius: 25,
             }}
             onPress={() => handleLanguageChange('BENGALI')}
           >
-            <Text style={{ fontWeight: "400", fontSize: 20, justifyContent: "center", textAlign: "center", color: colors.primary }}>
+            <Text
+              style={{
+                fontWeight: '400',
+                fontSize: 20,
+                justifyContent: 'center',
+                textAlign: 'center',
+                color: colors.primary,
+              }}
+            >
               বাংলা
             </Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 20 }}
+          style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}
           onPress={() => handleLanguageChange('BENGALI')}
         >
-          <Icon name='rightcircle' size={20} color={colors.primary} />
-          <Text style={{ textAlign: "left", fontWeight: "500", fontSize: 16, color: "gray", width: "60%", }}>
-
+          <Icon name="rightcircle" size={20} color={colors.primary} />
+          <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 16, color: 'gray', width: '60%' }}>
             ‎ Skip for now
           </Text>
         </TouchableOpacity>

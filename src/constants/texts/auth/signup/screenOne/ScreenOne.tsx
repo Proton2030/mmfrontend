@@ -1,7 +1,7 @@
 export const SCREEN_ONE = {
   request: {
-    ENGLISH: 'Please Give Your',
-    BENGALI: 'অনুগ্রহ করে আপনার',
+    ENGLISH: 'Enter',
+    BENGALI: 'অনুগ্রহ করে',
   },
   phone: {
     ENGLISH: 'Phone Number',

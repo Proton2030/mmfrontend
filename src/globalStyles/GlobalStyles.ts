@@ -43,6 +43,7 @@ const globalStylesList = () => {
       justifyContent: 'center',
       width: windowWidth,
       padding: 10,
+      paddingVertical: 0,
     },
     roundedInputBox: {
       width: '100%',

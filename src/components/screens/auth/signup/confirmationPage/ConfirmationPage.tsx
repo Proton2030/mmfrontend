@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { CONFITM_PAGE_TEXT } from '../../../../../constants/texts/auth/signup/confirmationPage/confirmartionPage';
+import AnimatedView from '../../../../shared/animatedView/AnimatedView';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ConfirmationPage = () => {
   const navigation = useNavigation<any>();
@@ -21,18 +23,10 @@ const ConfirmationPage = () => {
     navigation.navigate('Auth', { screen: 'login' });
   };
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        padding: 30,
-        backgroundColor: colors.background,
-      }}
-    >
+    <LinearGradient colors={['#fce8f1', '#fde8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
       <View style={globalStyles.childContainer}>
         <Image source={muslim} style={globalStyles.middleImage} />
-        <Text
+        {/* <Text
           style={{
             fontSize: 25,
             color: colors.scrim,
@@ -43,10 +37,15 @@ const ConfirmationPage = () => {
         >
           {' '}
           {selectLanguage(CONFITM_PAGE_TEXT.heading, language)}.
-        </Text>
+        </Text> */}
       </View>
-      <View style={globalStyles.childContainer}>
-        <Text style={{ color: colors.scrim }}> {selectLanguage(CONFITM_PAGE_TEXT.continue, language)}</Text>
+      <AnimatedView style={[globalStyles.childContainer, { marginTop: 30 }]}>
+        <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
+          <Text style={[globalStyles.headingText, { color: colors.scrim, marginBottom: 30 }]}>
+            {selectLanguage(CONFITM_PAGE_TEXT.heading, language)}
+            <Text style={{ color: '#E71B73' }}>&nbsp; {selectLanguage(CONFITM_PAGE_TEXT.muslim, language)}</Text>
+          </Text>
+        </View>
         <Button
           mode="contained"
           onPress={handleGetStartedButtonClick}
@@ -62,8 +61,8 @@ const ConfirmationPage = () => {
         >
           {selectLanguage(CONFITM_PAGE_TEXT.non_muslim_button, language)}
         </Button>
-      </View>
-    </View>
+      </AnimatedView>
+    </LinearGradient>
   );
 };
 

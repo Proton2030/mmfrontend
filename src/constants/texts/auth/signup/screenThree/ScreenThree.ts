@@ -1,7 +1,11 @@
 export const SCREEN_THREE_TEXT = {
   enter: {
-    ENGLISH: 'Please Enter A Password',
-    BENGALI: 'অনুগ্রহ করে একটি পাসওয়ার্ড দিন।',
+    ENGLISH: 'Please Enter',
+    BENGALI: 'অনুগ্রহ করে',
+  },
+  password: {
+    ENGLISH: 'A Password',
+    BENGALI: 'পাসওয়ার্ড দিন।',
   },
   details: {
     ENGLISH:

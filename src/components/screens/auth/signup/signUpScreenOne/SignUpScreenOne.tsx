@@ -11,6 +11,7 @@ import { selectLanguage } from '../../../../../utils/commonFunction/languageSele
 import { SCREEN_ONE } from '../../../../../constants/texts/auth/signup/screenOne/ScreenOne';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import CommonButton from '../../../../shared/commonButton/CommonButton';
+import AnimatedView from '../../../../shared/animatedView/AnimatedView';
 
 const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, loading }: ISignupScreenProps) => {
   const { colors } = useTheme();
@@ -25,18 +26,18 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
   return (
     <View>
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
-        <Text style={[globalStyles.headingText, { color: colors.scrim }]}>
+        <Text style={[globalStyles.headingText, { color: colors.scrim, marginBottom: 4 }]}>
           {selectLanguage(SCREEN_ONE.request, language)}
           <Text style={{ color: '#E71B73' }}>&nbsp; {selectLanguage(SCREEN_ONE.phone, language)}</Text>
         </Text>
       </View>
       <View style={globalStyles.childContainer}>
-        <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
-        <CommonButton
-          loading={loading}
-          handleAction={handleGenerateOtpClick}
-          text={selectLanguage(SCREEN_ONE.otp_button, language)}
-        />
+          <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
+          <CommonButton
+            loading={loading}
+            handleAction={handleGenerateOtpClick}
+            text={selectLanguage(SCREEN_ONE.otp_button, language)}
+          />
       </View>
     </View>
   );

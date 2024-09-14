@@ -1,4 +1,6 @@
 export { default as logo } from './images/logo.png';
+export { default as phoneWithLogo } from './images/phoneWithLogo.png';
+export { default as key } from './images/password.png';
 export { default as fullLogo } from './images/fullLogo.png';
 export { default as logoBgRemove } from './images/logo-removebg.png';
 export { default as muslim } from './images/muslim.png';

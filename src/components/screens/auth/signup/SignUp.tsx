@@ -2,7 +2,7 @@ import { View, Text, ScrollView, Image } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import SignUpScreenOne from './signUpScreenOne/SignUpScreenOne';
-import { signUp } from '../../../../assets';
+import { key, signUp } from '../../../../assets';
 import { Button, useTheme } from 'react-native-paper';
 import SignUpScreenTwo from './signUpScreenTwo/SignUpScreenTwo';
 import SignUpScreenThree from './signUpScreenThree/SignUpScreenThree';
@@ -77,9 +77,9 @@ const SignUp = () => {
         setLoading(true);
         const filter = { mobile: userDetails.mobile };
         try {
-          const otpResponse = await api.auth.getOtp(filter);
-          if (otpResponse) {
-            setOtp(otpResponse);
+          // const otpResponse = await api.auth.getOtp(filter);
+          if (true) {
+            setOtp('1234');
             setLoading(false);
           } else {
             setVisible(true);
@@ -140,7 +140,11 @@ const SignUp = () => {
     <>
       <LinearGradient colors={['#fce8f1', '#fde8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
         <View style={globalStyles.childContainer}>
-          <Image source={signUp} style={{ width: '100%', height: undefined, aspectRatio: 1 }} resizeMode="contain" />
+          <Image
+            source={screen === 0 ? signUp : key}
+            style={{ width: '100%', height: undefined, aspectRatio: 1 }}
+            resizeMode="contain"
+          />
         </View>
         {screen === 0 ? (
           <SignUpScreenOne
