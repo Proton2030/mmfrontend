@@ -156,15 +156,6 @@ const SignUp = () => {
           />
         ) : null}
         {screen === 1 ? (
-          <SignUpScreenTwo
-            userDetails={userDetails}
-            handleChangeText={handleChangeText}
-            handleChangeScreen={handleChangeScreen}
-            navigateBack={navigateBack}
-            otp={otp}
-          />
-        ) : null}
-        {screen === 2 ? (
           <SignUpScreenThree
             loading={loading}
             userDetails={userDetails}

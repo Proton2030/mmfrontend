@@ -1,28 +1,62 @@
-import { View, Text, ScrollView, Image } from 'react-native';
-import React, { useContext, useState } from 'react';
+import { View, Text, Modal, Animated, Easing, ScrollView } from 'react-native';
+import React, { useContext, useState, useRef } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
-import { muslim, signUp } from '../../../../../assets';
 import { Button, useTheme } from 'react-native-paper';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
 import { SIGNUP_SCREEN_ONE } from '../../../../../constants/forms/SignUp';
 import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.props';
-import { GoogleSigninButton } from 'react-native-google-signin';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_ONE } from '../../../../../constants/texts/auth/signup/screenOne/ScreenOne';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import CommonButton from '../../../../shared/commonButton/CommonButton';
-import AnimatedView from '../../../../shared/animatedView/AnimatedView';
+import OtpModal from '../../../../shared/otpModal/OtpModal';
 
 const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, loading }: ISignupScreenProps) => {
   const { colors } = useTheme();
   const {
     ui: { language, theme },
   } = useContext(UiContext);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(0)).current; // Animation state
+
+  // Function to handle modal open
+  const openModal = () => {
+    setModalVisible(true);
+    Animated.timing(slideAnim, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.ease,
+      useNativeDriver: true, // Use native driver for better performance
+    }).start();
+  };
+
+  // Function to handle modal close
+  const closeModal = () => {
+    Animated.timing(slideAnim, {
+      toValue: 0,
+      duration: 300,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start(() => {
+      setModalVisible(false);
+    });
+  };
+
   const handleGenerateOtpClick = () => {
     if (userDetails.mobile.length >= 10) {
-      handleChangeScreen();
-    } else return;
+      openModal();
+
+    } else {
+    }
   };
+
+  // Interpolating the slide animation to move the modal up
+  const slideUp = slideAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [500, 0], // Slide from bottom
+  });
+
   return (
     <View>
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
@@ -32,13 +66,24 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
         </Text>
       </View>
       <View style={globalStyles.childContainer}>
-          <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
-          <CommonButton
-            loading={loading}
-            handleAction={handleGenerateOtpClick}
-            text={selectLanguage(SCREEN_ONE.otp_button, language)}
-          />
+        <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
+        <CommonButton
+          loading={loading}
+          handleAction={handleGenerateOtpClick}
+          text={selectLanguage(SCREEN_ONE.otp_button, language)}
+        />
       </View>
+
+      {/* Modal */}
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="none" // We'll handle the animation manually
+        onRequestClose={closeModal}
+      >
+
+        <OtpModal slideUp={slideUp} closeModal={closeModal} handleChangeScreen={handleChangeScreen} userDetails={userDetails} />
+      </Modal>
     </View>
   );
 };
