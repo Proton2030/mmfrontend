@@ -11,6 +11,7 @@ import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { api } from '../../../../utils/api';
 import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert';
 import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
+import LinearGradient from 'react-native-linear-gradient';
 
 const SignUp = () => {
   const navigation = useNavigation<any>();
@@ -137,10 +138,7 @@ const SignUp = () => {
 
   return (
     <>
-      <ScrollView
-        style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
-        contentContainerStyle={globalStyles.parentScrollContainer}
-      >
+      <LinearGradient colors={['#fce8f1', '#fde8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
         <View style={globalStyles.childContainer}>
           <Image source={signUp} style={{ width: '100%', height: undefined, aspectRatio: 1 }} resizeMode="contain" />
         </View>
@@ -164,13 +162,14 @@ const SignUp = () => {
         ) : null}
         {screen === 2 ? (
           <SignUpScreenThree
+            loading={loading}
             userDetails={userDetails}
             handleChangeText={handleChangeText}
             handleChangeScreen={handleChangeScreen}
             mode="SIGNUP"
           />
         ) : null}
-      </ScrollView>
+      </LinearGradient>
       <SnackbarAlert
         message="Account Already Exist,Please Login"
         onDismissSnackBar={onDismissSnackBar}

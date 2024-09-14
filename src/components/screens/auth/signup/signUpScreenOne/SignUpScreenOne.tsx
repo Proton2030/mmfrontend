@@ -10,6 +10,7 @@ import { GoogleSigninButton } from 'react-native-google-signin';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_ONE } from '../../../../../constants/texts/auth/signup/screenOne/ScreenOne';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
+import CommonButton from '../../../../shared/commonButton/CommonButton';
 
 const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, loading }: ISignupScreenProps) => {
   const { colors } = useTheme();
@@ -24,28 +25,18 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
   return (
     <View>
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
-        <Text style={[globalStyles.mediumText, { marginBottom: 8 }, { color: colors.scrim }]}>
+        <Text style={[globalStyles.headingText, { color: colors.scrim }]}>
           {selectLanguage(SCREEN_ONE.request, language)}
           <Text style={{ color: '#E71B73' }}>&nbsp; {selectLanguage(SCREEN_ONE.phone, language)}</Text>
         </Text>
-        <Text style={{ color: colors.tertiary }}>{selectLanguage(SCREEN_ONE.greeting, language)}</Text>
       </View>
       <View style={globalStyles.childContainer}>
         <CenterForm handleChangeText={handleChangeText} fieldList={SIGNUP_SCREEN_ONE} object={userDetails} key={1} />
-        <Button
-          mode="contained"
+        <CommonButton
           loading={loading}
-          style={{ backgroundColor: colors.primary, borderColor: colors.secondary, width: '100%', padding: 6 }}
-          labelStyle={globalStyles.pinkButtonText}
-          onPress={handleGenerateOtpClick}
-        >
-          {selectLanguage(SCREEN_ONE.otp_button, language)}
-        </Button>
-        {/* <GoogleSigninButton
-                    style={{ width: 192, height: 48 }}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                /> */}
+          handleAction={handleGenerateOtpClick}
+          text={selectLanguage(SCREEN_ONE.otp_button, language)}
+        />
       </View>
     </View>
   );

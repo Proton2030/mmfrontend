@@ -16,6 +16,7 @@ import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
+import CommonButton from '../../../shared/commonButton/CommonButton';
 
 const Login = () => {
   const { colors } = useTheme();
@@ -122,67 +123,57 @@ const Login = () => {
   return (
     <>
       <ScrollView
-        style={{ flex: 1, paddingBottom: 0, backgroundColor: "white" }}
+        style={{ flex: 1, paddingBottom: 0, backgroundColor: 'white' }}
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
         <View style={loginStyle.viewBox}>
-          <Image style={globalStyles.loginImage} source={{ uri: "https://media.istockphoto.com/id/1291886001/vector/one-paper-heart-on-white-background-for-valentines-women-mother-day-greeting.jpg?s=612x612&w=0&k=20&c=wwIAORczr_Cv_g0M53ncxwWJUaDMF3zxLWGy1YiWamg=" }} />
+          <Image
+            style={globalStyles.loginImage}
+            source={{
+              uri: 'https://media.istockphoto.com/id/1291886001/vector/one-paper-heart-on-white-background-for-valentines-women-mother-day-greeting.jpg?s=612x612&w=0&k=20&c=wwIAORczr_Cv_g0M53ncxwWJUaDMF3zxLWGy1YiWamg=',
+            }}
+          />
           <Image style={loginStyle.image} source={fullLogo} />
-          <Text style={{ textAlign: "left", fontWeight: "500", fontSize: 40, color: "black" }}>
-            Wellcome back
-
-          </Text>
-          <Text style={{ color: colors.primary, textAlign: "left", fontWeight: "500", fontSize: 40, marginTop: -10 }}>
+          <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 35, color: 'black' }}>Welcome back 👋</Text>
+          <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 30 }}>
             Please Login
           </Text>
-
         </View>
         <View style={globalStyles.childContainer}>
           <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
-
-          <TouchableOpacity
-            style={{
-              backgroundColor: colors.primary, borderColor: colors.primary, width: "100%", paddingHorizontal: 6, paddingVertical: 13,
-              marginTop: 5,
-              borderTopEndRadius: 25, borderBottomEndRadius: 25, borderTopLeftRadius: 25
-            }}
-            onPress={handleLoginButtonClick}
-          >{
-              loading ? (
-                <ActivityIndicator size="small" color="white" />
-              ) : (
-                <Text style={{ fontWeight: "400", fontSize: 20, justifyContent: "center", textAlign: "center", color: "white" }}>{selectLanguage(LOGIN_TEXT.login_button, ui.language)}</Text>
-              )}
-
-
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleSignUpButtonClick}
-            style={{ marginTop: 'auto' }}>
-            <Text style={{
-              fontSize: 15,
-              fontWeight: '600',
-              color: '#222',
-              textAlign: 'center',
-              letterSpacing: 0.15,
-              marginTop: 20,
-            }}>
-              Don't have an account?{' '}
-              <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+          <CommonButton
+            loading={loading}
+            handleAction={handleLoginButtonClick}
+            text={selectLanguage(LOGIN_TEXT.login_button, ui.language)}
+          />
+          <TouchableOpacity onPress={handleSignUpButtonClick} style={{ marginTop: 'auto' }}>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: '600',
+                color: '#222',
+                textAlign: 'center',
+                letterSpacing: 0.15,
+                marginTop: 20,
+              }}
+            >
+              Don't have an account? <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={routeToForget}
-            style={{ marginTop: 'auto' }}>
-            <Text style={{
-              fontSize: 15,
-              fontWeight: '600',
-              color: '#222',
-              textAlign: 'center',
-              letterSpacing: 0.15,
-              marginTop: 3,
-            }}>
-              <Text style={{ textDecorationLine: 'underline' }}>{selectLanguage(LOGIN_TEXT.forget_password, ui.language)}?</Text>
+          <TouchableOpacity onPress={routeToForget} style={{ marginTop: 'auto' }}>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: '600',
+                color: '#222',
+                textAlign: 'center',
+                letterSpacing: 0.15,
+                marginTop: 3,
+              }}
+            >
+              <Text style={{ textDecorationLine: 'underline' }}>
+                {selectLanguage(LOGIN_TEXT.forget_password, ui.language)}?
+              </Text>
             </Text>
           </TouchableOpacity>
         </View>

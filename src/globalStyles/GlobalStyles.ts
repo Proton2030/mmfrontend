@@ -42,7 +42,7 @@ const globalStylesList = () => {
       alignItems: 'center',
       justifyContent: 'center',
       width: windowWidth,
-      padding: 20,
+      padding: 10,
     },
     roundedInputBox: {
       width: '100%',
@@ -89,14 +89,13 @@ const globalStylesList = () => {
       width: windowWidth,
       height: windowHeight / 3,
       resizeMode: 'cover',
-
     },
     landinImage: {
       width: windowWidth + 140,
       height: windowHeight / 3,
       resizeMode: 'cover',
       transform: [{ rotate: '-30deg' }], // Rotate 90 degrees (or adjust as needed)
-      marginTop: -40
+      marginTop: -40,
     },
     loginImage: {
       width: windowWidth + 90,
@@ -104,8 +103,7 @@ const globalStylesList = () => {
       resizeMode: 'cover',
       transform: [{ rotate: '30deg' }], // Rotate 90 degrees (or adjust as needed)
       marginTop: -40,
-      marginLeft: -40
-
+      marginLeft: -40,
     },
     selectField: {
       width: '100%',
@@ -324,7 +322,7 @@ const globalStylesList = () => {
       shadowRadius: 3,
       elevation: 4,
       marginHorizontal: 5,
-      paddingVertical: 2
+      paddingVertical: 2,
     },
   });
 };
