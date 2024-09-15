@@ -12,8 +12,6 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!isPasswordVisible);
   };
-  console.log('user from', object.full_name);
-  console.log('full name exist', fieldList[0].id === 'full_name');
 
   return (
     <ScrollView style={globalStyles.innerContainer}>

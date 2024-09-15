@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { signUp } from '../../../../../assets';
 import { Button, Icon, IconButton } from 'react-native-paper';
-import OTPTextView from 'react-native-otp-textinput';
+// import OTPTextView from 'react-native-otp-textinput';
 import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.props';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
@@ -47,13 +47,13 @@ const SignUpScreenTwo = ({ handleChangeScreen, handleChangeText, userDetails, ot
 
       <Text style={{ color: 'black', fontWeight: '500' }}> {selectLanguage(SCREEN_TWO.continue, language)}</Text>
       <View style={{ width: '100%' }}>
-        <OTPTextView
+        {/* <OTPTextView
           inputCount={4}
           tintColor={'#E71B73'}
           handleTextChange={(otp) => {
             setOtpValue(otp);
           }}
-        />
+        /> */}
       </View>
       <Button
         mode="contained"

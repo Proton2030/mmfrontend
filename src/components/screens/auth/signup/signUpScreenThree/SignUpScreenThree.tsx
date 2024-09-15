@@ -1,5 +1,5 @@
-import { View, Text, Platform, ToastAndroid } from 'react-native';
-import React, { useCallback, useContext, useState } from 'react';
+import { View, Text, Platform, ToastAndroid, Animated, Keyboard } from 'react-native';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
 import { SIGNUP_SCREEN_THREE } from '../../../../../constants/forms/SignUp';
@@ -25,6 +25,8 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const onDismissSnackBar = () => setVisible(false);
+  const translateY = useRef(new Animated.Value(0)).current;
+  const backgroundColor = useRef(new Animated.Value(0)).current;
 
   const routeUserInfo = CommonActions.reset({
     index: 0,
@@ -92,13 +94,56 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
     //     warn("Enter Password Carefully")
     // }
   }, [userDetails]);
+
+  const interpolatedBackgroundColor = backgroundColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['transparent', 'white'],
+  });
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      Animated.timing(translateY, {
+        toValue: -140, // Adjust this value as needed
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(backgroundColor, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(backgroundColor, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
-    <>
+    <Animated.View
+      style={{
+        transform: [{ translateY }],
+        backgroundColor: interpolatedBackgroundColor,
+        paddingTop: 20,
+        borderRadius: 20,
+      }}
+    >
       <View style={[globalStyles.childContainer, { alignItems: 'flex-start' }]}>
-        {/* <Text style={[globalStyles.mediumText, { marginBottom: 8 }, { color: colors.tertiary }]}>
-          {selectLanguage(SCREEN_THREE_TEXT.enter, language)}
-        </Text> */}
-        <Text style={[globalStyles.headingText, { color: colors.scrim, marginBottom: 4 }]}>
+        <Text style={[globalStyles.headingText, { color: colors.scrim, marginBottom: 8 }]}>
           {selectLanguage(SCREEN_THREE_TEXT.enter, language)}
           <Text style={{ color: '#E71B73' }}>&nbsp; {selectLanguage(SCREEN_THREE_TEXT.password, language)}</Text>
         </Text>
@@ -117,7 +162,7 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
         </Button>
       </View>
       <SnackbarAlert message="Something Went Wrong" onDismissSnackBar={onDismissSnackBar} visible={visible} key={1} />
-    </>
+    </Animated.View>
   );
 };
 

@@ -1,89 +1,93 @@
-import axios from "axios";
-import { Endpoint, Headers, Params, Payload } from "../../@types/api/api.types";
-import { port, url,version } from "../../config/config";
+import axios from 'axios';
+import { Endpoint, ENDPOINT_TYPE, Headers, Params, Payload } from '../../@types/api/api.types';
+import { AUTH_URL, BASE_URL, CHAT_URL, version } from '../../config/config';
 
-
-const get = async (endpoint: Endpoint, headers: Headers, params: Params = {}) => {
-	try {
-		const response = await axios.get(`${url}:${port}/api/${version}/${endpoint}`, {
-			headers,
-			params
-		});
-		const { status } = response;
-		if (status === 200) {
-			return response;
-		}
-	} catch (error) {
-		console.log("error", error);
-		throw error;
-	}
+const get = async (endpoint: Endpoint, headers: Headers, params: Params = {}, endpointType: ENDPOINT_TYPE = 'BASE') => {
+  try {
+    const url = endpointType === 'AUTH' ? AUTH_URL : endpointType === 'CHAT' ? CHAT_URL : BASE_URL;
+    const response = await axios.get(`${url}/api/${version}/${endpoint}`, {
+      headers,
+      params,
+    });
+    const { status } = response;
+    if (status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.log('error', error);
+    throw error;
+  }
 };
 
-const post = async (endpoint: Endpoint, payload: Payload, headers: Headers) => {
-	try {
-		const response = await axios.post(`${url}:${port}/api/${version}/${endpoint}`, payload, {
-			headers
-		});
-		const { status } = response;
-		if (status === 200) {
-			return response;
-		}
-	} catch (error) {
-		console.log("error", error);
-		throw error;
-	}
+const post = async (endpoint: Endpoint, payload: Payload, headers: Headers, endpointType: ENDPOINT_TYPE = 'BASE') => {
+  try {
+    const url = endpointType === 'AUTH' ? AUTH_URL : endpointType === 'CHAT' ? CHAT_URL : BASE_URL;
+    const response = await axios.post(`${url}/api/${version}/${endpoint}`, payload, {
+      headers,
+    });
+    const { status } = response;
+    if (status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.log('error', error);
+    throw error;
+  }
 };
 
-const put = async (endpoint: Endpoint, payload: Payload, headers: Headers) => {
-	try {
-		const response = await axios.put(`${url}:${port}/api/${version}/${endpoint}`, payload, {
-			headers
-		});
-		const { status } = response;
-		if (status === 200) {
-			return response;
-		}
-	} catch (error) {
-		console.log("error", error);
-		throw error;
-	}
+const put = async (endpoint: Endpoint, payload: Payload, headers: Headers, endpointType: ENDPOINT_TYPE = 'BASE') => {
+  try {
+    const url = endpointType === 'AUTH' ? AUTH_URL : endpointType === 'CHAT' ? CHAT_URL : BASE_URL;
+    const response = await axios.put(`${url}/api/${version}/${endpoint}`, payload, {
+      headers,
+    });
+    const { status } = response;
+    if (status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.log('error', error);
+    throw error;
+  }
 };
 
-const patch = async (endpoint: Endpoint, payload: Payload, headers: Headers) => {
-	try {
-		const response = await axios.patch(`${url}:${port}/api/${version}/${endpoint}`, payload, {
-			headers
-		});
-		const { status } = response;
-		if (status === 200) {
-			return response;
-		}
-	} catch (error) {
-		console.log("error", error);
-		throw error;
-	}
+const patch = async (endpoint: Endpoint, payload: Payload, headers: Headers, endpointType: ENDPOINT_TYPE = 'BASE') => {
+  try {
+    const url = endpointType === 'AUTH' ? AUTH_URL : endpointType === 'CHAT' ? CHAT_URL : BASE_URL;
+    const response = await axios.patch(`${url}/api/${version}/${endpoint}`, payload, {
+      headers,
+    });
+    const { status } = response;
+    if (status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.log('error', error);
+    throw error;
+  }
 };
 
-const del = async (endpoint: Endpoint, headers: Headers) => {
-	try {
-		const response = await axios.delete(`${url}:${port}/api/${version}/${endpoint}`, {
-			headers
-		});
-		const { status } = response;
-		if (status === 200) {
-			return response;
-		}
-	} catch (error) {
-		console.log("error", error);
-		throw error;
-	}
+const del = async (endpoint: Endpoint, headers: Headers, endpointType: ENDPOINT_TYPE = 'BASE') => {
+  try {
+    const url = endpointType === 'AUTH' ? AUTH_URL : endpointType === 'CHAT' ? CHAT_URL : BASE_URL;
+    const response = await axios.delete(`${url}/api/${version}/${endpoint}`, {
+      headers,
+    });
+    const { status } = response;
+    if (status === 200) {
+      return response;
+    }
+  } catch (error) {
+    console.log('error', error);
+    throw error;
+  }
 };
 
 export const request = {
-	fetch,
-	get,
-	post,
-	put,
-	patch,
-	del
+  fetch,
+  get,
+  post,
+  put,
+  patch,
+  del,
 };

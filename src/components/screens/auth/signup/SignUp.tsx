@@ -72,7 +72,7 @@ const SignUp = () => {
   });
 
   const handleChangeScreen = async () => {
-    if (screen < 2) {
+    if (screen < 1) {
       if (screen === 0) {
         setLoading(true);
         const filter = { mobile: userDetails.mobile };
