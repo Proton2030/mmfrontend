@@ -89,7 +89,8 @@ const More = () => {
       <PointDashBoard />
       <View style={{ paddingHorizontal: 20, paddingTop: 20 }}>
         {MENU_OPTION.map((menu, index) => {
-          return <SmallCard icon={menu.icon} route={menu.route} text={menu.text[ui.language]} key={index} />;
+          return <SmallCard icon={menu.icon} route={menu.route} text={menu.text[ui.language]} key={index} />
+            ;
         })}
       </View>
     </ScrollView>

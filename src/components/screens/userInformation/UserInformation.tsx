@@ -7,6 +7,7 @@ import CenterForm from '../../shared/centerForm/CenterForm';
 import {
   USER_INFO_FOUR,
   USER_INFO_ONE,
+  USER_INFO_ONE_2,
   USER_INFO_THREE,
   USER_INFO_TWO,
 } from '../../../constants/forms/UserInformation';
@@ -141,42 +142,13 @@ const UserInformation = () => {
   };
 
   const handleChangeScreen = () => {
-    if (screen < 5) {
-      if (screen == 0) {
-        // if (
-        //     userInfo.full_name === "" ||
-        //     userInfo.gender === "" ||
-        //     userInfo.age === 0 ||
-        //     userInfo.marital_status === "" ||
-        //     userInfo.state === "" ||
-        //     userInfo.height === 0 ||
-        //     userInfo.weight === 0
-        // ) {
-        //     setErrorMessage("Please fill the all data");
-        //     setVisible(true)
-        //     return;
-        // }
-        // else {
-        //     if (userInfo.gender === "MALE") {
-        //         if (userInfo.age < 21) {
-        //             setErrorMessage("Age should not be less than 21");
-        //             setVisible(true)
-        //             return;
-        //         }
-        //     }
-        //     else if (userInfo.gender === "FEMALE") {
-        //         if (userInfo.age < 18) {
-        //             setErrorMessage("Age should not be less than 18");
-        //             setVisible(true)
-        //             return;
-        //         }
-        //     }
-        // }
-      }
-      if (screen === 1) {
+    console.log(screen)
+    if (screen < 6) {
+
+      if (screen === 2) {
         handleUplod();
       }
-      if (screen == 2) {
+      if (screen == 3) {
         if (userInfo.occupation === '' || userInfo.work_place === '' || userInfo.monthly_income === '') {
           setErrorMessage('Please fill the all data');
           setVisible(true);
@@ -184,7 +156,7 @@ const UserInformation = () => {
           return;
         }
       }
-      if (screen == 3) {
+      if (screen == 4) {
         if (userInfo.education === '' || userInfo.islamic_education === '') {
           setErrorMessage('Please fill the all data');
           setVisible(true);
@@ -192,7 +164,7 @@ const UserInformation = () => {
           return;
         }
       }
-      if (screen == 4) {
+      if (screen == 5) {
         if (userInfo.salah === '' || userInfo.sawum === '') {
           setErrorMessage('Please fill the all data');
           setVisible(true);
@@ -200,7 +172,7 @@ const UserInformation = () => {
           return;
         }
       }
-      if (screen == 5) {
+      if (screen == 6) {
         if (
           userInfo.fathers_name === '' ||
           userInfo.fathers_occupation === '' ||
@@ -218,7 +190,7 @@ const UserInformation = () => {
       }
       setScreen((prev) => ++prev);
     }
-    if (screen == 5) {
+    if (screen == 6) {
       handleCompleteButtonClick();
     }
   };
@@ -237,17 +209,22 @@ const UserInformation = () => {
         </View>
         <View style={globalStyles.childContainer}>
           {screen === 0 ? <Text style={globalStyles.headingText}>Please Give Your Personal Information</Text> : null}
-          {screen === 1 ? <Text style={globalStyles.headingText}>Please Give Your Profile Image</Text> : null}
-          {screen === 2 ? <Text style={globalStyles.headingText}>Please Give Your Job Information</Text> : null}
+          {screen === 1 ? <Text style={globalStyles.headingText}>Please Give Your Personal Information</Text> : null}
+
+          {screen === 2 ? <Text style={globalStyles.headingText}>Please Give Your Profile Image</Text> : null}
+          {screen === 3 ? <Text style={globalStyles.headingText}>Please Give Your Job Information</Text> : null}
           {screen === 3 ? <Text style={globalStyles.headingText}>Please Give Your Educational Background</Text> : null}
-          {screen === 4 ? <Text style={globalStyles.headingText}>Please Give Your Religious Information</Text> : null}
-          {screen === 5 ? <Text style={globalStyles.headingText}>Please Give Your Family Information</Text> : null}
+          {screen === 5 ? <Text style={globalStyles.headingText}>Please Give Your Religious Information</Text> : null}
+          {screen === 6 ? <Text style={globalStyles.headingText}>Please Give Your Family Information</Text> : null}
         </View>
         <View style={globalStyles.childContainer}>
           {screen === 0 ? (
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} />
           ) : null}
           {screen === 1 ? (
+            <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE_2} />
+          ) : null}
+          {screen === 2 ? (
             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
               <Image source={{ uri: userInfo.profile_image_url }} style={styles.profileImage} />
               <Button mode="outlined" style={globalStyles.lightPinkButton} onPress={pickImage}>
@@ -255,13 +232,13 @@ const UserInformation = () => {
               </Button>
             </View>
           ) : null}
-          {screen === 2 ? (
+          {screen === 3 ? (
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} />
           ) : null}
-          {screen === 3 ? (
+          {screen === 4 ? (
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} />
           ) : null}
-          {screen === 4 ? (
+          {screen === 5 ? (
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_FOUR} />
           ) : null}
           {/* {screen === 5 ?

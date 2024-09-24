@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Image, View, Text, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { StyleSheet, Image, View, Text, TouchableOpacity, TextInput, Modal, Pressable, Animated } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { COLORS } from '../../../constants/theme';
 import ProgressContainer from './ProgressContainer/ProgressContainer';
@@ -9,6 +9,7 @@ import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { Card, useTheme } from 'react-native-paper';
 import AuthContext from '../../../contexts/authContext/authContext';
 import UiContext from '../../../contexts/uiContext/UIContext';
+import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
 
 export default function PointDashBoard() {
   const { user } = useContext(AuthContext);
@@ -16,6 +17,8 @@ export default function PointDashBoard() {
 
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const routeToPaymentHistory = () => {
     navigation.navigate('paymentHistory');
@@ -26,6 +29,15 @@ export default function PointDashBoard() {
       editable: true,
     });
   };
+
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -35,13 +47,9 @@ export default function PointDashBoard() {
             flexDirection: 'row',
             justifyContent: 'space-between',
             margin: 16,
-            // borderWidth: 0.5,
             padding: 10,
             shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
+            shadowOffset: { width: 0, height: 2 },
             shadowOpacity: 0.3,
             shadowRadius: 4,
             elevation: 3,
@@ -52,48 +60,22 @@ export default function PointDashBoard() {
         >
           <ProgressContainer />
         </TouchableOpacity>
-        <View
-          style={{
-            marginHorizontal: 10,
-            paddingHorizontal: 10,
-            paddingVertical: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              fontWeight: '700',
-              color: colors.tertiary,
 
-              marginBottom: 16,
-            }}
-          >
+        <View style={{ marginHorizontal: 10, paddingHorizontal: 10, paddingVertical: 10 }}>
+          <Text style={{ fontSize: 18, fontWeight: '700', color: colors.tertiary, marginBottom: 16 }}>
             Message Limit
           </Text>
 
           <View style={styles.search}>
             <View style={styles.searchInput}>
               <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-                <View
-                  style={{
-                    marginBottom: 7,
-                    flexDirection: 'row',
-                    gap: 4,
-                  }}
-                >
+                <View style={{ marginBottom: 7, flexDirection: 'row', gap: 4 }}>
                   <FeatherIcon color={COLORS.primary} name="user" size={18} />
                   <Text style={{ fontWeight: '600', fontSize: 16, color: colors.tertiary }}>
                     {user?.message_limit} left
                   </Text>
                 </View>
-                <TouchableOpacity
-                  style={{
-                    marginBottom: 7,
-                    flexDirection: 'row',
-                    marginLeft: 5,
-                  }}
-                  onPress={routeToPaymentHistory}
-                >
+                <TouchableOpacity style={{ marginBottom: 7, flexDirection: 'row', marginLeft: 5 }} onPress={routeToPaymentHistory}>
                   <FeatherIcon color={'gray'} name="clock" size={18} />
                 </TouchableOpacity>
               </View>
@@ -110,13 +92,30 @@ export default function PointDashBoard() {
                 paddingHorizontal: 16,
                 backgroundColor: colors.surface,
               }}
-              onPress={() => navigation.navigate('subscriptionPage')}
+              onPress={openModal}
             >
               <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>Recharge</Text>
             </Card>
           </View>
         </View>
       </View>
+
+      {/* Bottom Sheet Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.bottomSheet}>
+            <SubscriptionPage />
+            {/* <Pressable style={styles.closeButton} onPress={closeModal}>
+              <Text style={styles.closeButtonText}>Close</Text>
+            </Pressable> */}
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -127,44 +126,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     flexBasis: 0,
   },
-  avatar: {
-    width: 95,
-    height: 95,
-    borderRadius: 9999,
-  },
-  title: {
-    fontSize: 27,
-    fontWeight: '700',
-    color: '#222',
-    marginTop: 24,
-    marginBottom: 16,
-  },
-  /** Action */
-  action: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    marginHorizontal: 8,
-    backgroundColor: '#fde8f1',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  actionWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 16,
-    borderWidth: 2,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  /** Search */
   search: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -175,54 +136,38 @@ const styles = StyleSheet.create({
     flexBasis: 0,
     marginRight: 12,
   },
-  /** Input */
-  input: {
-    height: 44,
-    backgroundColor: '#f0f6fb',
-    paddingLeft: 44,
-    paddingRight: 24,
-    borderRadius: 12,
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#222',
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    backgroundColor: '#00000033',
   },
-  inputWrapper: {
-    position: 'relative',
-    width: '100%',
-  },
-  inputIcon: {
-    position: 'absolute',
-    width: 44,
-    height: 44,
-    top: 0,
-    left: 0,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  bottomSheet: {
+    backgroundColor: '#fff',
+    // padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    height: 500
 
-  btnText: {
-    fontSize: 15,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 20,
+  },
+  closeButton: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: COLORS.primary,
+    borderRadius: 10,
+  },
+  closeButtonText: {
+    color: '#fff',
+    textAlign: 'center',
     fontWeight: '600',
-    color: COLORS.primary,
-  },
-  /** Placeholder */
-  placeholder: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
-    height: 400,
-    marginTop: 24,
-    padding: 0,
-    backgroundColor: 'transparent',
-  },
-  placeholderInset: {
-    borderWidth: 4,
-    borderColor: '#e5e7eb',
-    borderStyle: 'dashed',
-    borderRadius: 9,
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
   },
 });

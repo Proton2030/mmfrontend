@@ -45,7 +45,7 @@ const Language = () => {
         />
       </View>
       <Animated.View style={{ paddingLeft: 20, transform: [{ translateY }] }}>
-        <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 50, color: 'black' }}>Select your</Text>
+        <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 50, color: 'black', marginTop: 10 }}>Select your</Text>
         <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 50, marginTop: -15 }}>
           Language
         </Text>

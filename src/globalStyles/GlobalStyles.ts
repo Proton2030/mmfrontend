@@ -27,6 +27,10 @@ const globalStylesList = () => {
       flexGrow: 1,
       justifyContent: 'center',
     },
+    parentScrollContainer2: {
+      flexGrow: 1,
+      justifyContent: 'center',
+    },
     parentView: {
       flex: 1,
       justifyContent: 'space-around',
@@ -99,10 +103,10 @@ const globalStylesList = () => {
       marginTop: -40,
     },
     loginImage: {
-      width: windowWidth + 90,
-      height: windowHeight / 4,
+      width: windowWidth + 15,
+      height: (windowHeight / 4) + 20,
       resizeMode: 'cover',
-      transform: [{ rotate: '30deg' }], // Rotate 90 degrees (or adjust as needed)
+      // transform: [{ rotate: '30deg' }], // Rotate 90 degrees (or adjust as needed)
       marginTop: -40,
       marginLeft: -40,
     },

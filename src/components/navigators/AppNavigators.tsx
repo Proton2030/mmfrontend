@@ -25,6 +25,7 @@ import { PaymentHistory } from '../screens/paymentHistory/PaymnetHistory';
 import { TransitionPresets } from '@react-navigation/stack';
 import { SubscriptionPage } from '../screens/subscriptionPage/SubscriptionPage';
 import PaymentPage from '../screens/others/paymentPage/PaymentPage';
+import { OnboardingScreen } from '../screens/onboarding/OnboardingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -73,7 +74,7 @@ const AppNavigators = () => {
           </>
         ) : (
           <>
-            {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
+            <Stack.Screen name="onboard" component={SplashScreen} />
             <Stack.Screen name="Language" component={Language} options={{ headerShown: false }} />
             <Stack.Screen name="Auth" component={AuthNavigators} />
             <Stack.Screen name="Confirm" component={ConfirmNavigators} />

@@ -19,7 +19,7 @@ const SplashScreen = () => {
   });
   const routeAuth = CommonActions.reset({
     index: 0,
-    routes: [{ name: 'Language' }], // Replace with your desired screen name
+    routes: [{ name: 'onboard' }], // Replace with your desired screen name
   });
   useEffect(() => {
     // Simulate a loading process for demonstration purposes

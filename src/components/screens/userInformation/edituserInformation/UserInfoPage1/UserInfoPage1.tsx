@@ -28,16 +28,12 @@ const UserInformationPage1 = () => {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [userInfo, setUserInfo] = useState<IUserInfo1>({
+  const [userInfo, setUserInfo] = useState<any>({
     full_name: '',
     gender: '',
     age: 0,
     marital_status: '',
-    country: '',
-    state: '',
-    height: 0,
-    weight: 0,
-    body_color: '',
+
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -72,15 +68,13 @@ const UserInformationPage1 = () => {
   );
 
   const handleCompleteButtonClick = useCallback(async () => {
+    navigation.navigate('UserInfo2', { editable: false });
     if (user) {
       if (
         userInfo.full_name === '' ||
         userInfo.gender === '' ||
         userInfo.age === 0 ||
-        userInfo.marital_status === '' ||
-        userInfo.state === '' ||
-        userInfo.height === 0 ||
-        userInfo.weight === 0
+        userInfo.marital_status === ''
       ) {
         setErrorMessage('Please fill the all data');
         setVisible(true);

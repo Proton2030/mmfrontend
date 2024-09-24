@@ -46,6 +46,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { fullLogo, logo, noR } from '../../../../assets';
 import { BackHandler } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -321,8 +322,8 @@ const Home = () => {
   }, [handlegGetUnseenMessageCount]);
 
   return (
-    <>
-      <View style={{ flex: 1, backgroundColor: ui?.theme === 'DARK' ? colors.surface : "white" }}>
+    <LinearGradient colors={['#fce8f1', '#ffffff', '#ffffff']} style={globalStyles.parentScrollContainer2}>
+      <View style={{ flex: 1, }}>
         <DrawerLayout
           ref={drawerRef}
           drawerWidth={330}
@@ -334,7 +335,7 @@ const Home = () => {
         >
           <Appbar.Header
             style={{
-              backgroundColor: ui?.theme === 'DARK' ? colors.surface : "white",
+              backgroundColor: ui?.theme === 'DARK' ? colors.surface : "transparent",
               borderBottomColor: colors.onSurfaceDisabled,
               borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
               flexDirection: "row",
@@ -352,14 +353,13 @@ const Home = () => {
               paddingLeft: 10,
               flexDirection: "row",
               gap: 10,
-              paddingTop: 20
 
             }}>
               <Image style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
-                source={{ uri: "https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=" }} />
+                source={{ uri: user?.profile_image_url || "https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=" }} />
               <View>
                 <Text style={{ fontWeight: "600", color: colors.onBackground, fontSize: 18 }}>
-                  Kawther
+                  {user?.full_name}
                 </Text>
                 <Text style={{ fontWeight: "600", color: colors.tertiary, fontSize: 12 }}>
                   Kolkata , West Bengal
@@ -370,7 +370,7 @@ const Home = () => {
 
             <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
               <TouchableOpacity onPress={openDrawer}>
-                <Ionicons name="account-filter-outline" size={28} color={colors.primary} />
+                <Ionicons name="filter-outline" size={28} color={colors.primary} />
               </TouchableOpacity>
               <Badge
                 visible={messageSeenCount > 0}
@@ -473,7 +473,7 @@ const Home = () => {
           <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
         </View>
       </Animated.View> */}
-    </>
+    </LinearGradient>
   );
 };
 

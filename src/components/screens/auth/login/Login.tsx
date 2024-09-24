@@ -1,11 +1,11 @@
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import CenterForm from '../../../shared/centerForm/CenterForm';
 import { LOGIN_SCREEN } from '../../../../constants/forms/Login';
 import { ActivityIndicator, Button, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { loginStyle } from './LoginStyles';
-import { fullLogo, logo } from '../../../../assets';
+import { fullLogo, log, logo } from '../../../../assets';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { IUserCredential } from '../../../../@types/types/userCredential.types';
 import { api } from '../../../../utils/api';
@@ -17,6 +17,7 @@ import UiContext from '../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
 import CommonButton from '../../../shared/commonButton/CommonButton';
+import LinearGradient from 'react-native-linear-gradient';
 
 const Login = () => {
   const { colors } = useTheme();
@@ -25,6 +26,7 @@ const Login = () => {
   const { ui } = useContext(UiContext);
   const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const [userCredential, setUserCredentail] = useState<IUserCredential>({
     userId: '',
     password: '',
@@ -58,15 +60,6 @@ const Login = () => {
     },
     [userCredential],
   );
-
-  // const storeData = async (key, value) => {
-  //     try {
-  //       await AsyncStorage.setItem(key, value);
-  //       console.log('Data stored successfully!');
-  //     } catch (error) {
-  //       console.error('Error storing data:', error);
-  //     }
-  //   };
 
   const handleLoginButtonClick = useCallback(async () => {
     console.log('-------->click login button');
@@ -118,29 +111,33 @@ const Login = () => {
     handleGetToken();
   }, [handleGetToken]);
 
-  console.log('=====>ui', ui);
-
   return (
-    <>
+    <LinearGradient colors={['#fce8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
       <ScrollView
-        style={{ flex: 1, paddingBottom: 0, backgroundColor: 'white' }}
+        style={{ flex: 1, paddingBottom: 0 }}
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
         <View style={loginStyle.viewBox}>
-          <Image
-            style={globalStyles.loginImage}
-            source={{
-              uri: 'https://media.istockphoto.com/id/1291886001/vector/one-paper-heart-on-white-background-for-valentines-women-mother-day-greeting.jpg?s=612x612&w=0&k=20&c=wwIAORczr_Cv_g0M53ncxwWJUaDMF3zxLWGy1YiWamg=',
-            }}
-          />
-          <Image style={loginStyle.image} source={fullLogo} />
+          {!isInputFocused && ( // Conditionally render the image
+            <>
+              <Image
+                style={globalStyles.loginImage}
+                source={log}
+              />
+              <Image style={loginStyle.image} source={fullLogo} />
+            </>
+          )}
           <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 35, color: 'black' }}>Welcome back 👋</Text>
-          <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 30 }}>
+          <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 30, marginBottom: 20 }}>
             Please Login
           </Text>
         </View>
         <View style={globalStyles.childContainer}>
-          <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
+          <CenterForm
+            handleChangeText={handleChangeText}
+            fieldList={LOGIN_SCREEN}
+            object={userCredential}
+          />
           <CommonButton
             loading={loading}
             handleAction={handleLoginButtonClick}
@@ -177,46 +174,10 @@ const Login = () => {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <View style={{ flexDirection: 'row', alignItems: 'center', padding: 30 }}>
-          <View
-            style={{
-              flex: 1,
-              height: 1,
-              backgroundColor: colors.tertiary,
-            }}
-          />
-          <View>
-            <Text
-              style={{
-                width: 80,
-                textAlign: 'center',
-                color: colors.tertiary,
-              }}
-            >
-              {selectLanguage(LOGIN_TEXT.new_user, ui.language)}
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              height: 1,
-              backgroundColor: colors.tertiary,
-            }}
-          />
-        </View> */}
-        {/* <View style={globalStyles.childContainer}>
-          <Button
-            mode="outlined"
-            style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
-            theme={{ colors: { primary: colors.primary } }}
-            onPress={handleSignUpButtonClick}
-          >
-            {selectLanguage(LOGIN_TEXT.signup_button, ui.language)}
-          </Button>
-        </View> */}
       </ScrollView>
       <SnackbarAlert message="Wrong Credential" onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
-    </>
+    </LinearGradient>
   );
 };
+
 export default Login;

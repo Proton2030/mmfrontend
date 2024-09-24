@@ -4,11 +4,11 @@ import { request } from '../api';
 
 const { get } = request;
 
-const initialRoute = 'subscription';
+const initialRoute = 'plans';
 
 export const getALlPlans = async () => {
   try {
-    const endpoint = `${initialRoute}/getAll`;
+    const endpoint = `${initialRoute}/get-plans`;
     const response = await get(endpoint, {
       ...headers,
     });

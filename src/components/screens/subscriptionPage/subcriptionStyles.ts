@@ -1,4 +1,5 @@
 import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
+import { COLORS } from '../../../constants/theme';
 
 export const styles = StyleSheet.create({
   gradientBackground: {
@@ -6,103 +7,136 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
-  container: {
-    marginTop: 60,
-  },
   title: {
     fontSize: 30,
-    fontWeight: '500',
-    color: '#fff',
-    marginBottom: 25,
-    textAlign: 'center',
-  },
-  radioContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 10,
-  },
-  radio: {
-    marginBottom: 12,
-    padding: 12,
-    borderRadius: 20,
-    alignItems: 'flex-start',
-    borderWidth: 2,
-    borderColor: 'white',
-  },
-  btnText: {
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '600',
-  },
-  radioActive: {
-    backgroundColor: 'white',
-    borderColor: 'white',
-    borderWidth: 4,
-  },
-  radioTop: {
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    fontWeight: 'bold',
+    color: '#181818',
     marginBottom: 4,
   },
-  radioPrice: {
-    fontSize: 26,
-    fontWeight: '600',
-    color: 'white',
+  subtitle: {
+    fontSize: 15,
+    lineHeight: 20,
+    fontWeight: '500',
+    color: '#889797',
   },
-  radioPriceActive: {
-    fontSize: 26,
-    fontWeight: '600',
-    color: 'black',
+  /** Header */
+  header: {
+    paddingHorizontal: 24,
+    marginBottom: 28,
+    paddingTop: 20
+  },
+  headerAction: {
+    width: 40,
+    height: 40,
+    borderRadius: 9999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ffdada',
+    marginBottom: 16,
+  },
+  /** Form */
+  form: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    paddingBottom: 24,
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+  },
+  form2: {
+    flexShrink: 1,
+    flexBasis: 0,
+    paddingBottom: 24,
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    gap: 20
+  },
+  formFooterText: {
+    marginTop: 12,
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#929292',
+    textAlign: 'center',
+  },
+  /** Radio */
+  radio: {
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    borderWidth: 2,
+    borderColor: 'transparent',
+    borderStyle: 'solid',
+    borderRadius: 24,
+    marginBottom: 16,
+    backgroundColor: '#f2f2f2',
+  },
+  radioBody: {
+    paddingLeft: 10,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   },
   radioLabel: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: 'white',
+    fontSize: 17,
+    fontWeight: '700',
+    color: '#1d1d1d',
   },
-  radioLabelActive: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: 'black',
-  },
-  radioUsers: {
-    fontSize: 14,
+  radioText: {
+    marginTop: 2,
+    fontSize: 16,
     fontWeight: '500',
-    color: 'white',
+    color: '#889797',
   },
-  radioUsersActive: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: 'black',
+  radioPrice: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1d1d1d',
   },
-  radioDescription: {
-    fontSize: 15,
-    fontWeight: '400',
-    color: 'white',
-    marginTop: 10,
+  radioPriceActive: {
+    transform: [
+      {
+        scale: 1.2,
+      },
+    ],
   },
-  radioDescriptionActive: {
-    fontSize: 13,
-    fontWeight: '400',
-    color: 'black',
-    marginTop: 10,
-  },
-  pointsContainer: {
-    marginTop: 20,
-    paddingHorizontal: 20,
-  },
-  pointRow: {
+  /** Button */
+  btn: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderWidth: 1,
+    backgroundColor: COLORS.primary,
+    borderColor: '#F82E08',
   },
-  pointIcon: {
-    marginRight: 8,
+  btnText: {
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: 'bold',
+    color: '#fff',
   },
-  pointText: {
-    color: 'white',
-    fontSize: 18,
+  btnEmpty: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderWidth: 1.5,
+    backgroundColor: 'transparent',
+    borderColor: '#F82E08',
+    marginTop: 12,
+  },
+  btnEmptyText: {
+    fontSize: 17,
+    lineHeight: 22,
+    fontWeight: 'bold',
+    color: '#F82E08',
   },
 });
