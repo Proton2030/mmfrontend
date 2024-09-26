@@ -387,14 +387,14 @@ const ChatBoard = () => {
           theme={
             theme === 'LIGHT'
               ? {
-                  ...defaultTheme,
-                  colors: {
-                    ...defaultTheme.colors,
-                    primary: '#E71B73',
-                    inputBackground: '#ffdefb',
-                    inputText: 'rgb(0, 0, 0)',
-                  },
-                }
+                ...defaultTheme,
+                colors: {
+                  ...defaultTheme.colors,
+                  primary: '#E71B73',
+                  inputBackground: '#ffdefb',
+                  inputText: 'rgb(0, 0, 0)',
+                },
+              }
               : darkTheme
           }
           locale="en"

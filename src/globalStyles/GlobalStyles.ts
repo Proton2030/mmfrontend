@@ -171,7 +171,7 @@ const globalStylesList = () => {
     onlineDot: {
       position: 'absolute',
       bottom: 0,
-      right: 0,
+      right: 5,
       width: 10,
       height: 10,
       borderRadius: 5,

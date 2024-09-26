@@ -110,9 +110,6 @@ export default function PointDashBoard() {
         <View style={styles.modalContainer}>
           <View style={styles.bottomSheet}>
             <SubscriptionPage />
-            {/* <Pressable style={styles.closeButton} onPress={closeModal}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </Pressable> */}
           </View>
         </View>
       </Modal>

@@ -421,9 +421,7 @@ export const SubscriptionPage = () => {
       flex: 1, backgroundColor: 'white', borderTopLeftRadius: 20,
       borderTopRightRadius: 20,
     }}>
-      <Text>
-        jjjjjjjjjjjjjjjjjjjjjjjjj
-      </Text>
+
       {
         page === 0 ?
           <Plans prices={prices} selected={selected} setSelected={setSelected} nextPage={nextPage} />

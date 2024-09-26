@@ -12,6 +12,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const handleSubmit = () => {
     console.log('===>Otp', otp);
+    console.log("first", generatedOtp)
     if (otp === generatedOtp) {
       console.log('=======>otp matched');
       handleChangeScreen();

@@ -25,6 +25,7 @@ import { TransitionPresets } from '@react-navigation/stack';
 import { SubscriptionPage } from '../screens/subscriptionPage/SubscriptionPage';
 import PaymentPage from '../screens/others/paymentPage/PaymentPage';
 import { OnboardingScreen } from '../screens/onboarding/OnboardingScreen';
+import PersonalChatPage from '../shared/socketChat/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +47,7 @@ const AppNavigators = () => {
           <>
             <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-            <Stack.Screen name="Chat" component={ChatBoard} />
+            <Stack.Screen name="Chat" component={PersonalChatPage} />
             <Stack.Screen name="UserDetails" component={UserDetails} />
             <Stack.Screen name="ProfileImage" component={ProfileImage} />
             <Stack.Screen name="Notification" component={NotificationPage} />
