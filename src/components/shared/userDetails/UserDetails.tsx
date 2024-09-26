@@ -17,6 +17,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import {
+  PERSONAL_DETAILS,
   USER_INFO_FOUR,
   USER_INFO_ONE,
   USER_INFO_THREE,
@@ -35,6 +36,7 @@ import UiContext from '../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { IField, IGroup } from '../../../@types/types/FieldTypes.types';
 
 const UserDetails = () => {
   const { colors } = useTheme();
@@ -224,7 +226,7 @@ const UserDetails = () => {
             <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Personal Information</Text>
             {editable ? <IconButton icon="pencil-outline" onPress={handleParsonalInfoNavigate} /> : null}
           </View>
-          {USER_INFO_ONE.map((key, index) => {
+          {PERSONAL_DETAILS.map((key: IField, index: number) => {
             return (
               <View key={index} style={styles.infoItem}>
                 {key.id === 'state' ? (

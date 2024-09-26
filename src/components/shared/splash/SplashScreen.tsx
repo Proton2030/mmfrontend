@@ -24,7 +24,7 @@ const SplashScreen = () => {
   useEffect(() => {
     // Simulate a loading process for demonstration purposes
     const timeoutId = setTimeout(() => {
-      console.log('-----called-----');
+      // console.log('-----called-----');
       if (user) {
         navigation.dispatch(routeUserDashboard);
       } else {

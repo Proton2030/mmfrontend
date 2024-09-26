@@ -1,50 +1,28 @@
 import { View, Text, ScrollView, KeyboardAvoidingView, Image, StyleSheet, Dimensions } from 'react-native';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { Button, useTheme } from 'react-native-paper';
-import CenterForm from '../../../../shared/centerForm/CenterForm';
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
-import { logo } from '../../../../../assets';
-import {
-  USER_INFO_FOUR,
-  USER_INFO_ONE,
-  USER_INFO_THREE,
-  USER_INFO_TWO,
-} from '../../../../../constants/forms/UserInformation';
-import { IUserInfo } from '../../../../../@types/types/userInfo.types';
-import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
-import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
-import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
-import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
-import { IUserInfo5 } from '../../../../../@types/types/userInfo5.types';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { defaultUser, logo } from '../../../../../assets';
+import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 import { storeData } from '../../../../../utils/commonFunction/storeData';
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const UserInformationPage5 = () => {
   const { user, setUser } = useContext(AuthContext);
-  const [screen, setScreen] = useState<number>(0);
   const { colors } = useTheme();
-
   const [errorMessage, setErrorMessage] = useState<string>('Please Fill the Details');
-  const [userInfo, setUserInfo] = useState<IUserInfo5>({
-    profile_image_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
-  });
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState<string | null>(null);
+  const [visible, setVisible] = useState(false);
 
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState<boolean>(false);
-  const handleSetDefaultData = useCallback(() => {
-    if (user) {
-      const tempData: any = user;
-      delete tempData.updatedAt;
-      setUserInfo(user);
-    }
-  }, [user]);
+
   const routeUserDashboard = CommonActions.reset({
     index: 0,
     routes: [
@@ -53,10 +31,10 @@ const UserInformationPage5 = () => {
       },
     ],
   });
+
   const pickImage = () => {
     let options = {
       mediaType: 'photo' as MediaType,
-      includeBase64: true,
     };
 
     launchImageLibrary(options, (response) => {
@@ -65,38 +43,56 @@ const UserInformationPage5 = () => {
       } else if (response.errorMessage) {
         console.log('ImagePicker Error: ', response.errorMessage);
       } else {
-        if (response.assets) {
-          const source = `data:image/jpeg;base64,${response.assets[0].base64}`;
-          setUserInfo(Object.assign({}, userInfo, { profile_image_url: source }));
+        if (response.assets && response.assets[0].uri) {
+          const asset = response.assets[0];
+          if (asset.uri) {
+            setProfilePhotoUrl(asset.uri);
+
+            const file = {
+              uri: asset.uri,
+              name: asset.fileName || 'image.jpg',
+              type: asset.type || 'image/jpeg',
+            };
+
+            setProfilePhoto(file as unknown as File);
+          }
         }
       }
     });
   };
-  const handleUplod = async () => {
-    if (user) {
-      if (
-        userInfo.profile_image_url !==
-        'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
-      ) {
+
+  const handleUpload = async () => {
+    if (user && user._id && profilePhoto !== null) {
+      try {
         setLoading(true);
-        const response = await api.userDetails.updateUserImage({
-          userObjectId: user._id,
-          profileImage: userInfo.profile_image_url,
-        });
-        console.log('----->first', response.profile_image_url);
-        setUserInfo(Object.assign({}, userInfo, { profile_image_url: response.profile_image_url }));
+
+        // Create FormData and append the file and user ID
+        const formData = new FormData();
+        formData.append('profile_image', profilePhoto);
+        formData.append('userObjectId', user._id);
+
+        // Log FormData entries for verification
+
+        const response = await api.userDetails.updateUserImage(formData);
         setUser(response);
         setLoading(false);
+
         const jsonUser = JSON.stringify(response);
         storeData('@user', jsonUser);
         navigation.dispatch(routeUserDashboard);
-      } else {
-        setErrorMessage('Please Upload Profile Image');
-        setLoading(false);
+      } catch (error) {
+        console.log('Upload error:', error);
+        setErrorMessage('Something went wrong');
         setVisible(true);
-        handelVibrate();
-        return;
+        handleVibrate();
+      } finally {
+        setLoading(false);
       }
+    } else {
+      setErrorMessage('Please Upload Profile Image');
+      setLoading(false);
+      setVisible(true);
+      handleVibrate();
     }
   };
 
@@ -104,36 +100,8 @@ const UserInformationPage5 = () => {
     // Navigate back to the previous screen
     navigation.goBack();
   };
-  const handleCompleteButtonClick = useCallback(async () => {
-    if (user) {
-      const payload = {
-        userDetails: userInfo,
-        userObjectId: user._id,
-      };
-
-      try {
-        setLoading(true);
-
-        const userInstance = await api.userDetails.updateUser(payload);
-        if (userInstance) {
-          setUser(userInstance);
-          setLoading(false);
-          navigation.dispatch(routeUserDashboard);
-        }
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    }
-  }, [user, userInfo]);
-
-  const [visible, setVisible] = React.useState(false);
 
   const onDismissSnackBar = () => setVisible(false);
-
-  useEffect(() => {
-    handleSetDefaultData();
-  }, [handleSetDefaultData]);
 
   return (
     <>
@@ -159,7 +127,7 @@ const UserInformationPage5 = () => {
         </View>
         <View style={globalStyles.childContainer}>
           <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-            <Image source={{ uri: userInfo.profile_image_url }} style={styles.profileImage} />
+            <Image source={profilePhotoUrl ? { uri: profilePhotoUrl } : defaultUser} style={styles.profileImage} />
             <Button
               mode="outlined"
               style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
@@ -178,7 +146,7 @@ const UserInformationPage5 = () => {
               padding: 6,
               marginVertical: 10,
             }}
-            onPress={handleUplod}
+            onPress={handleUpload}
           >
             Submit
           </Button>

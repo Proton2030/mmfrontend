@@ -99,6 +99,7 @@ const ForgetPassword = () => {
             userDetails={userCredentials}
             handleChangeText={handleChangeText}
             handleChangeScreen={handleChangeScreen}
+            loading={loading}
             mode="FORGET"
           />
         ) : null}

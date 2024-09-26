@@ -3,8 +3,8 @@ import { COLORS, SIZES } from '../constants/theme';
 import { getAppThemeMode } from '../utils/commonFunction/getAppThemeMode';
 import { DarkThemeColor, LightThemeColor, ThemeColor } from '../constants/theme/themeColor';
 
-const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+export const windowHeight = Dimensions.get('window').height;
+export const windowWidth = Dimensions.get('window').width;
 
 const globalStylesList = () => {
   return StyleSheet.create({
@@ -51,8 +51,8 @@ const globalStylesList = () => {
     },
     roundedInputBox: {
       width: '100%',
-      marginBottom: 8,
-      height: 60,
+      marginBottom: 15,
+      height: 50,
     },
     pinkButton: {
       width: '100%',
@@ -114,7 +114,7 @@ const globalStylesList = () => {
       width: '100%',
       borderColor: 'gray',
       backgroundColor: 'white',
-      height: 60,
+      height: 50,
       marginBottom: 10,
       borderWidth: 1,
       borderRadius: 10,
@@ -197,9 +197,11 @@ const globalStylesList = () => {
       resizeMode: 'contain',
     },
     inlineFlex: {
-      display: 'flex',
+      flex: 1,
       flexDirection: 'row',
+      width: '100%',
       alignItems: 'center',
+      // flexWrap: 'wrap',
       justifyContent: 'space-between',
     },
     container: {

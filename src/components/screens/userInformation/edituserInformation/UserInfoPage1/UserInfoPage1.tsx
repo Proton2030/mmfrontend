@@ -1,26 +1,18 @@
-import { View, Text, ScrollView, KeyboardAvoidingView, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ScrollView, Image, Dimensions } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { Button, useTheme } from 'react-native-paper';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
-import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
-import { logo } from '../../../../../assets';
-import {
-  USER_INFO_FOUR,
-  USER_INFO_ONE,
-  USER_INFO_THREE,
-  USER_INFO_TWO,
-} from '../../../../../constants/forms/UserInformation';
-import { IUserInfo } from '../../../../../@types/types/userInfo.types';
+import { fullLogo, logo } from '../../../../../assets';
+import { USER_INFO_ONE } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 import { storeData } from '../../../../../utils/commonFunction/storeData';
-
-const windowWidth = Dimensions.get('window').width;
+import { userInfoStyles } from '../../UserInfo.style';
 
 const UserInformationPage1 = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -33,7 +25,6 @@ const UserInformationPage1 = () => {
     gender: '',
     age: 0,
     marital_status: '',
-
   });
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -70,29 +61,24 @@ const UserInformationPage1 = () => {
   const handleCompleteButtonClick = useCallback(async () => {
     navigation.navigate('UserInfo2', { editable: false });
     if (user) {
-      if (
-        userInfo.full_name === '' ||
-        userInfo.gender === '' ||
-        userInfo.age === 0 ||
-        userInfo.marital_status === ''
-      ) {
+      if (userInfo.full_name === '' || userInfo.gender === '' || userInfo.age === 0 || userInfo.marital_status === '') {
         setErrorMessage('Please fill the all data');
         setVisible(true);
-        handelVibrate();
+        handleVibrate();
         return;
       } else {
         if (userInfo.gender === 'MALE') {
           if (userInfo.age < 21) {
             setErrorMessage('Age should not be less than 21');
             setVisible(true);
-            handelVibrate();
+            handleVibrate();
             return;
           }
         } else if (userInfo.gender === 'FEMALE') {
           if (userInfo.age < 18) {
             setErrorMessage('Age should not be less than 18');
             setVisible(true);
-            handelVibrate();
+            handleVibrate();
             return;
           }
         }
@@ -120,7 +106,7 @@ const UserInformationPage1 = () => {
         console.log(error);
         setLoading(false);
         setVisible(true);
-        handelVibrate();
+        handleVibrate();
       }
     }
   }, [user, userInfo]);
@@ -143,21 +129,20 @@ const UserInformationPage1 = () => {
         style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
-        <View style={styles.viewBox}>
-          <Image style={styles.image} source={logo} />
-        </View>
         <View style={globalStyles.childContainer}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: colors.scrim,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              textTransform: 'capitalize',
-            }}
-          >
-            Please Give Your Personal Information
-          </Text>
+          <View style={{ width: '100%', marginBottom: 20, paddingLeft: 5 }}>
+            <Image style={userInfoStyles.image} source={fullLogo} />
+            <Text
+              style={{
+                fontSize: 25,
+                color: colors.scrim,
+                fontWeight: 'bold',
+                textTransform: 'capitalize',
+              }}
+            >
+              Please Give Your Personal Information
+            </Text>
+          </View>
         </View>
         <View style={globalStyles.childContainer}>
           <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} />
@@ -186,26 +171,3 @@ const UserInformationPage1 = () => {
 };
 
 export default UserInformationPage1;
-
-const styles = StyleSheet.create({
-  image: {
-    width: windowWidth / 4,
-    height: windowWidth / 4, // Make the height equal to the width
-    borderRadius: windowWidth / 8, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
-  },
-  profileImage: {
-    width: windowWidth / 2,
-    height: windowWidth / 2, // Make the height equal to the width
-    borderRadius: windowWidth / 4, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
-  },
-  viewBox: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-});

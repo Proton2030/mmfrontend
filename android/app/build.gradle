@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.muslim_matrimony.dr_proton_tech"
+    namespace "com.shohozshadi"
     defaultConfig {
-        applicationId "com.muslim_matrimony.dr_proton_tech"
+        applicationId "com.shohozshadi"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 5

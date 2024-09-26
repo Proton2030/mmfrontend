@@ -1,7 +1,7 @@
-import { IField } from "../types/FieldTypes.types";
+import { IField, IGroup } from '../types/FieldTypes.types';
 
-export interface ICenterFormProps{
-    fieldList:IField[],
-    object:any,
-    handleChangeText: (field: string, type:string, text: string) => void
+export interface ICenterFormProps {
+  fieldList: (IField | IGroup)[];
+  object: any;
+  handleChangeText: (field: string, type: string, text: string) => void;
 }

@@ -2,7 +2,7 @@ import { getAppThemeMode } from '../../utils/commonFunction/getAppThemeMode';
 
 export const LightThemeColor = {
   primary: '#E71B73',
-  background: 'hsl(0, 0%, 96%)',
+  background: 'hsl(0, 0%, 98%)',
   secondary: '#fde8f1',
   tertiary: '#6e6d6d',
   scrim: 'black',

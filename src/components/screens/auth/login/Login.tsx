@@ -79,10 +79,7 @@ const Login = () => {
             },
           });
           console.log('login', userResponse);
-        } else if (
-          userResponse.profile_image_url ===
-          'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg'
-        ) {
+        } else if (userResponse.profile_image_url === null) {
           navigation.navigate('changeImage');
         } else {
           navigation.dispatch(routeUserDashboard);
@@ -113,17 +110,11 @@ const Login = () => {
 
   return (
     <LinearGradient colors={['#fce8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
-      <ScrollView
-        style={{ flex: 1, paddingBottom: 0 }}
-        contentContainerStyle={globalStyles.parentScrollContainer}
-      >
+      <ScrollView style={{ flex: 1, paddingBottom: 0 }} contentContainerStyle={globalStyles.parentScrollContainer}>
         <View style={loginStyle.viewBox}>
           {!isInputFocused && ( // Conditionally render the image
             <>
-              <Image
-                style={globalStyles.loginImage}
-                source={log}
-              />
+              <Image style={globalStyles.loginImage} source={log} />
               <Image style={loginStyle.image} source={fullLogo} />
             </>
           )}
@@ -133,11 +124,7 @@ const Login = () => {
           </Text>
         </View>
         <View style={globalStyles.childContainer}>
-          <CenterForm
-            handleChangeText={handleChangeText}
-            fieldList={LOGIN_SCREEN}
-            object={userCredential}
-          />
+          <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
           <CommonButton
             loading={loading}
             handleAction={handleLoginButtonClick}

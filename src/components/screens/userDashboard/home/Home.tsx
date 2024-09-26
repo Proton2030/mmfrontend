@@ -36,7 +36,7 @@ import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { shuffleArray } from '../../../../utils/commonFunction/suffleArray';
 import _ from 'lodash';
 import SmallLoader from '../../../shared/smallLoader/SmallLoader';
-import { handelVibrate } from '../../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../../utils/commonFunction/systemvibration';
 import axios from 'axios'; // Import axios
 import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
 import FilterDrawer from '../../../shared/filterDrawer/FilterDrawer';
@@ -169,7 +169,7 @@ const Home = () => {
     };
     console.log('-------->payload', payload);
     try {
-      handelVibrate();
+      handleVibrate();
       await api.userChoice.addChoice(payload);
     } catch (err) {
       console.log(err);
@@ -323,7 +323,7 @@ const Home = () => {
 
   return (
     <LinearGradient colors={['#fce8f1', '#ffffff', '#ffffff']} style={globalStyles.parentScrollContainer2}>
-      <View style={{ flex: 1, }}>
+      <View style={{ flex: 1 }}>
         <DrawerLayout
           ref={drawerRef}
           drawerWidth={330}
@@ -335,12 +335,12 @@ const Home = () => {
         >
           <Appbar.Header
             style={{
-              backgroundColor: ui?.theme === 'DARK' ? colors.surface : "transparent",
+              backgroundColor: ui?.theme === 'DARK' ? colors.surface : 'transparent',
               borderBottomColor: colors.onSurfaceDisabled,
               borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
               paddingLeft: 10,
             }}
           >
@@ -348,24 +348,26 @@ const Home = () => {
               title="Muslim Matrimony"
               titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
             /> */}
-            <View style={{
-              alignItems: "center",
-              paddingLeft: 10,
-              flexDirection: "row",
-              gap: 10,
-
-            }}>
-              <Image style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
-                source={{ uri: user?.profile_image_url || "https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=" }} />
+            <View
+              style={{
+                alignItems: 'center',
+                paddingLeft: 10,
+                flexDirection: 'row',
+                gap: 10,
+              }}
+            >
+              <Image
+                style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
+                source={{
+                  uri:
+                    user?.profile_image_url ||
+                    'https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=',
+                }}
+              />
               <View>
-                <Text style={{ fontWeight: "600", color: colors.onBackground, fontSize: 18 }}>
-                  {user?.full_name}
-                </Text>
-                <Text style={{ fontWeight: "600", color: colors.tertiary, fontSize: 12 }}>
-                  Kolkata , West Bengal
-                </Text>
+                <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
+                <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Kolkata , West Bengal</Text>
               </View>
-
             </View>
 
             <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>

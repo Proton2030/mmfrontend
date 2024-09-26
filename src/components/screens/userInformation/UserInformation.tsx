@@ -17,7 +17,7 @@ import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../shared/snackbarAlert/SnackbarAlert';
-import { handelVibrate } from '../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../utils/commonFunction/systemvibration';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -54,7 +54,7 @@ const UserInformation = () => {
     no_of_sisters: 0,
     financial_condition: '',
     status: 'ACTIVE',
-    profile_image_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
+    profile_image_url: null,
   });
 
   const navigation = useNavigation<any>();
@@ -142,9 +142,8 @@ const UserInformation = () => {
   };
 
   const handleChangeScreen = () => {
-    console.log(screen)
+    console.log(screen);
     if (screen < 6) {
-
       if (screen === 2) {
         handleUplod();
       }
@@ -152,7 +151,7 @@ const UserInformation = () => {
         if (userInfo.occupation === '' || userInfo.work_place === '' || userInfo.monthly_income === '') {
           setErrorMessage('Please fill the all data');
           setVisible(true);
-          handelVibrate();
+          handleVibrate();
           return;
         }
       }
@@ -160,7 +159,7 @@ const UserInformation = () => {
         if (userInfo.education === '' || userInfo.islamic_education === '') {
           setErrorMessage('Please fill the all data');
           setVisible(true);
-          handelVibrate();
+          handleVibrate();
           return;
         }
       }
@@ -168,7 +167,7 @@ const UserInformation = () => {
         if (userInfo.salah === '' || userInfo.sawum === '') {
           setErrorMessage('Please fill the all data');
           setVisible(true);
-          handelVibrate();
+          handleVibrate();
           return;
         }
       }
@@ -184,7 +183,7 @@ const UserInformation = () => {
         ) {
           setErrorMessage('Please fill the all data');
           setVisible(true);
-          handelVibrate();
+          handleVibrate();
           return;
         }
       }

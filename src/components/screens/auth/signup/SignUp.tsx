@@ -51,7 +51,7 @@ const SignUp = () => {
     no_of_sisters: 0,
     financial_condition: '',
     status: 'ACTIVE',
-    profile_image_url: 'https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg',
+    profile_image_url: null,
     partner_min_age: 0,
     partner_max_age: 0,
     partner_bodyColor: '',
@@ -69,6 +69,7 @@ const SignUp = () => {
     partner_max_weight: 0,
     device_token: '',
     updatedAt: new Date(),
+    acount_status: 'INACTIVE',
   });
 
   const handleChangeScreen = async () => {
@@ -77,9 +78,10 @@ const SignUp = () => {
         setLoading(true);
         const filter = { mobile: userDetails.mobile };
         try {
-          // const otpResponse = await api.auth.getOtp(filter);
-          if (true) {
-            setOtp('1234');
+          const otpResponse = await api.auth.getOtp(filter);
+          if (otpResponse) {
+            console.log('==>otp', otpResponse);
+            setOtp(otpResponse);
             setLoading(false);
           } else {
             setVisible(true);
@@ -95,6 +97,25 @@ const SignUp = () => {
       setScreen((prev) => ++prev);
     }
   };
+
+  const handleGenerateOtp = async () => {
+    try {
+      setLoading(true);
+      const filter = { mobile: userDetails.mobile };
+      const otpResponse = await api.auth.getOtp(filter);
+      if (otpResponse) {
+        setOtp(otpResponse);
+      }
+    } catch (err: any) {
+      console.log(err.response.status);
+      if (err.response.status === 409) {
+        setVisible(true);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleChangeText = useCallback(
     (field: string, type: string, text: string) => {
       if (field === 're-password') {
@@ -128,9 +149,9 @@ const SignUp = () => {
     }
   }, []);
 
-  const navigateBack = () => {
-    setScreen((prev) => --prev);
-  };
+  // const navigateBack = () => {
+  //   setScreen((prev) => --prev);
+  // };
 
   useEffect(() => {
     generateToken();
@@ -152,6 +173,8 @@ const SignUp = () => {
             handleChangeText={handleChangeText}
             handleChangeScreen={handleChangeScreen}
             loading={loading}
+            otp={otp}
+            handleGenerateOtp={handleGenerateOtp}
             mode="SIGNUP"
           />
         ) : null}

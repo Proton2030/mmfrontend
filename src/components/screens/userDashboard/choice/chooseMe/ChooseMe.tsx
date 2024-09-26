@@ -15,7 +15,7 @@ import AuthContext from '../../../../../contexts/authContext/authContext';
 import { api } from '../../../../../utils/api';
 import UserCard from '../../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 const ChooseMe = () => {
   const navigation = useNavigation<any>();
@@ -102,7 +102,7 @@ const ChooseMe = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      handelVibrate();
+      handleVibrate();
     }
   }, []);
 

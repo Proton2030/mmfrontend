@@ -40,7 +40,7 @@ const App = ({ isRoute }: any) => {
   const paperTheme = theme === 'DARK' ? darkTheme : lightTheme;
   useEffect(() => {
     if (appState === 'active') {
-      if (user) {
+      if (user && user.acount_status === 'ACTIVE') {
         socket.emit('online', { userId: user?._id });
       }
     }

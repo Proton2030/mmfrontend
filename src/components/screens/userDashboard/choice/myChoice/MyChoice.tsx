@@ -18,7 +18,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { IUserDetails } from '../../../../../@types/types/userDEtails.types';
 import { addChoice } from '../../../../../utils/api/userChoice/addUserChoice';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 const MyChoice = () => {
   const navigation = useNavigation<any>();
@@ -113,7 +113,7 @@ const MyChoice = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      handelVibrate();
+      handleVibrate();
     }
   }, []);
 

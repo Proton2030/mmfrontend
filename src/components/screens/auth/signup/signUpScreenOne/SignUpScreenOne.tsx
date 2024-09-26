@@ -11,14 +11,20 @@ import UiContext from '../../../../../contexts/uiContext/UIContext';
 import CommonButton from '../../../../shared/commonButton/CommonButton';
 import OtpModal from '../../../../shared/otpModal/OtpModal';
 
-const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, loading }: ISignupScreenProps) => {
+const SignUpScreenOne = ({
+  handleChangeScreen,
+  handleChangeText,
+  userDetails,
+  loading,
+  otp,
+  handleGenerateOtp,
+}: ISignupScreenProps) => {
   const { colors } = useTheme();
   const {
     ui: { language, theme },
   } = useContext(UiContext);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [keyboardVisible, setKeyboardVisible] = useState<boolean>(false);
   const slideAnim = useRef(new Animated.Value(0)).current; // Animation state
   const translateY = useRef(new Animated.Value(0)).current;
   const backgroundColor = useRef(new Animated.Value(0)).current;
@@ -47,9 +53,8 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
   };
 
   const handleGenerateOtpClick = () => {
-    if (userDetails.mobile.length >= 10) {
-      openModal();
-    } else {
+    if (userDetails.mobile.length >= 10 && handleGenerateOtp) {
+      handleGenerateOtp();
     }
   };
 
@@ -90,6 +95,12 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  useEffect(() => {
+    if (otp !== '') {
+      openModal();
+    }
+  }, [otp]);
 
   const interpolatedBackgroundColor = backgroundColor.interpolate({
     inputRange: [0, 1],
@@ -132,6 +143,7 @@ const SignUpScreenOne = ({ handleChangeScreen, handleChangeText, userDetails, lo
           closeModal={closeModal}
           handleChangeScreen={handleChangeScreen}
           userDetails={userDetails}
+          generatedOtp={otp}
         />
       </Modal>
     </Animated.View>

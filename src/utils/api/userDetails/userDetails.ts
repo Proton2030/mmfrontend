@@ -201,12 +201,18 @@ export const getUserInfo = async (filter: any) => {
   }
 };
 
-export const updateUserImage = async (payload: any) => {
+export const updateUserImage = async (payload: FormData) => {
   try {
     const endpoint = `${initialRoute}/update-user-profile-image`;
-    const response = await patch(endpoint, payload, {
-      ...headers,
-    });
+    const response = await patch(
+      endpoint,
+      payload,
+      {
+        ...headers,
+        'Content-Type': 'multipart/form-data',
+      },
+      'BASE',
+    );
     if (response) {
       const {
         data: { message },

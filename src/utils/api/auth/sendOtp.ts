@@ -29,7 +29,6 @@ export const getOtp = async (filter: any) => {
     }
     throw new Error();
   } catch (error: any) {
-    console.log(error);
     throw error;
   }
 };

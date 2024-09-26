@@ -3,23 +3,16 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { Button, useTheme } from 'react-native-paper';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
-import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
 import { logo } from '../../../../../assets';
-import {
-  USER_INFO_FOUR,
-  USER_INFO_ONE,
-  USER_INFO_THREE,
-  USER_INFO_TWO,
-} from '../../../../../constants/forms/UserInformation';
+import { USER_INFO_FOUR } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 import { storeData } from '../../../../../utils/commonFunction/storeData';
-
-const windowWidth = Dimensions.get('window').width;
+import { userInfoStyles } from '../../UserInfo.style';
 
 const UserInformationPage4 = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -79,7 +72,7 @@ const UserInformationPage4 = () => {
       ) {
         setErrorMessage('Please fill the all data');
         setVisible(true);
-        handelVibrate();
+        handleVibrate();
         return;
       }
       const payload = {
@@ -105,7 +98,7 @@ const UserInformationPage4 = () => {
         console.log(error);
         setLoading(false);
         setVisible(true);
-        handelVibrate();
+        handleVibrate();
       }
     }
   }, [user, userInfo]);
@@ -138,7 +131,7 @@ const UserInformationPage4 = () => {
               fontWeight: 'bold',
               textAlign: 'center',
               textTransform: 'capitalize',
-              marginTop: -20
+              marginTop: -20,
             }}
           >
             Please Give Your Family Information
@@ -157,7 +150,13 @@ const UserInformationPage4 = () => {
           {editable ? null : (
             <Button
               mode="outlined"
-              style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6, marginTop: -10 }}
+              style={{
+                backgroundColor: colors.secondary,
+                borderColor: colors.secondary,
+                width: '100%',
+                padding: 6,
+                marginTop: -10,
+              }}
               onPress={handleGoBack}
             >
               Back
@@ -171,26 +170,3 @@ const UserInformationPage4 = () => {
 };
 
 export default UserInformationPage4;
-
-const styles = StyleSheet.create({
-  image: {
-    width: windowWidth / 4,
-    height: windowWidth / 4, // Make the height equal to the width
-    borderRadius: windowWidth / 8, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
-  },
-  profileImage: {
-    width: windowWidth / 2,
-    height: windowWidth / 2, // Make the height equal to the width
-    borderRadius: windowWidth / 4, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
-  },
-  viewBox: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-});

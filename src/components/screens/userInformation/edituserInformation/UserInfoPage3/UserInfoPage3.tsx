@@ -1,5 +1,15 @@
-import { View, Text, ScrollView, KeyboardAvoidingView, Image, StyleSheet, Dimensions } from 'react-native';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  KeyboardAvoidingView,
+  Image,
+  StyleSheet,
+  Dimensions,
+  Animated,
+  Keyboard,
+} from 'react-native';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { Button, useTheme } from 'react-native-paper';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
@@ -8,7 +18,7 @@ import AuthContext from '../../../../../contexts/authContext/authContext';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
-import { logo } from '../../../../../assets';
+import { education, fullLogo, logo } from '../../../../../assets';
 import {
   USER_INFO_FOUR,
   USER_INFO_ONE,
@@ -19,8 +29,9 @@ import { IUserInfo } from '../../../../../@types/types/userInfo.types';
 import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
-import { handelVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 import { storeData } from '../../../../../utils/commonFunction/storeData';
+import { userInfoStyles } from '../../UserInfo.style';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -29,6 +40,8 @@ const UserInformationPage3 = () => {
   const { user, setUser } = useContext(AuthContext);
   const { colors } = useTheme();
   const route = useRoute<any>();
+  const translateY = useRef(new Animated.Value(0)).current;
+  const backgroundColor = useRef(new Animated.Value(0)).current;
   const { editable } = route.params;
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [userInfo, setUserInfo] = useState<IUserInfo3>({
@@ -69,7 +82,7 @@ const UserInformationPage3 = () => {
       if (userInfo.education === '' || userInfo.islamic_education === '') {
         setErrorMessage('Please fill the all data');
         setVisible(true);
-        handelVibrate();
+        handleVibrate();
         return;
       }
       const payload = {
@@ -95,7 +108,7 @@ const UserInformationPage3 = () => {
         console.log(error);
         setLoading(false);
         setVisible(true);
-        handelVibrate();
+        handleVibrate();
       }
     }
   }, [user, userInfo]);
@@ -111,48 +124,95 @@ const UserInformationPage3 = () => {
     handleSetDefaultData();
   }, [handleSetDefaultData]);
 
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      Animated.timing(translateY, {
+        toValue: -100, // Adjust this value as needed
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(backgroundColor, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+      Animated.timing(backgroundColor, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    });
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  const interpolatedBackgroundColor = backgroundColor.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['transparent', 'white'],
+  });
+
   return (
     <>
       <ScrollView
         style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
-        <View style={styles.viewBox}>
-          <Image style={styles.image} source={logo} />
-        </View>
         <View style={globalStyles.childContainer}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: colors.scrim,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              textTransform: 'capitalize',
-            }}
-          >
-            Please Give Your Educational Information
-          </Text>
+          <Image source={education} style={{ width: '100%', height: undefined, aspectRatio: 1 }} resizeMode="contain" />
         </View>
-        <View style={globalStyles.childContainer}>
-          <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} />
-          <Button
-            mode="contained"
-            loading={loading}
-            style={[globalStyles.pinkButton, { marginBottom: 18 }]}
-            onPress={handleCompleteButtonClick}
-          >
-            {editable ? 'Submit' : 'Next'}
-          </Button>
-          {editable ? null : (
+        <Animated.View
+          style={{
+            transform: [{ translateY }],
+            backgroundColor: interpolatedBackgroundColor,
+            paddingTop: 20,
+            borderRadius: 20,
+          }}
+        >
+          <View style={globalStyles.childContainer}>
+            <View style={{ width: '100%', marginBottom: 20, paddingLeft: 5 }}>
+              {/* <Image style={userInfoStyles.image} source={fullLogo} /> */}
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: colors.scrim,
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                }}
+              >
+                Please Give Your Education Background
+              </Text>
+            </View>
+            <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} />
             <Button
-              mode="outlined"
-              style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
-              onPress={handleGoBack}
+              mode="contained"
+              loading={loading}
+              style={[globalStyles.pinkButton, { marginBottom: 18 }]}
+              onPress={handleCompleteButtonClick}
             >
-              Back
+              {editable ? 'Submit' : 'Next'}
             </Button>
-          )}
-        </View>
+            {editable ? null : (
+              <Button
+                mode="outlined"
+                style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
+                onPress={handleGoBack}
+              >
+                Back
+              </Button>
+            )}
+          </View>
+        </Animated.View>
       </ScrollView>
       <SnackbarAlert message={errorMessage} onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />
     </>
@@ -160,26 +220,3 @@ const UserInformationPage3 = () => {
 };
 
 export default UserInformationPage3;
-
-const styles = StyleSheet.create({
-  image: {
-    width: windowWidth / 4,
-    height: windowWidth / 4, // Make the height equal to the width
-    borderRadius: windowWidth / 8, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
-  },
-  profileImage: {
-    width: windowWidth / 2,
-    height: windowWidth / 2, // Make the height equal to the width
-    borderRadius: windowWidth / 4, // Set the border radius to half of the width or height to make the image round
-    resizeMode: 'cover',
-    marginBottom: 10, // Cover the whole View without distortion
-  },
-  viewBox: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-});

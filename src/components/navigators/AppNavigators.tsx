@@ -1,5 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserDashboardNavigators from './UserDashboardNavigators';
 import UserInfoNavigators from './UserInfoNavigators';
@@ -43,7 +42,7 @@ const AppNavigators = () => {
         }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
-        {user ? (
+        {user && user.acount_status === 'ACTIVE' ? (
           <>
             <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
@@ -74,10 +73,11 @@ const AppNavigators = () => {
           </>
         ) : (
           <>
-            <Stack.Screen name="onboard" component={SplashScreen} />
+            <Stack.Screen name="onboard" component={OnboardingScreen} />
             <Stack.Screen name="Language" component={Language} options={{ headerShown: false }} />
             <Stack.Screen name="Auth" component={AuthNavigators} />
             <Stack.Screen name="Confirm" component={ConfirmNavigators} />
+            <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
           </>
         )}
       </Stack.Navigator>
