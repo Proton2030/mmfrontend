@@ -127,9 +127,9 @@ const UserInformationPage4 = () => {
         style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
         contentContainerStyle={globalStyles.parentScrollContainer}
       >
-        <View style={styles.viewBox}>
+        {/* <View style={styles.viewBox}>
           <Image style={styles.image} source={logo} />
-        </View>
+        </View> */}
         <View style={globalStyles.childContainer}>
           <Text
             style={{
@@ -138,6 +138,7 @@ const UserInformationPage4 = () => {
               fontWeight: 'bold',
               textAlign: 'center',
               textTransform: 'capitalize',
+              marginTop: -20
             }}
           >
             Please Give Your Family Information
@@ -156,7 +157,7 @@ const UserInformationPage4 = () => {
           {editable ? null : (
             <Button
               mode="outlined"
-              style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
+              style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6, marginTop: -10 }}
               onPress={handleGoBack}
             >
               Back
