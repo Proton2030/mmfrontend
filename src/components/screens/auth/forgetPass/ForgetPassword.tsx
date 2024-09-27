@@ -18,7 +18,6 @@ const ForgetPassword = () => {
   const [screen, setScreen] = useState<number>(0);
   const [otp, setOtp] = useState<string>('');
   const [visible, setVisible] = useState<boolean>(false);
-  const [passwordErr, setPasswordErr] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [userCredentials, setUserCredentails] = useState<{
     mobile: string;
@@ -29,26 +28,26 @@ const ForgetPassword = () => {
   });
 
   const handleChangeScreen = async () => {
-    if (screen < 2) {
-      if (screen === 0) {
-        setLoading(true);
-        const filter = { mobile: userCredentials.mobile };
-        try {
-          const otpResponse = await api.auth.forgetPassOtp(filter);
-          if (otpResponse) {
-            setOtp(otpResponse);
-            setLoading(false);
-          } else {
-            setVisible(true);
-            setLoading(false);
-            return;
-          }
-        } catch (err) {
-          setVisible(true);
-          setLoading(false);
-          return;
-        }
-      }
+    if (screen < 1) {
+      // if (screen === 0) {
+      //   setLoading(true);
+      //   const filter = { mobile: userCredentials.mobile };
+      //   try {
+      //     const otpResponse = await api.auth.forgetPassOtp(filter);
+      //     if (otpResponse) {
+      //       setOtp(otpResponse);
+      //       setLoading(false);
+      //     } else {
+      //       setVisible(true);
+      //       setLoading(false);
+      //       return;
+      //     }
+      //   } catch (err) {
+      //     setVisible(true);
+      //     setLoading(false);
+      //     return;
+      //   }
+      // }
       setScreen((prev) => ++prev);
     }
   };
@@ -66,6 +65,24 @@ const ForgetPassword = () => {
     [userCredentials],
   );
 
+  const handleGenerateOtp = async () => {
+    try {
+      setLoading(true);
+      const filter = { mobile: userCredentials.mobile };
+      const otpResponse = await api.auth.forgetPassOtp(filter);
+      if (otpResponse) {
+        setOtp(otpResponse);
+      }
+    } catch (err: any) {
+      console.log(err.response.status);
+      if (err.response.status === 409) {
+        setVisible(true);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const onDismissSnackBar = () => {
     navigation.navigate('login');
     setVisible(false);
@@ -82,24 +99,19 @@ const ForgetPassword = () => {
             userDetails={userCredentials}
             handleChangeText={handleChangeText}
             handleChangeScreen={handleChangeScreen}
+            handleGenerateOtp={handleGenerateOtp}
             loading={loading}
+            otp={otp}
             mode="FORGET"
           />
         ) : null}
         {screen === 1 ? (
-          <SignUpScreenTwo
-            userDetails={userCredentials}
-            handleChangeText={handleChangeText}
-            handleChangeScreen={handleChangeScreen}
-            otp={otp}
-          />
-        ) : null}
-        {screen === 2 ? (
           <SignUpScreenThree
             userDetails={userCredentials}
             handleChangeText={handleChangeText}
             handleChangeScreen={handleChangeScreen}
             loading={loading}
+            otp=""
             mode="FORGET"
           />
         ) : null}

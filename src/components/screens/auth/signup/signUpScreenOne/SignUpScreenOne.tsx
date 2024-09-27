@@ -97,7 +97,7 @@ const SignUpScreenOne = ({
   }, []);
 
   useEffect(() => {
-    if (otp !== '') {
+    if (otp && otp !== '') {
       openModal();
     }
   }, [otp]);
