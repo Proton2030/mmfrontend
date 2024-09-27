@@ -23,3 +23,4 @@ export { default as paymentlogo } from './images/icons8-payment-96.png';
 export { default as defaultUser } from './images/defaultUser.jpg';
 export { default as playingHeart } from './images/playingHeart.webp';
 export { default as jumping } from './images/jumping.webp';
+export { default as loveLine } from './images/love-line.webp';

@@ -18,12 +18,14 @@ import { selectLanguage } from '../../../../utils/commonFunction/languageSelect'
 import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
 import CommonButton from '../../../shared/commonButton/CommonButton';
 import LinearGradient from 'react-native-linear-gradient';
+import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
 
 const Login = () => {
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
   const { setUser } = useContext(AuthContext);
   const { ui } = useContext(UiContext);
+  const ThemeColor = ui.theme === 'DARK' ? DarkThemeColor : LightThemeColor;
   const [token, setToken] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -109,7 +111,7 @@ const Login = () => {
   }, [handleGetToken]);
 
   return (
-    <LinearGradient colors={['#fce8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
+    <LinearGradient colors={[ThemeColor.surface, ThemeColor.background]} style={globalStyles.parentScrollContainer}>
       <ScrollView style={{ flex: 1, paddingBottom: 0 }} contentContainerStyle={globalStyles.parentScrollContainer}>
         <View style={loginStyle.viewBox}>
           {!isInputFocused && ( // Conditionally render the image
@@ -118,7 +120,7 @@ const Login = () => {
               <Image style={loginStyle.image} source={fullLogo} />
             </>
           )}
-          <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 35, color: 'black' }}>Welcome back 👋</Text>
+          <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 35, color: colors.scrim }}>Welcome back</Text>
           <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 30, marginBottom: 20 }}>
             Please Login
           </Text>
@@ -135,7 +137,7 @@ const Login = () => {
               style={{
                 fontSize: 15,
                 fontWeight: '600',
-                color: '#222',
+                color: colors.scrim,
                 textAlign: 'center',
                 letterSpacing: 0.15,
                 marginTop: 20,
@@ -149,7 +151,7 @@ const Login = () => {
               style={{
                 fontSize: 15,
                 fontWeight: '600',
-                color: '#222',
+                color: colors.scrim,
                 textAlign: 'center',
                 letterSpacing: 0.15,
                 marginTop: 3,

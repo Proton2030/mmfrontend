@@ -1,5 +1,4 @@
-import { View, Text, StatusBar, Alert } from 'react-native';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { socket } from './src/config/config';
 import AuthContext from './src/contexts/authContext/authContext';
 import { useAppState } from '@react-native-community/hooks';

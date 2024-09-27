@@ -34,7 +34,7 @@ export const getOtp = async (filter: any) => {
 };
 export const forgetPassOtp = async (filter: any) => {
   try {
-    const endpoint = `${initialRoute}/forget-password`;
+    const endpoint = `${initialRoute}/forget-password-otp`;
     const response = await get(
       endpoint,
       {

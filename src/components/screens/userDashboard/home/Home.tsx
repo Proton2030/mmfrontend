@@ -322,7 +322,7 @@ const Home = () => {
   }, [handlegGetUnseenMessageCount]);
 
   return (
-    <LinearGradient colors={['#fce8f1', '#ffffff', '#ffffff']} style={globalStyles.parentScrollContainer2}>
+    <LinearGradient colors={[colors.surface, colors.background]} style={globalStyles.parentScrollContainer2}>
       <View style={{ flex: 1 }}>
         <DrawerLayout
           ref={drawerRef}
@@ -412,7 +412,7 @@ const Home = () => {
                 style={{
                   flex: 1,
                   margin: 10,
-                  backgroundColor: '#fff5f9',
+                  backgroundColor: colors.surface,
                 }}
                 elevation={3}
                 placeholder="Search User"

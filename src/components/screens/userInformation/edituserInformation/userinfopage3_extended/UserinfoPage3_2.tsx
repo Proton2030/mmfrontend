@@ -157,20 +157,20 @@ const UserInformationPage3_part2 = () => {
             borderRadius: 20,
           }}
         >
-          {/* <View style={globalStyles.childContainer}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: colors.scrim,
-              fontWeight: 'bold',
-              textAlign: 'center',
-              textTransform: 'capitalize',
-            }}
-          >
-            Please Give Your Religious Information
-          </Text>
-        </View> */}
           <View style={globalStyles.childContainer}>
+            <View style={{ width: '100%', marginBottom: 20, paddingLeft: 5 }}>
+              {/* <Image style={userInfoStyles.image} source={fullLogo} /> */}
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: colors.scrim,
+                  fontWeight: 'bold',
+                  textTransform: 'capitalize',
+                }}
+              >
+                Please Give Your Religious Details
+              </Text>
+            </View>
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE_part2} />
             <Button
               mode="contained"

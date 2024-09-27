@@ -62,7 +62,7 @@ const globalStylesList = () => {
       padding: 6,
     },
     pinkButtonText: {
-      color: ThemeColor.secondary,
+      color: ThemeColor.scrim,
     },
     lightPinkButton: {
       backgroundColor: ThemeColor.secondary,
@@ -96,15 +96,15 @@ const globalStylesList = () => {
       resizeMode: 'cover',
     },
     landinImage: {
-      width: windowWidth + 140,
+      width: windowWidth,
       height: windowHeight / 3,
-      resizeMode: 'cover',
-      transform: [{ rotate: '-30deg' }], // Rotate 90 degrees (or adjust as needed)
-      marginTop: -40,
+      resizeMode: 'contain',
+      // transform: [{ rotate: '-30deg' }], // Rotate 90 degrees (or adjust as needed)
+      // marginTop: -40,
     },
     loginImage: {
       width: windowWidth + 15,
-      height: (windowHeight / 4) + 20,
+      height: windowHeight / 4 + 20,
       resizeMode: 'cover',
       // transform: [{ rotate: '30deg' }], // Rotate 90 degrees (or adjust as needed)
       marginTop: -40,
@@ -113,7 +113,7 @@ const globalStylesList = () => {
     selectField: {
       width: '100%',
       borderColor: 'gray',
-      backgroundColor: 'white',
+      backgroundColor: ThemeColor.background,
       height: 50,
       marginBottom: 10,
       borderWidth: 1,

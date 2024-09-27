@@ -97,14 +97,14 @@ const SignUpScreenOne = ({
   }, []);
 
   useEffect(() => {
-    if (otp !== '') {
+    if (otp && otp !== '') {
       openModal();
     }
   }, [otp]);
 
   const interpolatedBackgroundColor = backgroundColor.interpolate({
     inputRange: [0, 1],
-    outputRange: ['transparent', 'white'],
+    outputRange: ['transparent', colors.background],
   });
 
   return (

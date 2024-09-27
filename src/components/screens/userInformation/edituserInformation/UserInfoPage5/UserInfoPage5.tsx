@@ -131,6 +131,7 @@ const UserInformationPage5 = () => {
             <Button
               mode="outlined"
               style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
+              textColor={colors.scrim}
               onPress={pickImage}
             >
               Upload
@@ -140,8 +141,8 @@ const UserInformationPage5 = () => {
             mode="contained"
             loading={loading}
             style={{
-              backgroundColor: colors.secondary,
-              borderColor: colors.secondary,
+              backgroundColor: colors.primary,
+              borderColor: colors.primary,
               width: '100%',
               padding: 6,
               marginVertical: 10,
