@@ -54,11 +54,19 @@ const PersonalChatPage = () => {
     }, [roomId]);
 
     const sendMessage = () => {
-        if (user && user.message_limit <= 0) {
+        if (user && user.message_limit > 0) {
             openModal()
         } else {
             if (text.trim()) {
-                const message = { roomId, text, sender: user?._id };
+                const female = user?.gender === "FEMALE" ? user?._id : userDetails?._id;
+                const male = user?.gender === "MALE" ? user?._id : userDetails?._id;
+                console.log(male)
+                console.log(female)
+                const message = {
+                    roomId, text, sender: user?._id,
+                    female_user: female,
+                    male_user: male
+                };
                 socket.emit('sendMessage', message);
                 setText('');
             }
