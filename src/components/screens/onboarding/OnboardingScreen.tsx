@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -17,6 +17,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { useTheme } from 'react-native-paper';
 import { color } from '../../../assets';
+import { DarkThemeColor, LightThemeColor } from '../../../constants/theme/themeColor';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
 const { width } = Dimensions.get('window');
 
@@ -33,7 +35,8 @@ export const OnboardingScreen = () => {
   const [page, setPage] = useState(0);
   const navigation = useNavigation<any>();
   const slideAnim = useRef(new Animated.Value(0)).current; // Animation value for sliding
-  const { colors } = useTheme();
+  const { ui } = useContext(UiContext);
+  const ThemeColor = ui.theme === 'DARK' ? DarkThemeColor : LightThemeColor;
 
   const nextPage = () => {
     // Slide to next page
@@ -60,30 +63,35 @@ export const OnboardingScreen = () => {
   };
 
   return (
-    <LinearGradient colors={[colors.surface, colors.background]} style={globalStyles.parentScrollContainer}>
-      <TouchableOpacity style={styles.skipContainer} onPress={prevPage}>
+    <LinearGradient
+      colors={[ThemeColor.surface, ThemeColor.background]}
+      style={{ ...globalStyles.parentScrollContainer, justifyContent: 'center' }}
+    >
+      {/* <TouchableOpacity style={styles.skipContainer} onPress={prevPage}>
         <Text style={styles.skipText}>Skip</Text>
-      </TouchableOpacity>
-      <Animated.View
-        style={[
-          styles.animatedContainer,
-          { transform: [{ translateX: slideAnim }] }, // Slide horizontally
-        ]}
-      >
-        <View style={styles.pageContainer}>
-          <OnboardScreenOne />
+      </TouchableOpacity> */}
+      <View>
+        <Animated.View
+          style={[
+            styles.animatedContainer,
+            { transform: [{ translateX: slideAnim }] }, // Slide horizontally
+          ]}
+        >
+          <View style={styles.pageContainer}>
+            <OnboardScreenOne />
+          </View>
+          <View style={styles.pageContainer}>
+            <OnboardScreenTwo />
+          </View>
+        </Animated.View>
+        <PaginationDots currentPage={page} />
+        <View style={{ paddingHorizontal: 20 }}>
+          {page === 0 ? (
+            <CommonButton loading={false} handleAction={nextPage} text={'Next'} />
+          ) : (
+            <CommonButton loading={false} handleAction={handleNavigate} text={'Get Started'} />
+          )}
         </View>
-        <View style={styles.pageContainer}>
-          <OnboardScreenTwo />
-        </View>
-      </Animated.View>
-      <PaginationDots currentPage={page} />
-      <View style={{ paddingHorizontal: 20 }}>
-        {page === 0 ? (
-          <CommonButton loading={false} handleAction={nextPage} text={'Next'} />
-        ) : (
-          <CommonButton loading={false} handleAction={handleNavigate} text={'Get Started'} />
-        )}
       </View>
     </LinearGradient>
   );
@@ -92,7 +100,7 @@ export const OnboardingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1,
+    // flex: 1,
     paddingVertical: 20,
   },
   skipContainer: {
@@ -128,7 +136,7 @@ const styles = StyleSheet.create({
   animatedContainer: {
     flexDirection: 'row',
     width: width * 2, // Make sure it can hold both screens side by side
-    flex: 1,
+    // flex: 1,
   },
   pageContainer: {
     width, // Ensure each page takes up full screen width

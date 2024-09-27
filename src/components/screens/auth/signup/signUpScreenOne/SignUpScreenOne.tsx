@@ -104,7 +104,7 @@ const SignUpScreenOne = ({
 
   const interpolatedBackgroundColor = backgroundColor.interpolate({
     inputRange: [0, 1],
-    outputRange: ['transparent', 'white'],
+    outputRange: ['transparent', colors.background],
   });
 
   return (

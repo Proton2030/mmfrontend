@@ -154,12 +154,12 @@ const UserInformationPage2 = () => {
 
   const interpolatedBackgroundColor = backgroundColor.interpolate({
     inputRange: [0, 1],
-    outputRange: ['transparent', '#fff2e6'],
+    outputRange: ['transparent', colors.background],
   });
 
   return (
     <>
-      <ScrollView contentContainerStyle={globalStyles.parentScrollContainer}>
+      <ScrollView contentContainerStyle={{ ...globalStyles.parentScrollContainer, backgroundColor: colors.background }}>
         <View style={globalStyles.childContainer}>
           <Image
             source={job}

@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import SignUpScreenOne from './signUpScreenOne/SignUpScreenOne';
 import { key, signUp } from '../../../../assets';
@@ -12,16 +12,21 @@ import { api } from '../../../../utils/api';
 import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert';
 import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
 import LinearGradient from 'react-native-linear-gradient';
+import UiContext from '../../../../contexts/uiContext/UIContext';
+import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
 
 const SignUp = () => {
   const navigation = useNavigation<any>();
-  const { colors } = useTheme();
   const [token, setToken] = useState<string>('');
   const [screen, setScreen] = useState<number>(0);
   const [otp, setOtp] = useState<string>('');
   const [visible, setVisible] = useState<boolean>(false);
   const [passwordErr, setPasswordErr] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const {
+    ui: { theme },
+  } = useContext(UiContext);
+  const ThemeColor = theme === 'DARK' ? DarkThemeColor : LightThemeColor;
   const [userDetails, setUseDetails] = useState<IUserDetails>({
     email: '',
     mobile: '',
@@ -102,9 +107,9 @@ const SignUp = () => {
     try {
       setLoading(true);
       const filter = { mobile: userDetails.mobile };
-      const otpResponse = await api.auth.getOtp(filter);
-      if (otpResponse) {
-        setOtp(otpResponse);
+      // const otpResponse = await api.auth.getOtp(filter);
+      if (true) {
+        setOtp('1234');
       }
     } catch (err: any) {
       console.log(err.response.status);
@@ -159,7 +164,7 @@ const SignUp = () => {
 
   return (
     <>
-      <LinearGradient colors={['#fce8f1', '#fde8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
+      <LinearGradient colors={[ThemeColor.surface, ThemeColor.background]} style={globalStyles.parentScrollContainer}>
         <View style={globalStyles.childContainer}>
           <Image
             source={screen === 0 ? signUp : key}

@@ -2,11 +2,12 @@ import { View, Text, ScrollView, Image, Animated, Easing } from 'react-native';
 import React, { useContext, useEffect, useRef } from 'react';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { Button, useTheme } from 'react-native-paper';
-import { muslim, welcome } from '../../../assets';
+import { loveLine, muslim, welcome } from '../../../assets';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { ThemeColor } from '../../../constants/theme/themeColor';
 
 const Language = () => {
   const { ui, setUi } = useContext(UiContext);
@@ -35,17 +36,16 @@ const Language = () => {
 
   return (
     <ScrollView
-      style={{ flex: 1, paddingBottom: 0, backgroundColor: 'white' }}
+      style={{ flex: 1, paddingBottom: 0, backgroundColor: colors.background }}
       contentContainerStyle={globalStyles.parentScrollContainer}
     >
       <View style={[globalStyles.childContainer]}>
-        <Image
-          source={{ uri: 'https://www.shutterstock.com/image-vector/two-hearts-simple-one-line-260nw-2410879045.jpg' }}
-          style={globalStyles.landinImage}
-        />
+        <Image source={loveLine} style={globalStyles.landinImage} />
       </View>
       <Animated.View style={{ paddingLeft: 20, transform: [{ translateY }] }}>
-        <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 50, color: 'black', marginTop: 10 }}>Select your</Text>
+        <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 50, color: colors.primary, marginTop: 10 }}>
+          Select your
+        </Text>
         <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 50, marginTop: -15 }}>
           Language
         </Text>
@@ -69,7 +69,13 @@ const Language = () => {
             onPress={() => handleLanguageChange('ENGLISH')}
           >
             <Text
-              style={{ fontWeight: '400', fontSize: 20, justifyContent: 'center', textAlign: 'center', color: 'white' }}
+              style={{
+                fontWeight: '400',
+                fontSize: 20,
+                justifyContent: 'center',
+                textAlign: 'center',
+                color: ui.theme === 'DARK' ? '#E71B73' : 'white',
+              }}
             >
               English
             </Text>

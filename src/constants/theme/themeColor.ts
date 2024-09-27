@@ -8,12 +8,14 @@ export const LightThemeColor = {
   scrim: 'black',
   surface: '#fce8f1',
 };
+
 export const DarkThemeColor = {
-  tertiary: '#d9d9d9',
+  primary: '#F5F5F5', // Softer white to reduce harshness
+  background: '#121212', // A neutral dark background for better readability
+  secondary: '#393E46', // A medium dark tone to contrast with the background
+  tertiary: '#B0BEC5', // A lighter gray for softer tertiary elements
   scrim: 'white',
-  primary: 'white', // Example primary color for dark mode
-  secondary: '#222831', // Example secondary color for dark mode
-  background: '#00001a',
-  surface: '#00004d',
+  surface: '#1A1A2E', // A rich dark blue for depth
 };
+
 export let ThemeColor = getAppThemeMode() !== 'dark' ? LightThemeColor : DarkThemeColor;

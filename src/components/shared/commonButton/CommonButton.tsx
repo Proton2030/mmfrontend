@@ -31,7 +31,7 @@ const CommonButton = ({ loading, handleAction, text }: CommonButtonProps) => {
             fontSize: 20,
             justifyContent: 'center',
             textAlign: 'center',
-            color: 'white',
+            color: ui.theme === 'DARK' ? '#E71B73' : 'white',
           }}
         >
           {text}

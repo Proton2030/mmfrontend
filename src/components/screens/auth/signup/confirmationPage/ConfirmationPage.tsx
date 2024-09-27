@@ -9,6 +9,7 @@ import { selectLanguage } from '../../../../../utils/commonFunction/languageSele
 import { CONFITM_PAGE_TEXT } from '../../../../../constants/texts/auth/signup/confirmationPage/confirmartionPage';
 import AnimatedView from '../../../../shared/animatedView/AnimatedView';
 import LinearGradient from 'react-native-linear-gradient';
+import { DarkThemeColor, LightThemeColor } from '../../../../../constants/theme/themeColor';
 
 const ConfirmationPage = () => {
   const navigation = useNavigation<any>();
@@ -16,6 +17,7 @@ const ConfirmationPage = () => {
   const {
     ui: { language, theme },
   } = useContext(UiContext);
+  const ThemeColor = theme === 'DARK' ? DarkThemeColor : LightThemeColor;
   const handleGetStartedButtonClick = () => {
     navigation.navigate('Auth', { screen: 'signup' });
   };
@@ -23,7 +25,7 @@ const ConfirmationPage = () => {
     navigation.navigate('Auth', { screen: 'login' });
   };
   return (
-    <LinearGradient colors={['#fce8f1', '#fde8f1', '#ffffff']} style={globalStyles.parentScrollContainer}>
+    <LinearGradient colors={[ThemeColor.surface, ThemeColor.background]} style={globalStyles.parentScrollContainer}>
       <View style={globalStyles.childContainer}>
         <Image source={muslim} style={globalStyles.middleImage} />
         {/* <Text

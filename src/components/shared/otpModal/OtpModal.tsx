@@ -2,12 +2,14 @@ import React, { useRef, useState } from 'react';
 import { Animated, ScrollView, View, Text, TouchableOpacity, Vibration } from 'react-native';
 import { COLORS } from '../../../constants/theme';
 import { OtpInput } from 'react-native-otp-entry';
+import { useTheme } from 'react-native-paper';
 
 // const tempUri =
 //   'https://img.freepik.com/free-photo/3d-mobile-phone-with-security-code-padlock_107791-16180.jpg?t=st=1713429697~exp=1713433297~hmac=75a9f85ebaba5f63f78f9f3b5e5e1a83dd43d27197ca03c023ff01cdd5703d61&w=740';
 
 const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, generatedOtp }: any) => {
   const [otp, setOtp] = useState<string>('');
+  const { colors } = useTheme();
   const [focusColor, setFocusColor] = useState('green');
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const handleSubmit = () => {
@@ -37,7 +39,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
         style={{
           transform: [{ translateY: slideUp }],
           height: 320,
-          backgroundColor: 'white',
+          backgroundColor: colors.background,
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
           padding: 10,
@@ -56,7 +58,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               fontSize: 24,
               fontWeight: '500',
               marginBottom: 10,
-              color: 'black',
+              color: colors.scrim,
               textAlign: 'center',
               marginTop: 20,
             }}
@@ -68,7 +70,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               fontSize: 15,
               fontWeight: '400',
               marginBottom: 10,
-              color: 'black',
+              color: colors.scrim,
               textAlign: 'center',
               marginTop: 0,
               width: '80%',
@@ -83,7 +85,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               fontSize: 15,
               fontWeight: '400',
               marginBottom: 10,
-              color: 'black',
+              color: colors.scrim,
               textAlign: 'center',
               marginTop: -5,
               width: '80%',
