@@ -23,7 +23,7 @@ const CommonButton = ({ loading, handleAction, text }: CommonButtonProps) => {
       onPress={handleAction}
     >
       {loading ? (
-        <ActivityIndicator size="small" color="white" />
+        <ActivityIndicator size="small" color={colors.background} />
       ) : (
         <Text
           style={{

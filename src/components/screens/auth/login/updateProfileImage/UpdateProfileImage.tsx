@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import React, { useContext, useState } from 'react';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { IUserDetails } from '../../../../../@types/types/userDEtails.types';
@@ -14,8 +14,9 @@ const windowWidth = Dimensions.get('window').width;
 const UpdateProfileImage = () => {
   const { user, setUser } = useContext(AuthContext);
   const navigation = useNavigation<any>();
+  const { colors } = useTheme();
   const [isChnaged, setIsChnaged] = useState<boolean>(false);
-  const [image, setImage] = useState<string | undefined>(user?.profile_image_url);
+  const [image, setImage] = useState<string | undefined | null>(user?.profile_image_url);
   const pickImage = () => {
     let options = {
       mediaType: 'photo' as MediaType,
@@ -57,7 +58,10 @@ const UpdateProfileImage = () => {
   };
 
   return (
-    <ScrollView style={globalStyles.parent} contentContainerStyle={globalStyles.parentScrollContainer}>
+    <ScrollView
+      style={globalStyles.parent}
+      contentContainerStyle={[globalStyles.parentScrollContainer, { backgroundColor: colors.background }]}
+    >
       <View style={styles.viewBox}>
         <Image style={styles.image} source={logo} />
       </View>
@@ -67,7 +71,16 @@ const UpdateProfileImage = () => {
       <View style={globalStyles.childContainer}>
         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
           {image ? <Image source={{ uri: image }} style={styles.profileImage} /> : null}
-          <Button mode="outlined" style={globalStyles.lightPinkButton} onPress={pickImage}>
+          <Button
+            mode="outlined"
+            style={{
+              ...globalStyles.lightPinkButton,
+              backgroundColor: colors.secondary,
+              borderColor: colors.primary,
+              marginBottom: 10,
+            }}
+            onPress={pickImage}
+          >
             Upload
           </Button>
         </View>

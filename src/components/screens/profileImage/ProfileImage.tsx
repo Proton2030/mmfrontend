@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { Appbar, Avatar, IconButton } from 'react-native-paper';
+import { Appbar, Avatar, IconButton, useTheme } from 'react-native-paper';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import ImageZoom from 'react-native-image-pan-zoom';
@@ -9,6 +9,7 @@ const ProfileImage = () => {
   const { user } = useContext(AuthContext);
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
+  const { colors } = useTheme();
   const { userid, username, imageURL }: any = route.params;
 
   const handleGoBack = () => {
@@ -18,7 +19,7 @@ const ProfileImage = () => {
     navigation.navigate('changeImage');
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <Appbar.Header style={{ backgroundColor: 'rose' }}>
         <Appbar.BackAction onPress={handleGoBack} />
         <View style={{ flex: 1, alignItems: 'flex-start', marginLeft: -12 }}>
