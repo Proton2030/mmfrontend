@@ -18,7 +18,6 @@ import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPag
 const socket = io('http://192.168.127.155:9999');
 
 const PersonalChatPage = () => {
-
     const { user, setUser } = useContext(AuthContext);
     const route = useRoute<any>();
     let { userDetails, roomId, updatedAt, blocked_by_male_user, blocked_by_female_user } = route.params;
@@ -29,9 +28,14 @@ const PersonalChatPage = () => {
     const navigation = useNavigation<any>();
     const scrollViewRef = useRef<ScrollView>(null);
 
+    const disconnectUser = () => {
+        socket.emit('disconnectUser', user?._id);
+    };
+
     const hadnlenavigate = () => {
         navigation.goBack();
-    }
+        disconnectUser();
+    };
 
     useEffect(() => {
         socket.emit('joinRoom', roomId, user?._id);
@@ -63,17 +67,19 @@ const PersonalChatPage = () => {
 
     const sendMessage = () => {
         if (messages.length <= 0 && user && user.message_limit <= 0) {
-            openModal()
+            openModal();
         } else {
             if (text.trim()) {
-                const female = user?.gender === "FEMALE" ? user?._id : userDetails?._id;
-                const male = user?.gender === "MALE" ? user?._id : userDetails?._id;
-                console.log(male)
-                console.log(female)
+                const female = user?.gender === 'FEMALE' ? user?._id : userDetails?._id;
+                const male = user?.gender === 'MALE' ? user?._id : userDetails?._id;
+                console.log(male);
+                console.log(female);
                 const message = {
-                    roomId, text, sender: user?._id,
+                    roomId,
+                    text,
+                    sender: user?._id,
                     female_user: female,
-                    male_user: male
+                    male_user: male,
                 };
                 socket.emit('sendMessage', message);
                 setText('');
@@ -98,7 +104,12 @@ const PersonalChatPage = () => {
                     </TouchableOpacity>
                     {userDetails?.profile_image_url ? (
                         <View>
-                            <Image alt="" resizeMode="cover" source={{ uri: userDetails?.profile_image_url }} style={styles.cardImg} />
+                            <Image
+                                alt=""
+                                resizeMode="cover"
+                                source={{ uri: userDetails?.profile_image_url }}
+                                style={styles.cardImg}
+                            />
                             {userDetails.status === 'ACTIVE' ? (
                                 <View style={globalStyles.onlineDot} />
                             ) : (
@@ -162,12 +173,7 @@ const PersonalChatPage = () => {
                     </View>
             }
 
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={closeModal}
-            >
+            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
                 <View style={styles.modalContainer}>
                     <View style={styles.bottomSheet}>
                         <SubscriptionPage />
