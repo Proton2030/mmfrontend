@@ -322,7 +322,7 @@ const Home = () => {
   }, [handlegGetUnseenMessageCount]);
 
   return (
-    <LinearGradient colors={[colors.surface, colors.background]} style={globalStyles.parentScrollContainer2}>
+    <View style={globalStyles.parentScrollContainer2}>
       <View style={{ flex: 1 }}>
         <DrawerLayout
           ref={drawerRef}
@@ -335,13 +335,15 @@ const Home = () => {
         >
           <Appbar.Header
             style={{
-              backgroundColor: ui?.theme === 'DARK' ? colors.surface : 'transparent',
+              backgroundColor: ui?.theme === 'DARK' ? "black" : colors.secondary,
               borderBottomColor: colors.onSurfaceDisabled,
-              borderTopColor: ui?.theme === 'DARK' ? colors.surface : colors.onSurfaceDisabled,
+              borderTopColor: ui?.theme === 'DARK' ? colors.backdrop : colors.primary,
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
               paddingLeft: 10,
+              borderBottomWidth: 0.5,
+              elevation: 1,
             }}
           >
             {/* <Appbar.Content
@@ -366,7 +368,14 @@ const Home = () => {
               />
               <View>
                 <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
-                <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Kolkata , West Bengal</Text>
+                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 3 }}>
+                  <Ionicons name='shield-checkmark' color={colors.primary} size={14} />
+                  <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>
+                    Verified user
+                  </Text>
+
+                </View>
+
               </View>
             </View>
 
@@ -475,7 +484,7 @@ const Home = () => {
           <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
         </View>
       </Animated.View> */}
-    </LinearGradient>
+    </View>
   );
 };
 

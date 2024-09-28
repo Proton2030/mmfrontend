@@ -54,7 +54,7 @@ const PersonalChatPage = () => {
     }, [roomId]);
 
     const sendMessage = () => {
-        if (user && user.message_limit > 0) {
+        if (user && user.message_limit <= 0) {
             openModal()
         } else {
             if (text.trim()) {

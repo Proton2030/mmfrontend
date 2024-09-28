@@ -27,6 +27,7 @@ const ProgressContainer = () => {
             borderRadius: 8,
             paddingHorizontal: 4,
           }}
+          onPress={handleRouteMyProfile}
         >
           <Text
             style={{

@@ -238,7 +238,7 @@ const globalStylesList = () => {
     subtitle: {
       color: COLORS.grey,
       fontWeight: '400',
-      fontSize: SIZES.h4,
+      fontSize: SIZES.h5,
     },
     category: {
       margin: 3,

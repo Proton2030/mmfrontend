@@ -83,12 +83,13 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
                 width: '100%',
                 backgroundColor: colors.surface,
                 borderRadius: 20,
+
               }}
               buttonTextStyle={globalStyles.selectText}
               dropdownIconPosition="left"
               rowStyle={{ borderRadius: 20 }}
               dropdownStyle={{ borderRadius: 20, marginTop: -20 }}
-              rowTextStyle={{ fontSize: 16 }}
+              rowTextStyle={{ fontSize: 13 }}
               renderDropdownIcon={() => <Icon name="chevron-down" size={24} color="gray" />}
               data={districts_of_bangladesh}
               onSelect={(selectedItem: any) => setLocation(selectedItem)}
