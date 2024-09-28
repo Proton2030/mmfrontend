@@ -71,7 +71,7 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
       },
       {
         id: 'weight',
-        label: 'Weight',
+        label: 'Weight(kg)',
         placeHolder: 'Enter Your Weight',
         type: 'NUMBER',
         maxLength: 3,

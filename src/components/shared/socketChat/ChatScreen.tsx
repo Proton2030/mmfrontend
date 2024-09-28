@@ -13,8 +13,9 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
+import { socket } from '../../../config/config';
 
-const socket = io('http://192.168.127.155:8000');
+// const socket = io('http://192.168.127.155:9999');
 
 const PersonalChatPage = () => {
 
@@ -54,7 +55,7 @@ const PersonalChatPage = () => {
     }, [roomId]);
 
     const sendMessage = () => {
-        if (user && user.message_limit <= 0) {
+        if (messages.length <= 0 && user && user.message_limit <= 0) {
             openModal()
         } else {
             if (text.trim()) {
@@ -99,7 +100,7 @@ const PersonalChatPage = () => {
                         </View>
                     ) : (
                         <View style={[styles.cardImg, styles.cardAvatar]}>
-                            <Text style={styles.cardAvatarText}>{name[0]}</Text>
+                            {/* <Text style={styles.cardAvatarText}>{name[0]}</Text> */}
                         </View>
                     )}
                     <Text style={styles.userName}> {userDetails.full_name?.split(' ')[0]}</Text>

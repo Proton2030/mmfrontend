@@ -13,20 +13,44 @@ import UiContext from '../../../contexts/uiContext/UIContext';
 import { useContext } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AuthContext from '../../../contexts/authContext/authContext';
 
 const UserDashboard = () => {
   const { ui } = useContext(UiContext);
+
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
   const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
-    { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-    { key: 'activeUser', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
-    { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
-    { key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' },
-  ]);
 
+  const { user } = useContext(AuthContext)
+
+  const [routes] = React.useState(() => {
+    const baseRoutes = [
+      { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
+    ];
+
+    // Check if user details are present based on IUserInfo
+    if (user &&
+      user.full_name &&
+      user.gender &&
+      user.age !== undefined &&
+      user.marital_status &&
+      user.state &&
+      user.height !== undefined &&
+      user.weight !== undefined &&
+      user.body_color
+    ) {
+      baseRoutes.push(
+        { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
+        { key: 'activeUser', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
+        { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' }
+      );
+    }
+
+    baseRoutes.push({ key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' });
+
+    return baseRoutes;
+  });
   const renderScene = BottomNavigation.SceneMap({
     home: Home,
     choice: MyChoice,
