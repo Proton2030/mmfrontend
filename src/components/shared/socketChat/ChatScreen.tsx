@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import io from 'socket.io-client';
@@ -13,9 +13,9 @@ import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
-import { socket } from '../../../config/config';
+// import { socket } from '../../../config/config';
 
-// const socket = io('http://192.168.127.155:9999');
+const socket = io('http://192.168.127.155:9999');
 
 const PersonalChatPage = () => {
 
@@ -27,13 +27,14 @@ const PersonalChatPage = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const navigation = useNavigation<any>();
+    const scrollViewRef = useRef<ScrollView>(null);
 
     const hadnlenavigate = () => {
         navigation.goBack();
     }
 
     useEffect(() => {
-        socket.emit('joinRoom', roomId);
+        socket.emit('joinRoom', roomId, user?._id);
 
         socket.on('connect', () => {
             console.log('Connected to socket.io server');
@@ -45,6 +46,7 @@ const PersonalChatPage = () => {
 
         socket.on('receiveMessage', (message) => {
             setMessages((prevMessages): any => [...prevMessages, message]);
+            scrollViewRef.current?.scrollToEnd({ animated: true });
         });
 
         return () => {
@@ -52,7 +54,12 @@ const PersonalChatPage = () => {
             socket.off('receiveMessage');
             socket.off('previousMessages');
         };
+
     }, [roomId]);
+
+    // useEffect(() => {
+    //     socket.emit('disconnect');
+    // }, [roomId])
 
     const sendMessage = () => {
         if (messages.length <= 0 && user && user.message_limit <= 0) {
@@ -115,7 +122,9 @@ const PersonalChatPage = () => {
                     <FeatherIcon name="more-vertical" size={24} color="#000" />
                 </TouchableOpacity>
             </View>
-            <ScrollView style={styles.messageList}>
+            <ScrollView style={styles.messageList} ref={scrollViewRef}
+                onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: false })}
+            >
                 {messages.map((message: any, index) => (
                     <View key={index} style={[styles.messageContainer, message.sender === user?._id ? styles.myMessageContainer : styles.theirMessageContainer]}>
                         <View style={[styles.messageBubble, message.sender === user?._id ? styles.myMessageBubble : styles.theirMessageBubble]}>
