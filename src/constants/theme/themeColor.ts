@@ -7,6 +7,7 @@ export const LightThemeColor = {
   tertiary: '#6e6d6d',
   scrim: 'black',
   surface: '#fce8f1',
+  surfaceVariant: '#ffffff',
 };
 
 export const DarkThemeColor = {
@@ -16,6 +17,7 @@ export const DarkThemeColor = {
   tertiary: '#B0BEC5', // A lighter gray for softer tertiary elements
   scrim: 'white',
   surface: '#1A1A2E', // A rich dark blue for depth
+  surfaceVariant: '#021526',
 };
 
 export let ThemeColor = getAppThemeMode() !== 'dark' ? LightThemeColor : DarkThemeColor;

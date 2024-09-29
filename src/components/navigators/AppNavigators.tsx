@@ -47,7 +47,7 @@ const AppNavigators = () => {
           <>
             <Stack.Screen name="UserDashboard" component={UserDashboardNavigators} />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-            <Stack.Screen name="Chat" component={ChatBoard} />
+            <Stack.Screen name="Chat" component={PersonalChatPage} />
             <Stack.Screen name="UserDetails" component={UserDetails} />
             <Stack.Screen name="ProfileImage" component={ProfileImage} />
             <Stack.Screen name="Notification" component={NotificationPage} />

@@ -1,4 +1,4 @@
-import { IUserDetails } from "../../types/userDEtails.types";
+import { IUserDetails } from "../../types/userDetails.types";
 
 export type AuthContextProps = {
 	user: IUserDetails | null;
