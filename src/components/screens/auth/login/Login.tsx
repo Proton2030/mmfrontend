@@ -19,7 +19,6 @@ import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
 import CommonButton from '../../../shared/commonButton/CommonButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
-import { white } from 'colorette';
 
 const Login = () => {
   const { colors } = useTheme();
