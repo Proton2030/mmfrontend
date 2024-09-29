@@ -11,4 +11,4 @@ export const headers = {
   'Content-Type': 'application/json',
 };
 
-export const socket = io(`${URL}:9999`);
+export const socket = io(BASE_URL);
