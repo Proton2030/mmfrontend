@@ -19,6 +19,7 @@ import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
 import CommonButton from '../../../shared/commonButton/CommonButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
+import { white } from 'colorette';
 
 const Login = () => {
   const { colors } = useTheme();
@@ -120,13 +121,31 @@ const Login = () => {
               <Image style={loginStyle.image} source={fullLogo} />
             </>
           )}
-          <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 35, color: colors.scrim }}>Welcome back</Text>
-          <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 30, marginBottom: 20 }}>
-            Please Login
+          <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 30, color: colors.scrim, marginBottom: 10 }}>
+            Welcome back!
           </Text>
+          {/* <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 20, marginBottom: 5 }}>
+            Login with your credentials
+          </Text> */}
         </View>
         <View style={globalStyles.childContainer}>
           <CenterForm handleChangeText={handleChangeText} fieldList={LOGIN_SCREEN} object={userCredential} />
+          <TouchableOpacity onPress={routeToForget} style={{ marginTop: 'auto' }}>
+            <Text
+              style={{
+                fontSize: 15,
+                fontWeight: '600',
+                color: colors.scrim,
+                textAlign: 'left',
+                letterSpacing: 0.15,
+                marginBottom: 3,
+              }}
+            >
+              <Text style={{ textDecorationLine: 'underline', textAlign: 'left' }}>
+                {selectLanguage(LOGIN_TEXT.forget_password, ui.language)}?
+              </Text>
+            </Text>
+          </TouchableOpacity>
           <CommonButton
             loading={loading}
             handleAction={handleLoginButtonClick}
@@ -140,26 +159,36 @@ const Login = () => {
                 color: colors.scrim,
                 textAlign: 'center',
                 letterSpacing: 0.15,
-                marginTop: 20,
+                marginTop: 5,
               }}
             >
-              Don't have an account? <Text style={{ textDecorationLine: 'underline' }}>Sign up</Text>
+              Don't have an account?
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={routeToForget} style={{ marginTop: 'auto' }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: ui.theme === 'DARK' ? '#E71B73' : '#ffe6f2',
+              borderColor: ui.theme === 'DARK' ? null : '#E71B73',
+              width: '100%',
+              paddingHorizontal: 6,
+              paddingVertical: 13,
+              marginTop: 5,
+              borderTopEndRadius: 25,
+              borderBottomEndRadius: 25,
+              borderTopLeftRadius: 25,
+              borderWidth: ui.theme === 'DARK' ? 0 : 1,
+            }}
+          >
             <Text
               style={{
-                fontSize: 15,
                 fontWeight: '600',
-                color: colors.scrim,
+                fontSize: 18,
+                justifyContent: 'center',
                 textAlign: 'center',
-                letterSpacing: 0.15,
-                marginTop: 3,
+                color: ui.theme === 'DARK' ? 'white' : '#E71B73',
               }}
             >
-              <Text style={{ textDecorationLine: 'underline' }}>
-                {selectLanguage(LOGIN_TEXT.forget_password, ui.language)}?
-              </Text>
+              Sign up
             </Text>
           </TouchableOpacity>
         </View>

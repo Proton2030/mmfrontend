@@ -27,8 +27,8 @@ const CommonButton = ({ loading, handleAction, text }: CommonButtonProps) => {
       ) : (
         <Text
           style={{
-            fontWeight: '400',
-            fontSize: 20,
+            fontWeight: '600',
+            fontSize: 18,
             justifyContent: 'center',
             textAlign: 'center',
             color: ui.theme === 'DARK' ? '#E71B73' : 'white',
