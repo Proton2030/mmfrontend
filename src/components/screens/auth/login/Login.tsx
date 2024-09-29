@@ -167,7 +167,7 @@ const Login = () => {
           <TouchableOpacity
             style={{
               backgroundColor: ui.theme === 'DARK' ? '#E71B73' : '#ffe6f2',
-              borderColor: ui.theme === 'DARK' ? null : '#E71B73',
+              borderColor: ui.theme === 'DARK' ? 'transparent' : '#E71B73',
               width: '100%',
               paddingHorizontal: 6,
               paddingVertical: 13,
@@ -177,6 +177,7 @@ const Login = () => {
               borderTopLeftRadius: 25,
               borderWidth: ui.theme === 'DARK' ? 0 : 1,
             }}
+            onPress={handleSignUpButtonClick}
           >
             <Text
               style={{
