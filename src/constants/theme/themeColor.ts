@@ -7,7 +7,7 @@ export const LightThemeColor = {
   tertiary: '#6e6d6d',
   scrim: 'black',
   surface: '#fce8f1',
-  surfaceVariant: '#fde8f1',
+  surfaceVariant: '#ffffff',
 };
 
 export const DarkThemeColor = {

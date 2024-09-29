@@ -146,11 +146,12 @@ const PersonalChatPage = () => {
       />
 
       {blocked_by_male_user || blocked_by_female_user ? null : (
-        <View style={[styles.inputContainer, { backgroundColor: colors.surface }]}>
+        <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent' }]}>
           <TextInput
             value={text}
             onChangeText={setText}
-            style={[styles.input, { color: colors.scrim }]}
+            style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
+            placeholderTextColor={colors.scrim}
             placeholder="Type a message..."
           />
           <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
