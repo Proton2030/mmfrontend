@@ -15,6 +15,7 @@ import AuthContext from '../../../contexts/authContext/authContext';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
 import { socket } from '../../../config/config';
 import Bubble from './bubble/Bubble';
+import { useTheme } from 'react-native-paper';
 // import { socket } from '../../../config/config';
 
 const PersonalChatPage = () => {
@@ -25,9 +26,9 @@ const PersonalChatPage = () => {
   const [messages, setMessages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const { colors } = useTheme();
   const navigation = useNavigation<any>();
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<FlatList>(null);
 
   const disconnectUser = () => {
     socket.emit('disconnectUser', user?._id);
@@ -97,11 +98,11 @@ const PersonalChatPage = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
+      <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.secondary }]}>
         <View style={styles.headerLeft}>
           <TouchableOpacity onPress={hadnlenavigate}>
-            <FeatherIcon name="arrow-left" size={24} color="#000" style={styles.backArrow} />
+            <FeatherIcon name="arrow-left" size={24} color={colors.scrim} style={styles.backArrow} />
           </TouchableOpacity>
           {userDetails?.profile_image_url ? (
             <View>
@@ -122,7 +123,7 @@ const PersonalChatPage = () => {
               {/* <Text style={styles.cardAvatarText}>{name[0]}</Text> */}
             </View>
           )}
-          <Text style={styles.userName}> {userDetails.full_name?.split(' ')[0]}</Text>
+          <Text style={[styles.userName, { color: colors.scrim }]}> {userDetails.full_name?.split(' ')[0]}</Text>
 
           <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 4, color: 'gray', alignItems: 'flex-end' }}>
             {userDetails.status === 'ACTIVE'
@@ -131,20 +132,27 @@ const PersonalChatPage = () => {
           </Text>
         </View>
         <TouchableOpacity>
-          <FeatherIcon name="more-vertical" size={24} color="#000" />
+          <FeatherIcon name="more-vertical" size={24} color={colors.scrim} />
         </TouchableOpacity>
       </View>
       <FlatList
         data={messages}
-        // ref={scrollViewRef}
+        ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}
+        style={{ flex: 1, paddingHorizontal: 10, backgroundColor: colors.surfaceVariant }}
         onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: false })}
         renderItem={({ item, index }) => <Bubble message={item} userId={user?._id || ''} />}
         keyExtractor={(_, index) => index.toString()}
       />
 
       {blocked_by_male_user || blocked_by_female_user ? null : (
-        <View style={styles.inputContainer}>
-          <TextInput value={text} onChangeText={setText} style={styles.input} placeholder="Type a message..." />
+        <View style={[styles.inputContainer, { backgroundColor: colors.surface }]}>
+          <TextInput
+            value={text}
+            onChangeText={setText}
+            style={[styles.input, { color: colors.scrim }]}
+            placeholder="Type a message..."
+          />
           <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
             <Text style={styles.sendButtonText}>Send</Text>
           </TouchableOpacity>

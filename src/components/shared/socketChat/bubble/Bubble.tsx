@@ -31,7 +31,7 @@ const Bubble = ({ message, userId }: { message: any; userId: string }) => {
           }}
         >
           <Ionicons name="checkmark-done" color={colors.primary} size={18} />
-          <Text style={{ color: 'black', fontSize: 12 }}>Seen</Text>
+          <Text style={{ color: colors.scrim, fontSize: 12 }}>Seen</Text>
         </View>
       )}
     </View>
