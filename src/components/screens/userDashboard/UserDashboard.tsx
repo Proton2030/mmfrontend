@@ -8,12 +8,13 @@ import MyChoice from './choice/myChoice/MyChoice';
 import ActiveUser from './activeUser/ActiveUser';
 import HelpAndSupport from '../others/help&support/HelpSupport';
 import Drawer from '../../shared/filterDrawer/FilterDrawer';
-import { StatusBar, View } from 'react-native';
+import { SafeAreaView, StatusBar, View } from 'react-native';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { useContext } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContext from '../../../contexts/authContext/authContext';
+import CustomizeAppBar from '../../shared/customizeAppbar/CustomizeAppBar';
 
 const UserDashboard = () => {
   const { ui } = useContext(UiContext);
@@ -22,15 +23,14 @@ const UserDashboard = () => {
   const { colors } = useTheme();
   const [index, setIndex] = React.useState(0);
 
-  const { user } = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   const [routes] = React.useState(() => {
-    const baseRoutes = [
-      { key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
-    ];
+    const baseRoutes = [{ key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' }];
 
     // Check if user details are present based on IUserInfo
-    if (user &&
+    if (
+      user &&
       user.full_name &&
       user.gender &&
       user.age !== undefined &&
@@ -43,7 +43,7 @@ const UserDashboard = () => {
       baseRoutes.push(
         { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
         { key: 'activeUser', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
-        { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' }
+        { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
       );
     }
 
@@ -74,40 +74,41 @@ const UserDashboard = () => {
   };
 
   return (
-    <>
+    <SafeAreaView style={{ flex: 1 }}>
       {ui?.theme === 'DARK' ? (
-        <StatusBar animated={true} translucent={true} backgroundColor={'transparent'} barStyle={'light-content'} />
+        <StatusBar backgroundColor={index === 0 ? 'black' : colors.secondary} barStyle={'light-content'} />
       ) : (
-        <StatusBar animated={true} translucent={true} backgroundColor={'transparent'} barStyle={'dark-content'} />
+        <StatusBar backgroundColor={colors.secondary} barStyle={'dark-content'} />
       )}
 
       {index !== 0 ? (
-        <Appbar.Header
-          style={{
-            backgroundColor: colors.secondary,
-            shadowColor: '#000000',
-            shadowOffset: { width: 0, height: 8 },
-            shadowOpacity: 0.8,
-            shadowRadius: 20,
-            borderBottomWidth: 0.5,
-            borderBottomColor: colors.onSurfaceDisabled,
-            elevation: 4,
-          }}
-        >
-          <Appbar.Content
-            title="Muslim Matrimony"
-            titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
-          />
+        // <Appbar.Header
+        //   style={{
+        //     backgroundColor: colors.secondary,
+        //     shadowColor: '#000000',
+        //     shadowOffset: { width: 0, height: 8 },
+        //     shadowOpacity: 0.8,
+        //     shadowRadius: 20,
+        //     borderBottomWidth: 0.5,
+        //     borderBottomColor: colors.onSurfaceDisabled,
+        //     elevation: 4,
+        //   }}
+        // >
+        //   <Appbar.Content
+        //     title="Muslim Matrimony"
+        //     titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
+        //   />
 
-          <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
-            <TouchableOpacity onPress={routeToNotificationList}>
-              <Ionicons name="notifications-outline" size={28} color={colors.primary} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={routeToChatList}>
-              <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.primary} />
-            </TouchableOpacity>
-          </View>
-        </Appbar.Header>
+        //   <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
+        //     <TouchableOpacity onPress={routeToNotificationList}>
+        //       <Ionicons name="notifications-outline" size={28} color={colors.primary} />
+        //     </TouchableOpacity>
+        //     <TouchableOpacity onPress={routeToChatList}>
+        //       <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.primary} />
+        //     </TouchableOpacity>
+        //   </View>
+        // </Appbar.Header>
+        <CustomizeAppBar />
       ) : null}
       <BottomNavigation
         sceneAnimationEnabled={true}
@@ -123,7 +124,7 @@ const UserDashboard = () => {
         onIndexChange={handleIndexChange}
         renderScene={renderScene}
       />
-    </>
+    </SafeAreaView>
   );
 };
 
