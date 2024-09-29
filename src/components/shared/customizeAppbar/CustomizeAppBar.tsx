@@ -22,7 +22,7 @@ const CustomizeAppBar = () => {
     >
       <View style={appBarStyles.child}>
         <Image source={fullLogo} style={{ width: '50%', resizeMode: 'contain', height: 45 }} />
-        <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
+        <View style={{ flexDirection: 'row', gap: 8 }}>
           <TouchableOpacity onPress={routeToNotificationList}>
             <Ionicons name="notifications-outline" size={28} color={colors.primary} />
           </TouchableOpacity>
