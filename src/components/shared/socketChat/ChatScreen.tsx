@@ -19,156 +19,156 @@ import { useTheme } from 'react-native-paper';
 // import { socket } from '../../../config/config';
 
 const PersonalChatPage = () => {
-  const { user, setUser } = useContext(AuthContext);
-  const route = useRoute<any>();
-  let { userDetails, roomId, updatedAt, blocked_by_male_user, blocked_by_female_user } = route.params;
-  const [text, setText] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState<boolean>(true);
-  const { colors } = useTheme();
-  const navigation = useNavigation<any>();
-  const scrollViewRef = useRef<FlatList>(null);
+    const { user, setUser } = useContext(AuthContext);
+    const route = useRoute<any>();
+    let { userDetails, roomId, updatedAt, blocked_by_male_user, blocked_by_female_user } = route.params;
+    const [text, setText] = useState('');
+    const [messages, setMessages] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const { colors } = useTheme();
+    const navigation = useNavigation<any>();
+    const scrollViewRef = useRef<FlatList>(null);
 
-  const disconnectUser = () => {
-    socket.emit('disconnectUser', user?._id);
-  };
-
-  const hadnlenavigate = () => {
-    navigation.goBack();
-    disconnectUser();
-  };
-
-  useEffect(() => {
-    socket.emit('joinRoom', roomId, user?._id);
-
-    socket.on('connect', () => {
-      console.log('Connected to socket.io server');
-    });
-
-    socket.on('previousMessages', (previousMessages) => {
-      setMessages(previousMessages);
-      setLoading(false);
-    });
-
-    socket.on('receiveMessage', (message) => {
-      setMessages((prevMessages): any => [...prevMessages, message]);
-      scrollViewRef.current?.scrollToEnd({ animated: true });
-    });
-
-    return () => {
-      socket.off('connect');
-      socket.off('receiveMessage');
-      socket.off('previousMessages');
+    const disconnectUser = () => {
+        socket.emit('disconnectUser', user?._id);
     };
-  }, [roomId]);
 
-  // useEffect(() => {
-  //     socket.emit('disconnect');
-  // }, [roomId])
+    const hadnlenavigate = () => {
+        navigation.goBack();
+        disconnectUser();
+    };
 
-  const sendMessage = () => {
-    if (messages.length <= 0 && user && user.message_limit <= 0) {
-      openModal();
-    } else {
-      if (text.trim()) {
-        const female = user?.gender === 'FEMALE' ? user?._id : userDetails?._id;
-        const male = user?.gender === 'MALE' ? user?._id : userDetails?._id;
-        console.log(male);
-        console.log(female);
-        const message = {
-          roomId,
-          text,
-          sender: user?._id,
-          female_user: female,
-          male_user: male,
+    useEffect(() => {
+        socket.emit('joinRoom', roomId, user?._id);
+
+        socket.on('connect', () => {
+            console.log('Connected to socket.io server');
+        });
+
+        socket.on('previousMessages', (previousMessages) => {
+            setMessages(previousMessages);
+            setLoading(false);
+        });
+
+        socket.on('receiveMessage', (message) => {
+            setMessages((prevMessages): any => [...prevMessages, message]);
+            scrollViewRef.current?.scrollToEnd({ animated: true });
+        });
+
+        return () => {
+            socket.off('connect');
+            socket.off('receiveMessage');
+            socket.off('previousMessages');
         };
-        socket.emit('sendMessage', message);
-        setText('');
-      }
-    }
-  };
+    }, [roomId]);
 
-  const openModal = () => {
-    setModalVisible(true);
-  };
+    // useEffect(() => {
+    //     socket.emit('disconnect');
+    // }, [roomId])
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+    const sendMessage = () => {
+        if (false) {
+            openModal();
+        } else {
+            if (text.trim()) {
+                const female = user?.gender === 'FEMALE' ? user?._id : userDetails?._id;
+                const male = user?.gender === 'MALE' ? user?._id : userDetails?._id;
+                console.log(male);
+                console.log(female);
+                const message = {
+                    roomId,
+                    text,
+                    sender: user?._id,
+                    female_user: female,
+                    male_user: male,
+                };
+                socket.emit('sendMessage', message);
+                setText('');
+            }
+        }
+    };
 
-  return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
-      <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.secondary }]}>
-        <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={hadnlenavigate}>
-            <FeatherIcon name="arrow-left" size={24} color={colors.scrim} style={styles.backArrow} />
-          </TouchableOpacity>
-          {userDetails?.profile_image_url ? (
-            <View>
-              <Image
-                alt=""
-                resizeMode="cover"
-                source={{ uri: userDetails?.profile_image_url }}
-                style={styles.cardImg}
-              />
-              {userDetails.status === 'ACTIVE' ? (
-                <View style={globalStyles.onlineDot} />
-              ) : (
-                <View style={globalStyles.offlineDot} />
-              )}
+    const openModal = () => {
+        setModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+    };
+
+    return (
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
+            <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.secondary }]}>
+                <View style={styles.headerLeft}>
+                    <TouchableOpacity onPress={hadnlenavigate}>
+                        <FeatherIcon name="arrow-left" size={24} color={colors.scrim} style={styles.backArrow} />
+                    </TouchableOpacity>
+                    {userDetails?.profile_image_url ? (
+                        <View>
+                            <Image
+                                alt=""
+                                resizeMode="cover"
+                                source={{ uri: userDetails?.profile_image_url }}
+                                style={styles.cardImg}
+                            />
+                            {userDetails.status === 'ACTIVE' ? (
+                                <View style={globalStyles.onlineDot} />
+                            ) : (
+                                <View style={globalStyles.offlineDot} />
+                            )}
+                        </View>
+                    ) : (
+                        <View style={[styles.cardImg, styles.cardAvatar]}>
+                            {/* <Text style={styles.cardAvatarText}>{name[0]}</Text> */}
+                        </View>
+                    )}
+                    <Text style={[styles.userName, { color: colors.scrim }]}> {userDetails.full_name?.split(' ')[0]}</Text>
+
+                    <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 4, color: 'gray', alignItems: 'flex-end' }}>
+                        {userDetails.status === 'ACTIVE'
+                            ? '(Online)'
+                            : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
+                    </Text>
+                </View>
+                <TouchableOpacity>
+                    <FeatherIcon name="more-vertical" size={24} color={colors.scrim} />
+                </TouchableOpacity>
             </View>
-          ) : (
-            <View style={[styles.cardImg, styles.cardAvatar]}>
-              {/* <Text style={styles.cardAvatarText}>{name[0]}</Text> */}
-            </View>
-          )}
-          <Text style={[styles.userName, { color: colors.scrim }]}> {userDetails.full_name?.split(' ')[0]}</Text>
+            <FlatList
+                data={messages}
+                ref={scrollViewRef}
+                showsVerticalScrollIndicator={false}
+                style={{ flex: 1, paddingHorizontal: 10, backgroundColor: colors.surfaceVariant }}
+                onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: false })}
+                renderItem={({ item, index }) => <Bubble message={item} userId={user?._id || ''} />}
+                keyExtractor={(_, index) => index.toString()}
+            />
 
-          <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 4, color: 'gray', alignItems: 'flex-end' }}>
-            {userDetails.status === 'ACTIVE'
-              ? '(Online)'
-              : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
-          </Text>
-        </View>
-        <TouchableOpacity>
-          <FeatherIcon name="more-vertical" size={24} color={colors.scrim} />
-        </TouchableOpacity>
-      </View>
-      <FlatList
-        data={messages}
-        ref={scrollViewRef}
-        showsVerticalScrollIndicator={false}
-        style={{ flex: 1, paddingHorizontal: 10, backgroundColor: colors.surfaceVariant }}
-        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: false })}
-        renderItem={({ item, index }) => <Bubble message={item} userId={user?._id || ''} />}
-        keyExtractor={(_, index) => index.toString()}
-      />
+            {blocked_by_male_user || blocked_by_female_user ? null : (
+                <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent' }]}>
+                    <TextInput
+                        value={text}
+                        onChangeText={setText}
+                        style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
+                        placeholderTextColor={colors.scrim}
+                        placeholder="Type a message..."
+                    />
+                    <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+                        <Text style={styles.sendButtonText}>Send</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
 
-      {blocked_by_male_user || blocked_by_female_user ? null : (
-        <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent' }]}>
-          <TextInput
-            value={text}
-            onChangeText={setText}
-            style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
-            placeholderTextColor={colors.scrim}
-            placeholder="Type a message..."
-          />
-          <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-            <Text style={styles.sendButtonText}>Send</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
-        <View style={styles.modalContainer}>
-          <View style={styles.bottomSheet}>
-            <SubscriptionPage />
-          </View>
-        </View>
-      </Modal>
-    </SafeAreaView>
-  );
+            <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.bottomSheet}>
+                        <SubscriptionPage />
+                    </View>
+                </View>
+            </Modal>
+        </SafeAreaView>
+    );
 };
 
 export default PersonalChatPage;
