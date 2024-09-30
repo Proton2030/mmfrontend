@@ -144,7 +144,7 @@ const MyChoice = () => {
         }}
       >
         <Appbar.Content
-          title="Muslim Matrimony"
+          title="Shohoz shadi"
           titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
         />
         <Appbar.Action icon="chat-outline" onPress={routeToChatList} />

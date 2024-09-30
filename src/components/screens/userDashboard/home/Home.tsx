@@ -335,7 +335,7 @@ const Home = () => {
         >
           <Appbar.Header
             style={{
-              backgroundColor: ui?.theme === 'DARK' ? "black" : colors.secondary,
+              backgroundColor: ui?.theme === 'DARK' ? 'black' : colors.secondary,
               borderBottomColor: colors.onSurfaceDisabled,
               borderTopColor: ui?.theme === 'DARK' ? colors.backdrop : colors.primary,
               flexDirection: 'row',
@@ -347,7 +347,7 @@ const Home = () => {
             }}
           >
             {/* <Appbar.Content
-              title="Muslim Matrimony"
+              title="Shohoz shadi"
               titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
             /> */}
             <View
@@ -368,14 +368,10 @@ const Home = () => {
               />
               <View>
                 <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
-                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 3 }}>
-                  <Ionicons name='shield-checkmark' color={colors.primary} size={14} />
-                  <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>
-                    Verified user
-                  </Text>
-
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
+                  <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
+                  <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
                 </View>
-
               </View>
             </View>
 

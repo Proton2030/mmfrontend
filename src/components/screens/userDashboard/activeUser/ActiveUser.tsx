@@ -118,7 +118,7 @@ const ActiveUser = () => {
         }}
       >
         <Appbar.Content
-          title="Muslim Matrimony"
+          title="Shohoz shadi"
           titleStyle={{ color: '#E71B73', fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
         />
         <Appbar.Action icon="chat-outline" onPress={routeToChatList} />

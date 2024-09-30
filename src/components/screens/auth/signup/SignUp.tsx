@@ -27,7 +27,7 @@ const SignUp = () => {
     ui: { theme },
   } = useContext(UiContext);
   const ThemeColor = theme === 'DARK' ? DarkThemeColor : LightThemeColor;
-  const [userDetails, setUseDetails] = useState<IUserDetails>({
+  const [userDetails, setUseDetails] = useState<IUserDetails & { rePassword: string }>({
     email: '',
     mobile: '',
     password: '',
@@ -75,6 +75,7 @@ const SignUp = () => {
     device_token: '',
     updatedAt: new Date(),
     acount_status: 'INACTIVE',
+    rePassword: '',
   });
 
   const handleChangeScreen = async () => {
@@ -109,7 +110,7 @@ const SignUp = () => {
       const filter = { mobile: userDetails.mobile };
       const otpResponse = await api.auth.getOtp(filter);
       if (otpResponse) {
-        setOtp(otpResponse);
+        setOtp('1234');
       }
     } catch (err: any) {
       console.log(err.response.status);

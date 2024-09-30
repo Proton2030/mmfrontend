@@ -22,9 +22,11 @@ const ForgetPassword = () => {
   const [userCredentials, setUserCredentails] = useState<{
     mobile: string;
     password: string;
+    rePassword: string;
   }>({
     mobile: '',
     password: '',
+    rePassword: '',
   });
 
   const handleChangeScreen = async () => {

@@ -113,7 +113,7 @@ const globalStylesList = () => {
     selectField: {
       width: '100%',
       borderColor: 'gray',
-      backgroundColor: ThemeColor.background,
+      // backgroundColor: ThemeColor.background,
       height: 50,
       marginBottom: 10,
       borderWidth: 1,

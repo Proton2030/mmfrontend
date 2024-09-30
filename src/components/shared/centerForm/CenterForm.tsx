@@ -106,7 +106,11 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                   : object[groupField.id]
                                 : groupField.label
                             }
-                            buttonStyle={{ ...globalStyles.selectField, width: '97%' }}
+                            buttonStyle={{
+                              ...globalStyles.selectField,
+                              backgroundColor: colors.background,
+                              width: '97%',
+                            }}
                             searchPlaceHolder={groupField.placeHolder}
                             buttonTextStyle={globalStyles.selectText}
                             dropdownIconPosition="right"
@@ -201,7 +205,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                         : object[field.id]
                       : field.label
                   }
-                  buttonStyle={globalStyles.selectField}
+                  buttonStyle={[globalStyles.selectField, { backgroundColor: colors.background }]}
                   searchPlaceHolder={field.placeHolder}
                   buttonTextStyle={globalStyles.selectText}
                   dropdownIconPosition="right"
