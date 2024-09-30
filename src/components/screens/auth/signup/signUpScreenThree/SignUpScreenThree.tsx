@@ -21,7 +21,8 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
   const {
     ui: { language, theme },
   } = useContext(UiContext);
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const onDismissSnackBar = () => setVisible(false);
@@ -59,20 +60,38 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
     // if (!error) {
     try {
       setLoading(true);
+      handleChangeScreen();
       if (userDetails.password !== '') {
-        handleChangeScreen();
         let userInstance = null;
+        if (userDetails.password !== userDetails.rePassword) {
+          setErrorMessage('Password is not matching');
+          setVisible(true);
+        }
         if (mode === 'SIGNUP') {
           console.log('------------>user details', userDetails);
-          userInstance = await api.auth.signup(userDetails);
+          try {
+            userInstance = await api.auth.signup(userDetails);
+          } catch (error) {
+            setErrorMessage('Signup failed. Please try again.');
+            setVisible(true);
+            console.log('Signup error', error);
+          } finally {
+            setLoading(false);
+          }
         } else {
           console.log('----->called');
-          userInstance = await api.auth.chnagePassword({
-            mobile: userDetails.mobile,
-            newPassword: userDetails.password,
-          });
+          try {
+            userInstance = await api.auth.chnagePassword({
+              mobile: userDetails.mobile,
+              newPassword: userDetails.password,
+            });
+          } catch {
+            setErrorMessage('Password Changed failed');
+            setVisible(false);
+          } finally {
+            setLoading(false);
+          }
         }
-        setLoading(false);
         if (userInstance) {
           console.log('------>userInstance', userInstance);
           setUser(userInstance);

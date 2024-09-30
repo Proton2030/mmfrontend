@@ -14,7 +14,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
   const shakeAnimation = useRef(new Animated.Value(0)).current;
   const handleSubmit = () => {
     console.log('===>Otp', otp);
-    console.log("first", generatedOtp)
+    console.log('first', generatedOtp);
     if (otp === generatedOtp) {
       console.log('=======>otp matched');
       handleChangeScreen();
@@ -100,6 +100,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
             <OtpInput
               numberOfDigits={4}
               focusColor={focusColor}
+              textInputProps={{ style: { color: colors.scrim } }}
               focusStickBlinkingDuration={400}
               onTextChange={(text) => {
                 setFocusColor('green');

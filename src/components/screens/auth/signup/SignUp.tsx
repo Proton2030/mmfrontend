@@ -27,7 +27,7 @@ const SignUp = () => {
     ui: { theme },
   } = useContext(UiContext);
   const ThemeColor = theme === 'DARK' ? DarkThemeColor : LightThemeColor;
-  const [userDetails, setUseDetails] = useState<IUserDetails>({
+  const [userDetails, setUseDetails] = useState<IUserDetails & { rePassword: string }>({
     email: '',
     mobile: '',
     password: '',
@@ -75,6 +75,7 @@ const SignUp = () => {
     device_token: '',
     updatedAt: new Date(),
     acount_status: 'INACTIVE',
+    rePassword: '',
   });
 
   const handleChangeScreen = async () => {
