@@ -19,6 +19,19 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#889797',
   },
+  scrollDownBtn: {
+    position: 'absolute',
+    bottom: 0, // Adjust according to your layout
+    alignSelf: 'center',
+    zIndex: 1,
+    flexDirection: "row",
+    alignContent: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+
+  },
+
   /** Header */
   header: {
     paddingHorizontal: 24,

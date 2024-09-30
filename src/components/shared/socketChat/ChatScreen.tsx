@@ -29,15 +29,29 @@ const PersonalChatPage = () => {
     const { colors } = useTheme();
     const navigation = useNavigation<any>();
     const scrollViewRef = useRef<FlatList>(null);
+    const [userCount, setUserCount] = useState(0);
 
     const disconnectUser = () => {
-        socket.emit('disconnectUser', user?._id);
+        socket.emit('disconnectUser', user?._id, roomId);
     };
 
     const hadnlenavigate = () => {
-        navigation.goBack();
         disconnectUser();
+        console.log(user?._id)
+        navigation.goBack();
     };
+
+    useEffect(() => {
+        socket.on('userCountUpdate', ({ userCount }) => {
+            console.log('User count in the room:', userCount);
+            setUserCount(userCount)
+            // You can update the state here to display userCount in the UI
+        });
+
+        return () => {
+            socket.off('userCountUpdate');
+        };
+    }, []);
 
     useEffect(() => {
         socket.emit('joinRoom', roomId, user?._id);
@@ -68,7 +82,7 @@ const PersonalChatPage = () => {
     // }, [roomId])
 
     const sendMessage = () => {
-        if (false) {
+        if (messages.length <= 0 && user && user.message_limit <= 0) {
             openModal();
         } else {
             if (text.trim()) {
@@ -84,6 +98,7 @@ const PersonalChatPage = () => {
                     male_user: male,
                 };
                 socket.emit('sendMessage', message);
+                console.log('User count in the room:', userCount);
                 setText('');
             }
         }
@@ -141,7 +156,7 @@ const PersonalChatPage = () => {
                 showsVerticalScrollIndicator={false}
                 style={{ flex: 1, paddingHorizontal: 10, backgroundColor: colors.surfaceVariant }}
                 onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: false })}
-                renderItem={({ item, index }) => <Bubble message={item} userId={user?._id || ''} />}
+                renderItem={({ item, index }) => <Bubble message={item} userId={user?._id || ''} userCount={userCount} />}
                 keyExtractor={(_, index) => index.toString()}
             />
 

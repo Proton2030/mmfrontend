@@ -393,12 +393,16 @@ const prices = [
     description: '1',
   },
   { price: '৳ 29.99', label: 'Silver', description: '10' },
+  { price: '৳ 29.99', label: 'Silver', description: '10' },
+  { price: '৳ 29.99', label: 'Silver', description: '10' },
+  { price: '৳ 29.99', label: 'Silver', description: '10' },
   { price: '৳ 99.99', label: 'Golden', description: '20' },
 ];
 
 export const SubscriptionPage = () => {
   const [selected, setSelected] = useState(0);
   const [page, setPage] = useState(0);
+  const [plans, setPlans] = useState<any>([]);
 
   const nextPage = () => {
     setPage((prev) => prev + 1);
@@ -409,6 +413,7 @@ export const SubscriptionPage = () => {
 
   const getAllPlans = async () => {
     const response = await api.payment.getALlPlans();
+    setPlans(response)
     console.log('=====>plan parent', response);
   };
 
@@ -424,7 +429,7 @@ export const SubscriptionPage = () => {
 
       {
         page === 0 ?
-          <Plans prices={prices} selected={selected} setSelected={setSelected} nextPage={nextPage} />
+          <Plans prices={plans} selected={selected} setSelected={setSelected} nextPage={nextPage} />
           :
           <Payment prevPage={prevPage} />
 
