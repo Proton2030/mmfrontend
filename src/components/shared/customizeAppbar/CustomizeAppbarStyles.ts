@@ -11,7 +11,7 @@ export const appBarStyles = StyleSheet.create({
     borderBottomWidth: 0.5,
     paddingHorizontal: 15,
     elevation: 4,
-    height: '7%',
+    paddingTop: 30
   },
   child: {
     flexDirection: 'row',

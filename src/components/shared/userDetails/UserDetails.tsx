@@ -1,4 +1,4 @@
-import { ScrollView, Image, Dimensions, Animated, Easing, TouchableOpacity } from 'react-native';
+import { ScrollView, Image, Dimensions, Animated, Easing, TouchableOpacity, StatusBar } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
@@ -37,6 +37,7 @@ import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { IField, IGroup } from '../../../@types/types/FieldTypes.types';
+import UserProfile from './userProfile/UserProfile';
 
 const UserDetails = () => {
   const { colors } = useTheme();
@@ -144,48 +145,13 @@ const UserDetails = () => {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.secondary,
-        paddingTop: 30,
+
       }}
     >
-      <View
-        style={{
-          paddingLeft: 20,
-          backgroundColor: colors.secondary,
-          paddingBottom: 8,
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-        }}
-      >
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 15 }}>
-          <TouchableOpacity onPress={handleNavigateProfileImage}>
-            <Avatar.Image
-              source={{
-                uri: userDetails.profile_image_url,
-              }}
-              size={80}
-            />
-          </TouchableOpacity>
-          <View style={{ marginLeft: 20 }}>
-            <Title style={[styles.title, { marginTop: 15, marginBottom: 5 }]}>
-              {userDetails.full_name}
-              {userDetails.is_verified ? <Icon name="verified" size={18} /> : null}
-            </Title>
-            <Text style={{ color: '#E71B73', fontSize: 16 }}>{userDetails.age} Years</Text>
-            <Text style={{ color: '#E71B73', fontSize: 16 }}>
-              {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}
-            </Text>
-            {userDetails.status === 'ACTIVE' ? (
-              <Text>online</Text>
-            ) : (
-              <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
-            )}
-          </View>
-        </View>
-      </View>
+      <UserProfile userDetails={userDetails} uri={userDetails.profile_image_url} />
 
-      <View
+
+      {/* <View
         style={{
           paddingLeft: 20,
           backgroundColor: colors.secondary,
@@ -210,11 +176,10 @@ const UserDetails = () => {
             <TouchableOpacity onPress={handleNavigateChat}>
               <Ionicons name="chatbubble-ellipses-outline" size={24} color={colors.scrim} />
             </TouchableOpacity>
-            {/* <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton> */}
           </View>
         ) : null}
-      </View>
-      <ScrollView
+      </View> */}
+      {/* <ScrollView
         style={{
           marginTop: 10,
           padding: 20,
@@ -247,136 +212,22 @@ const UserDetails = () => {
             );
           })}
         </View>
-        <View style={{ marginBottom: 16 }}>
-          <View style={globalStyles.iconText}>
-            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Job Information</Text>
-            {editable ? <IconButton icon="pencil-outline" onPress={handleJobInfoNavigate} /> : null}
-          </View>
-          {USER_INFO_TWO.map((key, index) => {
-            return (
-              <View key={index} style={styles.infoItem}>
-                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
-                <Text>{userDetails[key.id]}</Text>
-              </View>
-            );
-          })}
-        </View>
-        <View style={{ marginBottom: 16 }}>
-          <View style={globalStyles.iconText}>
-            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Education</Text>
-            {editable ? <IconButton icon="pencil-outline" onPress={handleEduInfoNavigate} /> : null}
-          </View>
-          {USER_INFO_THREE.map((key, index) => {
-            return (
-              <View key={index} style={styles.infoItem}>
-                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
-                <Text>{userDetails[key.id]}</Text>
-              </View>
-            );
-          })}
-        </View>
-        <View style={{ marginBottom: 16 }}>
-          <View style={globalStyles.iconText}>
-            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Religious information</Text>
-            {editable ? <IconButton icon="pencil-outline" onPress={handleReligiousInfoNavigate} /> : null}
-          </View>
-          {USER_INFO_THREE_part2.map((key, index) => {
-            return (
-              <View key={index} style={styles.infoItem}>
-                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
-                <Text>{userDetails[key.id]}</Text>
-              </View>
-            );
-          })}
-        </View>
-        <View style={{ marginBottom: 16 }}>
-          <View style={globalStyles.iconText}>
-            <Text style={[globalStyles.mediumText, { marginBottom: 18, color: '#E71B73' }]}>Family Information</Text>
-            {editable ? <IconButton icon="pencil-outline" onPress={handleFamilyInfoNavigate} /> : null}
-          </View>
-          {USER_INFO_FOUR.map((key, index) => {
-            return (
-              <View key={index} style={styles.infoItem}>
-                <Text style={styles.infoLabel}>{formatKeys(key.id, language)}</Text>
-                <Text>{userDetails[key.id]}</Text>
-              </View>
-            );
-          })}
-        </View>
-      </ScrollView>
+
+
+
+
+      </ScrollView> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
-  },
-  userInfoSection: {
-    paddingLeft: 20,
-    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
-    paddingBottom: 8,
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-  },
-  userInfoSectionTwo: {
-    paddingLeft: 20,
-    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.secondary : LightThemeColor.secondary,
-    paddingBottom: 8,
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-  title: {
-    fontSize: 24,
-    marginTop: 15,
-    fontWeight: 'bold',
-    color: '#E71B73',
-  },
-  caption: {
-    fontSize: 14,
-    lineHeight: 14,
-    color: '#E71B73',
-  },
-  row: {
-    flexDirection: 'row',
-    marginBottom: 10,
-  },
-  paragraph: {
-    fontWeight: 'bold',
-    marginRight: 3,
-    color: '#E71B73',
-  },
-  infoBoxWrapper: {
-    flexDirection: 'row',
-    height: 80,
-    // backgroundColor: '#ecf0f1',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  infoBox: {
-    alignItems: 'center',
-  },
-  menuWrapper: {
-    marginTop: 10,
-    padding: 20,
-    backgroundColor: getAppThemeMode() === 'dark' ? DarkThemeColor.background : LightThemeColor.background,
-  },
   infoItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 8,
+
   },
   infoLabel: {
-    fontWeight: 'bold',
-  },
+
+  }
 });
 
 export default UserDetails;

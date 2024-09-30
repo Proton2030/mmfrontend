@@ -1,10 +1,10 @@
 import { WebView } from 'react-native-webview';
-import React, { useCallback, useContext, useEffect } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useCallback, useContext, useEffect, } from 'react';
+import { SafeAreaView, } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { api } from '../../../utils/api';
-import { Alert } from 'react-native';
+import { Alert, View, Text } from 'react-native';
 
 const Payment = () => {
   const route = useRoute<any>();
@@ -37,6 +37,10 @@ const Payment = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+
+      <Text>
+        Sohoz Sadi Payment
+      </Text>
       <WebView source={{ uri: url }} style={{ flex: 1 }} />
     </SafeAreaView>
   );

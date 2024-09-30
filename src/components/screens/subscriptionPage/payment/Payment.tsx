@@ -7,7 +7,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { color } from '../../../../assets'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
-const Payment = ({ prevPage }: any) => {
+const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
     const [selected, setSelected] = useState(0);
     const isActive = selected === 0;
     return (
@@ -27,7 +27,7 @@ const Payment = ({ prevPage }: any) => {
 
                 <View style={styles.form2}>
                     <TouchableWithoutFeedback
-                        onPress={() => console.log("first")}
+                        onPress={() => handlePaymentUpdate(selectedPlan)}
                     >
                         <View style={{
                             width: "100%", backgroundColor: "#e6e6e6", height: 88, borderRadius: 20, paddingHorizontal: 15,

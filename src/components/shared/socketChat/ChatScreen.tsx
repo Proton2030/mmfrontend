@@ -16,6 +16,9 @@ import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPag
 import { socket } from '../../../config/config';
 import Bubble from './bubble/Bubble';
 import { useTheme } from 'react-native-paper';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { uuidv4 } from '../../../utils/commonFunction/uuiv4';
+import { initiatePayment } from '../../../utils/commonFunction/paymentPage';
 // import { socket } from '../../../config/config';
 
 const PersonalChatPage = () => {
@@ -111,6 +114,12 @@ const PersonalChatPage = () => {
     const closeModal = () => {
         setModalVisible(false);
     };
+    const handleGesture = (event: any) => {
+        if (event.nativeEvent.translationY > 100) {
+            closeModal();
+        }
+    };
+
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
@@ -176,11 +185,13 @@ const PersonalChatPage = () => {
             )}
 
             <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.bottomSheet}>
-                        <SubscriptionPage />
+                <PanGestureHandler onGestureEvent={handleGesture}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.bottomSheet}>
+                            <SubscriptionPage closeModal={closeModal} />
+                        </View>
                     </View>
-                </View>
+                </PanGestureHandler>
             </Modal>
         </SafeAreaView>
     );

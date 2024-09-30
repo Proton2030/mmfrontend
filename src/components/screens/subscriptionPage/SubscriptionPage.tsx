@@ -370,7 +370,7 @@
 // });
 
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   StyleSheet,
   SafeAreaView,
@@ -385,6 +385,10 @@ import { styles } from './subcriptionStyles';
 import Plans from './plans/Plans';
 import Payment from './payment/Payment';
 import { api } from '../../../utils/api';
+import { uuidv4 } from '../../../utils/commonFunction/uuiv4';
+import { initiatePayment } from '../../../utils/commonFunction/paymentPage';
+import AuthContext from '../../../contexts/authContext/authContext';
+import { useNavigation } from '@react-navigation/native';
 
 const prices = [
   {
@@ -399,10 +403,13 @@ const prices = [
   { price: '৳ 99.99', label: 'Golden', description: '20' },
 ];
 
-export const SubscriptionPage = () => {
+export const SubscriptionPage = ({ closeModal }: any) => {
   const [selected, setSelected] = useState(0);
   const [page, setPage] = useState(0);
   const [plans, setPlans] = useState<any>([]);
+
+  const { user, setUser } = useContext(AuthContext);
+  const navigation = useNavigation<any>();
 
   const nextPage = () => {
     setPage((prev) => prev + 1);
@@ -421,6 +428,21 @@ export const SubscriptionPage = () => {
     getAllPlans()
   }, [])
 
+  const handlePaymentUpdate = async (plan: any) => {
+    const tran_id = uuidv4().toString();
+    console.log('====>plan', plan);
+    const url = await initiatePayment(user, plan, tran_id);
+    closeModal()
+    console.log('====>url', url);
+    if (url) {
+      navigation.navigate('Payment', {
+        url,
+        tranId: tran_id,
+        message_limit: plan?.message_limit,
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={{
       flex: 1, backgroundColor: 'white', borderTopLeftRadius: 20,
@@ -429,9 +451,9 @@ export const SubscriptionPage = () => {
 
       {
         page === 0 ?
-          <Plans prices={plans} selected={selected} setSelected={setSelected} nextPage={nextPage} />
+          <Plans prices={plans} selected={selected} setSelected={setSelected} nextPage={nextPage} handlePaymentUpdate={handlePaymentUpdate} />
           :
-          <Payment prevPage={prevPage} />
+          <Payment prevPage={prevPage} closeModal={closeModal} handlePaymentUpdate={handlePaymentUpdate} selectedPlan={plans[selected]} />
 
       }
       <TouchableOpacity onPress={getAllPlans} >

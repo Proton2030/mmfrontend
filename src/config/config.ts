@@ -12,4 +12,4 @@ export const headers = {
   'Content-Type': 'application/json',
 };
 
-export const socket = io(LOCALSOCKET);
+export const socket = io(BASE_URL);

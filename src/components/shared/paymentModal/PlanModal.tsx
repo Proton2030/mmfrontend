@@ -69,14 +69,14 @@ const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: an
   return (
     <>
       {modalVisible && (
-        <TouchableOpacity style={styles.background} onPress={() => closeDrawer()}>
+        <TouchableOpacity style={styles.modalContainer} onPress={() => closeDrawer()}>
           <View style={styles.transparent} />
         </TouchableOpacity>
       )}
 
-      <Animated.View style={[styles.drawer, { transform: [{ translateY }] }]} {...panResponder.panHandlers}>
+      <Animated.View style={[styles.bottomSheet, { transform: [{ translateY }] }]} {...panResponder.panHandlers}>
         <View style={styles.handlepull} />
-        <SubscriptionPage handlePaymentUpdate={handlePaymentUpdate} />
+        <SubscriptionPage />
       </Animated.View>
     </>
   );
@@ -84,7 +84,8 @@ const BottomDrawer = ({ modalVisible, setModalVisible, handlePaymentUpdate }: an
 
 const styles = StyleSheet.create({
   background: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
+    height: 400,
   },
   transparent: {
     flex: 1,
@@ -115,9 +116,20 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 30,
+    justifyContent: 'flex-end',
+    backgroundColor: '#00000033',
+  },
+  bottomSheet: {
+    backgroundColor: '#fff',
+    // padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    height: 200,
   },
   modalContent: {
     backgroundColor: 'gray',

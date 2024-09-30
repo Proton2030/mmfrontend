@@ -10,7 +10,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { styles } from '../subcriptionStyles';
 import { COLORS } from '../../../../constants/theme';
 
-const Plans = ({ prices, selected, setSelected, nextPage }: any) => {
+const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }: any) => {
     const [showScrollDown, setShowScrollDown] = useState(true); // State to control arrow visibility
     const scrollViewRef = useRef<ScrollView>(null); // To control the scroll position programmatically
 
@@ -28,6 +28,8 @@ const Plans = ({ prices, selected, setSelected, nextPage }: any) => {
             setShowScrollDown(true);
         }
     };
+
+
 
     return (
         <View style={{ flex: 1 }}>

@@ -25,6 +25,18 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     backgroundColor: '#00000033',
   },
+  drawer: {
+
+  },
+  handlepull: {
+    width: 50,
+    height: 5,
+    backgroundColor: 'white',
+    borderRadius: 2.5,
+    alignSelf: 'center',
+    marginBottom: -20,
+    zIndex: 50,
+  },
   bottomSheet: {
     backgroundColor: '#fff',
     // padding: 20,
