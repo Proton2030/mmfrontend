@@ -110,7 +110,7 @@ const SignUp = () => {
       const filter = { mobile: userDetails.mobile };
       const otpResponse = await api.auth.getOtp(filter);
       if (otpResponse) {
-        setOtp('1234');
+        setOtp(otpResponse);
       }
     } catch (err: any) {
       console.log(err.response.status);
