@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     option: {
-        paddingTop: 20,
+        paddingTop: 25,
         paddingBottom: 10,
         borderRadius: 10,
         marginBottom: 5,

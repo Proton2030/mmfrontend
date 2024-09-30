@@ -10,7 +10,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Change t
 import { COLORS } from '../../../../../constants/theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProfileImage, handleAddChoice, choice }: any) => {
     const { colors } = useTheme();
@@ -35,13 +36,25 @@ const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProf
                 <View style={styles.userInfo}>
                     <Text style={styles.name}> {userDetails.full_name}
                         {userDetails.is_verified ? <Icon name="verified" size={18} /> : null}
-                        &nbsp; <Icon name="male" size={20} color={COLORS.primary} />
+                        &nbsp; {
+                            userDetails?.gender === "FEMALE" ?
+                                <Ionicons name="female" size={20} color={COLORS.primary} />
+                                :
+                                <Ionicons name="male" size={25} color={COLORS.primary} />
+                        }
+
                     </Text>
-                    <Text style={styles.phone}> {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}</Text>
+                    <Text style={styles.phone}>
+                        <FontAwesome5 name='location-arrow' size={15} color={COLORS.primary} />&nbsp;
+                        {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}</Text>
                     {userDetails.status === 'ACTIVE' ? (
-                        <Text style={{ color: "white" }}>online</Text>
+                        <Text style={{ color: "white", marginLeft: 5, marginTop: 3 }}>
+                            <Octicons name='dot-fill' size={15} color={"green"} />&nbsp;
+                            online</Text>
                     ) : (
-                        <Text style={{ color: "gray", marginLeft: 5, marginTop: 3 }}>Active {getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
+                        <Text style={{ color: "gray", marginLeft: 5, marginTop: 3 }}>
+                            <Octicons name='dot-fill' size={15} color={COLORS.primary} />&nbsp;
+                            Active {getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
                     )}
                 </View>
             </View>
@@ -147,7 +160,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     option: {
-        paddingTop: 20,
+        paddingTop: 25,
         paddingBottom: 10,
         borderRadius: 10,
         marginBottom: 5,
