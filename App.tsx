@@ -4,7 +4,7 @@ import AuthContext from './src/contexts/authContext/authContext';
 import { useAppState } from '@react-native-community/hooks';
 import AppNavigators from './src/components/navigators/AppNavigators';
 import { PermissionsAndroid } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { LinkingOptions, useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import { MD3LightTheme as DefaultTheme, PaperProvider, MD3DarkTheme as DarkTheme } from 'react-native-paper';
 import { DarkThemeColor, LightThemeColor, ThemeColor } from './src/constants/theme/themeColor';
@@ -35,7 +35,6 @@ const App = ({ isRoute }: any) => {
   } = useContext(UiContext);
   const { colors } = useTheme();
   const appState = useAppState();
-  const navigation = useNavigation<any>();
   const paperTheme = theme === 'DARK' ? darkTheme : lightTheme;
   useEffect(() => {
     if (appState === 'active') {
@@ -58,9 +57,11 @@ const App = ({ isRoute }: any) => {
   useEffect(() => {
     if (isRoute) {
       console.log('======>notification');
-      navigation.navigate('Notification');
+      // navigation.navigate('Notification');
     }
   }, [isRoute]);
+
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

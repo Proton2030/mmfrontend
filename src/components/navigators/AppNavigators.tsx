@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserDashboardNavigators from './UserDashboardNavigators';
 import UserInfoNavigators from './UserInfoNavigators';
@@ -25,15 +25,42 @@ import { SubscriptionPage } from '../screens/subscriptionPage/SubscriptionPage';
 import PaymentPage from '../screens/others/paymentPage/PaymentPage';
 import { OnboardingScreen } from '../screens/onboarding/OnboardingScreen';
 import PersonalChatPage from '../shared/socketChat/ChatScreen';
+import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
+import { Linking } from 'react-native';
 
 const Stack = createNativeStackNavigator();
+
+type RootStackParamList = {
+  SplashScreen: undefined;
+  UserDashboard: undefined;
+  paymentHistory: undefined;
+  // Add other screens here as needed
+};
+
+
+
+const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: ['http://shohozshadi.com', 'https://shohozshadi.com'],
+  config: {
+    screens: {
+      SplashScreen: 'splash',
+      UserDashboard: 'dashboard',
+      paymentHistory: 'app/payment-history', // Match the pathPrefix in your intent filter
+      // Add other routes here if needed
+    },
+  },
+};
 
 const AppNavigators = () => {
   const { colors } = useTheme();
   const { user } = useContext(AuthContext);
 
   return (
-    <>
+    <NavigationContainer
+
+      linking={linking}
+    >
+
       <Stack.Navigator
         initialRouteName="SplashScreen"
         screenOptions={{
@@ -98,7 +125,8 @@ const AppNavigators = () => {
           </>
         )}
       </Stack.Navigator>
-    </>
+
+    </NavigationContainer>
   );
 };
 

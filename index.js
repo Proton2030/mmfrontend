@@ -24,7 +24,7 @@ export default function Main() {
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       const {
-        notification: {body},
+        notification: { body },
       } = remoteMessage;
       Alert.alert(body);
     });
@@ -32,18 +32,17 @@ export default function Main() {
     return unsubscribe;
   }, []);
 
+
   return (
-    <NavigationContainer>
-      <UiContextProvider>
-        <AuthContextProvider>
-          <ChoiceContextProvider>
-            <MessageSeenCountContextProvider>
-              <App route={isRoute} />
-            </MessageSeenCountContextProvider>
-          </ChoiceContextProvider>
-        </AuthContextProvider>
-      </UiContextProvider>
-    </NavigationContainer>
+    <UiContextProvider>
+      <AuthContextProvider>
+        <ChoiceContextProvider>
+          <MessageSeenCountContextProvider>
+            <App route={isRoute} />
+          </MessageSeenCountContextProvider>
+        </ChoiceContextProvider>
+      </AuthContextProvider>
+    </UiContextProvider>
   );
 }
 
