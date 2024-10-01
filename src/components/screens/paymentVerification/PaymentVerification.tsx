@@ -30,7 +30,7 @@ const PaymentVerification = ({ route }: any) => {
     } finally {
       setTimeout(() => {
         navigation.goBack();
-      }, 1500);
+      }, 2500);
     }
   }, [tranId, planId, user]);
 
