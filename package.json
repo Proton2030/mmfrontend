@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "-": "^0.0.1",
-    "@flyerhq/react-native-chat-ui": "^1.4.3",
     "@react-native-assets/slider": "^7.1.2",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-native-clipboard/clipboard": "^1.14.1",
@@ -59,7 +58,6 @@
     "rn-range-slider": "^2.2.2",
     "save-dev": "^0.0.1-security",
     "socket.io-client": "^4.7.3",
-    "sslcommerz-lts": "^1.1.0",
     "url-loader": "^4.1.1",
     "webpack": "^5.90.0",
     "webpack-cli": "^5.1.4",
