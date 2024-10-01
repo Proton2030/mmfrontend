@@ -1,7 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { Animated, View, StyleSheet, Dimensions, Text, TouchableOpacity, PanResponder } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import PlanCards from './plancards/PlanCards';
 import SpecialCard from './specialCard/SpecialCard';
 import axios from 'axios';
 import { api } from '../../../utils/api';
