@@ -61,8 +61,6 @@ const App = ({ isRoute }: any) => {
     }
   }, [isRoute]);
 
-
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PaperProvider theme={paperTheme}>

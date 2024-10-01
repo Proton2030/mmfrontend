@@ -11,8 +11,6 @@ import { logo } from '../../../../../assets';
 import { USER_INFO_FOUR } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
-import { userInfoStyles } from '../../UserInfo.style';
 
 const UserInformationPage4 = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -85,8 +83,6 @@ const UserInformationPage4 = () => {
         const userInstance = await api.userDetails.updateUser(payload);
         if (userInstance) {
           setUser(userInstance);
-          const jsonUser = JSON.stringify(userInstance);
-          storeData('@user', jsonUser);
           setLoading(false);
           if (editable) {
             navigation.navigate('UserDashboard');

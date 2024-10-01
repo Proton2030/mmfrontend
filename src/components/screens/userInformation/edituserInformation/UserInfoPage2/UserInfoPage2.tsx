@@ -21,9 +21,6 @@ import { fullLogo, job, signUp } from '../../../../../assets';
 import { USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
-import { userInfoStyles } from '../../UserInfo.style';
-import LinearGradient from 'react-native-linear-gradient';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -93,8 +90,6 @@ const UserInformationPage2 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          const jsonUser = JSON.stringify(userInstance);
-          storeData('@user', jsonUser);
           if (editable) {
             navigation.navigate('UserDashboard');
           } else {

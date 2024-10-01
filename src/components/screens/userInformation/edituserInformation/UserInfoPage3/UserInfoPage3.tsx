@@ -15,23 +15,12 @@ import { Button, useTheme } from 'react-native-paper';
 import CenterForm from '../../../../shared/centerForm/CenterForm';
 import { CommonActions, useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
 import { education, fullLogo, logo } from '../../../../../assets';
-import {
-  USER_INFO_FOUR,
-  USER_INFO_ONE,
-  USER_INFO_THREE,
-  USER_INFO_TWO,
-} from '../../../../../constants/forms/UserInformation';
-import { IUserInfo } from '../../../../../@types/types/userInfo.types';
-import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
-import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
+import { USER_INFO_THREE } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
-import { userInfoStyles } from '../../UserInfo.style';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -96,8 +85,6 @@ const UserInformationPage3 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          const jsonUser = JSON.stringify(userInstance);
-          storeData('@user', jsonUser);
           if (editable) {
             navigation.navigate('UserDashboard');
           } else {

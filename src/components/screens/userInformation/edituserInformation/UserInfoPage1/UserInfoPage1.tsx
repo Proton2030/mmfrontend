@@ -7,11 +7,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
-import { fullLogo, logo } from '../../../../../assets';
+import { fullLogo } from '../../../../../assets';
 import { USER_INFO_ONE } from '../../../../../constants/forms/UserInformation';
-import { IUserInfo1 } from '../../../../../@types/types/userInfo1.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
 import { userInfoStyles } from '../../UserInfo.style';
 
 const UserInformationPage1 = () => {
@@ -94,8 +92,6 @@ const UserInformationPage1 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          const jsonUser = JSON.stringify(userInstance);
-          storeData('@user', jsonUser);
           if (editable) {
             navigation.navigate('UserDashboard');
           } else {

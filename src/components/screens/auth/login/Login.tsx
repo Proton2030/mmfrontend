@@ -85,8 +85,7 @@ const Login = () => {
           navigation.navigate('changeImage');
         } else {
           navigation.dispatch(routeUserDashboard);
-          const jsonUser = JSON.stringify(userResponse);
-          storeData('@user', jsonUser);
+          storeData('@userId', userResponse._id);
         }
       }
     } catch (err) {

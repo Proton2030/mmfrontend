@@ -9,7 +9,7 @@ import { ISignupScreenProps } from '../../../../../@types/props/SignupScreen.pro
 import { api } from '../../../../../utils/api';
 import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
+
 import { getFCMToken } from '../../../../../utils/commonFunction/getFCMToken';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
@@ -95,9 +95,8 @@ const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, 
         if (userInstance) {
           console.log('------>userInstance', userInstance);
           setUser(userInstance);
+          storeData('@userId', userInstance._id);
           if (mode === 'FORGET') {
-            const jsonUser = JSON.stringify(userInstance);
-            storeData('@user', jsonUser);
             navigation.dispatch(routeUserDashboard);
           } else {
             navigation.dispatch(routeUserInfo);

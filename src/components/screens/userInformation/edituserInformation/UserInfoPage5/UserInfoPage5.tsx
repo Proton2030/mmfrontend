@@ -9,7 +9,7 @@ import SnackbarAlert from '../../../../shared/snackbarAlert/SnackbarAlert';
 import { api } from '../../../../../utils/api';
 import { defaultUser, logo } from '../../../../../assets';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
+
 const windowWidth = Dimensions.get('window').width;
 
 const UserInformationPage5 = () => {
@@ -76,9 +76,6 @@ const UserInformationPage5 = () => {
         const response = await api.userDetails.updateUserImage(formData);
         setUser(response);
         setLoading(false);
-
-        const jsonUser = JSON.stringify(response);
-        storeData('@user', jsonUser);
         navigation.dispatch(routeUserDashboard);
       } catch (error) {
         console.log('Upload error:', error);

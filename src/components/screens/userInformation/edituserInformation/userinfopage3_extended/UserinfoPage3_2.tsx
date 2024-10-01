@@ -11,7 +11,7 @@ import { logo, question } from '../../../../../assets';
 import { USER_INFO_THREE_part2 } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo3part2 } from '../../../../../@types/types/userinfo3Part2';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-import { storeData } from '../../../../../utils/commonFunction/storeData';
+
 import { userInfoStyles } from '../../UserInfo.style';
 
 const UserInformationPage3_part2 = () => {
@@ -75,8 +75,6 @@ const UserInformationPage3_part2 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          const jsonUser = JSON.stringify(userInstance);
-          storeData('@user', jsonUser);
           if (editable) {
             navigation.navigate('UserDashboard');
           } else {
