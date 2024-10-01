@@ -198,7 +198,8 @@ const UserProfile = ({ uri, userDetails }: any) => {
                                 <View style={{
                                     backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
                                     height: 50,
-                                    width: 110,
+                                    width: "auto",
+                                    minWidth: 110,
                                     borderRadius: 10,
                                     paddingHorizontal: 10,
                                     gap: 4,
@@ -244,7 +245,8 @@ const UserProfile = ({ uri, userDetails }: any) => {
                                 <View style={{
                                     backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
                                     height: 50,
-                                    width: 110,
+                                    width: "auto",
+                                    minWidth: 110,
                                     borderRadius: 10,
                                     paddingHorizontal: 10,
                                     gap: 4,
@@ -290,7 +292,8 @@ const UserProfile = ({ uri, userDetails }: any) => {
                                 <View style={{
                                     backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
                                     height: 50,
-                                    width: 110,
+                                    width: "auto",
+                                    minWidth: 110,
                                     borderRadius: 10,
                                     paddingHorizontal: 10,
                                     gap: 4,
@@ -331,7 +334,7 @@ const UserProfile = ({ uri, userDetails }: any) => {
                                 <View style={{
                                     backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
                                     height: 50,
-                                    width: 110,
+                                    width: "auto",
                                     borderRadius: 10,
                                     paddingHorizontal: 10,
                                     gap: 4,
@@ -360,7 +363,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F7F7F7',
     },
     header: {
-        height: 430,
+        height: 400,
         paddingHorizontal: 20,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,

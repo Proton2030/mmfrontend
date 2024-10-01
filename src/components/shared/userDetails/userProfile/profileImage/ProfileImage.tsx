@@ -29,7 +29,7 @@ const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProf
         >
             {/* Overlay Linear Gradient */}
             <LinearGradient
-                colors={['rgba(0,0,0,0.7)', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,0.7)']} // Dark at top and bottom
+                colors={['rgba(0,0,0,0.8)', 'rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,0.8)']} // Dark at top and bottom
                 style={styles.gradientOverlay}
             />
             <View style={styles.profileInfo}>
@@ -58,9 +58,17 @@ const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProf
                     )}
                 </View>
             </View>
-            <TouchableOpacity style={styles.editButton} onPress={handleNavigateProfileImage}>
-                <Icon name="eye" size={20} color="#fff" />
-            </TouchableOpacity>
+            {
+                userDetails?._id === user?._id ?
+                    <TouchableOpacity style={styles.editButton} onPress={handleNavigateProfileImage}>
+                        <Icon name="pencil" size={20} color="#fff" />
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={styles.editButton} onPress={handleNavigateProfileImage}>
+                        <Icon name="eye" size={20} color="#fff" />
+                    </TouchableOpacity>
+            }
+
             {
                 userDetails._id !== user?._id ?
                     <>
@@ -95,7 +103,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F7F7F7',
     },
     header: {
-        height: 430,
+        height: 450,
         paddingHorizontal: 20,
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30,
