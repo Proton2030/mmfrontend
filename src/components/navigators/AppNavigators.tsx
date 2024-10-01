@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import UserDashboardNavigators from './UserDashboardNavigators';
 import UserInfoNavigators from './UserInfoNavigators';
-import ChatBoard from '../shared/chat/ChatBoard';
 import UserDetails from '../shared/userDetails/UserDetails';
 import ProfileImage from '../screens/profileImage/ProfileImage';
 import NotificationPage from '../screens/others/notification/NotificationPage';
@@ -40,28 +39,32 @@ const AppNavigators = () => {
         screenOptions={{
           headerShown: false,
 
-
           // ...TransitionPresets.SlideFromRightIOS,
         }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
         {user && user.acount_status === 'ACTIVE' ? (
           <>
-            <Stack.Screen name="UserDashboard" component={UserDashboardNavigators}
+            <Stack.Screen
+              name="UserDashboard"
+              component={UserDashboardNavigators}
               options={{
                 statusBarHidden: false,
-                statusBarColor: "transparent",
-                statusBarTranslucent: true
+                statusBarColor: 'transparent',
+                statusBarTranslucent: true,
               }}
             />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
             <Stack.Screen name="Chat" component={PersonalChatPage} />
-            <Stack.Screen name="UserDetails" component={UserDetails}
+            <Stack.Screen
+              name="UserDetails"
+              component={UserDetails}
               options={{
                 statusBarHidden: false,
-                statusBarColor: "transparent",
-                statusBarTranslucent: true
-              }} />
+                statusBarColor: 'transparent',
+                statusBarTranslucent: true,
+              }}
+            />
             <Stack.Screen name="ProfileImage" component={ProfileImage} />
             <Stack.Screen name="Notification" component={NotificationPage} />
             <Stack.Screen name="Terms" component={TermsAndConditions} />

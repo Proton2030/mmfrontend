@@ -9,7 +9,6 @@
 // import { useNavigation } from '@react-navigation/native';
 // import UiContext from '../../../contexts/uiContext/UIContext';
 
-
 // import FeatherIcon from 'react-native-vector-icons/Feather';
 
 // const prices = [
@@ -234,7 +233,6 @@
 //   );
 // };
 
-
 // const styles = StyleSheet.create({
 //   title: {
 //     fontSize: 34,
@@ -369,39 +367,29 @@
 //   },
 // });
 
-
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  TouchableOpacity,
-  Text,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
 
 import { COLORS } from '../../../constants/theme';
 import { styles } from './subcriptionStyles';
 import Plans from './plans/Plans';
 import Payment from './payment/Payment';
 import { api } from '../../../utils/api';
-import { uuidv4 } from '../../../utils/commonFunction/uuiv4';
-import { initiatePayment } from '../../../utils/commonFunction/paymentPage';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
 
-const prices = [
-  {
-    price: '৳ 9.99',
-    label: 'Basics',
-    description: '1',
-  },
-  { price: '৳ 29.99', label: 'Silver', description: '10' },
-  { price: '৳ 29.99', label: 'Silver', description: '10' },
-  { price: '৳ 29.99', label: 'Silver', description: '10' },
-  { price: '৳ 29.99', label: 'Silver', description: '10' },
-  { price: '৳ 99.99', label: 'Golden', description: '20' },
-];
+// const prices = [
+//   {
+//     price: '৳ 9.99',
+//     label: 'Basics',
+//     description: '1',
+//   },
+//   { price: '৳ 29.99', label: 'Silver', description: '10' },
+//   { price: '৳ 29.99', label: 'Silver', description: '10' },
+//   { price: '৳ 29.99', label: 'Silver', description: '10' },
+//   { price: '৳ 29.99', label: 'Silver', description: '10' },
+//   { price: '৳ 99.99', label: 'Golden', description: '20' },
+// ];
 
 export const SubscriptionPage = ({ closeModal }: any) => {
   const [selected, setSelected] = useState(0);
@@ -413,53 +401,58 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const nextPage = () => {
     setPage((prev) => prev + 1);
-  }
+  };
   const prevPage = () => {
     setPage((prev) => prev - 1);
-  }
+  };
 
   const getAllPlans = async () => {
-    const response = await api.payment.getALlPlans();
-    setPlans(response)
-    console.log('=====>plan parent', response);
+    const response = await api.payment.getAllPlans();
+    setPlans(response);
   };
 
   useEffect(() => {
-    getAllPlans()
-  }, [])
+    getAllPlans();
+  }, []);
 
   const handlePaymentUpdate = async (plan: any) => {
-    const tran_id = uuidv4().toString();
-    console.log('====>plan', plan);
-    const url = await initiatePayment(user, plan, tran_id);
-    closeModal()
+    if (!user?._id || !plan?._id) return;
+    const url = await api.payment.initPayment(user?._id, plan?._id);
+    closeModal();
     console.log('====>url', url);
     if (url) {
       navigation.navigate('Payment', {
         url,
-        tranId: tran_id,
-        message_limit: plan?.message_limit,
       });
     }
   };
 
   return (
-    <SafeAreaView style={{
-      flex: 1, backgroundColor: 'white', borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-    }}>
-
-      {
-        page === 0 ?
-          <Plans prices={plans} selected={selected} setSelected={setSelected} nextPage={nextPage} handlePaymentUpdate={handlePaymentUpdate} />
-          :
-          <Payment prevPage={prevPage} closeModal={closeModal} handlePaymentUpdate={handlePaymentUpdate} selectedPlan={plans[selected]} />
-
-      }
-      <TouchableOpacity onPress={getAllPlans} >
-
-      </TouchableOpacity>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+      }}
+    >
+      {page === 0 ? (
+        <Plans
+          prices={plans}
+          selected={selected}
+          setSelected={setSelected}
+          nextPage={nextPage}
+          handlePaymentUpdate={handlePaymentUpdate}
+        />
+      ) : (
+        <Payment
+          prevPage={prevPage}
+          closeModal={closeModal}
+          handlePaymentUpdate={handlePaymentUpdate}
+          selectedPlan={plans[selected]}
+        />
+      )}
+      <TouchableOpacity onPress={getAllPlans}></TouchableOpacity>
     </SafeAreaView>
   );
-}
-
+};
