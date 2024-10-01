@@ -27,17 +27,16 @@ import { OnboardingScreen } from '../screens/onboarding/OnboardingScreen';
 import PersonalChatPage from '../shared/socketChat/ChatScreen';
 import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import { Linking } from 'react-native';
+import PaymentVerification from '../screens/paymentVerification/PaymentVerification';
 
 const Stack = createNativeStackNavigator();
 
 type RootStackParamList = {
   SplashScreen: undefined;
   UserDashboard: undefined;
-  paymentHistory: undefined;
+  PaymentVerification: undefined;
   // Add other screens here as needed
 };
-
-
 
 const linking: LinkingOptions<RootStackParamList> = {
   prefixes: ['http://shohozshadi.com', 'https://shohozshadi.com'],
@@ -45,7 +44,7 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       SplashScreen: 'splash',
       UserDashboard: 'dashboard',
-      paymentHistory: 'app/payment-history', // Match the pathPrefix in your intent filter
+      PaymentVerification: 'app/payment-verification/:tranId', // Match the pathPrefix in your intent filter
       // Add other routes here if needed
     },
   },
@@ -56,11 +55,7 @@ const AppNavigators = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <NavigationContainer
-
-      linking={linking}
-    >
-
+    <NavigationContainer linking={linking}>
       <Stack.Navigator
         initialRouteName="SplashScreen"
         screenOptions={{
@@ -113,6 +108,7 @@ const AppNavigators = () => {
             />
             <Stack.Screen name="Payment" component={Payment} />
             <Stack.Screen name="Support" component={HelpAndSupport} />
+            <Stack.Screen name="PaymentVerification" component={PaymentVerification} />
             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
           </>
         ) : (
@@ -125,7 +121,6 @@ const AppNavigators = () => {
           </>
         )}
       </Stack.Navigator>
-
     </NavigationContainer>
   );
 };

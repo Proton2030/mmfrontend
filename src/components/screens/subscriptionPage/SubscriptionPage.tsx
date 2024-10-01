@@ -417,12 +417,15 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const handlePaymentUpdate = async (plan: any) => {
     if (!user?._id || !plan?._id) return;
-    const url = await api.payment.initPayment(user?._id, plan?._id);
+    const response = await api.payment.initPayment(user?._id, plan?._id);
     closeModal();
-    console.log('====>url', url);
-    if (url) {
+    console.log('====>url', response.paymentUrl);
+    if (response) {
+      const { paymentUrl, tranId } = response;
       navigation.navigate('Payment', {
-        url,
+        paymentUrl,
+        tranId,
+        planId: plan?._id,
       });
     }
   };

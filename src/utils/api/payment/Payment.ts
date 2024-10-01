@@ -1,8 +1,9 @@
+import { Payload } from '../../../@types/api/api.types';
 import { headers } from '../../../config/config';
 import { MESSAGE } from '../../../constants/api/message';
 import { request } from '../api';
 
-const { get } = request;
+const { get, post } = request;
 
 const initialRoute = 'payment';
 
@@ -22,6 +23,31 @@ export const initPayment = async (userId: string, planId: string) => {
         } = response;
         return result;
       }
+    }
+    throw new Error();
+  } catch (error: any) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const validatePayment = async (payload: Payload) => {
+  try {
+    const endpoint = `${initialRoute}/validate-payment`;
+    const response = await post(endpoint, payload, {
+      ...headers,
+    });
+    if (response) {
+      const {
+        data: { message },
+      } = response;
+      if (message === MESSAGE.post.paymentSuccess) {
+        const {
+          data: { result },
+        } = response;
+        return result;
+      }
+      return null;
     }
     throw new Error();
   } catch (error: any) {
