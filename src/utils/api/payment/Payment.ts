@@ -47,7 +47,6 @@ export const validatePayment = async (payload: Payload) => {
         } = response;
         return result;
       }
-      return null;
     }
     throw new Error();
   } catch (error: any) {
