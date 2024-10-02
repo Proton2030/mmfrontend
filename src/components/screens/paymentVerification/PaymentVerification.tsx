@@ -1,10 +1,10 @@
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { paymentFail, paymentLoader, sucessPayment } from '../../../assets';
+import { paymentFail, paymentLoader, playingHeart, sucessPayment } from '../../../assets';
 
 const PaymentVerification = ({ route }: any) => {
   const { tranId, planId } = route.params;
@@ -55,7 +55,7 @@ const PaymentVerification = ({ route }: any) => {
       {loading ? (
         <LottieView source={paymentLoader} autoPlay loop style={{ width: 300, height: 200 }} />
       ) : isPaymentSuccess ? (
-        <Image source={sucessPayment} style={{ width: 300, height: 200 }} />
+        <LottieView source={sucessPayment} autoPlay loop={false} style={{ width: 300, height: 200 }} />
       ) : (
         <LottieView source={paymentFail} autoPlay loop={false} style={{ width: 300, height: 200 }} />
       )}
