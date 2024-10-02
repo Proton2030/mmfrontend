@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
-import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { Appbar, Avatar, Card, useTheme } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,51 +9,48 @@ import { EpmtyPage } from '../emptyPage/EmptyPage';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { PaymentHistoryTopCard } from './paymentTopCard/PaymentTopCard';
 import { PaymentHistoryCard } from './paymenthistoryList/PaymentHostoryList';
+import { api } from '../../../utils/api';
+import AuthContext from '../../../contexts/authContext/authContext';
 
 export const PaymentHistory = () => {
   const { colors } = useTheme();
-  const navigation = useNavigation<any>();
-  const paymentHistoryData = [1, 2, 3, 4];
+  const { user } = useContext(AuthContext);
+
+  const [paymentHistory, setPaymentHistory] = useState<any[]>([]); // Initialize as an empty array
+
+  const getPaymentList = async () => {
+    try {
+      const filter = {
+        userId: user?._id,
+      };
+      const fetchedPaymentHistory = await api.payment.getPaymentList(filter);
+      setPaymentHistory(fetchedPaymentHistory);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPaymentList();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <Appbar.Header style={{ backgroundColor: colors.secondary, paddingLeft: 20 }}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" size={20} color={colors.primary} style={{ marginRight: 15 }} />
-        </TouchableOpacity>
-        <Text style={{ fontWeight: '500', fontSize: 23, color: colors.primary }}>Payment History</Text>
-      </Appbar.Header>
       <View style={styles.container}>
-        <PaymentHistoryTopCard />
-
-        <View
-          style={{
-            paddingHorizontal: 20,
-            marginTop: 40,
-          }}
-        >
-          {/* <View
-            style={{
-              height: 1,
-              backgroundColor: '#ddd', // You can change the color as needed
-              marginVertical: 10, // Add margin if you want space around the divider
-            }}
-          /> */}
-          <View
-            style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, marginBottom: 5 }}
-          >
-            <Text style={{ fontWeight: '500', fontSize: 14, marginVertical: 10, color: colors.scrim }}>
-              Past Transactions
-            </Text>
-            <Text style={{ fontWeight: '500', fontSize: 14, marginVertical: 10, color: colors.primary }}>See All</Text>
-          </View>
-          {paymentHistoryData.map((item, index) => (
-            <PaymentHistoryCard key={index} />
-          ))}
-        </View>
+        <ScrollView style={{ paddingHorizontal: 20 }}>
+          {paymentHistory.length > 0 ? (
+            paymentHistory.map((item, index) => (
+              <PaymentHistoryCard key={index} data={item} />
+            ))
+          ) : (
+            <EpmtyPage />
+          )}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

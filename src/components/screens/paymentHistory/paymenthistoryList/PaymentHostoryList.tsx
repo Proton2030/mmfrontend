@@ -5,10 +5,11 @@ import { Appbar, Avatar, Card, useTheme } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { formatDate } from '../../../../utils/commonFunction/dateFormat';
 
-export const PaymentHistoryCard = () => {
+export const PaymentHistoryCard = ({ data }: any) => {
   const { colors } = useTheme();
-
+  console.log(data)
   const navigation = useNavigation<any>();
   return (
     <TouchableOpacity
@@ -31,10 +32,14 @@ export const PaymentHistoryCard = () => {
       }}
     >
       <View style={{ flexDirection: 'column' }}>
-        <Text style={{ fontSize: 16, color: colors.scrim }}>Single Chat</Text>
-        <Text style={{ fontSize: 12 }}>10 May 2024</Text>
+        <Text style={{
+          fontSize: 18, color: data?.payment_status === "PAID" ? "green" : colors.primary,
+          fontWeight: "600",
+
+        }}>{data?.payment_status}</Text>
+        <Text style={{ fontSize: 12, color: "black" }}>{formatDate(data?.updatedAt)}</Text>
       </View>
-      <Text style={{ fontSize: 18, color: colors.scrim }}>৳ 150</Text>
+      <Text style={{ fontSize: 18, color: colors.scrim }}>৳ {data?.price}</Text>
     </TouchableOpacity>
   );
 };

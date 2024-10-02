@@ -4,7 +4,7 @@ import { forgetPassOtp, getOtp } from './auth/sendOtp';
 import { getChat, getChatList, getUnseenMessageCount } from './chat/chat';
 import { getFilterList } from './filter/filter';
 import { getNotification } from './notification/notificaton';
-import { initPayment, validatePayment } from './payment/Payment';
+import { getPaymentList, initPayment, validatePayment } from './payment/Payment';
 import { getAllPlans } from './subscriptionPlans/Plans';
 import { addChoice } from './userChoice/addUserChoice';
 import { getChoice } from './userChoice/getUserChoice';
@@ -56,6 +56,7 @@ export const api = {
     getAllPlans: getAllPlans,
     initPayment: initPayment,
     validatePayment: validatePayment,
+    getPaymentList: getPaymentList
   },
   filter: {
     getFilterList: getFilterList,
