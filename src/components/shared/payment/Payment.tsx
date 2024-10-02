@@ -6,11 +6,14 @@ import { Alert } from 'react-native';
 import CustomizeAppBar from '../customizeAppbar/CustomizeAppBar';
 import { DOMAIN_LINK, PAYMENT_REDIRECTION_LINK } from '../../../constants/paymentLink';
 
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
+
 const Payment = () => {
   const route = useRoute<any>();
   const { paymentUrl, tranId, planId } = route.params;
   const navigation = useNavigation<any>();
   const [currentUrl, setCurrentUrl] = useState<string>(paymentUrl);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleNavigationStateChange = (navState: any) => {
     const { url } = navState;
@@ -36,9 +39,26 @@ const Payment = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <CustomizeAppBar />
-      <WebView source={{ uri: currentUrl }} style={{ flex: 1 }} onNavigationStateChange={handleNavigationStateChange} />
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+      <WebView
+        source={{ uri: currentUrl }}
+        style={{ flex: 1 }}
+        onNavigationStateChange={handleNavigationStateChange}
+        onLoadStart={() => setLoading(true)}
+        onLoadEnd={() => setLoading(false)}
+      />
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  loaderContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default Payment;
