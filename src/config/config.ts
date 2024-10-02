@@ -1,10 +1,9 @@
 import { io } from 'socket.io-client';
 
 export const AUTH_URL = 'https://j4d9fb5o15.execute-api.ap-south-1.amazonaws.com';
-export const BASE_URL = 'http://192.168.141.155:8989';
+export const BASE_URL = 'https://d3be5gm8hnmvue.cloudfront.net';
 export const CHAT_URL = 'https://yoaj50ivwc.execute-api.ap-south-1.amazonaws.com';
-export const LOCALSOCKET = 'http://192.168.141.155:9999';
-export const LOCALSERVER = 'http://192.168.141.155:8989';
+export const LOCALSOCKET = 'http://192.168.225.155:9999';
 // export const port = 8181;
 export const version = 'v1';
 
