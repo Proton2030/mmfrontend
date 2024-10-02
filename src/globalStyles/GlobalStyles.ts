@@ -209,7 +209,7 @@ const globalStylesList = () => {
       margin: 5,
     },
     item: {
-      marginVertical: 10,
+      marginVertical: 5,
     },
     headerFilter: {
       display: 'flex',
@@ -242,7 +242,9 @@ const globalStylesList = () => {
     },
     category: {
       margin: 3,
-      borderRadius: 15,
+      borderTopEndRadius: 25,
+      borderBottomStartRadius: 25,
+      borderTopLeftRadius: 25,
       padding: 5,
       paddingHorizontal: 20,
       // backgroundColor: 'white',
@@ -285,8 +287,10 @@ const globalStylesList = () => {
     button: {
       marginTop: 20,
       backgroundColor: '#E71B73',
-      borderRadius: 25,
-      padding: 14,
+      borderTopEndRadius: 25,
+      borderBottomStartRadius: 25,
+      borderTopLeftRadius: 25,
+      padding: 12,
       alignItems: 'center',
       justifyContent: 'center',
       elevation: 4,
@@ -319,17 +323,19 @@ const globalStylesList = () => {
     },
     shadowView: {
       paddingHorizontal: 10,
-      borderRadius: 25,
+      borderTopEndRadius: 25,
+      borderBottomStartRadius: 25,
+      borderTopLeftRadius: 25,
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: 'white',
+
       shadowColor: 'black',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.25,
       shadowRadius: 3,
-      elevation: 4,
+      elevation: 2,
       marginHorizontal: 5,
-      paddingVertical: 2,
+      paddingVertical: 0,
     },
   });
 };

@@ -8,6 +8,8 @@ import { Button, useTheme } from 'react-native-paper';
 import SelectDropdown from 'react-native-select-dropdown';
 import { districts_of_bangladesh } from '../../../constants/bangladeshDistricts';
 import { useNavigation } from '@react-navigation/native';
+import CustomDropdown from './districtSelect/CustomDropdown';
+import SearchBox from './userSearchField/UserSearchBox';
 
 const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
   const { colors } = useTheme();
@@ -18,6 +20,7 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
   const [hasSawm, setHasSawm] = useState<any>(null);
   const [minAge, setMinAge] = useState<number | null>(null);
   const [maxAge, setMaxAge] = useState<number | null>(null);
+  const [username, setUserName] = useState<string | null>();
 
   const handleRefreshFilters = () => {
     setMaritalStatus(null);
@@ -26,11 +29,18 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
     setMinAge(null);
     setMaxAge(null);
     setLocation(null);
-    applyFilters({ location: null, maritalStatus: null, hasSalah: null, hasSawm: null, minAge: null, maxAge: null });
+    setUserName(null)
+    applyFilters({
+      location: null, maritalStatus: null, hasSalah: null, hasSawm: null,
+      minAge: null, maxAge: null, full_name: null
+    });
   };
 
   const applyFilter = () => {
-    applyFilters({ location, maritalStatus, hasSalah, hasSawm, minAge, maxAge });
+    applyFilters({
+      location, maritalStatus, hasSalah, hasSawm, minAge, maxAge,
+      full_name: username
+    });
     closeDrawer();
   };
 
@@ -76,24 +86,33 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
       </View>
       <ScrollView style={globalStyles.container}>
         <View style={globalStyles.item}>
-          <View style={[globalStyles.shadowView, { backgroundColor: colors.surface }]}>
-            <SelectDropdown
-              defaultButtonText="Select District"
-              buttonStyle={{
-                width: '100%',
-                backgroundColor: colors.surface,
-                borderRadius: 20,
+          <Text style={{
+            color: colors.tertiary,
+            fontWeight: 'bold',
+            fontSize: SIZES.h3,
+            marginVertical: 5,
+            marginLeft: 10,
+          }}>
+            Search User
+          </Text>
+          <View style={[globalStyles.shadowView, { backgroundColor: colors.background }]}>
+            <SearchBox username={username} setUsername={setUserName} />
+          </View>
+        </View>
 
-              }}
-              buttonTextStyle={globalStyles.selectText}
-              dropdownIconPosition="left"
-              rowStyle={{ borderRadius: 20 }}
-              dropdownStyle={{ borderRadius: 20, marginTop: -20 }}
-              rowTextStyle={{ fontSize: 13 }}
-              renderDropdownIcon={() => <Icon name="chevron-down" size={24} color="gray" />}
-              data={districts_of_bangladesh}
-              onSelect={(selectedItem: any) => setLocation(selectedItem)}
-            />
+        <View style={globalStyles.item}>
+          <Text style={{
+            color: colors.tertiary,
+            fontWeight: 'bold',
+            fontSize: SIZES.h3,
+            marginVertical: 5,
+            marginLeft: 10,
+          }}>
+            Search Location
+          </Text>
+          <View style={[globalStyles.shadowView, { backgroundColor: colors.background }]}>
+            <CustomDropdown data={districts_of_bangladesh}
+              onSelect={(selectedItem: any) => setLocation(selectedItem)} />
           </View>
         </View>
 
@@ -130,13 +149,13 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
                     shadowColor:
                       minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : COLORS.title,
                   },
-                  { backgroundColor: colors.surface },
+                  { backgroundColor: minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : colors.surface },
                 ]}
               >
                 <Text
                   style={[
                     globalStyles.subtitle,
-                    { color: minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : 'gray' },
+                    { color: minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.white : 'gray' },
                   ]}
                 >
                   {ageRange.label}
@@ -268,7 +287,7 @@ const styles = StyleSheet.create({
   /** Header */
   header: {
     paddingHorizontal: 16,
-    marginBottom: 12,
+    // marginBottom: 12,
   },
   headerTop: {
     marginHorizontal: -6,

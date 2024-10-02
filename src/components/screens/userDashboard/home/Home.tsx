@@ -132,6 +132,7 @@ const Home = () => {
     location: any;
     minAge: number | null;
     maxAge: number | null;
+    full_name: string
   }) => {
     const gender = user?.gender === 'MALE' ? 'FEMALE' : 'MALE';
     console.log(filterOptions);
@@ -146,6 +147,7 @@ const Home = () => {
         salah: filterOptions?.hasSalah,
         sawum: filterOptions?.hasSawm,
         state: filterOptions?.location,
+        full_name: filterOptions?.full_name
       };
 
       // Perform the API call with the params

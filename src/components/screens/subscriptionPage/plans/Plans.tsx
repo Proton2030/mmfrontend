@@ -9,6 +9,7 @@ import {
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { styles } from '../subcriptionStyles';
 import { COLORS } from '../../../../constants/theme';
+import SpecialOfferCard from '../../../shared/specilOfferCard/SpecialOfferCard';
 
 const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }: any) => {
     const [showScrollDown, setShowScrollDown] = useState(true); // State to control arrow visibility
@@ -47,8 +48,25 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                         onScroll={handleScroll}
                         scrollEventThrottle={16} // Trigger scroll event every 16 ms (smooth scrolling)
                     >
+
+
                         {prices.map((item: any, index: any) => {
+                            if (index === 4) {
+                                return (
+                                    <SpecialOfferCard
+                                        key={index}
+                                        isActive={selected === index}
+                                        index={index}
+                                        setSelected={setSelected}
+                                        item={item}
+                                        planCreationTime={'2024-10-02T19:30:00'}
+                                        planDurationInMinutes={30}
+                                    />
+                                );
+                            }
+
                             const isActive = selected === index;
+
                             return (
                                 <TouchableWithoutFeedback
                                     key={index}
