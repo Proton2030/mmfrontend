@@ -39,25 +39,31 @@ const Payment = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <CustomizeAppBar />
-      <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-      <WebView
-        source={{ uri: currentUrl }}
-        style={{ flex: 1 }}
-        onNavigationStateChange={handleNavigationStateChange}
-        onLoadStart={() => setLoading(true)}
-        onLoadEnd={() => setLoading(false)}
-      />
+      {
+        loading ?
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size={70} color="#0000ff" />
+          </View>
+          :
+
+          <WebView
+            source={{ uri: currentUrl }}
+            style={{ flex: 1 }}
+            onNavigationStateChange={handleNavigationStateChange}
+            onLoadStart={() => setLoading(true)}
+            onLoadEnd={() => setLoading(false)}
+          />
+      }
+
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   loaderContainer: {
-    ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1
   },
 });
 

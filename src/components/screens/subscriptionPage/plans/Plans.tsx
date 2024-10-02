@@ -59,7 +59,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                                         index={index}
                                         setSelected={setSelected}
                                         item={item}
-                                        planCreationTime={'2024-10-02T19:30:00'}
+                                        planCreationTime={'2024-10-02T22:28:00'}
                                         planDurationInMinutes={30}
                                     />
                                 );

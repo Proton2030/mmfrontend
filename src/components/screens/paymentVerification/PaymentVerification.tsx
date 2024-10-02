@@ -4,7 +4,8 @@ import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
-import { paymentFail, paymentLoader, playingHeart, paymentSuccess } from '../../../assets';
+import { paymentFail, playingHeart, paymentSuccess } from '../../../assets';
+import { ActivityIndicator } from 'react-native-paper';
 
 const PaymentVerification = ({ route }: any) => {
   const { tranId, planId } = route.params;
@@ -53,7 +54,7 @@ const PaymentVerification = ({ route }: any) => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {loading ? (
-        <LottieView source={paymentLoader} autoPlay loop style={{ width: 300, height: 200 }} />
+        <ActivityIndicator size={"large"} />
       ) : isPaymentSuccess ? (
         <LottieView source={paymentSuccess} autoPlay loop={false} style={{ width: 350, height: 400 }} />
       ) : (

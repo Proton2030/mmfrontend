@@ -26,4 +26,4 @@ export { default as jumping } from './images/jumping.webp';
 export { default as loveLine } from './images/love-line.webp';
 export { default as paymentSuccess } from './images/success.json';
 export { default as paymentFail } from './images/failed.json';
-export { default as paymentLoader } from './images/paymentLoader.json';
+
