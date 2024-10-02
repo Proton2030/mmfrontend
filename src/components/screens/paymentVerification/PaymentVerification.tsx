@@ -13,6 +13,7 @@ const PaymentVerification = ({ route }: any) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [isPaymentSuccess, setIsPaymentSuccess] = useState<boolean>(false);
   const [paymentStatus, setPaymentStatus] = useState<string>('');
+  const navigation = useNavigation<any>();
 
   const handlePaymentVerification = useCallback(async () => {
     try {
@@ -39,9 +40,9 @@ const PaymentVerification = ({ route }: any) => {
       console.log(JSON.stringify(error));
     } finally {
       setLoading(false);
-      // setTimeout(() => {
-      //   navigation.goBack();
-      // }, 2700);
+      setTimeout(() => {
+        navigation.goBack();
+      }, 2700);
     }
   }, [tranId, planId]);
 
@@ -54,7 +55,7 @@ const PaymentVerification = ({ route }: any) => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       {loading ? (
-        <ActivityIndicator size={"large"} />
+        <ActivityIndicator size={'large'} />
       ) : isPaymentSuccess ? (
         <LottieView source={paymentSuccess} autoPlay loop={false} style={{ width: 350, height: 400 }} />
       ) : (
