@@ -11,6 +11,8 @@ import { DarkThemeColor, LightThemeColor, ThemeColor } from './src/constants/the
 import UiContext from './src/contexts/uiContext/UIContext';
 import SplashScreen from 'react-native-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { api } from './src/utils/api';
 
 const lightTheme = {
   ...DefaultTheme,
@@ -29,21 +31,35 @@ const darkTheme = {
 };
 
 const App = ({ isRoute }: any) => {
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const {
     ui: { theme },
   } = useContext(UiContext);
   const { colors } = useTheme();
   const appState = useAppState();
   const paperTheme = theme === 'DARK' ? darkTheme : lightTheme;
-  useEffect(() => {
-    if (appState === 'active') {
-      if (user && user.acount_status === 'ACTIVE') {
-        socket.emit('online', { userId: user?._id });
+
+  const getUserDetails = async () => {
+    const userId = await AsyncStorage.getItem('@userId');
+    if (userId) {
+      const userDetails = await api.userDetails.getUserInfo({ userObjectId: userId });
+      console.log('===>userDetails', userDetails);
+      if (userDetails) {
+        setUser(userDetails);
       }
     }
-    if (appState === 'background' || appState === 'inactive') {
-      socket.emit('offline', { userId: user?._id });
+  };
+
+  useEffect(() => {
+    if (user) {
+      if (appState === 'active') {
+        if (user && user.acount_status === 'ACTIVE') {
+          socket.emit('online', { userId: user?._id });
+        }
+      }
+      if (appState === 'background' || appState === 'inactive') {
+        socket.emit('offline', { userId: user?._id });
+      }
     }
   }, [appState, user]);
 
@@ -54,12 +70,10 @@ const App = ({ isRoute }: any) => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
+
   useEffect(() => {
-    if (isRoute) {
-      console.log('======>notification');
-      // navigation.navigate('Notification');
-    }
-  }, [isRoute]);
+    getUserDetails();
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

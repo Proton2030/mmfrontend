@@ -417,6 +417,7 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const handlePaymentUpdate = async (plan: any) => {
     if (!user?._id || !plan?._id) return;
+    // navigation.replace('PaymentVerification', { tranId: 'tran_1727848874969_h720nyzwm', planId: plan._id });
     const response = await api.payment.initPayment(user?._id, plan?._id);
     closeModal();
     console.log('====>url', response.paymentUrl);
@@ -425,7 +426,7 @@ export const SubscriptionPage = ({ closeModal }: any) => {
       navigation.navigate('Payment', {
         paymentUrl,
         tranId,
-        planId: plan?._id,
+        planId: plan._id,
       });
     }
   };

@@ -80,26 +80,6 @@ const SignUp = () => {
 
   const handleChangeScreen = async () => {
     if (screen < 1) {
-      // if (screen === 0) {
-      //   setLoading(true);
-      //   const filter = { mobile: userDetails.mobile };
-      //   try {
-      //     const otpResponse = await api.auth.getOtp(filter);
-      //     if (otpResponse) {
-      //       console.log('==>otp', otpResponse);
-      //       setOtp(otpResponse);
-      //       setLoading(false);
-      //     } else {
-      //       setVisible(true);
-      //       setLoading(false);
-      //       return;
-      //     }
-      //   } catch (err) {
-      //     setVisible(true);
-      //     setLoading(false);
-      //     return;
-      //   }
-      // }
       setScreen((prev) => ++prev);
     }
   };
