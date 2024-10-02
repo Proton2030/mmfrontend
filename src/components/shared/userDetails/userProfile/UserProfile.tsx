@@ -132,14 +132,19 @@ const UserProfile = ({ uri, userDetails }: any) => {
                             Profile Details
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={handleParsonalInfoNavigate} style={{
-                        flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
-                        paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
-                    }}>
-                        <Icon name="pencil" size={14} color={colors.tertiary} />
-                        <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
+                    {
+                        userDetails?._id === user?._id ?
+                            <TouchableOpacity onPress={handleParsonalInfoNavigate} style={{
+                                flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
+                                paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
+                            }}>
+                                <Icon name="pencil" size={14} color={colors.tertiary} />
+                                <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                            : null
+                    }
+
                 </View>
 
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
@@ -178,14 +183,18 @@ const UserProfile = ({ uri, userDetails }: any) => {
                             Professional Details
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={handleJobInfoNavigate} style={{
-                        flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
-                        paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
-                    }}>
-                        <Icon name="pencil" size={14} color={colors.tertiary} />
-                        <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
+                    {
+                        userDetails?._id === user?._id ?
+                            <TouchableOpacity onPress={handleJobInfoNavigate} style={{
+                                flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
+                                paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
+                            }}>
+                                <Icon name="pencil" size={14} color={colors.tertiary} />
+                                <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                            : null
+                    }
                 </View>
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
                     {USER_INFO_TWO.map((key: IField, index: number) => {
@@ -224,14 +233,17 @@ const UserProfile = ({ uri, userDetails }: any) => {
                             Education
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={handleEduInfoNavigate} style={{
-                        flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
-                        paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
-                    }}>
-                        <Icon name="pencil" size={14} color={colors.tertiary} />
-                        <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
+                    {
+                        userDetails?._id === user?._id ?
+                            <TouchableOpacity onPress={handleEduInfoNavigate} style={{
+                                flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
+                                paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
+                            }}>
+                                <Icon name="pencil" size={14} color={colors.tertiary} />
+                                <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                            : null}
                 </View>
 
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
@@ -271,14 +283,17 @@ const UserProfile = ({ uri, userDetails }: any) => {
                             Religious Information
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={handleReligiousInfoNavigate} style={{
-                        flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
-                        paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
-                    }}>
-                        <Icon name="pencil" size={14} color={colors.tertiary} />
-                        <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
+                    {
+                        userDetails?._id === user?._id ?
+                            <TouchableOpacity onPress={handleReligiousInfoNavigate} style={{
+                                flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
+                                paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
+                            }}>
+                                <Icon name="pencil" size={14} color={colors.tertiary} />
+                                <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                            : null}
                 </View>
 
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
@@ -317,14 +332,17 @@ const UserProfile = ({ uri, userDetails }: any) => {
                             Family Background
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={handleFamilyInfoNavigate} style={{
-                        flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
-                        paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
-                    }}>
-                        <Icon name="pencil" size={14} color={colors.tertiary} />
-                        <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
+                    {
+                        userDetails?._id === user?._id ?
+                            <TouchableOpacity onPress={handleFamilyInfoNavigate} style={{
+                                flexDirection: "row", gap: 5, backgroundColor: theme !== "DARK" ? "#e6e6e6" : colors.backdrop,
+                                paddingHorizontal: 8, paddingVertical: 4, borderRadius: 20, alignItems: "center", justifyContent: "center"
+                            }}>
+                                <Icon name="pencil" size={14} color={colors.tertiary} />
+                                <Text style={{ color: colors.tertiary, fontWeight: "700", fontSize: 12 }}>Edit</Text>
 
-                    </TouchableOpacity>
+                            </TouchableOpacity>
+                            : null}
                 </View>
 
                 <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
