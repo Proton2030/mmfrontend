@@ -59,6 +59,7 @@ export default function PointDashBoard() {
           }}
         >
           <ProgressContainer />
+
         </TouchableOpacity>
 
         <View style={{ marginHorizontal: 10, paddingHorizontal: 10, paddingVertical: 10 }}>

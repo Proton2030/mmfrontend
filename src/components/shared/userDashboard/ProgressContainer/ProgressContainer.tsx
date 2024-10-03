@@ -3,21 +3,40 @@ import { TouchableOpacity, Image, StyleSheet, Text, View } from 'react-native';
 import { COLORS } from '../../../../constants/theme';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
-import { Card, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
 const ProgressContainer = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext<any>(AuthContext);
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
+
+  // List of user fields from IUserInfo interface
+  const userFields = [
+    'full_name', 'gender', 'age', 'marital_status', 'state', 'height', 'weight',
+    'body_color', 'occupation', 'work_place', 'monthly_income', 'education', 'islamic_education',
+    'salah', 'sawum', 'fathers_name', 'fathers_occupation', 'mothers_name', 'mothers_occupation',
+    'no_of_brothers', 'no_of_sisters', 'financial_condition', 'status', 'profile_image_url'
+  ];
+
+  // Calculate percentage of profile completeness
+  const filledFields = userFields.filter(field => user?.[field]);
+  const unfilledFields = userFields.filter(field => !user?.[field]);
+  const totalFields = userFields.length;
+  const completionPercentage = Math.round((filledFields.length / totalFields) * 100);
+
+  // Log unfilled fields
+  console.log('Unfilled fields:', unfilledFields);
+
   const handleRouteMyProfile = () => {
     navigation.navigate('UserDetails', {
       userDetails: user,
       editable: true,
     });
   };
+
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-      <Image alt="" source={{ uri: user?.profile_image_url }} style={styles.avatar} />
+      <Image alt="" source={{ uri: user?.profile_image_url || " " }} style={styles.avatar} />
 
       <View>
         <Text style={{ fontSize: 18, fontWeight: '700', color: colors.primary }}>{user?.full_name}</Text>
@@ -36,7 +55,9 @@ const ProgressContainer = () => {
               color: colors.tertiary,
             }}
           >
-            View Profile
+            {completionPercentage === 100
+              ? 'View Profile'
+              : `${completionPercentage}% Profile Complete`}
           </Text>
         </TouchableOpacity>
       </View>

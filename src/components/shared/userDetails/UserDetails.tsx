@@ -40,63 +40,13 @@ import { IField, IGroup } from '../../../@types/types/FieldTypes.types';
 import UserProfile from './userProfile/UserProfile';
 
 const UserDetails = () => {
-  const { colors } = useTheme();
-  const {
-    ui: { language, theme },
-  } = useContext(UiContext);
+
   const route = useRoute<any>();
   const { user } = useContext(AuthContext);
   const [choice, setChoice] = useState<boolean>(false);
   const { userDetails, editable, Userchoice } = route.params;
   const fadeAnim = new Animated.Value(0);
   const navigation = useNavigation<any>();
-
-  const handleParsonalInfoNavigate = () => {
-    navigation.navigate('UserInfo', {
-      screen: 'UserInfo1',
-      params: {
-        editable: true,
-        // Any other parameters you want to pass
-      },
-    });
-    console.log('navigate');
-  };
-  const handleJobInfoNavigate = () => {
-    navigation.navigate('UserInfo', {
-      screen: 'UserInfo2',
-      params: {
-        editable: true,
-        // Any other parameters you want to pass
-      },
-    });
-  };
-  const handleEduInfoNavigate = () => {
-    navigation.navigate('UserInfo', {
-      screen: 'UserInfo3',
-      params: {
-        editable: true,
-        // Any other parameters you want to pass
-      },
-    });
-  };
-  const handleReligiousInfoNavigate = () => {
-    navigation.navigate('UserInfo', {
-      screen: 'UserInfo3_part2',
-      params: {
-        editable: true,
-        // Any other parameters you want to pass
-      },
-    });
-  };
-  const handleFamilyInfoNavigate = () => {
-    navigation.navigate('UserInfo', {
-      screen: 'UserInfo4',
-      params: {
-        editable: true,
-        // Any other parameters you want to pass
-      },
-    });
-  };
 
   const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
     setChoice((prev) => !prev);
@@ -107,35 +57,6 @@ const UserDetails = () => {
     const response = await api.userChoice.addChoice(payload);
   }, []);
 
-  const handleNavigateProfileImage = () => {
-    navigation.navigate('ProfileImage', {
-      userid: userDetails._id,
-      username: userDetails.full_name,
-      imageURL: userDetails.profile_image_url,
-    });
-  };
-
-  const handleNavigateChat = () => {
-    let roomId = '';
-    if (user && user._id && userDetails._id) {
-      if (user?.gender === 'MALE') {
-        roomId = user._id + userDetails._id;
-      } else {
-        roomId = userDetails._id + user._id;
-      }
-      console.log('roomId', roomId);
-      navigation.navigate('Chat', {
-        userDetails: userDetails,
-        roomId: roomId,
-      });
-    }
-  };
-
-  const handleAddChoice = useCallback(() => {
-    if (user?._id && userDetails._id) {
-      addChoice(user._id, userDetails._id);
-    }
-  }, [user]);
 
   React.useEffect(() => {
     setChoice(Userchoice);
