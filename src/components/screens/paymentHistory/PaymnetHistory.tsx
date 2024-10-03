@@ -1,16 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text, ScrollView } from 'react-native';
-import { Appbar, Avatar, Card, useTheme } from 'react-native-paper';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useCallback, useContext, useState } from 'react';
+import { StyleSheet, SafeAreaView, View, ScrollView } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { EpmtyPage } from '../emptyPage/EmptyPage';
-import UiContext from '../../../contexts/uiContext/UIContext';
-import { PaymentHistoryTopCard } from './paymentTopCard/PaymentTopCard';
 import { PaymentHistoryCard } from './paymenthistoryList/PaymentHostoryList';
 import { api } from '../../../utils/api';
 import AuthContext from '../../../contexts/authContext/authContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const PaymentHistory = () => {
   const { colors } = useTheme();
@@ -30,10 +25,11 @@ export const PaymentHistory = () => {
     }
   };
 
-  useEffect(() => {
-    getPaymentList();
-  }, []);
-
+  useFocusEffect(
+    useCallback(() => {
+      getPaymentList();
+    }, [user])
+  );
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.container}>

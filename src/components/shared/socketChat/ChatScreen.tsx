@@ -98,6 +98,14 @@ const PersonalChatPage = () => {
         };
         socket.emit('sendMessage', message);
         console.log('User count in the room:', userCount);
+        if (messages.length <= 0) {
+          if (user?.message_limit) {
+            setUser({
+              ...user,
+              message_limit: user.message_limit - 1,
+            });
+          }
+        }
         setText('');
       }
     }
