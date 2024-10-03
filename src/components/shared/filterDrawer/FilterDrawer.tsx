@@ -59,7 +59,7 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
     <SafeAreaView
       style={{
         flex: 1,
-        paddingTop: 42,
+        paddingTop: 12,
         backgroundColor: colors.background,
         paddingHorizontal: 5,
       }}

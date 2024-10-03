@@ -277,22 +277,22 @@ const Home = () => {
     }
   }, [user]);
 
-  const openDrawer = () => {
-    if (drawerRef.current) {
-      console.log('Opening drawer');
-      drawerRef.current.openDrawer();
-    } else {
-      console.warn('Drawer reference is null. Unable to open drawer.');
-    }
-  };
-  const closeDrawer = () => {
-    if (drawerRef.current) {
-      console.log('closing drawer');
-      drawerRef.current.closeDrawer();
-    } else {
-      console.warn('Drawer reference is null. Unable to open drawer.');
-    }
-  };
+  // const openDrawer = () => {
+  //   if (drawerRef.current) {
+  //     console.log('Opening drawer');
+  //     drawerRef.current.openDrawer();
+  //   } else {
+  //     console.warn('Drawer reference is null. Unable to open drawer.');
+  //   }
+  // };
+  // const closeDrawer = () => {
+  //   if (drawerRef.current) {
+  //     console.log('closing drawer');
+  //     drawerRef.current.closeDrawer();
+  //   } else {
+  //     console.warn('Drawer reference is null. Unable to open drawer.');
+  //   }
+  // };
 
   useEffect(() => {
     // Set a timeout to turn off loading after 3 seconds
@@ -323,10 +323,31 @@ const Home = () => {
     handlegGetUnseenMessageCount();
   }, [handlegGetUnseenMessageCount]);
 
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(330)).current; // Initial value for translateX is the width of the drawer
+
+  const openDrawer = () => {
+    setModalVisible(true);
+    Animated.timing(slideAnim, {
+      toValue: 0, // Slide the drawer into view
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeDrawer = () => {
+    Animated.timing(slideAnim, {
+      toValue: 330, // Slide the drawer out of view
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setModalVisible(false)); // Close modal after animation
+  };
+
   return (
     <View style={globalStyles.parentScrollContainer2}>
       <View style={{ flex: 1 }}>
-        <DrawerLayout
+        {/* <DrawerLayout
           ref={drawerRef}
           drawerWidth={330}
           drawerPosition="right"
@@ -334,119 +355,144 @@ const Home = () => {
           renderNavigationView={() => (
             <FilterDrawer closeDrawer={closeDrawer} toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
           )}
+        > */}
+
+
+        <Modal
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={closeDrawer}
         >
-          <Appbar.Header
-            style={{
-              backgroundColor: ui?.theme === 'DARK' ? 'black' : colors.secondary,
-              borderBottomColor: colors.onSurfaceDisabled,
-              borderTopColor: ui?.theme === 'DARK' ? colors.backdrop : colors.primary,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              paddingLeft: 10,
-              borderBottomWidth: 0.5,
-              elevation: 1,
-            }}
-          >
-            {/* <Appbar.Content
-              title="Shohoz shadi"
-              titleStyle={{ color: colors.primary, fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
-            /> */}
-            <View
+          {/* Dark background overlay */}
+          <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            {/* Touchable area to close the drawer when tapping outside */}
+            <TouchableOpacity style={{ flex: 1 }} onPress={closeDrawer} />
+
+            {/* Animated sliding drawer */}
+            <Animated.View
               style={{
-                alignItems: 'center',
-                paddingLeft: 10,
-                flexDirection: 'row',
-                gap: 10,
+                transform: [{ translateX: slideAnim }],
+                width: 330,
+                height: '100%',
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                backgroundColor: colors.background,
               }}
             >
-              <Image
-                style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
-                source={{
-                  uri:
-                    user?.profile_image_url ||
-                    'https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=',
-                }}
-              />
-              <View>
-                <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
-                  <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
-                  <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
-                </View>
+              <FilterDrawer closeDrawer={closeDrawer} toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
+            </Animated.View>
+          </View>
+        </Modal>
+
+        <Appbar.Header
+          style={{
+            backgroundColor: ui?.theme === 'DARK' ? 'black' : colors.secondary,
+            borderBottomColor: colors.onSurfaceDisabled,
+            borderTopColor: ui?.theme === 'DARK' ? colors.backdrop : colors.primary,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingLeft: 10,
+            borderBottomWidth: 0.5,
+            elevation: 1,
+          }}
+        >
+          <View
+            style={{
+              alignItems: 'center',
+              paddingLeft: 10,
+              flexDirection: 'row',
+              gap: 10,
+            }}
+          >
+            <Image
+              style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
+              source={{
+                uri:
+                  user?.profile_image_url ||
+                  'https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=',
+              }}
+            />
+            <View>
+              <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
+                <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
+                <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
               </View>
             </View>
+          </View>
 
-            <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
-              <TouchableOpacity onPress={openDrawer}>
-                <Ionicons name="filter-outline" size={28} color={colors.primary} />
-              </TouchableOpacity>
-              <Badge
-                visible={messageSeenCount > 0}
-                size={16}
-                style={{ position: 'absolute', top: 0, right: 2, backgroundColor: colors.primary }}
-              >
-                {messageSeenCount}
-              </Badge>
-              <TouchableOpacity onPress={routeToNotificationList}>
-                <Ionicons name="notifications-outline" size={26} color={colors.primary} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={routeToChatList}>
-                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
-              </TouchableOpacity>
-            </View>
-          </Appbar.Header>
-          {suggestedUser?.length === 0 && (
-            <>
-              <Image
-                style={{
-                  height: 350,
-                  width: '80%',
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  marginTop: 100,
-                }}
-                source={noR}
-              />
-              <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600', color: colors.scrim }}>
-                No result found
-              </Text>
-            </>
-          )}
-          {isSearch && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Searchbar
-                style={{
-                  flex: 1,
-                  margin: 10,
-                  backgroundColor: colors.surface,
-                }}
-                elevation={3}
-                placeholder="Search User"
-                onChangeText={(query) => {
-                  setSearchQuery(query);
-                }}
-                onClearIconPress={handleClear}
-                value={searchQuery}
-                onSubmitEditing={handleSearch}
-              />
-            </View>
-          )}
-          {loading ? (
-            <ActivityIndicator size="small" color="#E71B73" style={{ marginTop: 10 }} />
-          ) : (
-            <FlatList
-              ref={flatListRef}
-              refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
-              onScroll={handleScroll}
-              scrollEventThrottle={50}
-              data={suggestedUser}
-              renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
-              keyExtractor={(user, index) => `${index}`}
-              ListFooterComponent={() => <>{loading ? <SmallLoader /> : null}</>}
+          <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
+            <TouchableOpacity onPress={openDrawer}>
+              <Ionicons name="filter-outline" size={28} color={colors.primary} />
+            </TouchableOpacity>
+            <Badge
+              visible={messageSeenCount > 0}
+              size={16}
+              style={{ position: 'absolute', top: 0, right: 2, backgroundColor: colors.primary }}
+            >
+              {messageSeenCount}
+            </Badge>
+            <TouchableOpacity onPress={routeToNotificationList}>
+              <Ionicons name="notifications-outline" size={26} color={colors.primary} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={routeToChatList}>
+              <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
+            </TouchableOpacity>
+          </View>
+        </Appbar.Header>
+        {suggestedUser?.length === 0 && (
+          <>
+            <Image
+              style={{
+                height: 350,
+                width: '80%',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: 100,
+              }}
+              source={noR}
             />
-          )}
-        </DrawerLayout>
+            <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: '600', color: colors.scrim }}>
+              No result found
+            </Text>
+          </>
+        )}
+        {isSearch && (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Searchbar
+              style={{
+                flex: 1,
+                margin: 10,
+                backgroundColor: colors.surface,
+              }}
+              elevation={3}
+              placeholder="Search User"
+              onChangeText={(query) => {
+                setSearchQuery(query);
+              }}
+              onClearIconPress={handleClear}
+              value={searchQuery}
+              onSubmitEditing={handleSearch}
+            />
+          </View>
+        )}
+        {loading ? (
+          <ActivityIndicator size="small" color="#E71B73" style={{ marginTop: 10 }} />
+        ) : (
+          <FlatList
+            ref={flatListRef}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}
+            onScroll={handleScroll}
+            scrollEventThrottle={50}
+            data={suggestedUser}
+            renderItem={({ item }) => <UserCard addChoice={addChoice} userDetails={item} mode="NORMAL" />}
+            keyExtractor={(user, index) => `${index}`}
+            ListFooterComponent={() => <>{loading ? <SmallLoader /> : null}</>}
+          />
+        )}
+        {/* </DrawerLayout> */}
 
         {topIcon && (
           <View
@@ -465,23 +511,6 @@ const Home = () => {
           </View>
         )}
       </View>
-
-      {/* {drawerVisible && <View style={globalStyles.overlay} />}
-      <Animated.View
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: drawerVisible ? 0 : -80,
-          width: '100%',
-          height: '100%',
-          transform: [{ translateX }],
-          paddingLeft: 10,
-        }}
-      >
-        <View style={{ backgroundColor: 'white', position: 'absolute', right: 0, width: '80%', height: '100%' }}>
-          <FilterDrawer toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
-        </View>
-      </Animated.View> */}
     </View>
   );
 };
