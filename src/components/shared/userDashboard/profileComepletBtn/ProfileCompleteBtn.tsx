@@ -47,9 +47,17 @@ const ProfileCompleteBtn = () => {
   };
 
   return (
-    <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleNavigate}>
-      <Text style={[styles.buttonText, { color: colors.secondary }]}>Complete Your Profile</Text>
-    </TouchableOpacity>
+    <>
+
+      {
+        !isReligiousInfoIncomplete && !isFamilyInfoIncomplete ?
+          null :
+          <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleNavigate}>
+            <Text style={[styles.buttonText, { color: colors.secondary }]}>Complete Your Profile</Text>
+          </TouchableOpacity>
+      }
+
+    </>
   );
 };
 

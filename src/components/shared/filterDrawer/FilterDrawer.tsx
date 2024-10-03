@@ -38,6 +38,7 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
       maxAge: null,
       full_name: null,
     });
+    closeDrawer()
   };
 
   const applyFilter = () => {
@@ -288,7 +289,10 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
         <TouchableOpacity style={globalStyles.button} onPress={applyFilter}>
           <Text style={globalStyles.buttonTxt}>Apply Filters</Text>
         </TouchableOpacity>
-        <Button onPress={handleRefreshFilters}>Clear Filters</Button>
+        <TouchableOpacity style={[globalStyles.button2, { backgroundColor: colors.secondary }]}
+          onPress={handleRefreshFilters}>
+          <Text style={[globalStyles.buttonTxt, { color: colors.primary }]}>Clear Filters</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

@@ -238,7 +238,7 @@ const globalStylesList = () => {
     subtitle: {
       color: COLORS.grey,
       fontWeight: '400',
-      fontSize: SIZES.h5,
+      fontSize: SIZES.h4,
     },
     category: {
       margin: 3,
@@ -294,6 +294,23 @@ const globalStylesList = () => {
       alignItems: 'center',
       justifyContent: 'center',
       elevation: 4,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      marginBottom: 10,
+      marginHorizontal: 5,
+    },
+    button2: {
+      marginTop: 5,
+
+      borderTopEndRadius: 25,
+      borderBottomEndRadius: 25,
+      borderTopLeftRadius: 25,
+      padding: 12,
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 2,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.25,

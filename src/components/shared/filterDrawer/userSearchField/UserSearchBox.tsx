@@ -5,6 +5,17 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const SearchBox = ({ username, setUsername }: any) => {
   const { colors } = useTheme();
+
+  const handleInputChange = (text: string) => {
+    const trimmedText = text.trim();
+
+    if (trimmedText === '') {
+      setUsername(null);
+    } else {
+      setUsername(text);
+    }
+  };
+
   return (
     <View style={{ width: '100%' }}>
       <View style={styles.container}>
@@ -12,7 +23,7 @@ const SearchBox = ({ username, setUsername }: any) => {
           style={[styles.input, { color: colors.scrim }]}
           placeholder="Search Name"
           value={username}
-          onChangeText={setUsername}
+          onChangeText={handleInputChange}
           placeholderTextColor={'gray'}
         />
         <Icon name="account-search" size={24} color={colors.primary} />
