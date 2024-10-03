@@ -27,7 +27,7 @@ import {
   Tooltip,
   useTheme,
 } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import UserCard from '../../../shared/userCard/UserCard';
@@ -105,26 +105,7 @@ const Home = () => {
       setTopIcon(false);
     }
   };
-  const handleBackPress = () => {
-    if (drawerRef.current && typeof drawerRef.current.isDrawerOpen === 'function') {
-      if (drawerRef.current.isDrawerOpen()) {
-        drawerRef.current.closeDrawer();
-        return true; // Prevent default back button behavior
-      }
-    }
-    return false; // Otherwise, let the default behavior occur
-  };
 
-  // Add back button event listener on component mount
-  useEffect(() => {
-    // Add event listener
-
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    // Clean up event listener on unmount
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-    };
-  }, []);
   const hideFilterModal = async (filterOptions: {
     maritalStatus: any;
     hasSalah: any;
@@ -132,7 +113,7 @@ const Home = () => {
     location: any;
     minAge: number | null;
     maxAge: number | null;
-    full_name: string
+    full_name: string;
   }) => {
     const gender = user?.gender === 'MALE' ? 'FEMALE' : 'MALE';
     console.log(filterOptions);
@@ -147,7 +128,7 @@ const Home = () => {
         salah: filterOptions?.hasSalah,
         sawum: filterOptions?.hasSawm,
         state: filterOptions?.location,
-        full_name: filterOptions?.full_name
+        full_name: filterOptions?.full_name,
       };
 
       // Perform the API call with the params
@@ -280,6 +261,7 @@ const Home = () => {
   const openDrawer = () => {
     if (drawerRef.current) {
       console.log('Opening drawer');
+      setDrawerVisible(true);
       drawerRef.current.openDrawer();
     } else {
       console.warn('Drawer reference is null. Unable to open drawer.');
@@ -287,7 +269,7 @@ const Home = () => {
   };
   const closeDrawer = () => {
     if (drawerRef.current) {
-      console.log('closing drawer');
+      setDrawerVisible(false);
       drawerRef.current.closeDrawer();
     } else {
       console.warn('Drawer reference is null. Unable to open drawer.');
@@ -318,10 +300,31 @@ const Home = () => {
       setRefreshing(false);
     }
   }, [refreshing]);
-  const [active, setActive] = useState('');
+
   useEffect(() => {
     handlegGetUnseenMessageCount();
   }, [handlegGetUnseenMessageCount]);
+
+  // Add back button event listener on component mount
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        if (drawerRef.current && drawerVisible) {
+          drawerRef.current.closeDrawer();
+          setDrawerVisible(false);
+          return true;
+        }
+        return false;
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+    }, [drawerVisible]),
+  );
+
+  // console.log('===>drawer ref', drawerRef.current.openDrawer);
 
   return (
     <View style={globalStyles.parentScrollContainer2}>

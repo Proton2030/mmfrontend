@@ -5,7 +5,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { COLORS, SIZES } from '../../../constants/theme';
 import { Button, useTheme } from 'react-native-paper';
-import SelectDropdown from 'react-native-select-dropdown';
 import { districts_of_bangladesh } from '../../../constants/bangladeshDistricts';
 import { useNavigation } from '@react-navigation/native';
 import CustomDropdown from './districtSelect/CustomDropdown';
@@ -29,17 +28,27 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
     setMinAge(null);
     setMaxAge(null);
     setLocation(null);
-    setUserName(null)
+    setUserName(null);
     applyFilters({
-      location: null, maritalStatus: null, hasSalah: null, hasSawm: null,
-      minAge: null, maxAge: null, full_name: null
+      location: null,
+      maritalStatus: null,
+      hasSalah: null,
+      hasSawm: null,
+      minAge: null,
+      maxAge: null,
+      full_name: null,
     });
   };
 
   const applyFilter = () => {
     applyFilters({
-      location, maritalStatus, hasSalah, hasSawm, minAge, maxAge,
-      full_name: username
+      location,
+      maritalStatus,
+      hasSalah,
+      hasSawm,
+      minAge,
+      maxAge,
+      full_name: username,
     });
     closeDrawer();
   };
@@ -70,7 +79,7 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
             style={{
               fontSize: 27,
               fontWeight: '500',
-              color: colors.tertiary,
+              color: colors.scrim,
             }}
           >
             &nbsp;Filter User
@@ -79,20 +88,22 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
           <View style={styles.headerAction}>
             {/* <TouchableOpacity onPress={handleRefreshFilters}> */}
             <TouchableOpacity onPress={() => closeDrawer()}>
-              <Icon color="gray" name="close-circle-outline" size={30} />
+              <Icon color={colors.primary} name="close-circle-outline" size={30} />
             </TouchableOpacity>
           </View>
         </View>
       </View>
       <ScrollView style={globalStyles.container}>
         <View style={globalStyles.item}>
-          <Text style={{
-            color: colors.tertiary,
-            fontWeight: 'bold',
-            fontSize: SIZES.h3,
-            marginVertical: 5,
-            marginLeft: 10,
-          }}>
+          <Text
+            style={{
+              color: colors.tertiary,
+              fontWeight: 'bold',
+              fontSize: SIZES.h3,
+              marginVertical: 5,
+              marginLeft: 10,
+            }}
+          >
             Search User
           </Text>
           <View style={[globalStyles.shadowView, { backgroundColor: colors.background }]}>
@@ -101,18 +112,22 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
         </View>
 
         <View style={globalStyles.item}>
-          <Text style={{
-            color: colors.tertiary,
-            fontWeight: 'bold',
-            fontSize: SIZES.h3,
-            marginVertical: 5,
-            marginLeft: 10,
-          }}>
+          <Text
+            style={{
+              color: colors.tertiary,
+              fontWeight: 'bold',
+              fontSize: SIZES.h3,
+              marginVertical: 5,
+              marginLeft: 10,
+            }}
+          >
             Search Location
           </Text>
           <View style={[globalStyles.shadowView, { backgroundColor: colors.background }]}>
-            <CustomDropdown data={districts_of_bangladesh}
-              onSelect={(selectedItem: any) => setLocation(selectedItem)} />
+            <CustomDropdown
+              data={districts_of_bangladesh}
+              onSelect={(selectedItem: any) => setLocation(selectedItem)}
+            />
           </View>
         </View>
 
@@ -149,7 +164,10 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
                     shadowColor:
                       minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : COLORS.title,
                   },
-                  { backgroundColor: minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : colors.surface },
+                  {
+                    backgroundColor:
+                      minAge === ageRange.minAge && maxAge === ageRange.maxAge ? COLORS.primary : colors.surface,
+                  },
                 ]}
               >
                 <Text
@@ -236,7 +254,7 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
           </View>
         </View>
 
-        <View style={globalStyles.item}>
+        {/* <View style={globalStyles.item}>
           <Text style={{ color: colors.tertiary, fontWeight: 'bold', fontSize: SIZES.h3, marginVertical: 5 }}>
             FILTER
           </Text>
@@ -265,7 +283,7 @@ const FilterDrawer = ({ closeDrawer, applyFilters }: any) => {
               <MaterialIcons name="radio-button-unchecked" size={20} color={COLORS.grey} />
             )}
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <TouchableOpacity style={globalStyles.button} onPress={applyFilter}>
           <Text style={globalStyles.buttonTxt}>Apply Filters</Text>
