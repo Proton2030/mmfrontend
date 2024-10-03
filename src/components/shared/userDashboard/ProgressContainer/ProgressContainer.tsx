@@ -25,7 +25,7 @@ const ProgressContainer = () => {
   const completionPercentage = Math.round((filledFields.length / totalFields) * 100);
 
   // Log unfilled fields
-  console.log('Unfilled fields:', unfilledFields);
+  // console.log('Unfilled fields:', unfilledFields);
 
   const handleRouteMyProfile = () => {
     navigation.navigate('UserDetails', {

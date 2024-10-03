@@ -19,21 +19,29 @@ const UserDashboard = () => {
   const { colors } = useTheme();
   const [index, setIndex] = useState<number>(0);
 
-  const { user } = useContext(AuthContext);
+  const { user } = useContext<any>(AuthContext);
+
+  const userFields = [
+    'full_name', 'gender', 'age', 'marital_status', 'state', 'height', 'weight',
+    'body_color', 'occupation', 'work_place', 'monthly_income', 'education', 'islamic_education',
+    'salah', 'sawum', 'fathers_name', 'fathers_occupation', 'mothers_name', 'mothers_occupation',
+    'no_of_brothers', 'no_of_sisters', 'financial_condition', 'status', 'profile_image_url'
+  ];
+
+  // Calculate percentage of profile completeness
+  const filledFields = userFields.filter(field => user?.[field]);
+  const unfilledFields = userFields.filter(field => !user?.[field]);
+  const totalFields = userFields.length;
+  const completionPercentage = Math.round((filledFields.length / totalFields) * 100);
+
+
   const [routes] = useState(() => {
     const baseRoutes = [{ key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' }];
 
     // Check if user details are present based on IUserInfo
+
     if (
-      user &&
-      user.full_name &&
-      user.gender &&
-      user.age !== undefined &&
-      user.marital_status &&
-      user.state &&
-      user.height !== undefined &&
-      user.weight !== undefined &&
-      user.body_color
+      completionPercentage === 100
     ) {
       baseRoutes.push(
         { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },

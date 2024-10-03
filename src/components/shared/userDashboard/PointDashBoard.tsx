@@ -10,9 +10,10 @@ import { Card, useTheme } from 'react-native-paper';
 import AuthContext from '../../../contexts/authContext/authContext';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
+import ProfileCompleteBtn from './profileComepletBtn/ProfileCompleteBtn';
 
 export default function PointDashBoard() {
-  const { user } = useContext(AuthContext);
+  const { user } = useContext<any>(AuthContext);
   const { ui, setUi } = useContext(UiContext);
 
   const navigation = useNavigation<any>();
@@ -29,6 +30,7 @@ export default function PointDashBoard() {
       editable: true,
     });
   };
+
 
   const openModal = () => {
     setModalVisible(true);
@@ -61,6 +63,7 @@ export default function PointDashBoard() {
           <ProgressContainer />
 
         </TouchableOpacity>
+        <ProfileCompleteBtn />
 
         <View style={{ marginHorizontal: 10, paddingHorizontal: 10, paddingVertical: 10 }}>
           <Text style={{ fontSize: 18, fontWeight: '700', color: colors.tertiary, marginBottom: 16 }}>
