@@ -14,6 +14,7 @@ import { getFCMToken } from '../../../../../utils/commonFunction/getFCMToken';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_THREE_TEXT } from '../../../../../constants/texts/auth/signup/screenThree/ScreenThree';
+import { storeData } from '../../../../../utils/commonFunction/storeData';
 
 const SignUpScreenThree = ({ handleChangeScreen, handleChangeText, userDetails, mode }: ISignupScreenProps) => {
   const navigation = useNavigation<any>();
