@@ -49,7 +49,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       {'type' in groupField && groupField.type === 'NUMBER' ? (
                         <TextInput
                           textColor={colors.tertiary}
-                          style={{ ...globalStyles.roundedInputBox, width: '97%' }}
+                          style={{ ...globalStyles.roundedInputBox, width: '97%', marginTop: 15 }}
                           mode="outlined"
                           keyboardType="numeric"
                           id={groupField.id}
@@ -95,36 +95,40 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       {'type' in groupField && groupField.type === 'SELECT' ? (
                         <>
                           {/* Label above the dropdown */}
-                          {/* <Text style={{ color: colors.tertiary }}>{groupField.label}</Text> */}
-                          <SelectDropdown
-                            defaultButtonText={
-                              object[groupField.id] !== ''
-                                ? typeof object[groupField.id] === 'boolean'
-                                  ? object[groupField.id]
-                                    ? 'YES'
-                                    : 'NO'
-                                  : object[groupField.id]
-                                : groupField.label
-                            }
-                            buttonStyle={{
-                              ...globalStyles.selectField,
-                              backgroundColor: colors.background,
-                              width: '97%',
+                          <View>
 
-                            }}
-                            searchPlaceHolder={groupField.placeHolder}
-                            buttonTextStyle={{
-                              ...globalStyles.selectText,
-                              color: "gray", // Set the button text color to green
-                            }}
-                            dropdownIconPosition="right"
-                            renderDropdownIcon={() => <Icon name="chevron-down" />}
-                            data={groupField.options || []}
-                            rowStyle={{
-                              // backgroundColor: colors.background,
-                            }}
-                            onSelect={(text) => handleChangeText(groupField.id, groupField.type, text)}
-                          />
+                            <Text style={{ color: colors.tertiary }}>{groupField.label}</Text>
+                            <SelectDropdown
+                              defaultButtonText={
+                                object[groupField.id] !== ''
+                                  ? typeof object[groupField.id] === 'boolean'
+                                    ? object[groupField.id]
+                                      ? 'YES'
+                                      : 'NO'
+                                    : object[groupField.id]
+                                  : groupField.label
+                              }
+                              buttonStyle={{
+                                ...globalStyles.selectField,
+                                backgroundColor: colors.background,
+                                width: '97%',
+
+                              }}
+                              searchPlaceHolder={groupField.placeHolder}
+                              buttonTextStyle={{
+                                ...globalStyles.selectText,
+                                color: "gray", // Set the button text color to green
+                              }}
+                              dropdownIconPosition="right"
+                              renderDropdownIcon={() => <Icon name="chevron-down" />}
+                              data={groupField.options || []}
+                              rowStyle={{
+                                // backgroundColor: colors.background,
+                              }}
+                              onSelect={(text) => handleChangeText(groupField.id, groupField.type, text)}
+                            />
+                          </View>
+
                         </>
                       ) : null}
                     </View>
