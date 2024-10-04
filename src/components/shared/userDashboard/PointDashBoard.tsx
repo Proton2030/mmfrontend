@@ -113,7 +113,7 @@ export default function PointDashBoard() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.bottomSheet}>
-            <SubscriptionPage />
+            <SubscriptionPage closeModal={closeModal} />
           </View>
         </View>
       </Modal>
