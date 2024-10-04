@@ -1,12 +1,13 @@
 import { View, Text, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { Button, useTheme } from 'react-native-paper';
-import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import { api } from '../../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import { logo } from '../../../../../assets';
+import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
+import { defaultUser } from '../../../../../assets';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -96,11 +97,13 @@ const UpdateProfileImage = () => {
         <Image style={styles.image} source={logo} />
       </View>
       <View style={globalStyles.childContainer}>
-        <Text style={globalStyles.headingText}>Welcome Back {user?.full_name},Please Upload Your Profile Image</Text>
+        <Text style={[globalStyles.headingText, { color: colors.tertiary }]}>Welcome Back {user?.full_name},Please Upload Your Profile Image</Text>
       </View>
       <View style={globalStyles.childContainer}>
         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-          {profilePhotoUrl ? <Image source={{ uri: profilePhotoUrl }} style={styles.profileImage} /> : null}
+          {profilePhotoUrl ? <Image source={{ uri: profilePhotoUrl }} style={styles.profileImage} /> :
+            <Image source={defaultUser} style={styles.profileImage} />
+          }
           <Button
             mode="outlined"
             style={{
