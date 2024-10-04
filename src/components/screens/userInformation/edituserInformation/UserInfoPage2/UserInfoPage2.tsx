@@ -197,7 +197,7 @@ const UserInformationPage2 = () => {
               style={[globalStyles.pinkButton, { marginBottom: 18 }]}
               onPress={handleCompleteButtonClick}
             >
-              {editable ? 'Submit' : 'Next'}
+              {selectLanguage(SCREEN_USER_INFO_TWO_TEXT.next, language)}
             </Button>
             {editable ? null : (
               <Button
