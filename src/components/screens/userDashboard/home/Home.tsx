@@ -145,19 +145,65 @@ const Home = () => {
     }
   };
 
-  const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
-    const payload = {
-      senderId: sender_id,
-      recieverId: reciver_id,
-    };
-    console.log('-------->payload', payload);
-    try {
-      handleVibrate();
-      await api.userChoice.addChoice(payload);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  // const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
+  //   const payload = {
+  //     senderId: sender_id,
+  //     recieverId: reciver_id,
+  //   };
+
+  //   console.log('-------->payload', payload);
+  //   try {
+  //     handleVibrate();
+  //     await api.userChoice.addChoice(payload);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }, []);
+
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const slideAnim = useRef(new Animated.Value(330)).current; // Initial value for translateX is the width of the drawer
+
+  const openDrawer = () => {
+    setModalVisible(true);
+    Animated.timing(slideAnim, {
+      toValue: 0, // Slide the drawer into view
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeDrawer = () => {
+    Animated.timing(slideAnim, {
+      toValue: 330, // Slide the drawer out of view
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setModalVisible(false)); // Close modal after animation
+  };
+
+  const addChoice = (sender_id: string, receiver_id: string) => {
+    useFocusEffect(
+      useCallback(() => {
+        const handleAddChoice = async () => {
+          const payload = {
+            senderId: sender_id,
+            receiverId: receiver_id,
+          };
+
+          console.log('-------->payload', payload);
+          try {
+            handleVibrate();
+            await api.userChoice.addChoice(payload);
+          } catch (err) {
+            console.log(err);
+          }
+        };
+
+        handleAddChoice();
+      }, [sender_id, receiver_id]) // Dependencies
+    );
+  };
+
 
   const getSuggestionUserApi = async (mode: string) => {
     console.log('calling api2', page);
@@ -213,12 +259,7 @@ const Home = () => {
     getSuggestionUser();
     setFilterModalVisible(false);
   };
-  const handleRefreshFilters = () => {
-    setMaritalStatus('');
-    setHasSalah('');
-    setHasSawm('');
-    setFilterModalVisible(false);
-  };
+
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
     setPage(1);
@@ -258,30 +299,11 @@ const Home = () => {
     }
   }, [user]);
 
-  // const openDrawer = () => {
-  //   if (drawerRef.current) {
-  //     console.log('Opening drawer');
-  //     drawerRef.current.openDrawer();
-  //   } else {
-  //     console.warn('Drawer reference is null. Unable to open drawer.');
-  //   }
-  // };
-  // const closeDrawer = () => {
-  //   if (drawerRef.current) {
-  //     console.log('closing drawer');
-  //     drawerRef.current.closeDrawer();
-  //   } else {
-  //     console.warn('Drawer reference is null. Unable to open drawer.');
-  //   }
-  // };
-
   useEffect(() => {
-    // Set a timeout to turn off loading after 3 seconds
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 3000); // 3000 milliseconds = 3 seconds
+    }, 3000);
 
-    // Clean up the timer when the component unmounts
     return () => clearTimeout(timer);
   }, []);
   const handleSearchBar = () => {
@@ -305,25 +327,7 @@ const Home = () => {
   }, [handlegGetUnseenMessageCount]);
 
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const slideAnim = useRef(new Animated.Value(330)).current; // Initial value for translateX is the width of the drawer
 
-  const openDrawer = () => {
-    setModalVisible(true);
-    Animated.timing(slideAnim, {
-      toValue: 0, // Slide the drawer into view
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const closeDrawer = () => {
-    Animated.timing(slideAnim, {
-      toValue: 330, // Slide the drawer out of view
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => setModalVisible(false)); // Close modal after animation
-  };
 
   return (
     <View style={globalStyles.parentScrollContainer2}>

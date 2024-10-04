@@ -104,8 +104,8 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
           }}
         >
           <View style={globalStyles.avatarContainer}>
-            <Avatar.Image size={45} source={{ uri: userDetails.profile_image_url }} />
-            {userDetails.status === 'ACTIVE' ? (
+            <Avatar.Image size={45} source={{ uri: userDetails?.profile_image_url }} />
+            {userDetails?.status === 'ACTIVE' ? (
               <View style={globalStyles.onlineDot} />
             ) : (
               <View style={globalStyles.offlineDot} />
@@ -113,44 +113,44 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
           </View>
           <View style={{ display: 'flex', width: '100%' }}>
             <Text style={{ color: '#E71B73', fontSize: 18, fontWeight: 'bold' }}>
-              {userDetails.full_name || 'Test Account'}
-              <Text style={{ color: colors.scrim, fontSize: 15 }}>&nbsp;({userDetails.age} yrs)</Text>
+              {userDetails?.full_name || 'Test Account'}
+              <Text style={{ color: colors.scrim, fontSize: 15 }}>&nbsp;({userDetails?.age} yrs)</Text>
             </Text>
             <View style={globalStyles.iconText}>
               <Ionicons name="location-sharp" size={16} color="#E71B73" />
               <View style={{ display: 'flex', flexDirection: 'row', columnGap: 20 }}>
                 <Text style={{ color: colors.scrim, fontSize: 14 }}>
-                  {selectLanguage(OTHERS.lives, language)} {userDetails.state || 'N/A'}
+                  {selectLanguage(OTHERS.lives, language)} {userDetails?.state || 'N/A'}
                 </Text>
-                {userDetails.status === 'ACTIVE' ? (
+                {userDetails?.status === 'ACTIVE' ? (
                   <Text>online</Text>
                 ) : (
-                  <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails.updatedAt).getTime())}</Text>
+                  <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails?.updatedAt).getTime())}</Text>
                 )}
               </View>
             </View>
           </View>
         </View>
         <View>
-          <FastImage source={{ uri: userDetails.profile_image_url || '' }} style={globalStyles.cardImage} />
+          <FastImage source={{ uri: userDetails?.profile_image_url || '' }} style={globalStyles.cardImage} />
         </View>
       </TouchableOpacity>
       <View style={{ display: 'flex', flexDirection: 'row', columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
         <View style={globalStyles.iconText}>
           <MaterialCommunityIcons name="human-male-height" size={18} color="#E71B73" />
-          <Text style={{ color: colors.tertiary }}>{userDetails.height} ft</Text>
+          <Text style={{ color: colors.tertiary }}>{userDetails?.height} ft</Text>
         </View>
         <View style={globalStyles.iconText}>
           <MaterialCommunityIcons name="weight-kilogram" size={18} color="#E71B73" />
-          <Text style={{ color: colors.tertiary }}>{userDetails.weight} kg</Text>
+          <Text style={{ color: colors.tertiary }}>{userDetails?.weight} kg</Text>
         </View>
         <View style={globalStyles.iconText}>
           <MaterialCommunityIcons name="ring" size={18} color="#E71B73" />
-          <Text style={{ color: colors.tertiary }}>{capitalizeFirstLetter(userDetails.marital_status)}</Text>
+          <Text style={{ color: colors.tertiary }}>{capitalizeFirstLetter(userDetails?.marital_status)}</Text>
         </View>
         <View style={globalStyles.iconText}>
           <Ionicons name="body" size={18} color="#E71B73" />
-          <Text style={{ color: colors.tertiary }}>{capitalizeFirstLetter(userDetails.body_color)}</Text>
+          <Text style={{ color: colors.tertiary }}>{capitalizeFirstLetter(userDetails?.body_color)}</Text>
         </View>
       </View>
 

@@ -78,7 +78,7 @@ const globalStylesList = () => {
     },
     headingText: {
       fontSize: 25,
-      color: ThemeColor.scrim,
+      color: ThemeColor.surfaceVariant,
       fontWeight: 'bold',
       textAlign: 'center',
       textTransform: 'capitalize',

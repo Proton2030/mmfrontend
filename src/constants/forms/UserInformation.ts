@@ -20,18 +20,19 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
   },
   {
     group: [
-      {
-        id: 'age',
-        label: 'Age',
-        placeHolder: 'Enter Your Age',
-        type: 'NUMBER',
-      },
+
       {
         id: 'gender',
         label: 'Gender',
         placeHolder: 'Gender',
         type: 'SELECT',
         options: ['MALE', 'FEMALE'],
+      },
+      {
+        id: 'age',
+        label: 'Age',
+        placeHolder: 'Enter Your Age',
+        type: 'NUMBER',
       },
     ],
   },

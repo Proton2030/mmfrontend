@@ -100,7 +100,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
             <OtpInput
               numberOfDigits={4}
               focusColor={focusColor}
-              textInputProps={{ style: { color: colors.scrim } }}
+              textInputProps={{ style: { color: "black" } }}
               focusStickBlinkingDuration={400}
               onTextChange={(text) => {
                 setFocusColor('green');

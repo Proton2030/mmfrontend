@@ -1,7 +1,8 @@
 export const shuffleArray = (array: any[]) => {
-	for (let i = array.length - 1; i > 0; i--) {
+	const newArray = [...array]; // Create a shallow copy to avoid mutating the original array
+	for (let i = newArray.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
+		[newArray[i], newArray[j]] = [newArray[j], newArray[i]]; // Swap elements
 	}
-	return array;
-}
+	return newArray; // Return the shuffled copy
+};

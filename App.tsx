@@ -44,7 +44,7 @@ const App = ({ isRoute }: any) => {
     if (userId) {
       const userDetails = await api.userDetails.getUserInfo({ userObjectId: userId });
       console.log('===>userDetails', userDetails);
-      if (userDetails) {
+      if (userDetails && userDetails?.acount_status === 'ACTIVE') {
         setUser(userDetails);
       }
     }

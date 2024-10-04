@@ -15,9 +15,6 @@ import AuthContext from '../../../../../contexts/authContext/authContext';
 import { api } from '../../../../../utils/api';
 import UserCard from '../../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
-import { IUserDetails } from '../../../../../@types/types/userDEtails.types';
-import { addChoice } from '../../../../../utils/api/userChoice/addUserChoice';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 const MyChoice = () => {
