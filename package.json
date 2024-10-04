@@ -41,6 +41,7 @@
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.14.1",
     "react-native-google-signin": "^2.1.1",
+    "react-native-image-crop-picker": "^0.41.2",
     "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^7.1.0",
     "react-native-linear-gradient": "^2.8.3",

@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import { logo } from '../../../../../assets';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { defaultUser } from '../../../../../assets';
+import ImagePicker from 'react-native-image-crop-picker';
+
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -20,34 +22,59 @@ const UpdateProfileImage = () => {
   const { colors } = useTheme();
   const [isChnaged, setIsChnaged] = useState<boolean>(false);
   const [image, setImage] = useState<string | undefined | null>(user?.profile_image_url);
+  // const pickImage = () => {
+  //   let options = {
+  //     mediaType: 'photo' as MediaType,
+  //   };
+
+  //   launchImageLibrary(options, (response) => {
+  //     if (response.didCancel) {
+  //       console.log('User cancelled image picker');
+  //     } else if (response.errorMessage) {
+  //       console.log('ImagePicker Error: ', response.errorMessage);
+  //     } else {
+  //       if (response.assets && response.assets[0].uri) {
+  //         const asset = response.assets[0];
+  //         if (asset.uri) {
+  //           setProfilePhotoUrl(asset.uri);
+
+  //           const file = {
+  //             uri: asset.uri,
+  //             name: asset.fileName || 'image.jpg',
+  //             type: asset.type || 'image/jpeg',
+  //           };
+
+  //           setProfilePhoto(file as unknown as File);
+  //         }
+  //       }
+  //     }
+  //   });
+  // };
+
   const pickImage = () => {
-    let options = {
-      mediaType: 'photo' as MediaType,
-    };
-
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorMessage) {
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        if (response.assets && response.assets[0].uri) {
-          const asset = response.assets[0];
-          if (asset.uri) {
-            setProfilePhotoUrl(asset.uri);
-
-            const file = {
-              uri: asset.uri,
-              name: asset.fileName || 'image.jpg',
-              type: asset.type || 'image/jpeg',
-            };
-
-            setProfilePhoto(file as unknown as File);
-          }
-        }
-      }
-    });
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.8,
+      cropperCircleOverlay: true, // Optional: circular cropping
+      freeStyleCropEnabled: true, // Optional: freeform cropping
+      mediaType: 'photo', // Ensures only photos are picked
+    })
+      .then((image: { path: any; filename: any; mime: any; }) => {
+        setProfilePhotoUrl(image.path);
+        const file: File = {
+          uri: image.path,
+          name: image.filename || 'image.jpg',
+          type: image.mime || 'image/jpeg',
+        } as unknown as File; // Casting to `File`
+        setProfilePhoto(file);
+      })
+      .catch((error: any) => {
+        console.log('ImagePicker Error:', error);
+      });
   };
+
 
 
   const handleUpload = async () => {
