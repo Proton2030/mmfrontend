@@ -9,7 +9,10 @@ import { logo } from '../../../../../assets';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { defaultUser } from '../../../../../assets';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import { SCREEN_USER_INFO_FIVE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageFive';
+import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { LOGIN_TEXT } from '../../../../../constants/texts/auth/login/Login';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -18,10 +21,12 @@ const UpdateProfileImage = () => {
   const navigation = useNavigation<any>();
   const [profilePhoto, setProfilePhoto] = useState<any>();
   const [profilePhotoUrl, setProfilePhotoUrl] = useState<any>(user?.profile_image_url);
-
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const { colors } = useTheme();
-  const [isChnaged, setIsChnaged] = useState<boolean>(false);
-  const [image, setImage] = useState<string | undefined | null>(user?.profile_image_url);
+  // const [isChnaged, setIsChnaged] = useState<boolean>(false);
+  // const [image, setImage] = useState<string | undefined | null>(user?.profile_image_url);
   // const pickImage = () => {
   //   let options = {
   //     mediaType: 'photo' as MediaType,
@@ -61,7 +66,7 @@ const UpdateProfileImage = () => {
       freeStyleCropEnabled: true, // Optional: freeform cropping
       mediaType: 'photo', // Ensures only photos are picked
     })
-      .then((image: { path: any; filename: any; mime: any; }) => {
+      .then((image: any) => {
         setProfilePhotoUrl(image.path);
         const file: File = {
           uri: image.path,
@@ -74,8 +79,6 @@ const UpdateProfileImage = () => {
         console.log('ImagePicker Error:', error);
       });
   };
-
-
 
   const handleUpload = async () => {
     if (user && user._id && profilePhoto !== null) {
@@ -94,7 +97,6 @@ const UpdateProfileImage = () => {
     } else {
     }
   };
-
 
   // const handleSubmitButtonClick = async () => {
   //   const userDetails = user;
@@ -124,13 +126,18 @@ const UpdateProfileImage = () => {
         <Image style={styles.image} source={logo} />
       </View>
       <View style={globalStyles.childContainer}>
-        <Text style={[globalStyles.headingText, { color: colors.tertiary }]}>Welcome Back {user?.full_name},Please Upload Your Profile Image</Text>
+        <Text style={[globalStyles.headingText, { color: colors.tertiary }]}>
+          {selectLanguage(LOGIN_TEXT.welcome, language)} {user?.full_name},
+          {selectLanguage(SCREEN_USER_INFO_FIVE_TEXT.profile_photo, language)}
+        </Text>
       </View>
       <View style={globalStyles.childContainer}>
         <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-          {profilePhotoUrl ? <Image source={{ uri: profilePhotoUrl }} style={styles.profileImage} /> :
+          {profilePhotoUrl ? (
+            <Image source={{ uri: profilePhotoUrl }} style={styles.profileImage} />
+          ) : (
             <Image source={defaultUser} style={styles.profileImage} />
-          }
+          )}
           <Button
             mode="outlined"
             style={{
