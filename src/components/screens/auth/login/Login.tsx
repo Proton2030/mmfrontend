@@ -120,7 +120,7 @@ const Login = () => {
             </>
           )}
           <Text style={{ textAlign: 'left', fontWeight: '500', fontSize: 30, color: colors.scrim, marginBottom: 10 }}>
-            Welcome back!
+            {selectLanguage(LOGIN_TEXT.welcome, ui.language)}!
           </Text>
           {/* <Text style={{ color: colors.primary, textAlign: 'left', fontWeight: '500', fontSize: 20, marginBottom: 5 }}>
             Login with your credentials
@@ -160,7 +160,7 @@ const Login = () => {
                 marginTop: 5,
               }}
             >
-              Don't have an account?
+              {selectLanguage(LOGIN_TEXT.new_user, ui.language)}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity

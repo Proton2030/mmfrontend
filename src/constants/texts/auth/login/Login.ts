@@ -1,4 +1,8 @@
 export const LOGIN_TEXT = {
+  welcome: {
+    BENGALI: 'আপনাকে স্বাগতম',
+    ENGLISH: 'Welcome Back',
+  },
   login_button: {
     BENGALI: 'লগইন',
     ENGLISH: 'Login',
@@ -13,6 +17,6 @@ export const LOGIN_TEXT = {
   },
   new_user: {
     BENGALI: 'নতুন ব্যবহারকারী',
-    ENGLISH: 'New User',
+    ENGLISH: 'Dont have an account?',
   },
 };

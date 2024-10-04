@@ -1,17 +1,21 @@
-import React, { useRef, useState } from 'react';
-import { Animated, ScrollView, View, Text, TouchableOpacity, Vibration } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Animated, ScrollView, View, Text, TouchableOpacity, Vibration, BackHandler } from 'react-native';
 import { COLORS } from '../../../constants/theme';
 import { OtpInput } from 'react-native-otp-entry';
 import { useTheme } from 'react-native-paper';
-
-// const tempUri =
-//   'https://img.freepik.com/free-photo/3d-mobile-phone-with-security-code-padlock_107791-16180.jpg?t=st=1713429697~exp=1713433297~hmac=75a9f85ebaba5f63f78f9f3b5e5e1a83dd43d27197ca03c023ff01cdd5703d61&w=740';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { SCREEN_TWO } from '../../../constants/texts/auth/signup/screenTwo/ScreenTwo';
+import UiContext from '../../../contexts/uiContext/UIContext';
 
 const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, generatedOtp }: any) => {
   const [otp, setOtp] = useState<string>('');
   const { colors } = useTheme();
   const [focusColor, setFocusColor] = useState('green');
   const shakeAnimation = useRef(new Animated.Value(0)).current;
+  const {
+    ui: { language },
+  } = useContext(UiContext);
+
   const handleSubmit = () => {
     console.log('===>Otp', otp);
     console.log('first', generatedOtp);
@@ -64,7 +68,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               marginTop: 20,
             }}
           >
-            Verify Your Contact Number
+            {selectLanguage(SCREEN_TWO.enter_otp, language)}
           </Text>
           <Text
             style={{
@@ -79,7 +83,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               marginRight: 'auto',
             }}
           >
-            Please Enter the 4-digit code we have
+            {selectLanguage(SCREEN_TWO.sent_otp, language)}
           </Text>
           <Text
             style={{
@@ -94,13 +98,13 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               marginRight: 'auto',
             }}
           >
-            sent to <Text style={{ color: COLORS.primary, fontWeight: '700' }}> +880 {userDetails?.mobile}</Text>
+            <Text style={{ color: COLORS.primary, fontWeight: '700' }}> +88 {userDetails?.mobile}</Text>
           </Text>
           <View style={{ paddingHorizontal: 50, marginTop: 10, marginBottom: 20 }}>
             <OtpInput
               numberOfDigits={4}
               focusColor={focusColor}
-              textInputProps={{ style: { color: "red" } }}
+              textInputProps={{ style: { color: 'red' } }}
               focusStickBlinkingDuration={400}
               onTextChange={(text) => {
                 setFocusColor('green');
@@ -115,7 +119,8 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
                 filledPinCodeContainerStyle: {
                   borderColor: focusColor,
                 },
-                pinCodeTextStyle: { // Try adding this to apply text color
+                pinCodeTextStyle: {
+                  // Try adding this to apply text color
                   color: colors.primary,
                 },
               }}
@@ -138,7 +143,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
             <Text
               style={{ fontWeight: '400', fontSize: 20, justifyContent: 'center', textAlign: 'center', color: 'white' }}
             >
-              Verify Otp
+              {selectLanguage(SCREEN_TWO.verify_otp, language)}
             </Text>
           </TouchableOpacity>
         </ScrollView>

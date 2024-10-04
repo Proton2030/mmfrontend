@@ -12,7 +12,7 @@ export const SCREEN_TWO = {
     BENGALI: 'অনুগ্রহ করে নীচের কোডটি প্রবেশ করুন যাতে আপনি অগ্রসর করতে পারেন।',
   },
   verify_otp: {
-    ENGLISH: 'verify otp',
+    ENGLISH: 'Verify Otp',
     BENGALI: 'ওটিপি যাচাই করুন',
   },
 };

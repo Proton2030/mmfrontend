@@ -28,7 +28,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                     <View key={index} style={globalStyles.inlineFlex}>
                       {'type' in groupField && groupField.type === 'TEXT' ? (
                         <TextInput
-                          textColor={colors.tertiary}
+                          textColor={colors.scrim}
                           style={{ ...globalStyles.roundedInputBox, width: '97%' }}
                           mode="outlined"
                           id={groupField.id}
@@ -48,7 +48,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       ) : null}
                       {'type' in groupField && groupField.type === 'NUMBER' ? (
                         <TextInput
-                          textColor={colors.tertiary}
+                          textColor={colors.scrim}
                           style={{ ...globalStyles.roundedInputBox, width: '97%', marginTop: 15 }}
                           mode="outlined"
                           keyboardType="numeric"
@@ -68,7 +68,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       ) : null}
                       {'type' in groupField && groupField.type === 'PASSWORD' ? (
                         <TextInput
-                          textColor={colors.tertiary}
+                          textColor={colors.scrim}
                           style={{ ...globalStyles.roundedInputBox, width: '97%' }}
                           mode="outlined"
                           secureTextEntry={!isPasswordVisible}
@@ -96,8 +96,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                         <>
                           {/* Label above the dropdown */}
                           <View>
-
-                            <Text style={{ color: colors.tertiary }}>{groupField.label}</Text>
+                            <Text style={{ color: colors.scrim }}>{groupField.label}</Text>
                             <SelectDropdown
                               defaultButtonText={
                                 object[groupField.id] !== ''
@@ -112,23 +111,23 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                 ...globalStyles.selectField,
                                 backgroundColor: colors.background,
                                 width: '97%',
-
                               }}
                               searchPlaceHolder={groupField.placeHolder}
                               buttonTextStyle={{
                                 ...globalStyles.selectText,
-                                color: "gray", // Set the button text color to green
+                                color: colors.scrim, // Set the button text color to green
                               }}
                               dropdownIconPosition="right"
                               renderDropdownIcon={() => <Icon name="chevron-down" />}
                               data={groupField.options || []}
-                              rowStyle={{
-                                // backgroundColor: colors.background,
-                              }}
+                              rowStyle={
+                                {
+                                  // backgroundColor: colors.background,
+                                }
+                              }
                               onSelect={(text) => handleChangeText(groupField.id, groupField.type, text)}
                             />
                           </View>
-
                         </>
                       ) : null}
                     </View>
@@ -138,7 +137,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             ) : null}
             {'type' in field && field.type === 'TEXT' ? (
               <TextInput
-                textColor={colors.tertiary}
+                textColor={colors.scrim}
                 style={globalStyles.roundedInputBox}
                 mode="outlined"
                 id={field.id}
@@ -158,7 +157,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             ) : null}
             {'type' in field && field.type === 'NUMBER' ? (
               <TextInput
-                textColor={colors.tertiary}
+                textColor={colors.scrim}
                 style={globalStyles.roundedInputBox}
                 mode="outlined"
                 keyboardType="numeric"
@@ -178,7 +177,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             ) : null}
             {'type' in field && field.type === 'PASSWORD' ? (
               <TextInput
-                textColor={colors.tertiary}
+                textColor={colors.scrim}
                 style={globalStyles.roundedInputBox}
                 mode="outlined"
                 secureTextEntry={!isPasswordVisible}
@@ -205,7 +204,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             {'type' in field && field.type === 'SELECT' ? (
               <>
                 {/* Label above the dropdown */}
-                <Text style={{ color: colors.tertiary }}>{field.label}</Text>
+                <Text style={{ color: colors.scrim }}>{field.label}</Text>
                 <SelectDropdown
                   defaultButtonText={
                     object[field.id] !== ''
@@ -220,7 +219,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                   searchPlaceHolder={field.placeHolder}
                   buttonTextStyle={{
                     ...globalStyles.selectText,
-                    color: "gray",
+                    color: colors.scrim, // Set the button text color to green
                   }}
                   dropdownIconPosition="right"
                   renderDropdownIcon={() => <Icon name="chevron-down" />}

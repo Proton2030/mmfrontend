@@ -161,6 +161,7 @@ const SignUp = () => {
             handleChangeScreen={handleChangeScreen}
             loading={loading}
             otp={otp}
+            setOtp={setOtp}
             handleGenerateOtp={handleGenerateOtp}
             mode="SIGNUP"
           />

@@ -34,7 +34,7 @@ const SignUpScreenTwo = ({ handleChangeScreen, handleChangeText, userDetails, ot
         {selectLanguage(SCREEN_TWO.sent_otp, language)}
       </Text>
       <View style={{ display: 'flex', flexDirection: 'row', gap: 5, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ color: '#1F75FE', fontWeight: '700' }}>+880{userDetails.mobile}</Text>
+        <Text style={{ color: '#1F75FE', fontWeight: '700' }}>+88{userDetails.mobile}</Text>
 
         <IconButton
           icon="pencil"
