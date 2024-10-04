@@ -12,6 +12,7 @@ import SignUpScreenOne from '../signup/signUpScreenOne/SignUpScreenOne';
 import SignUpScreenTwo from '../signup/signUpScreenTwo/SignUpScreenTwo';
 import SignUpScreenThree from '../signup/signUpScreenThree/SignUpScreenThree';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
+import { COUNTRY_ENV } from '../../../../config/config';
 
 const ForgetPassword = () => {
   const navigation = useNavigation<any>();
@@ -73,7 +74,7 @@ const ForgetPassword = () => {
       const filter = { mobile: userCredentials.mobile };
       const otpResponse = await api.auth.forgetPassOtp(filter);
       if (otpResponse) {
-        setOtp(otpResponse);
+        setOtp(COUNTRY_ENV === 'BD' ? otpResponse : '1234');
       }
     } catch (err: any) {
       console.log(err.response.status);

@@ -13,3 +13,5 @@ export const headers = {
 };
 
 export const socket = io(BASE_URL);
+
+export const COUNTRY_ENV: 'IN' | 'BD' = 'IN';

@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
 
@@ -11,7 +10,6 @@ import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useTheme } from 'react-native-paper';
 import UiContext from '../../../contexts/uiContext/UIContext';
-
 
 export const SubscriptionPage = ({ closeModal }: any) => {
   const [selected, setSelected] = useState(0);
@@ -62,7 +60,7 @@ export const SubscriptionPage = ({ closeModal }: any) => {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: theme === "DARK" ? colors.secondary : "white",
+        backgroundColor: colors.surface,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
       }}

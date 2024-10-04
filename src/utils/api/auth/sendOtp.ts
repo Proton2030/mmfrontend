@@ -4,7 +4,7 @@ import { request } from '../api';
 
 const { get } = request;
 
-const initialRoute = '/sms';
+const initialRoute = 'sms';
 export const getOtp = async (filter: any) => {
   try {
     const endpoint = `${initialRoute}/generate-otp`;
@@ -34,7 +34,7 @@ export const getOtp = async (filter: any) => {
 };
 export const forgetPassOtp = async (filter: any) => {
   try {
-    const endpoint = `${initialRoute}/forget-password-otp`;
+    const endpoint = `${initialRoute}/forget-password`;
     const response = await get(
       endpoint,
       {

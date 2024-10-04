@@ -39,9 +39,9 @@ export const EpmtyPage = ({ text1, text2 }: any) => {
 
       <Text style={styles.emptyDescription}>Once you buy a a plan, you'll see payment history here</Text> */}
 
-      <Text style={styles.emptyTitle}>{text1}</Text>
+      <Text style={[styles.emptyTitle, { color: colors.scrim }]}>{text1}</Text>
 
-      <Text style={styles.emptyDescription}>{text2}</Text>
+      <Text style={[styles.emptyDescription, { color: colors.tertiary }]}>{text2}</Text>
     </View>
   );
 };
