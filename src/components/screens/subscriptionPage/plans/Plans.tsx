@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import {
     View,
     TouchableOpacity,
@@ -10,20 +10,24 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import { styles } from '../subcriptionStyles';
 import { COLORS } from '../../../../constants/theme';
 import SpecialOfferCard from '../../../shared/specilOfferCard/SpecialOfferCard';
+import { useTheme } from 'react-native-paper';
+import UiContext from '../../../../contexts/uiContext/UIContext';
 
 const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }: any) => {
-    const [showScrollDown, setShowScrollDown] = useState(true); // State to control arrow visibility
-    const scrollViewRef = useRef<ScrollView>(null); // To control the scroll position programmatically
+    const { colors } = useTheme();
+    const {
+        ui: { language, theme },
+    } = useContext(UiContext);
 
-    // Function to handle scroll event
+    const [showScrollDown, setShowScrollDown] = useState(true);
+    const scrollViewRef = useRef<ScrollView>(null);
+
     const handleScroll = (event: any) => {
         const scrollPosition = event.nativeEvent.contentOffset.y;
         const contentHeight = event.nativeEvent.contentSize.height;
         const scrollViewHeight = event.nativeEvent.layoutMeasurement.height;
 
-        // Calculate the position of the last item in the list
         if (scrollPosition + scrollViewHeight >= contentHeight - 100) {
-            // User has scrolled to the last item
             setShowScrollDown(false);
         } else {
             setShowScrollDown(true);
@@ -35,7 +39,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
-                <Text style={styles.title}>Subscription Plans</Text>
+                <Text style={[styles.title, { color: theme === "DARK" ? colors.primary : "black" }]}>Subscription Plans</Text>
                 <Text style={styles.subtitle}>
                     Boost your productivity with premium tools and personalized features.
                 </Text>
@@ -46,9 +50,8 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                     <ScrollView
                         ref={scrollViewRef}
                         onScroll={handleScroll}
-                        scrollEventThrottle={16} // Trigger scroll event every 16 ms (smooth scrolling)
+                        scrollEventThrottle={16}
                     >
-
 
                         {prices.map((item: any, index: any) => {
                             if (index === 4) {
@@ -77,7 +80,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                                             styles.radio,
                                             isActive
                                                 ? { borderColor: COLORS.primary, backgroundColor: '#ffe6ee' }
-                                                : {},
+                                                : { backgroundColor: colors.background },
                                         ]}
                                     >
                                         <FeatherIcon
@@ -88,7 +91,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
 
                                         <View style={styles.radioBody}>
                                             <View>
-                                                <Text style={styles.radioLabel}>{item?.plan_name}</Text>
+                                                <Text style={[styles.radioLabel, { color: isActive ? "red" : theme === "DARK" ? "white" : "black" }]}>{item?.plan_name}</Text>
                                                 <Text style={styles.radioText}>
                                                     Chat count {item?.chat_count}
                                                 </Text>
@@ -136,7 +139,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+        </View >
     );
 };
 

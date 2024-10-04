@@ -9,9 +9,11 @@ import { COLORS } from '../../../constants/theme';
 import { styles } from '../../screens/subscriptionPage/subcriptionStyles';
 import moment from 'moment'; // Use moment.js or Date API to handle time calculations
 import { Image } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const SpecialOfferCard = ({ isActive, index, setSelected, item, planCreationTime, planDurationInMinutes }: any) => {
     const [timeRemaining, setTimeRemaining] = useState(0); // Remaining time in seconds
+    const { colors } = useTheme();
 
     useEffect(() => {
         const calculateTimeRemaining = () => {
@@ -49,7 +51,7 @@ const SpecialOfferCard = ({ isActive, index, setSelected, item, planCreationTime
                         styles.radio,
                         isActive
                             ? { borderColor: COLORS.primary, backgroundColor: '#ffe6ee' }
-                            : {},
+                            : { backgroundColor: colors.background },
                     ]}
                 >
                     <FeatherIcon

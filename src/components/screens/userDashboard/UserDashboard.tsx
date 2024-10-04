@@ -36,22 +36,12 @@ const UserDashboard = () => {
 
 
   const [routes] = useState(() => {
-    const baseRoutes = [{ key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' }];
-
-    // Check if user details are present based on IUserInfo
-
-    if (
-      completionPercentage === 100
-    ) {
-      baseRoutes.push(
-        { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-        { key: 'activeUser', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
-        { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
-      );
-    }
-
-    baseRoutes.push({ key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' });
-
+    const baseRoutes = [{ key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
+    { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
+    { key: 'activeUser', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
+    { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
+    { key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' }
+    ];
     return baseRoutes;
   });
   const renderScene = BottomNavigation.SceneMap({

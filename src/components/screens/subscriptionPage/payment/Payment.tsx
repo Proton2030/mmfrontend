@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { styles } from '../subcriptionStyles'
 import { View, Text, TouchableWithoutFeedback, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -6,10 +6,18 @@ import { COLORS } from '../../../../constants/theme'
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { color } from '../../../../assets'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { useTheme } from 'react-native-paper'
+import UiContext from '../../../../contexts/uiContext/UIContext'
 
 const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
     const [selected, setSelected] = useState(0);
     const isActive = selected === 0;
+
+    const { colors } = useTheme();
+    const {
+        ui: { language, theme },
+    } = useContext(UiContext);
+
     return (
         <>
             <View style={{
@@ -18,7 +26,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
                 <View style={styles.header}>
 
 
-                    <Text style={styles.title}>Select Payment Methods</Text>
+                    <Text style={[styles.title, { color: theme === "DARK" ? colors.primary : "black" }]}>Select Payment Method</Text>
 
                     <Text style={styles.subtitle}>
                         Boost your productivity with premium tools and personalized features.
@@ -30,7 +38,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
                         onPress={() => handlePaymentUpdate(selectedPlan)}
                     >
                         <View style={{
-                            width: "100%", backgroundColor: "#e6e6e6", height: 88, borderRadius: 20, paddingHorizontal: 15,
+                            width: "100%", backgroundColor: colors.background, height: 88, borderRadius: 20, paddingHorizontal: 15,
                             flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 15
                         }}>
                             <View style={{
@@ -41,7 +49,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
                                     source={{ uri: "https://threedio-prod-var-cdn.icons8.com/xw/preview_sets/previews/D3qF284N6qkWtT10.webp" }} />
                             </View>
                             <View>
-                                <Text style={{ color: "black", fontWeight: "700", fontSize: 17 }}>
+                                <Text style={{ color: theme === "DARK" ? "white" : "black", fontWeight: "700", fontSize: 17 }}>
                                     Net Banking
                                 </Text>
                                 <Text style={{ color: "gray", fontWeight: "400", fontSize: 14 }}>
@@ -55,7 +63,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
                     >
 
                         <View style={{
-                            width: "100%", backgroundColor: "#e6e6e6", height: 88, borderRadius: 20, paddingHorizontal: 15,
+                            width: "100%", backgroundColor: colors.background, height: 88, borderRadius: 20, paddingHorizontal: 15,
                             flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 15
                         }}>
                             <View style={{
@@ -66,7 +74,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
                                     source={{ uri: "https://threedio-prod-var-cdn.icons8.com/qs/preview_sets/previews/3xiIoIbVzCUNESeI.webp" }} />
                             </View>
                             <View>
-                                <Text style={{ color: "black", fontWeight: "700", fontSize: 17 }}>
+                                <Text style={{ color: theme === "DARK" ? "white" : "black", fontWeight: "700", fontSize: 17 }}>
                                     Offline Payment
                                 </Text>
                                 <Text style={{ color: "gray", fontWeight: "400", fontSize: 14 }}>
