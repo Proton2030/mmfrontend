@@ -45,7 +45,7 @@ const CustomDropdown = ({ data, onSelect }: any) => {
         <FlatList
           data={filteredData}
           keyExtractor={(item, index) => index.toString()}
-          style={styles.dropdown}
+          style={[styles.dropdown, { backgroundColor: colors.surface }]}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={[styles.item, { borderBottomColor: colors.surface }]}
@@ -54,8 +54,8 @@ const CustomDropdown = ({ data, onSelect }: any) => {
               <Text style={[styles.itemText, { color: colors.primary }]}>{item}</Text>
             </TouchableOpacity>
           )}
-          showsVerticalScrollIndicator={false}  // Optional: to hide the scroll indicator
-          nestedScrollEnabled={true}           // Enable scrolling inside FlatList
+          showsVerticalScrollIndicator={false} // Optional: to hide the scroll indicator
+          nestedScrollEnabled={true} // Enable scrolling inside FlatList
         />
       )}
     </View>
@@ -80,8 +80,7 @@ const styles = StyleSheet.create({
   dropdown: {
     marginTop: 5,
     borderRadius: 10,
-    backgroundColor: 'white',
-    maxHeight: 200,   // Limit the height of dropdown to allow scrolling
+    maxHeight: 200, // Limit the height of dropdown to allow scrolling
   },
   item: {
     paddingVertical: 10,

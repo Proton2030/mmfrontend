@@ -14,6 +14,7 @@ import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
 import LinearGradient from 'react-native-linear-gradient';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
+import { COUNTRY_ENV } from '../../../../config/config';
 
 const SignUp = () => {
   const navigation = useNavigation<any>();
@@ -90,7 +91,7 @@ const SignUp = () => {
       const filter = { mobile: userDetails.mobile };
       const otpResponse = await api.auth.getOtp(filter);
       if (otpResponse) {
-        setOtp(otpResponse);
+        setOtp(COUNTRY_ENV === 'BD' ? otpResponse : '1234');
       }
     } catch (err: any) {
       console.log(err.response.status);
