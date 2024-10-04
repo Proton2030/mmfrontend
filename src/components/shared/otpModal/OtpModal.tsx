@@ -100,7 +100,7 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
             <OtpInput
               numberOfDigits={4}
               focusColor={focusColor}
-              textInputProps={{ style: { color: "black" } }}
+              textInputProps={{ style: { color: "red" } }}
               focusStickBlinkingDuration={400}
               onTextChange={(text) => {
                 setFocusColor('green');
@@ -114,6 +114,9 @@ const OtpModal = ({ slideUp, closeModal, handleChangeScreen, userDetails, genera
               theme={{
                 filledPinCodeContainerStyle: {
                   borderColor: focusColor,
+                },
+                pinCodeTextStyle: { // Try adding this to apply text color
+                  color: colors.primary,
                 },
               }}
             />
