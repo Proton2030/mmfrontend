@@ -10,6 +10,10 @@ import { api } from '../../../../../utils/api';
 import { defaultUser, logo } from '../../../../../assets';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
+
+import ImagePicker from 'react-native-image-crop-picker';
+
+
 const windowWidth = Dimensions.get('window').width;
 
 const UserInformationPage5 = () => {
@@ -33,33 +37,30 @@ const UserInformationPage5 = () => {
   });
 
   const pickImage = () => {
-    let options = {
-      mediaType: 'photo' as MediaType,
-    };
-
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.errorMessage) {
-        console.log('ImagePicker Error: ', response.errorMessage);
-      } else {
-        if (response.assets && response.assets[0].uri) {
-          const asset = response.assets[0];
-          if (asset.uri) {
-            setProfilePhotoUrl(asset.uri);
-
-            const file = {
-              uri: asset.uri,
-              name: asset.fileName || 'image.jpg',
-              type: asset.type || 'image/jpeg',
-            };
-
-            setProfilePhoto(file as unknown as File);
-          }
-        }
-      }
-    });
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+      compressImageQuality: 0.8,
+      cropperCircleOverlay: true, // Optional: circular cropping
+      freeStyleCropEnabled: true, // Optional: freeform cropping
+      mediaType: 'photo', // Ensures only photos are picked
+    })
+      .then((image: { path: any; filename: any; mime: any; }) => {
+        setProfilePhotoUrl(image.path);
+        const file: File = {
+          uri: image.path,
+          name: image.filename || 'image.jpg',
+          type: image.mime || 'image/jpeg',
+        } as unknown as File; // Casting to `File`
+        setProfilePhoto(file);
+      })
+      .catch((error: any) => {
+        console.log('ImagePicker Error:', error);
+      });
   };
+
+
 
   const handleUpload = async () => {
     if (user && user._id && profilePhoto !== null) {
