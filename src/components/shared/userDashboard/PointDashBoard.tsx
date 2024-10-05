@@ -11,11 +11,14 @@ import AuthContext from '../../../contexts/authContext/authContext';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
 import ProfileCompleteBtn from './profileComepletBtn/ProfileCompleteBtn';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { OTHERS } from '../../../constants/texts/others/Others';
 
 export default function PointDashBoard() {
   const { user } = useContext<any>(AuthContext);
-  const { ui, setUi } = useContext(UiContext);
-
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
 
@@ -30,7 +33,6 @@ export default function PointDashBoard() {
       editable: true,
     });
   };
-
 
   const openModal = () => {
     setModalVisible(true);
@@ -61,13 +63,12 @@ export default function PointDashBoard() {
           }}
         >
           <ProgressContainer />
-
         </TouchableOpacity>
         <ProfileCompleteBtn />
 
         <View style={{ marginHorizontal: 10, paddingHorizontal: 10, paddingVertical: 10 }}>
           <Text style={{ fontSize: 18, fontWeight: '700', color: colors.tertiary, marginBottom: 16 }}>
-            Message Limit
+            {selectLanguage(OTHERS.message_limit, language)}
           </Text>
 
           <View style={styles.search}>
@@ -76,10 +77,13 @@ export default function PointDashBoard() {
                 <View style={{ marginBottom: 7, flexDirection: 'row', gap: 4 }}>
                   <FeatherIcon color={COLORS.primary} name="user" size={18} />
                   <Text style={{ fontWeight: '600', fontSize: 16, color: colors.tertiary }}>
-                    {user?.message_limit} left
+                    {user?.message_limit} {selectLanguage(OTHERS.left, language)}
                   </Text>
                 </View>
-                <TouchableOpacity style={{ marginBottom: 7, flexDirection: 'row', marginLeft: 5 }} onPress={routeToPaymentHistory}>
+                <TouchableOpacity
+                  style={{ marginBottom: 7, flexDirection: 'row', marginLeft: 5 }}
+                  onPress={routeToPaymentHistory}
+                >
                   <FeatherIcon color={'gray'} name="clock" size={18} />
                 </TouchableOpacity>
               </View>
@@ -98,19 +102,16 @@ export default function PointDashBoard() {
               }}
               onPress={openModal}
             >
-              <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>Recharge</Text>
+              <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>
+                {selectLanguage(OTHERS.recharge, language)}
+              </Text>
             </Card>
           </View>
         </View>
       </View>
 
       {/* Bottom Sheet Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={closeModal}
-      >
+      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
         <View style={styles.modalContainer}>
           <View style={styles.bottomSheet}>
             <SubscriptionPage closeModal={closeModal} />
@@ -152,8 +153,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 5,
-    height: 500
-
+    height: 500,
   },
   modalTitle: {
     fontSize: 18,

@@ -4,9 +4,15 @@ import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { USER_INFO_FOUR, USER_INFO_THREE_part2 } from '../../../../constants/forms/UserInformation';
 import { useTheme } from 'react-native-paper';
+import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
+import UiContext from '../../../../contexts/uiContext/UIContext';
+import { OTHERS } from '../../../../constants/texts/others/Others';
 
 const ProfileCompleteBtn = () => {
   const { user } = useContext<any>(AuthContext);
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
 
@@ -48,15 +54,13 @@ const ProfileCompleteBtn = () => {
 
   return (
     <>
-
-      {
-        !isReligiousInfoIncomplete && !isFamilyInfoIncomplete ?
-          null :
-          <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleNavigate}>
-            <Text style={[styles.buttonText, { color: colors.secondary }]}>Complete Your Profile</Text>
-          </TouchableOpacity>
-      }
-
+      {!isReligiousInfoIncomplete && !isFamilyInfoIncomplete ? null : (
+        <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleNavigate}>
+          <Text style={[styles.buttonText, { color: colors.secondary }]}>
+            {selectLanguage(OTHERS.complete_profile, language)}
+          </Text>
+        </TouchableOpacity>
+      )}
     </>
   );
 };

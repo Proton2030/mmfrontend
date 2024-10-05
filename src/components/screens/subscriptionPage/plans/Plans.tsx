@@ -6,10 +6,14 @@ import { COLORS } from '../../../../constants/theme';
 import SpecialOfferCard from '../../../shared/specilOfferCard/SpecialOfferCard';
 import { useTheme } from 'react-native-paper';
 import UiContext from '../../../../contexts/uiContext/UIContext';
+import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
+import { PAYMENT_TEXT } from '../../../../constants/texts/payment/Payment';
 
 const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }: any) => {
   const { colors } = useTheme();
-
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const [showScrollDown, setShowScrollDown] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -28,8 +32,11 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.primary }]}>Subscription Plans</Text>
-        <Text style={styles.subtitle}>Boost your productivity with premium tools and personalized features.</Text>
+        <Text style={[styles.title, { color: colors.primary }]}>
+          {selectLanguage(PAYMENT_TEXT.subscription, language)}
+        </Text>
+
+        <Text style={styles.subtitle}>{selectLanguage(PAYMENT_TEXT.subscription_details, language)}</Text>
       </View>
 
       <View style={styles.form}>
@@ -73,9 +80,10 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                         <Text style={[styles.radioLabel, { color: isActive ? 'red' : colors.scrim }]}>
                           {item?.plan_name}
                         </Text>
-                        <Text style={styles.radioText}>Chat count {item?.chat_count}</Text>
+                        <Text style={styles.radioText}>
+                          {selectLanguage(PAYMENT_TEXT.chat_count, language)} {item?.chat_count}
+                        </Text>
                       </View>
-
                       <Text style={[styles.radioPrice, isActive && styles.radioPriceActive, { color: colors.scrim }]}>
                         ৳ {item?.plan_price}
                       </Text>
@@ -98,7 +106,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
               }}
             >
               <FeatherIcon color={'#363636'} name={'chevron-down'} size={22} />
-              <Text style={{ color: 'black' }}>Scroll down</Text>
+              <Text style={{ color: colors.tertiary }}>Scroll down</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -106,7 +114,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
         <View>
           <TouchableOpacity onPress={nextPage}>
             <View style={styles.btn}>
-              <Text style={styles.btnText}>Continue</Text>
+              <Text style={styles.btnText}>{selectLanguage(PAYMENT_TEXT.continue, language)}</Text>
             </View>
           </TouchableOpacity>
         </View>
