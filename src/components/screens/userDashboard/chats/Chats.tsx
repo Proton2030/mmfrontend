@@ -28,7 +28,7 @@ const Chats = () => {
       setisloading(false);
       const chatListResponse = await api.chat.getChatList(payload);
       setChatList(chatListResponse);
-      console.log("chat list response", chatListResponse)
+      // console.log("chat list response", chatListResponse)
       setisloading(true);
     }
   }, [user]);
@@ -41,6 +41,7 @@ const Chats = () => {
     index: number,
   ) => {
     const tempChatList = chatList;
+    console.log(roomId, blocked_by_male_user, blocked_by_female_user)
     // if (tempChatList[index].lastMessage?.message?.status !== 'seen') {
     //   setMessageSeenCount((prevCount) => Math.max(prevCount - 1, 0));
     //   tempChatList[index].lastMessage.message.status = 'seen';

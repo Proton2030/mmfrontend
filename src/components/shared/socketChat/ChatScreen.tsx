@@ -9,13 +9,13 @@ import { styles } from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
-import AuthContext from '../../../contexts/authContext/authContext';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
 import { socket } from '../../../config/config';
 import Bubble from './bubble/Bubble';
 import { useTheme } from 'react-native-paper';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
-import { uuidv4 } from '../../../utils/commonFunction/uuiv4';
+import ChatHeader from './chatHeader/ChatHeader';
+import AuthContext from '../../../contexts/authContext/authContext';
 
 const PersonalChatPage = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -30,6 +30,9 @@ const PersonalChatPage = () => {
   const scrollViewRef = useRef<FlatList>(null);
   const [userCount, setUserCount] = useState(0);
 
+  const [blockedByme, setBlockedByme] = useState(false);
+  const [blockedBysender, setBlockedBysender] = useState(false);
+
   const disconnectUser = () => {
     socket.emit('disconnectUser', user?._id, roomId);
   };
@@ -41,7 +44,7 @@ const PersonalChatPage = () => {
   };
 
   useEffect(() => {
-    socket.on('userCountUpdate', ({ userCount }) => {
+    socket.on('userCountUpdate', ({ userCount }: any) => {
       console.log('User count in the room:', userCount);
       setUserCount(userCount);
       // You can update the state here to display userCount in the UI
@@ -52,6 +55,74 @@ const PersonalChatPage = () => {
     };
   }, []);
 
+  const blockUser = async () => {
+    await socket.emit("block", {
+      roomId,
+      userId: user?._id,
+      status: true,
+      gender: user?.gender
+    });
+
+    setBlockedByme(true)
+  }
+
+  const unblockUser = async () => {
+    await socket.emit("block", {
+      roomId,
+      userId: user?._id,
+      status: false,
+      gender: user?.gender
+    });
+
+    setBlockedByme(false)
+  }
+
+
+  useEffect(() => {
+    socket.on("block", (data: any) => {
+      const { userId, is_blocked, gender } = data;
+      console.log(is_blocked)
+      // Check if the current user should be affected by this block update
+      if (user?._id === userId) {
+        // Update the blocked state for this user
+        setBlockedByme(is_blocked);
+        console.log("first")
+      } else {
+        // Update the blocked state for the other user
+        setBlockedBysender(is_blocked);
+      }
+
+      // Handle other logic if needed, like disabling the input box for others in the room
+    });
+
+    return () => {
+      // Clean up the event listener on unmount
+      socket.off("block");
+    };
+  }, [socket, user]);
+
+
+  useEffect(() => {
+    console.log("room status", blocked_by_female_user, blocked_by_male_user)
+    if (user?.gender === "MALE" && blocked_by_male_user) {
+      setBlockedByme(true)
+      console.log("BlockedByme")
+    }
+    if (user?.gender === "FEMALE" && blocked_by_female_user) {
+      setBlockedByme(true)
+      console.log("BlockedByme")
+    }
+    if (user?.gender === "FEMALE" && blocked_by_male_user) {
+      setBlockedBysender(true)
+      console.log("BlockedBysender")
+    }
+    if (user?.gender === "MALE" && blocked_by_female_user) {
+      setBlockedBysender(true)
+      console.log("BlockedBysender")
+    }
+  }, [])
+
+
   useEffect(() => {
     socket.emit('joinRoom', roomId, user?._id);
 
@@ -59,12 +130,12 @@ const PersonalChatPage = () => {
       console.log('Connected to socket.io server');
     });
 
-    socket.on('previousMessages', (previousMessages) => {
+    socket.on('previousMessages', (previousMessages: any) => {
       setMessages(previousMessages);
       setLoading(false);
     });
 
-    socket.on('receiveMessage', (message) => {
+    socket.on('receiveMessage', (message: any) => {
       setMessages((prevMessages): any => [...prevMessages, message]);
       scrollViewRef.current?.scrollToEnd({ animated: true });
     });
@@ -126,42 +197,24 @@ const PersonalChatPage = () => {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
-      <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.secondary }]}>
-        <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={hadnlenavigate}>
-            <FeatherIcon name="arrow-left" size={24} color={colors.scrim} style={styles.backArrow} />
-          </TouchableOpacity>
-          {userDetails?.profile_image_url ? (
-            <View>
-              <Image
-                alt=""
-                resizeMode="cover"
-                source={{ uri: userDetails?.profile_image_url }}
-                style={styles.cardImg}
-              />
-              {userDetails.status === 'ACTIVE' ? (
-                <View style={globalStyles.onlineDot} />
-              ) : (
-                <View style={globalStyles.offlineDot} />
-              )}
-            </View>
+      <ChatHeader
+        hadnlenavigate={hadnlenavigate}
+        userDetails={userDetails}
+        updatedAt={updatedAt}
+        toggleMenu={null}
+        iconRef={null}
+      />
+      <TouchableOpacity onPress={blockedByme ? unblockUser : blockUser} style={{ backgroundColor: "red", height: 100, width: 100 }}>
+        {
+          blockedByme ? (
+            <Text>Unblock</Text>
           ) : (
-            <View style={[styles.cardImg, styles.cardAvatar]}>
-              {/* <Text style={styles.cardAvatarText}>{name[0]}</Text> */}
-            </View>
-          )}
-          <Text style={[styles.userName, { color: colors.scrim }]}> {userDetails.full_name?.split(' ')[0]}</Text>
+            <Text>Block</Text>
+          )
+        }
 
-          <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 4, color: 'gray', alignItems: 'flex-end' }}>
-            {userDetails.status === 'ACTIVE'
-              ? '(Online)'
-              : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
-          </Text>
-        </View>
-        <TouchableOpacity>
-          <FeatherIcon name="more-vertical" size={24} color={colors.scrim} />
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
+
       <FlatList
         data={messages}
         ref={scrollViewRef}
@@ -172,7 +225,7 @@ const PersonalChatPage = () => {
         keyExtractor={(_, index) => index.toString()}
       />
 
-      {blocked_by_male_user || blocked_by_female_user ? null : (
+      {blockedByme || blockedBysender ? null : (
         <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent' }]}>
           <TextInput
             value={text}
