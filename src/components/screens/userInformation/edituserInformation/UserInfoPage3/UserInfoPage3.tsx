@@ -21,12 +21,15 @@ import { education, fullLogo, logo } from '../../../../../assets';
 import { USER_INFO_THREE } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo3 } from '../../../../../@types/types/userInfo3.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
-
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import { SCREEN_USER_INFO_THREE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageThree';
+import UiContext from '../../../../../contexts/uiContext/UIContext';
 
 const UserInformationPage3 = () => {
   const { user, setUser } = useContext(AuthContext);
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const { colors } = useTheme();
   const route = useRoute<any>();
   const translateY = useRef(new Animated.Value(0)).current;
@@ -177,7 +180,7 @@ const UserInformationPage3 = () => {
                   textTransform: 'capitalize',
                 }}
               >
-                Please Give Your Education Background
+                {selectLanguage(SCREEN_USER_INFO_THREE_TEXT.education_info, language)}
               </Text>
             </View>
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE} />
@@ -187,7 +190,7 @@ const UserInformationPage3 = () => {
               style={[globalStyles.pinkButton, { marginBottom: 18 }]}
               onPress={handleCompleteButtonClick}
             >
-              {editable ? 'Submit' : 'Next'}
+              {selectLanguage(SCREEN_USER_INFO_THREE_TEXT.next, language)}
             </Button>
             {editable ? null : (
               <Button

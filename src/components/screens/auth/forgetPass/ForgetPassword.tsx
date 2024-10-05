@@ -105,6 +105,7 @@ const ForgetPassword = () => {
             handleGenerateOtp={handleGenerateOtp}
             loading={loading}
             otp={otp}
+            setOtp={setOtp}
             mode="FORGET"
           />
         ) : null}

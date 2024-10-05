@@ -7,7 +7,6 @@ import CenterForm from '../../shared/centerForm/CenterForm';
 import {
   USER_INFO_FOUR,
   USER_INFO_ONE,
-  USER_INFO_ONE_2,
   USER_INFO_THREE,
   USER_INFO_TWO,
 } from '../../../constants/forms/UserInformation';
@@ -221,7 +220,7 @@ const UserInformation = () => {
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE} />
           ) : null}
           {screen === 1 ? (
-            <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_ONE_2} />
+            <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} />
           ) : null}
           {screen === 2 ? (
             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>

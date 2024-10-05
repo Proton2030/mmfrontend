@@ -52,7 +52,7 @@ const Language = () => {
         <Text
           style={{ textAlign: 'left', fontWeight: '500', fontSize: 16, color: 'gray', width: '60%', marginTop: 10 }}
         >
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime neque no
+          Please select your preferred language to continue. You can change this later in the settings.
         </Text>
         <View style={{ marginTop: 20, flexDirection: 'row', width: '100%', alignItems: 'center', gap: 10 }}>
           <TouchableOpacity

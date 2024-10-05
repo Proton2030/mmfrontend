@@ -21,11 +21,17 @@ import { fullLogo, job, signUp } from '../../../../../assets';
 import { USER_INFO_TWO } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo2 } from '../../../../../@types/types/userInfo2.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import { SCREEN_USER_INFO_TWO_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageTwo';
+import UiContext from '../../../../../contexts/uiContext/UIContext';
 
 const windowWidth = Dimensions.get('window').width;
 
 const UserInformationPage2 = () => {
   const { user, setUser } = useContext(AuthContext);
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const { colors } = useTheme();
   const route = useRoute<any>();
   const { editable } = route.params;
@@ -181,7 +187,7 @@ const UserInformationPage2 = () => {
                   textTransform: 'capitalize',
                 }}
               >
-                Please Give Your Job Background
+                {selectLanguage(SCREEN_USER_INFO_TWO_TEXT.job_info, language)}
               </Text>
             </View>
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_TWO} />
@@ -191,7 +197,7 @@ const UserInformationPage2 = () => {
               style={[globalStyles.pinkButton, { marginBottom: 18 }]}
               onPress={handleCompleteButtonClick}
             >
-              {editable ? 'Submit' : 'Next'}
+              {selectLanguage(SCREEN_USER_INFO_TWO_TEXT.next, language)}
             </Button>
             {editable ? null : (
               <Button

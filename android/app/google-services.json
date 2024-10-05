@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "57247023736",
-    "project_id": "mmatrimony-d60f3",
-    "storage_bucket": "mmatrimony-d60f3.appspot.com"
+    "project_number": "252494080164",
+    "project_id": "shohoszshadi",
+    "storage_bucket": "shohoszshadi.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:57247023736:android:43785b082ea2ef9536a38d",
+        "mobilesdk_app_id": "1:252494080164:android:03345e23b6746127f9de31",
         "android_client_info": {
           "package_name": "com.shohozshadi"
         }
@@ -15,45 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCmvFDAHjFQYR4P7uAQFdobcat5xWxjHEE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:57247023736:android:d5b8c7bb9a084ed536a38d",
-        "android_client_info": {
-          "package_name": "com.shohozshadi"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCmvFDAHjFQYR4P7uAQFdobcat5xWxjHEE"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:57247023736:android:32621038fa3a61f736a38d",
-        "android_client_info": {
-          "package_name": "com.shohozshadi"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCmvFDAHjFQYR4P7uAQFdobcat5xWxjHEE"
+          "current_key": "AIzaSyDoizx0I-TWZzcLguJo2T3CaxAUHd--uQI"
         }
       ],
       "services": {

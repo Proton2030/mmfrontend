@@ -11,9 +11,15 @@ import { fullLogo } from '../../../../../assets';
 import { USER_INFO_ONE } from '../../../../../constants/forms/UserInformation';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 import { userInfoStyles } from '../../UserInfo.style';
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { SCREEN_USER_INFO_ONE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageOne';
 
 const UserInformationPage1 = () => {
   const { user, setUser } = useContext(AuthContext);
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
@@ -136,7 +142,7 @@ const UserInformationPage1 = () => {
                 textTransform: 'capitalize',
               }}
             >
-              Please Give Your Personal Information
+              {selectLanguage(SCREEN_USER_INFO_ONE_TEXT.personal_info, language)}
             </Text>
           </View>
         </View>
@@ -148,9 +154,9 @@ const UserInformationPage1 = () => {
             style={[globalStyles.pinkButton, { marginBottom: 18 }]}
             onPress={handleCompleteButtonClick}
           >
-            {editable ? 'Update' : 'Next'}
+            {selectLanguage(SCREEN_USER_INFO_ONE_TEXT.next, language)}
           </Button>
-          {editable ? null : (
+          {/* {editable ? null : (
             <Button
               mode="outlined"
               style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
@@ -158,7 +164,7 @@ const UserInformationPage1 = () => {
             >
               Back
             </Button>
-          )}
+          )} */}
         </View>
       </ScrollView>
       <SnackbarAlert message={errorMessage} onDismissSnackBar={onDismissSnackBar} visible={visible} key={0} />

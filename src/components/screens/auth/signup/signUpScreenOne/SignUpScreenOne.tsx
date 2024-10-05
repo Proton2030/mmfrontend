@@ -1,4 +1,4 @@
-import { View, Text, Modal, Animated, Easing, ScrollView, Keyboard } from 'react-native';
+import { View, Text, Modal, Animated, Easing, ScrollView, Keyboard, BackHandler } from 'react-native';
 import React, { useContext, useState, useRef, useEffect } from 'react';
 import { globalStyles } from '../../../../../globalStyles/GlobalStyles';
 import { Button, useTheme } from 'react-native-paper';
@@ -10,6 +10,7 @@ import { SCREEN_ONE } from '../../../../../constants/texts/auth/signup/screenOne
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import CommonButton from '../../../../shared/commonButton/CommonButton';
 import OtpModal from '../../../../shared/otpModal/OtpModal';
+import { set } from 'lodash';
 
 const SignUpScreenOne = ({
   handleChangeScreen,
@@ -17,6 +18,7 @@ const SignUpScreenOne = ({
   userDetails,
   loading,
   otp,
+  setOtp,
   handleGenerateOtp,
 }: ISignupScreenProps) => {
   const { colors } = useTheme();
@@ -49,6 +51,9 @@ const SignUpScreenOne = ({
       useNativeDriver: true,
     }).start(() => {
       setModalVisible(false);
+      if (setOtp) {
+        setOtp('');
+      }
     });
   };
 
@@ -97,15 +102,29 @@ const SignUpScreenOne = ({
   }, []);
 
   useEffect(() => {
-    if (otp && otp !== '') {
+    if (otp && otp !== '' && !modalVisible) {
       openModal();
     }
   }, [otp]);
+
+  console.log('modalVisible', modalVisible);
 
   const interpolatedBackgroundColor = backgroundColor.interpolate({
     inputRange: [0, 1],
     outputRange: ['transparent', colors.background],
   });
+
+  useEffect(() => {
+    const backHandler = () => {
+      closeModal();
+      if (setOtp) {
+        setOtp('');
+      }
+      return true;
+    };
+    const backHandlerListener = BackHandler.addEventListener('hardwareBackPress', backHandler);
+    return () => backHandlerListener.remove();
+  }, []);
 
   return (
     <Animated.View

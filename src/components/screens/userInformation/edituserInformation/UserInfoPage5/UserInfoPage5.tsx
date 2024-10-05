@@ -10,15 +10,19 @@ import { api } from '../../../../../utils/api';
 import { defaultUser, logo } from '../../../../../assets';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
-
 import ImagePicker from 'react-native-image-crop-picker';
-
+import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import { SCREEN_USER_INFO_FIVE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageFive';
 
 const windowWidth = Dimensions.get('window').width;
 
 const UserInformationPage5 = () => {
   const { user, setUser } = useContext(AuthContext);
   const { colors } = useTheme();
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const [errorMessage, setErrorMessage] = useState<string>('Please Fill the Details');
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState<string | null>(null);
@@ -46,7 +50,7 @@ const UserInformationPage5 = () => {
       freeStyleCropEnabled: true, // Optional: freeform cropping
       mediaType: 'photo', // Ensures only photos are picked
     })
-      .then((image: { path: any; filename: any; mime: any; }) => {
+      .then((image: any) => {
         setProfilePhotoUrl(image.path);
         const file: File = {
           uri: image.path,
@@ -59,8 +63,6 @@ const UserInformationPage5 = () => {
         console.log('ImagePicker Error:', error);
       });
   };
-
-
 
   const handleUpload = async () => {
     if (user && user._id && profilePhoto !== null) {
@@ -120,7 +122,7 @@ const UserInformationPage5 = () => {
               textTransform: 'capitalize',
             }}
           >
-            Please Give Your Profile Image
+            {selectLanguage(SCREEN_USER_INFO_FIVE_TEXT.profile_photo, language)}
           </Text>
         </View>
         <View style={globalStyles.childContainer}>
