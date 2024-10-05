@@ -11,10 +11,16 @@ import { logo } from '../../../../../assets';
 import { USER_INFO_FOUR } from '../../../../../constants/forms/UserInformation';
 import { IUserInfo4 } from '../../../../../@types/types/userInfo4.types';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import { SCREEN_USER_INFO_FOUR_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageFour';
+import UiContext from '../../../../../contexts/uiContext/UIContext';
 
 const UserInformationPage4 = () => {
   const { user, setUser } = useContext(AuthContext);
   const { colors } = useTheme();
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const route = useRoute<any>();
   const { editable } = route.params;
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -125,12 +131,12 @@ const UserInformationPage4 = () => {
               fontSize: 25,
               color: colors.scrim,
               fontWeight: 'bold',
-              textAlign: 'center',
+              textAlign: 'left',
               textTransform: 'capitalize',
-              marginTop: -20,
+              marginBottom: 10,
             }}
           >
-            Please Give Your Family Information
+            {selectLanguage(SCREEN_USER_INFO_FOUR_TEXT.family_info, language)}
           </Text>
         </View>
         <View style={globalStyles.childContainer}>

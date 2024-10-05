@@ -1,13 +1,18 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, TextInput, useTheme } from 'react-native-paper';
 import { ICenterFormProps } from '../../../@types/props/CenterFormProps.types';
 import { globalStyles, windowWidth } from '../../../globalStyles/GlobalStyles';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import UiContext from '../../../contexts/uiContext/UIContext';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 
 const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) => {
   const [isPasswordVisible, setPasswordVisibility] = useState(false); // State to track password visibility
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const { colors } = useTheme();
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!isPasswordVisible);
@@ -32,9 +37,9 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           style={{ ...globalStyles.roundedInputBox, width: '97%' }}
                           mode="outlined"
                           id={groupField.id}
-                          label={groupField.label}
+                          label={selectLanguage(groupField.label, language)}
                           defaultValue={object[groupField.id] || ''}
-                          placeholder={groupField.placeHolder}
+                          placeholder={selectLanguage(groupField.placeHolder, language)}
                           value={object[groupField.id] ? object[groupField.id].toString() : ''}
                           maxLength={groupField.maxLength || 250}
                           onChangeText={(text) => handleChangeText(groupField.id, groupField.type, text)}
@@ -54,10 +59,10 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           keyboardType="numeric"
                           id={groupField.id}
                           maxLength={groupField.maxLength || 12}
-                          label={groupField.label}
+                          label={selectLanguage(groupField.label, language)}
                           value={object[groupField.id] ? object[groupField.id].toString() : ''}
                           onChangeText={(text) => handleChangeText(groupField.id, groupField.type, text)}
-                          placeholder={groupField.placeHolder}
+                          placeholder={selectLanguage(groupField.placeHolder, language)}
                           theme={{
                             colors: {
                               primary: '#E71B73',
@@ -73,10 +78,10 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           mode="outlined"
                           secureTextEntry={!isPasswordVisible}
                           id={groupField.id}
-                          label={groupField.label}
+                          label={selectLanguage(groupField.label, language)}
                           defaultValue={object[groupField.id] || ''.toString()}
                           onChangeText={(text) => handleChangeText(groupField.id, groupField.type, text)}
-                          placeholder={groupField.placeHolder}
+                          placeholder={selectLanguage(groupField.placeHolder, language)}
                           theme={{
                             colors: {
                               primary: '#E71B73',
@@ -96,7 +101,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                         <>
                           {/* Label above the dropdown */}
                           <View>
-                            <Text style={{ color: colors.scrim }}>{groupField.label}</Text>
+                            <Text style={{ color: colors.scrim }}>{selectLanguage(groupField.label, language)}</Text>
                             <SelectDropdown
                               defaultButtonText={
                                 object[groupField.id] !== ''
@@ -105,14 +110,14 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                                       ? 'YES'
                                       : 'NO'
                                     : object[groupField.id]
-                                  : groupField.label
+                                  : selectLanguage(groupField.label, language)
                               }
                               buttonStyle={{
                                 ...globalStyles.selectField,
                                 backgroundColor: colors.background,
                                 width: '97%',
                               }}
-                              searchPlaceHolder={groupField.placeHolder}
+                              searchPlaceHolder={selectLanguage(groupField.placeHolder, language)}
                               buttonTextStyle={{
                                 ...globalStyles.selectText,
                                 color: colors.scrim, // Set the button text color to green
@@ -141,9 +146,9 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                 style={globalStyles.roundedInputBox}
                 mode="outlined"
                 id={field.id}
-                label={field.label}
+                label={selectLanguage(field.label, language)}
                 defaultValue={object[field.id] || ''}
-                placeholder={field.placeHolder}
+                placeholder={selectLanguage(field.placeHolder, language)}
                 value={object[field.id] ? object[field.id].toString() : ''}
                 maxLength={field.maxLength || 250}
                 onChangeText={(text) => handleChangeText(field.id, field.type, text)}
@@ -163,10 +168,10 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                 keyboardType="numeric"
                 id={field.id}
                 maxLength={field.maxLength || 12}
-                label={field.label}
+                label={selectLanguage(field.label, language)}
                 value={object[field.id] ? object[field.id].toString() : ''}
                 onChangeText={(text) => handleChangeText(field.id, field.type, text)}
-                placeholder={field.placeHolder}
+                placeholder={selectLanguage(field.placeHolder, language)}
                 theme={{
                   colors: {
                     primary: '#E71B73',
@@ -182,10 +187,10 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                 mode="outlined"
                 secureTextEntry={!isPasswordVisible}
                 id={field.id}
-                label={field.label}
+                label={selectLanguage(field.label, language)}
                 defaultValue={object[field.id] || ''.toString()}
                 onChangeText={(text) => handleChangeText(field.id, field.type, text)}
-                placeholder={field.placeHolder}
+                placeholder={selectLanguage(field.placeHolder, language)}
                 theme={{
                   colors: {
                     primary: '#E71B73',
@@ -204,7 +209,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             {'type' in field && field.type === 'SELECT' ? (
               <>
                 {/* Label above the dropdown */}
-                <Text style={{ color: colors.scrim }}>{field.label}</Text>
+                <Text style={{ color: colors.scrim }}>{selectLanguage(field.label, language)}</Text>
                 <SelectDropdown
                   defaultButtonText={
                     object[field.id] !== ''
@@ -213,10 +218,10 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           ? 'YES'
                           : 'NO'
                         : object[field.id]
-                      : field.label
+                      : selectLanguage(field.label, language)
                   }
                   buttonStyle={[globalStyles.selectField, { backgroundColor: colors.background }]}
-                  searchPlaceHolder={field.placeHolder}
+                  searchPlaceHolder={selectLanguage(field.placeHolder, language)}
                   buttonTextStyle={{
                     ...globalStyles.selectText,
                     color: colors.scrim, // Set the button text color to green

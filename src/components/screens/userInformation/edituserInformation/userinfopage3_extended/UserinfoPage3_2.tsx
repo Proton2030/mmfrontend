@@ -13,11 +13,16 @@ import { IUserInfo3part2 } from '../../../../../@types/types/userinfo3Part2';
 import { handleVibrate } from '../../../../../utils/commonFunction/systemvibration';
 
 import { userInfoStyles } from '../../UserInfo.style';
+import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
+import { RELIGIOUS_INFO_TEXT } from '../../../../../constants/texts/userInfo/ReligiousInfoText';
+import UiContext from '../../../../../contexts/uiContext/UIContext';
 
 const UserInformationPage3_part2 = () => {
   const { user, setUser } = useContext(AuthContext);
   const { colors } = useTheme();
-
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const route = useRoute<any>();
   const { editable } = route.params;
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -166,7 +171,7 @@ const UserInformationPage3_part2 = () => {
                   textTransform: 'capitalize',
                 }}
               >
-                Please Give Your Religious Details
+                {selectLanguage(RELIGIOUS_INFO_TEXT.family_info, language)}
               </Text>
             </View>
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE_part2} />

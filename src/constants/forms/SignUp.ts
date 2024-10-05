@@ -3,8 +3,8 @@ import { IField } from '../../@types/types/FieldTypes.types';
 export const SIGNUP_SCREEN_ONE: IField[] = [
   {
     id: 'mobile',
-    label: 'Phone Number',
-    placeHolder: 'Enter Your Mobile Number Here',
+    label: { ENGLISH: 'Phone Number', BENGALI: 'ফোন নম্বর' },
+    placeHolder: { ENGLISH: 'Enter Your Mobile Number Here', BENGALI: 'এখানে আপনার মোবাইল নম্বর লিখুন' },
     type: 'NUMBER',
   },
 ];
@@ -12,14 +12,14 @@ export const SIGNUP_SCREEN_ONE: IField[] = [
 export const SIGNUP_SCREEN_THREE: IField[] = [
   {
     id: 'password',
-    label: 'Password',
-    placeHolder: 'Enter Your Password',
+    label: { ENGLISH: 'Password', BENGALI: 'পাসওয়ার্ড' },
+    placeHolder: { ENGLISH: 'Enter Your Password', BENGALI: 'আপনার পাসওয়ার্ড লিখুন' },
     type: 'PASSWORD',
   },
   {
     id: 'rePassword',
-    label: 'Re enter Password',
-    placeHolder: 'Re-enter Your Password',
+    label: { ENGLISH: 'Re-enter Password', BENGALI: 'পুনরায় পাসওয়ার্ড লিখুন' },
+    placeHolder: { ENGLISH: 'Re-enter Your Password', BENGALI: 'আপনার পাসওয়ার্ড পুনরায় লিখুন' },
     type: 'TEXT',
   },
 ];

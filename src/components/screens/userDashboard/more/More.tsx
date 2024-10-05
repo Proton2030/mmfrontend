@@ -12,6 +12,8 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { storeData } from '../../../../utils/commonFunction/storeData';
+import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
+import { OTHERS } from '../../../../constants/texts/others/Others';
 
 const More = () => {
   const { colors } = useTheme();
@@ -40,7 +42,9 @@ const More = () => {
           marginBottom: 6,
         }}
       >
-        <Text style={{ fontWeight: '600', fontSize: 22, color: colors.scrim }}>Menu</Text>
+        <Text style={{ fontWeight: '600', fontSize: 22, color: colors.scrim }}>
+          {selectLanguage(OTHERS.menu, ui.language)}
+        </Text>
         <View style={{ flexDirection: 'row', gap: 5 }}>
           {ui.theme === 'DARK' ? (
             <TouchableOpacity
