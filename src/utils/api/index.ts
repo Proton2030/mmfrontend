@@ -5,6 +5,7 @@ import { getChat, getChatList, getUnseenMessageCount } from './chat/chat';
 import { getFilterList } from './filter/filter';
 import { getNotification } from './notification/notificaton';
 import { getPaymentList, initPayment, validatePayment } from './payment/Payment';
+import { reportAccount } from './report/report';
 import { getAllPlans } from './subscriptionPlans/Plans';
 import { addChoice } from './userChoice/addUserChoice';
 import { getChoice } from './userChoice/getUserChoice';
@@ -39,6 +40,7 @@ export const api = {
     searchUser: searchUser,
     getUserInfo: getUserInfo,
     updateUserImage: updateUserImage,
+
   },
   userChoice: {
     addChoice: addChoice,
@@ -61,4 +63,7 @@ export const api = {
   filter: {
     getFilterList: getFilterList,
   },
+  report: {
+    reportAccount: reportAccount
+  }
 };

@@ -16,6 +16,7 @@ import { useTheme } from 'react-native-paper';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import ChatHeader from './chatHeader/ChatHeader';
 import AuthContext from '../../../contexts/authContext/authContext';
+import ChatReportModal from '../chatReport/ChatReportModal';
 
 const PersonalChatPage = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -24,6 +25,7 @@ const PersonalChatPage = () => {
   const [text, setText] = useState('');
   const [messages, setMessages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modal2Visible, setModal2Visible] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
@@ -42,7 +44,37 @@ const PersonalChatPage = () => {
     console.log(user?._id);
     navigation.goBack();
   };
+  const blockUser = async () => {
+    await socket.emit("block", {
+      roomId,
+      userId: user?._id,
+      status: true,
+      gender: user?.gender,
+      blockedto: userDetails?._id
+    });
+    setModal2Visible(false);
+    setBlockedByme(true)
+  }
 
+  const unblockUser = async () => {
+    await socket.emit("block", {
+      roomId,
+      userId: user?._id,
+      status: false,
+      gender: user?.gender,
+      blockedto: userDetails?._id
+    });
+    setModal2Visible(false);
+    setBlockedByme(false)
+  }
+
+  const handleNavigateToReport = () => {
+    closeModal2()
+    navigation.navigate('AccountReport', {
+      userDetails: userDetails,
+      roomId: roomId,
+    });
+  }
   useEffect(() => {
     socket.on('userCountUpdate', ({ userCount }: any) => {
       console.log('User count in the room:', userCount);
@@ -55,48 +87,25 @@ const PersonalChatPage = () => {
     };
   }, []);
 
-  const blockUser = async () => {
-    await socket.emit("block", {
-      roomId,
-      userId: user?._id,
-      status: true,
-      gender: user?.gender
-    });
 
-    setBlockedByme(true)
-  }
 
-  const unblockUser = async () => {
-    await socket.emit("block", {
-      roomId,
-      userId: user?._id,
-      status: false,
-      gender: user?.gender
-    });
 
-    setBlockedByme(false)
-  }
 
 
   useEffect(() => {
     socket.on("block", (data: any) => {
       const { userId, is_blocked, gender } = data;
       console.log(is_blocked)
-      // Check if the current user should be affected by this block update
       if (user?._id === userId) {
-        // Update the blocked state for this user
         setBlockedByme(is_blocked);
-        console.log("first")
+        console.log("me blocked")
       } else {
-        // Update the blocked state for the other user
         setBlockedBysender(is_blocked);
+        console.log("sender blocked")
       }
-
-      // Handle other logic if needed, like disabling the input box for others in the room
     });
 
     return () => {
-      // Clean up the event listener on unmount
       socket.off("block");
     };
   }, [socket, user]);
@@ -189,6 +198,14 @@ const PersonalChatPage = () => {
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  const openModal2 = () => {
+    setModal2Visible(true);
+  };
+
+  const closeModal2 = () => {
+    setModal2Visible(false);
+  };
   const handleGesture = (event: any) => {
     if (event.nativeEvent.translationY > 100) {
       closeModal();
@@ -201,10 +218,10 @@ const PersonalChatPage = () => {
         hadnlenavigate={hadnlenavigate}
         userDetails={userDetails}
         updatedAt={updatedAt}
-        toggleMenu={null}
+        toggleMenu={openModal2}
         iconRef={null}
       />
-      <TouchableOpacity onPress={blockedByme ? unblockUser : blockUser} style={{ backgroundColor: "red", height: 100, width: 100 }}>
+      {/* <TouchableOpacity onPress={blockedByme ? unblockUser : blockUser} style={{ backgroundColor: "red", height: 100, width: 100 }}>
         {
           blockedByme ? (
             <Text>Unblock</Text>
@@ -214,7 +231,9 @@ const PersonalChatPage = () => {
         }
 
       </TouchableOpacity>
-
+      <TouchableOpacity onPress={handleNavigateToReport} style={{ backgroundColor: "red", height: 100, width: 100 }}>
+        <Text>Report</Text>
+      </TouchableOpacity> */}
       <FlatList
         data={messages}
         ref={scrollViewRef}
@@ -245,6 +264,26 @@ const PersonalChatPage = () => {
           <View style={styles.modalContainer}>
             <View style={styles.bottomSheet}>
               <SubscriptionPage closeModal={closeModal} />
+            </View>
+          </View>
+        </PanGestureHandler>
+      </Modal>
+
+      <Modal animationType="slide" transparent={true} visible={modal2Visible} onRequestClose={closeModal2}>
+        <PanGestureHandler onGestureEvent={handleGesture}>
+          <View style={[styles.modalContainer,]}>
+            <View style={[styles.bottomSheet, {
+              height: 200, borderTopLeftRadius: 40,
+              borderTopRightRadius: 40,
+            }]}>
+              <ChatReportModal userDetails={userDetails}
+                blockAction={blockedByme ? unblockUser : blockUser}
+                reportAction={handleNavigateToReport}
+                blockStatus={blockedByme ? (
+                  "Unblock"
+                ) : (
+                  " Block"
+                )} />
             </View>
           </View>
         </PanGestureHandler>

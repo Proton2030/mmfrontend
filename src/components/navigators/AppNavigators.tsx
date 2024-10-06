@@ -28,6 +28,7 @@ import PersonalChatPage from '../shared/socketChat/ChatScreen';
 import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import { Linking } from 'react-native';
 import PaymentVerification from '../screens/paymentVerification/PaymentVerification';
+import { ReportScreen } from '../screens/report/ReportScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -79,6 +80,7 @@ const AppNavigators = () => {
             />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
             <Stack.Screen name="Chat" component={PersonalChatPage} />
+            <Stack.Screen name="AccountReport" component={ReportScreen} />
             <Stack.Screen
               name="UserDetails"
               component={UserDetails}

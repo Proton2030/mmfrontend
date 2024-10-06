@@ -73,11 +73,6 @@ const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProf
                 userDetails._id !== user?._id ?
                     <>
                         <TouchableOpacity style={styles.msgButton} >
-                            {/* <IconButton
-                                icon={choice ? 'heart' : 'heart-outline'}
-                                onPress={handleAddChoice}
-                                iconColor={choice ? 'red' : colors.scrim}
-                            ></IconButton> */}
                             <Ionicons name={choice ? 'heart' : 'heart-outline'} size={24}
                                 color={'white'}
                             />
@@ -86,7 +81,15 @@ const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProf
                             <Ionicons name="chatbubble-ellipses-outline" size={24} color={"white"} />
                         </TouchableOpacity>
                     </>
-                    : null
+                    :
+                    <View style={[styles.msgButton, { flexDirection: "row", alignItems: "center", gap: 5 }]}>
+
+                        <Icon name="eye" size={20} color="#fff" />
+                        <Text>
+                            0 Views
+                        </Text>
+                        {/* </View> */}
+                    </View>
             }
 
         </ImageBackground>
