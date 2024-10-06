@@ -19,4 +19,8 @@ export const OTHERS = {
     ENGLISH: 'left',
     BENGALI: 'বাকি',
   },
+  menu: {
+    ENGLISH: 'Menu',
+    BENGALI: 'মেনু',
+  },
 };

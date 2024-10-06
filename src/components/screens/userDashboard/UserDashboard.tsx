@@ -12,38 +12,62 @@ import UiContext from '../../../contexts/uiContext/UIContext';
 import AuthContext from '../../../contexts/authContext/authContext';
 import CustomizeAppBar from '../../shared/customizeAppbar/CustomizeAppBar';
 import { useFocusEffect } from '@react-navigation/native';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { BOTTOM_NAVIGATION_TEXT } from '../../../constants/texts/bottomNavigation/BottomNavigationText';
 
 const UserDashboard = () => {
   const { ui } = useContext(UiContext);
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
   const [index, setIndex] = useState<number>(0);
-
   const { user } = useContext<any>(AuthContext);
 
-  const userFields = [
-    'full_name', 'gender', 'age', 'marital_status', 'state', 'height', 'weight',
-    'body_color', 'occupation', 'work_place', 'monthly_income', 'education', 'islamic_education',
-    'salah', 'sawum', 'fathers_name', 'fathers_occupation', 'mothers_name', 'mothers_occupation',
-    'no_of_brothers', 'no_of_sisters', 'financial_condition', 'status', 'profile_image_url'
-  ];
+  // const userFields = [
+  //   'full_name', 'gender', 'age', 'marital_status', 'state', 'height', 'weight',
+  //   'body_color', 'occupation', 'work_place', 'monthly_income', 'education', 'islamic_education',
+  //   'salah', 'sawum', 'fathers_name', 'fathers_occupation', 'mothers_name', 'mothers_occupation',
+  //   'no_of_brothers', 'no_of_sisters', 'financial_condition', 'status', 'profile_image_url'
+  // ];
 
   // Calculate percentage of profile completeness
-  const filledFields = userFields.filter(field => user?.[field]);
-  const unfilledFields = userFields.filter(field => !user?.[field]);
-  const totalFields = userFields.length;
-  const completionPercentage = Math.round((filledFields.length / totalFields) * 100);
+  // const filledFields = userFields.filter(field => user?.[field]);
+  // const unfilledFields = userFields.filter(field => !user?.[field]);
+  // const totalFields = userFields.length;
+  // const completionPercentage = Math.round((filledFields.length / totalFields) * 100);
 
+  const routes = [
+    {
+      key: 'home',
+      title: selectLanguage(BOTTOM_NAVIGATION_TEXT.home, ui.language),
+      focusedIcon: 'home',
+      unfocusedIcon: 'home-outline',
+    },
+    {
+      key: 'choice',
+      title: selectLanguage(BOTTOM_NAVIGATION_TEXT.choice, ui.language),
+      focusedIcon: 'heart',
+      unfocusedIcon: 'heart-outline',
+    },
+    {
+      key: 'activeUser',
+      title: selectLanguage(BOTTOM_NAVIGATION_TEXT.online, ui.language),
+      focusedIcon: 'podcast',
+      unfocusedIcon: 'podcast',
+    },
+    {
+      key: 'location',
+      title: selectLanguage(BOTTOM_NAVIGATION_TEXT.location, ui.language),
+      focusedIcon: 'map-marker',
+      unfocusedIcon: 'map-marker',
+    },
+    {
+      key: 'more',
+      title: selectLanguage(BOTTOM_NAVIGATION_TEXT.more, ui.language),
+      focusedIcon: 'menu',
+      unfocusedIcon: 'menu',
+    },
+  ];
 
-  const [routes] = useState(() => {
-    const baseRoutes = [{ key: 'home', title: 'Home', focusedIcon: 'home', unfocusedIcon: 'home-outline' },
-    { key: 'choice', title: 'Choice', focusedIcon: 'heart', unfocusedIcon: 'heart-outline' },
-    { key: 'activeUser', title: 'Online', focusedIcon: 'podcast', unfocusedIcon: 'podcast' },
-    { key: 'location', title: 'Location', focusedIcon: 'map-marker', unfocusedIcon: 'map-marker' },
-    { key: 'more', title: 'More', focusedIcon: 'menu', unfocusedIcon: 'menu' }
-    ];
-    return baseRoutes;
-  });
   const renderScene = BottomNavigation.SceneMap({
     home: Home,
     choice: MyChoice,
