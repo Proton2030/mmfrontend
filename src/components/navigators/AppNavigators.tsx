@@ -29,6 +29,7 @@ import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import { Linking } from 'react-native';
 import PaymentVerification from '../screens/paymentVerification/PaymentVerification';
 import { ReportScreen } from '../screens/report/ReportScreen';
+import { BlockList } from '../screens/blockList/BlockList';
 
 const Stack = createNativeStackNavigator();
 
@@ -91,6 +92,7 @@ const AppNavigators = () => {
               }}
             />
             <Stack.Screen name="ProfileImage" component={ProfileImage} />
+            <Stack.Screen name="BlockList" component={BlockList} />
             <Stack.Screen name="Notification" component={NotificationPage} />
             <Stack.Screen name="Terms" component={TermsAndConditions} />
             <Stack.Screen name="Privacy" component={PrivacyPolicy} />

@@ -55,7 +55,7 @@ const SettingsPage = ({ navigation }: any) => {
         ENGLISH: 'Block User',
         BENGALI: 'ব্যবহারকারী ব্লক করুন',
       },
-      route: 'BlockUser',
+      route: 'BlockList',
       color: '#E71B73',
       onPress: handlePress,
     },

@@ -1,6 +1,7 @@
 import { ResetPassword, chnagePassword, signupUser } from './auth/login';
 import { loginUser } from './auth/login';
 import { forgetPassOtp, getOtp } from './auth/sendOtp';
+import { getBlockList, unBlockUser } from './block/block';
 import { getChat, getChatList, getUnseenMessageCount } from './chat/chat';
 import { getFilterList } from './filter/filter';
 import { getNotification } from './notification/notificaton';
@@ -65,5 +66,9 @@ export const api = {
   },
   report: {
     reportAccount: reportAccount
+  },
+  block: {
+    getBlockList: getBlockList,
+    unBlockUser: unBlockUser
   }
 };
