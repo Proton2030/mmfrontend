@@ -187,7 +187,7 @@ const Login = () => {
                 color: ui.theme === 'DARK' ? 'white' : '#E71B73',
               }}
             >
-              Sign up
+              {selectLanguage(LOGIN_TEXT.signUp_button, ui.language)}!
             </Text>
           </TouchableOpacity>
         </View>

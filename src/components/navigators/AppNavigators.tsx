@@ -72,7 +72,7 @@ const AppNavigators = () => {
           <>
             <Stack.Screen
               name="UserDashboard"
-              component={UserDashboardNavigators}
+              component={LockPage}
               options={{
                 statusBarHidden: false,
                 statusBarColor: 'transparent',
