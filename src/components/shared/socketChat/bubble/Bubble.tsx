@@ -8,6 +8,7 @@ import { COLORS } from '../../../../constants/theme';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import { CHAT_TEXT } from '../../../../constants/texts/chat/Chat';
 import UiContext from '../../../../contexts/uiContext/UIContext';
+import { decryptText } from '../../../../utils/commonFunction/decryptText';
 
 const Bubble = ({ message, userId, userCount }: { message: any; userId: string; userCount: number }) => {
   const { colors } = useTheme();
@@ -26,7 +27,7 @@ const Bubble = ({ message, userId, userCount }: { message: any; userId: string; 
         style={[styles.messageBubble, message.sender === userId ? styles.myMessageBubble : styles.theirMessageBubble]}
       >
         <Text style={[styles.messageText, message.sender === userId ? styles.myMessageText : styles.theirMessageText]}>
-          {message.text}
+          {decryptText(message.text)}
         </Text>
       </View>
       {/* <Text style={{textAlign:"right",fontSize:11}}>{formatDate(message?.timestamp)}</Text> */}
