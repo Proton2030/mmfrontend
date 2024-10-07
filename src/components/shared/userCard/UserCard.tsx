@@ -17,6 +17,7 @@ import UiContext from '../../../contexts/uiContext/UIContext';
 import ChoiceContext from '../../../contexts/choiceContext/choiceContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { profileComplete } from '../../../utils/services/profilecomplete/profileComplete';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
@@ -28,6 +29,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
   const { dispatch, state } = useContext(ChoiceContext);
+  const isProfileComplete = profileComplete();
 
   const handleRouteTouserDetails = () => {
     navigation.navigate('UserDetails', {
@@ -45,19 +47,25 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
 
   const handleNavigateChat = () => {
     let roomId = '';
-    if (user && user._id && userDetails._id) {
-      if (user?.gender === 'MALE') {
-        roomId = user._id + userDetails._id;
-      } else {
-        roomId = userDetails._id + user._id;
+
+    if (isProfileComplete) {
+      if (user && user._id && userDetails._id) {
+        if (user?.gender === 'MALE') {
+          roomId = user._id + userDetails._id;
+        } else {
+          roomId = userDetails._id + user._id;
+        }
+        console.log('roomId', roomId);
+        navigation.navigate('Chat', {
+          userDetails: userDetails,
+          roomId: roomId,
+          updatedAt: userDetails?.updatedAt,
+        });
       }
-      console.log('roomId', roomId);
-      navigation.navigate('Chat', {
-        userDetails: userDetails,
-        roomId: roomId,
-        updatedAt: userDetails?.updatedAt,
-      });
+    } else {
+      navigation.navigate('LockPage');
     }
+
   };
 
   const handleAddChoice = useCallback(

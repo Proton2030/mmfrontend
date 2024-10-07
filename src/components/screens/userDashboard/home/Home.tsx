@@ -47,6 +47,7 @@ import UiContext from '../../../../contexts/uiContext/UIContext';
 import { defaultUser, fullLogo, logo, noR } from '../../../../assets';
 import { BackHandler } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { profileComplete } from '../../../../utils/services/profilecomplete/profileComplete';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -71,7 +72,7 @@ const Home = () => {
   const [animation] = useState(new Animated.Value(0));
   const [showOverlay, setShowOverlay] = useState(false);
   const drawerRef = useRef<any>(null);
-
+  const isProfileComplete = profileComplete();
   useEffect(() => {
     if (drawerVisible) {
       setTimeout(() => {
@@ -394,10 +395,13 @@ const Home = () => {
 
             <View>
               <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
-                <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
-                <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
-              </View>
+              {isProfileComplete ?
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
+                  <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
+                  <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
+                </View> : null
+              }
+
             </View>
           </View>
 
@@ -415,9 +419,14 @@ const Home = () => {
             <TouchableOpacity onPress={routeToNotificationList}>
               <Ionicons name="notifications-outline" size={26} color={colors.primary} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={routeToChatList}>
-              <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
-            </TouchableOpacity>
+            {
+              isProfileComplete ?
+                <TouchableOpacity onPress={routeToChatList}>
+                  <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
+                </TouchableOpacity>
+                : null
+            }
+
           </View>
         </Appbar.Header>
         {suggestedUser?.length === 0 && (

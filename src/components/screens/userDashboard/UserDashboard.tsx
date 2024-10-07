@@ -14,6 +14,8 @@ import CustomizeAppBar from '../../shared/customizeAppbar/CustomizeAppBar';
 import { useFocusEffect } from '@react-navigation/native';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { BOTTOM_NAVIGATION_TEXT } from '../../../constants/texts/bottomNavigation/BottomNavigationText';
+import { profileComplete } from '../../../utils/services/profilecomplete/profileComplete';
+import LockPage from '../lockPage/LockPage';
 
 const UserDashboard = () => {
   const { ui } = useContext(UiContext);
@@ -68,11 +70,13 @@ const UserDashboard = () => {
     },
   ];
 
+  const isProfileComplete = profileComplete();
+
   const renderScene = BottomNavigation.SceneMap({
     home: Home,
-    choice: MyChoice,
-    activeUser: ActiveUser,
-    location: Location,
+    choice: isProfileComplete ? MyChoice : LockPage,
+    activeUser: isProfileComplete ? ActiveUser : LockPage,
+    location: isProfileComplete ? Location : LockPage,
     more: More,
   });
 

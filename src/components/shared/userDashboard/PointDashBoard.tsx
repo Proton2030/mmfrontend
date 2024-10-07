@@ -13,6 +13,7 @@ import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPag
 import ProfileCompleteBtn from './profileComepletBtn/ProfileCompleteBtn';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
+import { profileComplete } from '../../../utils/services/profilecomplete/profileComplete';
 
 export default function PointDashBoard() {
   const { user } = useContext<any>(AuthContext);
@@ -41,7 +42,7 @@ export default function PointDashBoard() {
   const closeModal = () => {
     setModalVisible(false);
   };
-
+  const isProfileComplete = profileComplete();
   return (
     <View style={styles.container}>
       <View>
@@ -89,23 +90,27 @@ export default function PointDashBoard() {
               </View>
               <ProgressBar totalCoins={20} usedCoins={user?.message_limit} />
             </View>
+            {isProfileComplete ?
 
-            <Card
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: 12,
-                paddingVertical: 8,
-                paddingHorizontal: 16,
-                backgroundColor: colors.surface,
-              }}
-              onPress={openModal}
-            >
-              <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>
-                {selectLanguage(OTHERS.recharge, language)}
-              </Text>
-            </Card>
+              <Card
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 12,
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  backgroundColor: colors.surface,
+                }}
+                onPress={openModal}
+              >
+                <Text style={{ fontSize: 15, fontWeight: '600', color: colors.primary }}>
+                  {selectLanguage(OTHERS.recharge, language)}
+                </Text>
+              </Card>
+              : null
+            }
+
           </View>
         </View>
       </View>

@@ -30,6 +30,7 @@ import { Linking } from 'react-native';
 import PaymentVerification from '../screens/paymentVerification/PaymentVerification';
 import { ReportScreen } from '../screens/report/ReportScreen';
 import { BlockList } from '../screens/blockList/BlockList';
+import LockPage from '../screens/lockPage/LockPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -107,6 +108,7 @@ const AppNavigators = () => {
                 statusBarStyle: 'dark',
               }}
             />
+            <Stack.Screen name="LockPage" component={LockPage} />
             <Stack.Screen name="ResetPassord" component={PasswordReset} />
             <Stack.Screen name="Payment" component={Payment} />
             <Stack.Screen name="Support" component={HelpAndSupport} />
