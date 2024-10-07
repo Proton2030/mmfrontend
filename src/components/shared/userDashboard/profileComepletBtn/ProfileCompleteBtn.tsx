@@ -53,15 +53,11 @@ const ProfileCompleteBtn = () => {
   };
 
   return (
-    <>
-      {!isReligiousInfoIncomplete && !isFamilyInfoIncomplete ? null : (
-        <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleNavigate}>
-          <Text style={[styles.buttonText, { color: colors.secondary }]}>
-            {selectLanguage(OTHERS.complete_profile, language)}
-          </Text>
-        </TouchableOpacity>
-      )}
-    </>
+    <TouchableOpacity style={[styles.button, { backgroundColor: colors.primary }]} onPress={handleNavigate}>
+      <Text style={[styles.buttonText, { color: colors.secondary }]}>
+        {selectLanguage(OTHERS.complete_profile, language)}
+      </Text>
+    </TouchableOpacity>
   );
 };
 

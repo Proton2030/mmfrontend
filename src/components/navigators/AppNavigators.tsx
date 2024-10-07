@@ -13,7 +13,6 @@ import ConfirmNavigators from './ConfirmNavigators';
 import AuthContext from '../../contexts/authContext/authContext';
 import SplashScreen from '../shared/splash/SplashScreen';
 import HelpAndSupport from '../screens/others/help&support/HelpSupport';
-import { Aboutus } from '../screens/others/about us/aboutus';
 import { Icon, useTheme } from 'react-native-paper';
 import SettingsPage from '../screens/others/settings/Settings';
 import PasswordReset from '../screens/others/settings/passwordReset/PasswordReset';
@@ -25,8 +24,8 @@ import { SubscriptionPage } from '../screens/subscriptionPage/SubscriptionPage';
 import PaymentPage from '../screens/others/paymentPage/PaymentPage';
 import { OnboardingScreen } from '../screens/onboarding/OnboardingScreen';
 import PersonalChatPage from '../shared/socketChat/ChatScreen';
-import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
-import { Linking } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+// import { Linking } from 'react-native';
 import PaymentVerification from '../screens/paymentVerification/PaymentVerification';
 import { ReportScreen } from '../screens/report/ReportScreen';
 import { BlockList } from '../screens/blockList/BlockList';
@@ -34,37 +33,35 @@ import LockPage from '../screens/lockPage/LockPage';
 
 const Stack = createNativeStackNavigator();
 
-type RootStackParamList = {
-  SplashScreen: undefined;
-  UserDashboard: undefined;
-  PaymentVerification: undefined;
-  // Add other screens here as needed
-};
+// type RootStackParamList = {
+//   SplashScreen: undefined;
+//   UserDashboard: undefined;
+//   PaymentVerification: undefined;
+//   // Add other screens here as needed
+// };
 
-const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: ['http://shohozshadi.com', 'https://shohozshadi.com'],
-  config: {
-    screens: {
-      SplashScreen: 'splash',
-      UserDashboard: 'dashboard',
-      PaymentVerification: 'app/payment-verification/:tranId', // Match the pathPrefix in your intent filter
-      // Add other routes here if needed
-    },
-  },
-};
+// const linking: LinkingOptions<RootStackParamList> = {
+//   prefixes: ['http://shohozshadi.com', 'https://shohozshadi.com'],
+//   config: {
+//     screens: {
+//       SplashScreen: 'splash',
+//       UserDashboard: 'dashboard',
+//       PaymentVerification: 'app/payment-verification/:tranId', // Match the pathPrefix in your intent filter
+//       // Add other routes here if needed
+//     },
+//   },
+// };
 
 const AppNavigators = () => {
   const { colors } = useTheme();
   const { user } = useContext(AuthContext);
 
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer>
       <Stack.Navigator
         initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false,
-
-          // ...TransitionPresets.SlideFromRightIOS,
         }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
@@ -72,7 +69,7 @@ const AppNavigators = () => {
           <>
             <Stack.Screen
               name="UserDashboard"
-              component={LockPage}
+              component={UserDashboardNavigators}
               options={{
                 statusBarHidden: false,
                 statusBarColor: 'transparent',

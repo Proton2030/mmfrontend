@@ -181,28 +181,40 @@ const Home = () => {
     }).start(() => setModalVisible(false)); // Close modal after animation
   };
 
-  const addChoice = (sender_id: string, receiver_id: string) => {
-    useFocusEffect(
-      useCallback(() => {
-        const handleAddChoice = async () => {
-          const payload = {
-            senderId: sender_id,
-            receiverId: receiver_id,
-          };
+  // const addChoice = (sender_id: string, receiver_id: string) =>
+  //   useCallback(() => {
+  //     const handleAddChoice = async () => {
+  //       const payload = {
+  //         senderId: sender_id,
+  //         receiverId: receiver_id,
+  //       };
 
-          console.log('-------->payload', payload);
-          try {
-            handleVibrate();
-            await api.userChoice.addChoice(payload);
-          } catch (err) {
-            console.log(err);
-          }
-        };
+  //       console.log('-------->payload', payload);
+  //       try {
+  //         handleVibrate();
+  //         await api.userChoice.addChoice(payload);
+  //       } catch (err) {
+  //         console.log(err);
+  //       }
+  //     };
 
-        handleAddChoice();
-      }, [sender_id, receiver_id]), // Dependencies
-    );
-  };
+  //     handleAddChoice();
+  //   }, [sender_id, receiver_id]); // Dependencies
+
+  const addChoice = useCallback(async (sender_id: string, receiver_id: string) => {
+    const payload = {
+      senderId: sender_id,
+      recieverId: receiver_id,
+    };
+
+    console.log('-------->payload', payload);
+    try {
+      handleVibrate();
+      await api.userChoice.addChoice(payload);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const getSuggestionUserApi = async (mode: string) => {
     console.log('calling api2', page);
@@ -395,13 +407,12 @@ const Home = () => {
 
             <View>
               <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
-              {isProfileComplete ?
+              {isProfileComplete ? (
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
                   <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
                   <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
-                </View> : null
-              }
-
+                </View>
+              ) : null}
             </View>
           </View>
 
@@ -419,14 +430,11 @@ const Home = () => {
             <TouchableOpacity onPress={routeToNotificationList}>
               <Ionicons name="notifications-outline" size={26} color={colors.primary} />
             </TouchableOpacity>
-            {
-              isProfileComplete ?
-                <TouchableOpacity onPress={routeToChatList}>
-                  <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
-                </TouchableOpacity>
-                : null
-            }
-
+            {isProfileComplete ? (
+              <TouchableOpacity onPress={routeToChatList}>
+                <Ionicons name="chatbubble-ellipses-outline" size={26} color={colors.primary} />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </Appbar.Header>
         {suggestedUser?.length === 0 && (

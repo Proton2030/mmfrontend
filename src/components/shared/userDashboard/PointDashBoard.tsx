@@ -14,6 +14,7 @@ import ProfileCompleteBtn from './profileComepletBtn/ProfileCompleteBtn';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
 import { profileComplete } from '../../../utils/services/profilecomplete/profileComplete';
+import { USER_INFO_FOUR, USER_INFO_THREE_part2 } from '../../../constants/forms/UserInformation';
 
 export default function PointDashBoard() {
   const { user } = useContext<any>(AuthContext);
@@ -24,6 +25,11 @@ export default function PointDashBoard() {
   const { colors } = useTheme();
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  const isReligiousInfoIncomplete = USER_INFO_THREE_part2.some((field) => !user?.[field.id]);
+
+  // Check which fields from USER_INFO_FOUR are missing
+  const isFamilyInfoIncomplete = USER_INFO_FOUR.some((field) => !user?.[field.id]);
 
   const routeToPaymentHistory = () => {
     navigation.navigate('paymentHistory');
@@ -65,7 +71,7 @@ export default function PointDashBoard() {
         >
           <ProgressContainer />
         </TouchableOpacity>
-        <ProfileCompleteBtn />
+        {!isReligiousInfoIncomplete && !isFamilyInfoIncomplete ? null : <ProfileCompleteBtn />}
 
         <View style={{ marginHorizontal: 10, paddingHorizontal: 10, paddingVertical: 10 }}>
           <Text style={{ fontSize: 18, fontWeight: '700', color: colors.tertiary, marginBottom: 16 }}>
@@ -90,8 +96,7 @@ export default function PointDashBoard() {
               </View>
               <ProgressBar totalCoins={20} usedCoins={user?.message_limit} />
             </View>
-            {isProfileComplete ?
-
+            {isProfileComplete ? (
               <Card
                 style={{
                   flexDirection: 'row',
@@ -108,9 +113,7 @@ export default function PointDashBoard() {
                   {selectLanguage(OTHERS.recharge, language)}
                 </Text>
               </Card>
-              : null
-            }
-
+            ) : null}
           </View>
         </View>
       </View>

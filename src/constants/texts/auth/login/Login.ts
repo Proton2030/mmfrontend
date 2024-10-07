@@ -9,7 +9,7 @@ export const LOGIN_TEXT = {
   },
   signUp_button: {
     BENGALI: 'সাইন আপ',
-    ENGLISH: 'Login',
+    ENGLISH: 'Sign Up',
   },
   signup_button: {
     BENGALI: 'নতুন অ্যাকাউন্ট তৈরি করুন',

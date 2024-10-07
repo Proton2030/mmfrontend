@@ -20,7 +20,6 @@ import { handleVibrate } from '../../../../../utils/commonFunction/systemvibrati
 const MyChoice = () => {
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
-  const { colors } = useTheme();
   const [choiceList, setChoiceList] = useState<any[]>([]);
   const [page, setPage] = useState<number>(1);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -115,7 +114,6 @@ const MyChoice = () => {
   }, []);
 
   useEffect(() => {
-    console.log('jji', choiceList);
     getChoiceUser();
   }, [getChoiceUser]);
 

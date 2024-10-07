@@ -2,7 +2,6 @@ import { View, Text, Image, StyleSheet, Dimensions, ScrollView } from 'react-nat
 import React, { useContext, useState } from 'react';
 import { Button, useTheme } from 'react-native-paper';
 import AuthContext from '../../../../../contexts/authContext/authContext';
-import { MediaType, launchImageLibrary } from 'react-native-image-picker';
 import { api } from '../../../../../utils/api';
 import { useNavigation } from '@react-navigation/native';
 import { logo } from '../../../../../assets';

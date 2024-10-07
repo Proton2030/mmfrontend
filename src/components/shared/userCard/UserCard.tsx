@@ -65,7 +65,6 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
     } else {
       navigation.navigate('LockPage');
     }
-
   };
 
   const handleAddChoice = useCallback(
@@ -75,6 +74,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
         console.log('called');
         try {
           // playSound(refreshSound)
+          console.log('===>called');
           addChoice(user._id, userDetails._id);
         } catch (err) {
           console.log('error', err);

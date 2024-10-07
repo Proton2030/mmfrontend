@@ -80,11 +80,12 @@ const UserInformationPage3_part2 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          if (editable) {
-            navigation.navigate('UserDashboard');
-          } else {
-            navigation.navigate('UserInfo4', { editable: false });
-          }
+          navigation.navigate('UserInfo4', { editable });
+          // if (editable) {
+          //   navigation.navigate('UserDashboard');
+          // } else {
+          //   navigation.navigate('UserInfo4', { editable: false });
+          // }
         }
       } catch (error) {
         console.log(error);
@@ -171,7 +172,7 @@ const UserInformationPage3_part2 = () => {
                   textTransform: 'capitalize',
                 }}
               >
-                {selectLanguage(RELIGIOUS_INFO_TEXT.family_info, language)}
+                {selectLanguage(RELIGIOUS_INFO_TEXT.religious_info, language)}
               </Text>
             </View>
             <CenterForm object={userInfo} handleChangeText={handleChangeText} fieldList={USER_INFO_THREE_part2} />
