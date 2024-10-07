@@ -44,7 +44,7 @@ import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { DrawerLayout } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UiContext from '../../../../contexts/uiContext/UIContext';
-import { fullLogo, logo, noR } from '../../../../assets';
+import { defaultUser, fullLogo, logo, noR } from '../../../../assets';
 import { BackHandler } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -160,7 +160,6 @@ const Home = () => {
   //   }
   // }, []);
 
-
   const [modalVisible, setModalVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(330)).current; // Initial value for translateX is the width of the drawer
 
@@ -200,10 +199,9 @@ const Home = () => {
         };
 
         handleAddChoice();
-      }, [sender_id, receiver_id]) // Dependencies
+      }, [sender_id, receiver_id]), // Dependencies
     );
   };
-
 
   const getSuggestionUserApi = async (mode: string) => {
     console.log('calling api2', page);
@@ -326,9 +324,6 @@ const Home = () => {
     handlegGetUnseenMessageCount();
   }, [handlegGetUnseenMessageCount]);
 
-
-
-
   return (
     <View style={globalStyles.parentScrollContainer2}>
       <View style={{ flex: 1 }}>
@@ -342,12 +337,7 @@ const Home = () => {
           )}
         > */}
 
-
-        <Modal
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={closeDrawer}
-        >
+        <Modal transparent={true} visible={modalVisible} onRequestClose={closeDrawer}>
           {/* Dark background overlay */}
           <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             {/* Touchable area to close the drawer when tapping outside */}
@@ -391,14 +381,17 @@ const Home = () => {
               gap: 10,
             }}
           >
-            <Image
-              style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
-              source={{
-                uri:
-                  user?.profile_image_url ||
-                  'https://media.istockphoto.com/id/1227172416/photo/portrait-of-brazilian-young-woman-looking-at-camera.jpg?s=612x612&w=is&k=20&c=ybXWtTOxPLBJ6_t2crLO7IuA29vjOg_RQxB3oFaGTRc=',
-              }}
-            />
+            {user?.profile_image_url ? (
+              <Image
+                style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }}
+                source={{
+                  uri: user?.profile_image_url || '',
+                }}
+              />
+            ) : (
+              <Image source={defaultUser} style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }} />
+            )}
+
             <View>
               <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
               <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>

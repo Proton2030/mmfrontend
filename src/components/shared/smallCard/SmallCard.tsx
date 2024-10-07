@@ -63,9 +63,6 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
       case 'Privacy Policy':
         handleRoutePrivacy();
         return;
-      case 'About Us':
-        handleRouteAboutus();
-        return;
       case 'Settings':
         handleRouteSettings();
         return;
