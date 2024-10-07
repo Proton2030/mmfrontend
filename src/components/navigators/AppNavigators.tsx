@@ -76,7 +76,7 @@ const AppNavigators = () => {
                 statusBarHidden: false,
                 statusBarColor: 'transparent',
                 statusBarTranslucent: true,
-                statusBarStyle: "dark"
+                statusBarStyle: 'dark',
               }}
             />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
@@ -99,24 +99,15 @@ const AppNavigators = () => {
             <Stack.Screen name="Settings" component={SettingsPage} />
             <Stack.Screen name="subscriptionPage" component={SubscriptionPage} />
             <Stack.Screen name="paymentPage" component={PaymentPage} />
-            <Stack.Screen name="paymentHistory" component={PaymentHistory}
+            <Stack.Screen
+              name="paymentHistory"
+              component={PaymentHistory}
               options={{
                 headerShown: true,
-                statusBarStyle: "dark"
-
+                statusBarStyle: 'dark',
               }}
             />
             <Stack.Screen name="ResetPassord" component={PasswordReset} />
-            <Stack.Screen
-              name="About Us"
-              component={Aboutus}
-              options={{
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: '#fde8f1',
-                },
-              }}
-            />
             <Stack.Screen name="Payment" component={Payment} />
             <Stack.Screen name="Support" component={HelpAndSupport} />
             <Stack.Screen name="PaymentVerification" component={PaymentVerification} />

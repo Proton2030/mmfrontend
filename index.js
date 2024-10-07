@@ -9,6 +9,12 @@ import { useEffect, useState } from 'react';
 import { ChoiceContextProvider } from './src/contexts/choiceContext/choiceContext';
 import MessageSeenCountContextProvider from './src/contexts/messageSeenContext/MessageSeenCountContextProvider';
 
+import 'react-native-get-random-values';
+// import 'react-native-randombytes/lib/randombytes';
+import { Buffer } from 'buffer';
+
+global.Buffer = Buffer;
+
 export default function Main() {
   const [isRoute, setIsRoute] = useState(false);
 
@@ -22,7 +28,7 @@ export default function Main() {
   });
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
       const {
         notification: { body },
       } = remoteMessage;
@@ -31,7 +37,6 @@ export default function Main() {
 
     return unsubscribe;
   }, []);
-
 
   return (
     <UiContextProvider>

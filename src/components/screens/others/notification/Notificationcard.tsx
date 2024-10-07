@@ -1,7 +1,5 @@
 // NotificationCard.js
-import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import YourComponent from './NotificationImage';
 
 const NotificationCard = () => {
   return <View style={styles.container}></View>;

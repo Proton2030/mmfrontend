@@ -7,8 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from './styles';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
-import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { SubscriptionPage } from '../../screens/subscriptionPage/SubscriptionPage';
 import { socket } from '../../../config/config';
 import Bubble from './bubble/Bubble';
@@ -17,6 +15,7 @@ import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import ChatHeader from './chatHeader/ChatHeader';
 import AuthContext from '../../../contexts/authContext/authContext';
 import ChatReportModal from '../chatReport/ChatReportModal';
+import { encryptText } from '../../../utils/commonFunction/encryptText';
 
 const PersonalChatPage = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -45,36 +44,36 @@ const PersonalChatPage = () => {
     navigation.goBack();
   };
   const blockUser = async () => {
-    await socket.emit("block", {
+    await socket.emit('block', {
       roomId,
       userId: user?._id,
       status: true,
       gender: user?.gender,
-      blockedto: userDetails?._id
+      blockedto: userDetails?._id,
     });
     setModal2Visible(false);
-    setBlockedByme(true)
-  }
+    setBlockedByme(true);
+  };
 
   const unblockUser = async () => {
-    await socket.emit("block", {
+    await socket.emit('block', {
       roomId,
       userId: user?._id,
       status: false,
       gender: user?.gender,
-      blockedto: userDetails?._id
+      blockedto: userDetails?._id,
     });
     setModal2Visible(false);
-    setBlockedByme(false)
-  }
+    setBlockedByme(false);
+  };
 
   const handleNavigateToReport = () => {
-    closeModal2()
+    closeModal2();
     navigation.navigate('AccountReport', {
       userDetails: userDetails,
       roomId: roomId,
     });
-  }
+  };
   useEffect(() => {
     socket.on('userCountUpdate', ({ userCount }: any) => {
       console.log('User count in the room:', userCount);
@@ -87,13 +86,8 @@ const PersonalChatPage = () => {
     };
   }, []);
 
-
-
-
-
-
   useEffect(() => {
-    socket.on("block", (data: any) => {
+    socket.on('block', (data: any) => {
       const { userId, is_blocked, gender } = data;
       console.log(is_blocked)
       if (userId === user?._id) {
@@ -108,31 +102,30 @@ const PersonalChatPage = () => {
     });
 
     return () => {
-      socket.off("block");
+      socket.off('block');
     };
   }, [socket, user, blockedByme, blockedBysender]);
 
 
   useEffect(() => {
-    console.log("room status", blocked_by_female_user, blocked_by_male_user)
-    if (user?.gender === "MALE" && blocked_by_male_user) {
-      setBlockedByme(true)
-      console.log("BlockedByme")
+    console.log('room status', blocked_by_female_user, blocked_by_male_user);
+    if (user?.gender === 'MALE' && blocked_by_male_user) {
+      setBlockedByme(true);
+      console.log('BlockedByme');
     }
-    if (user?.gender === "FEMALE" && blocked_by_female_user) {
-      setBlockedByme(true)
-      console.log("BlockedByme")
+    if (user?.gender === 'FEMALE' && blocked_by_female_user) {
+      setBlockedByme(true);
+      console.log('BlockedByme');
     }
-    if (user?.gender === "FEMALE" && blocked_by_male_user) {
-      setBlockedBysender(true)
-      console.log("BlockedBysender")
+    if (user?.gender === 'FEMALE' && blocked_by_male_user) {
+      setBlockedBysender(true);
+      console.log('BlockedBysender');
     }
-    if (user?.gender === "MALE" && blocked_by_female_user) {
-      setBlockedBysender(true)
-      console.log("BlockedBysender")
+    if (user?.gender === 'MALE' && blocked_by_female_user) {
+      setBlockedBysender(true);
+      console.log('BlockedBysender');
     }
-  }, [])
-
+  }, []);
 
   useEffect(() => {
     socket.emit('joinRoom', roomId, user?._id);
@@ -147,6 +140,7 @@ const PersonalChatPage = () => {
     });
 
     socket.on('receiveMessage', (message: any) => {
+      console.log('===>recieve message called');
       setMessages((prevMessages): any => [...prevMessages, message]);
       scrollViewRef.current?.scrollToEnd({ animated: true });
     });
@@ -173,7 +167,7 @@ const PersonalChatPage = () => {
         console.log(female);
         const message = {
           roomId,
-          text,
+          text: encryptText(text),
           sender: user?._id,
           female_user: female,
           male_user: male,
@@ -273,12 +267,19 @@ const PersonalChatPage = () => {
 
       <Modal animationType="slide" transparent={true} visible={modal2Visible} onRequestClose={closeModal2}>
         <PanGestureHandler onGestureEvent={handleGesture}>
-          <View style={[styles.modalContainer,]}>
-            <View style={[styles.bottomSheet, {
-              height: 200, borderTopLeftRadius: 40,
-              borderTopRightRadius: 40,
-            }]}>
-              <ChatReportModal userDetails={userDetails}
+          <View style={[styles.modalContainer]}>
+            <View
+              style={[
+                styles.bottomSheet,
+                {
+                  height: 200,
+                  borderTopLeftRadius: 40,
+                  borderTopRightRadius: 40,
+                },
+              ]}
+            >
+              <ChatReportModal
+                userDetails={userDetails}
                 blockAction={blockedByme ? unblockUser : blockUser}
                 reportAction={handleNavigateToReport}
                 blockedBysender={blockedByme ? null : blockedBysender}
