@@ -96,19 +96,21 @@ const PersonalChatPage = () => {
     socket.on("block", (data: any) => {
       const { userId, is_blocked, gender } = data;
       console.log(is_blocked)
-      if (user?._id === userId) {
+      if (userId === user?._id) {
         setBlockedByme(is_blocked);
-        console.log("me blocked")
+        // console.log("I blocked", userId, is_blocked, user?.full_name)
+        console.log("blocked from ", user?.full_name, blockedByme, is_blocked)
       } else {
         setBlockedBysender(is_blocked);
-        console.log("sender blocked")
+        // console.log("sender blocked", userId, is_blocked, user?.full_name)
+        // console.log("blocked from sender", user?.full_name, blockedBysender, is_blocked)
       }
     });
 
     return () => {
       socket.off("block");
     };
-  }, [socket, user]);
+  }, [socket, user, blockedByme, blockedBysender]);
 
 
   useEffect(() => {
@@ -279,6 +281,7 @@ const PersonalChatPage = () => {
               <ChatReportModal userDetails={userDetails}
                 blockAction={blockedByme ? unblockUser : blockUser}
                 reportAction={handleNavigateToReport}
+                blockedBysender={blockedByme ? null : blockedBysender}
                 blockStatus={blockedByme ? (
                   "Unblock"
                 ) : (
