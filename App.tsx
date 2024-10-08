@@ -53,7 +53,7 @@ const App = ({ isRoute }: any) => {
   useEffect(() => {
     if (user) {
       if (appState === 'active') {
-        if (user && user.acount_status === 'ACTIVE') {
+        if (user) {
           socket.emit('online', { userId: user?._id });
         }
       }
@@ -74,6 +74,8 @@ const App = ({ isRoute }: any) => {
   useEffect(() => {
     getUserDetails();
   }, []);
+
+  console.log('==>app state', appState);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
