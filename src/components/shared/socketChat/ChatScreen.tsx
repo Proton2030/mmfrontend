@@ -20,7 +20,7 @@ import { encryptText } from '../../../utils/commonFunction/encryptText';
 const PersonalChatPage = () => {
   const { user, setUser } = useContext(AuthContext);
   const route = useRoute<any>();
-  let { userDetails, roomId, updatedAt, blocked_by_male_user, blocked_by_female_user } = route.params;
+  let { userDetails, roomId, updatedAt } = route.params;
   const [text, setText] = useState('');
   const [messages, setMessages] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,6 +33,7 @@ const PersonalChatPage = () => {
 
   const [blockedByme, setBlockedByme] = useState(false);
   const [blockedBysender, setBlockedBysender] = useState(false);
+  const [roomDetails, setRoomDetails] = useState(null);
 
   const disconnectUser = () => {
     socket.emit('disconnectUser', user?._id, roomId);
@@ -78,7 +79,6 @@ const PersonalChatPage = () => {
     socket.on('userCountUpdate', ({ userCount }: any) => {
       console.log('User count in the room:', userCount);
       setUserCount(userCount);
-      // You can update the state here to display userCount in the UI
     });
 
     return () => {
@@ -92,12 +92,9 @@ const PersonalChatPage = () => {
       console.log(is_blocked)
       if (userId === user?._id) {
         setBlockedByme(is_blocked);
-        // console.log("I blocked", userId, is_blocked, user?.full_name)
         console.log("blocked from ", user?.full_name, blockedByme, is_blocked)
       } else {
         setBlockedBysender(is_blocked);
-        // console.log("sender blocked", userId, is_blocked, user?.full_name)
-        // console.log("blocked from sender", user?.full_name, blockedBysender, is_blocked)
       }
     });
 
@@ -106,26 +103,6 @@ const PersonalChatPage = () => {
     };
   }, [socket, user, blockedByme, blockedBysender]);
 
-
-  useEffect(() => {
-    console.log('room status', blocked_by_female_user, blocked_by_male_user);
-    if (user?.gender === 'MALE' && blocked_by_male_user) {
-      setBlockedByme(true);
-      console.log('BlockedByme');
-    }
-    if (user?.gender === 'FEMALE' && blocked_by_female_user) {
-      setBlockedByme(true);
-      console.log('BlockedByme');
-    }
-    if (user?.gender === 'FEMALE' && blocked_by_male_user) {
-      setBlockedBysender(true);
-      console.log('BlockedBysender');
-    }
-    if (user?.gender === 'MALE' && blocked_by_female_user) {
-      setBlockedBysender(true);
-      console.log('BlockedBysender');
-    }
-  }, []);
 
   useEffect(() => {
     socket.emit('joinRoom', roomId, user?._id);
@@ -139,6 +116,26 @@ const PersonalChatPage = () => {
       setLoading(false);
     });
 
+    socket.on("roomDetails", (details) => {
+      console.log("Room Details received:", details[0]);
+      setRoomDetails(details); // Set room details to state
+      if (user?.gender === 'MALE' && details[0]?.blocked_by_male_user) {
+        setBlockedByme(true);
+        console.log('BlockedByme');
+      }
+      if (user?.gender === 'FEMALE' && details[0]?.blocked_by_female_user) {
+        setBlockedByme(true);
+        console.log('BlockedByme');
+      }
+      if (user?.gender === 'FEMALE' && details[0]?.blocked_by_male_user) {
+        setBlockedBysender(true);
+        console.log('BlockedBysender');
+      }
+      if (user?.gender === 'MALE' && details[0]?.blocked_by_female_user) {
+        setBlockedBysender(true);
+        console.log('BlockedBysender');
+      }
+    });
     socket.on('receiveMessage', (message: any) => {
       console.log('===>recieve message called');
       setMessages((prevMessages): any => [...prevMessages, message]);
@@ -150,7 +147,7 @@ const PersonalChatPage = () => {
       socket.off('receiveMessage');
       socket.off('previousMessages');
     };
-  }, [roomId]);
+  }, [roomId, blockedByme, blockedBysender]);
 
   // useEffect(() => {
   //     socket.emit('disconnect');
@@ -241,7 +238,8 @@ const PersonalChatPage = () => {
       />
 
       {blockedByme || blockedBysender ? null : (
-        <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent' }]}>
+        <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent', position: "relative" }]}>
+          {/* <Image style={{ height: 100, width: 100, position: "absolute", top: -100 }} source={{ uri: "https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" }} /> */}
           <TextInput
             value={text}
             onChangeText={setText}

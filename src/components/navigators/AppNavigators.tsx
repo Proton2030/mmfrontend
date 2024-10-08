@@ -30,6 +30,7 @@ import PaymentVerification from '../screens/paymentVerification/PaymentVerificat
 import { ReportScreen } from '../screens/report/ReportScreen';
 import { BlockList } from '../screens/blockList/BlockList';
 import LockPage from '../screens/lockPage/LockPage';
+import DeleteAccount from '../screens/deleteAccount/DeleteAccount';
 
 const Stack = createNativeStackNavigator();
 
@@ -106,6 +107,7 @@ const AppNavigators = () => {
               }}
             />
             <Stack.Screen name="LockPage" component={LockPage} />
+            <Stack.Screen name="DeleteAccount" component={DeleteAccount} />
             <Stack.Screen name="ResetPassord" component={PasswordReset} />
             <Stack.Screen name="Payment" component={Payment} />
             <Stack.Screen name="Support" component={HelpAndSupport} />

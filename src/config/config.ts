@@ -5,6 +5,7 @@ export const BASE_URL = 'https://d3be5gm8hnmvue.cloudfront.net';
 // export const BASE_URL = 'http://192.168.194.155:8989';
 export const CHAT_URL = 'https://yoaj50ivwc.execute-api.ap-south-1.amazonaws.com';
 export const LOCALSOCKET = 'http://192.168.194.155:9999';
+
 // export const port = 8181;
 export const version = 'v1';
 

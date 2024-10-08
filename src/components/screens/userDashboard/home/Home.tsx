@@ -83,6 +83,13 @@ const Home = () => {
     }
   }, [drawerVisible]);
 
+  const handleRouteMyProfile = () => {
+    navigation.navigate('UserDetails', {
+      userDetails: user,
+      editable: true,
+    });
+  };
+
   const toggleDrawer = () => {
     console.log('Toggle drawer function called');
     setDrawerVisible(!drawerVisible);
@@ -386,7 +393,7 @@ const Home = () => {
             elevation: 1,
           }}
         >
-          <View
+          <TouchableOpacity onPress={handleRouteMyProfile}
             style={{
               alignItems: 'center',
               paddingLeft: 10,
@@ -406,15 +413,15 @@ const Home = () => {
             )}
 
             <View>
-              <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 18 }}>{user?.full_name}</Text>
-              {isProfileComplete ? (
+              <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 20 }}>{user?.full_name}</Text>
+              {/* {isProfileComplete ? (
                 <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
-                  <Ionicons name="shield-checkmark" color={colors.primary} size={14} />
+                  <Ionicons name="shield-checkmark" color={"blue"} size={14} />
                   <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
                 </View>
-              ) : null}
+              ) : null} */}
             </View>
-          </View>
+          </TouchableOpacity>
 
           <View style={{ flexDirection: 'row', gap: 8, paddingRight: 10 }}>
             <TouchableOpacity onPress={openDrawer}>

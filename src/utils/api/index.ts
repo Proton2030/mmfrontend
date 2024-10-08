@@ -20,6 +20,7 @@ import {
   getUserInfo,
   updateUserImage,
   getActiveSuggestionUser,
+  deleteUser,
 } from './userDetails/userDetails';
 import { updateUserMessageLimit } from './validatePayment/validatePayment';
 
@@ -41,6 +42,7 @@ export const api = {
     searchUser: searchUser,
     getUserInfo: getUserInfo,
     updateUserImage: updateUserImage,
+    deleteUser: deleteUser
 
   },
   userChoice: {
