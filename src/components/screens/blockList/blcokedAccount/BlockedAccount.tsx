@@ -60,7 +60,7 @@ const BlockedAccount = ({ item, blockeduser, getBlockList }: any) => {
                             alignContent: "center"
 
                         }}>
-                        <Text >
+                        <Text style={{ color: colors.background }}>
                             Unblock
                         </Text>
                     </TouchableOpacity>

@@ -63,7 +63,7 @@ const UserInformationPage1 = () => {
   );
 
   const handleCompleteButtonClick = useCallback(async () => {
-    navigation.navigate('UserInfo2', { editable: false });
+    navigation.navigate('UserInfo5', { editable: false });
     if (user) {
       if (userInfo.full_name === '' || userInfo.gender === '' || userInfo.age === 0 || userInfo.marital_status === '') {
         setErrorMessage('Please fill the all data');

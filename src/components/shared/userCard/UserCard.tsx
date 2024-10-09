@@ -131,9 +131,9 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
                   {selectLanguage(OTHERS.lives, language)} {userDetails?.state || 'N/A'}
                 </Text>
                 {userDetails?.status === 'ACTIVE' ? (
-                  <Text>online</Text>
+                  <Text style={{ color: colors.tertiary }}>online</Text>
                 ) : (
-                  <Text>{getTimeAgo(new Date().getTime() - new Date(userDetails?.updatedAt).getTime())}</Text>
+                  <Text style={{ color: colors.tertiary }}>Active {getTimeAgo(new Date().getTime() - new Date(userDetails?.updatedAt).getTime())}</Text>
                 )}
               </View>
             </View>

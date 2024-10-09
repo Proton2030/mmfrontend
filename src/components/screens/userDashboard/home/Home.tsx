@@ -32,7 +32,6 @@ import AuthContext from '../../../../contexts/authContext/authContext';
 import { api } from '../../../../utils/api';
 import UserCard from '../../../shared/userCard/UserCard';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { shuffleArray } from '../../../../utils/commonFunction/suffleArray';
 import _ from 'lodash';
 import SmallLoader from '../../../shared/smallLoader/SmallLoader';
@@ -48,6 +47,8 @@ import { defaultUser, fullLogo, logo, noR } from '../../../../assets';
 import { BackHandler } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { profileComplete } from '../../../../utils/services/profilecomplete/profileComplete';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { IUserDetails } from '../../../../@types/types/userDetails.types';
 
 const Home = () => {
   const { colors } = useTheme();
@@ -72,7 +73,14 @@ const Home = () => {
   const [animation] = useState(new Animated.Value(0));
   const [showOverlay, setShowOverlay] = useState(false);
   const drawerRef = useRef<any>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filterApplied, setFilterApplied] = useState(false);
+
+  const slideAnim = useRef(new Animated.Value(330)).current; // Initial value for translateX is the width of the drawer
+
   const isProfileComplete = profileComplete();
+
+
   useEffect(() => {
     if (drawerVisible) {
       setTimeout(() => {
@@ -127,7 +135,18 @@ const Home = () => {
     console.log(filterOptions);
     try {
       // Combine minAge and maxAge into a single age range string
-
+      if (
+        !filterOptions.maritalStatus &&
+        !filterOptions.hasSalah &&
+        !filterOptions.hasSawm &&
+        !filterOptions.location &&
+        filterOptions.minAge === null &&
+        filterOptions.maxAge === null &&
+        !filterOptions.full_name
+      ) {
+        console.log('null');
+        setFilterApplied(false)
+      }
       const params = {
         minAge: filterOptions?.minAge,
         maxAge: filterOptions?.maxAge,
@@ -141,7 +160,7 @@ const Home = () => {
 
       // Perform the API call with the params
       const response = await api.filter.getFilterList(params);
-
+      setFilterApplied(true)
       // Update suggested users based on the response
       setSuggestedUser(response);
 
@@ -153,23 +172,54 @@ const Home = () => {
     }
   };
 
-  // const addChoice = useCallback(async (sender_id: string, reciver_id: string) => {
-  //   const payload = {
-  //     senderId: sender_id,
-  //     recieverId: reciver_id,
-  //   };
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => {
+        if (filterApplied) {
+          console.log("filter is removing", filterApplied)
+          removeFilter();
+          setFilterApplied(false)
+          return true;
+        }
+        return false;
+      };
 
-  //   console.log('-------->payload', payload);
-  //   try {
-  //     handleVibrate();
-  //     await api.userChoice.addChoice(payload);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }, []);
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const slideAnim = useRef(new Animated.Value(330)).current; // Initial value for translateX is the width of the drawer
+      return () => backHandler.remove(); // Cleanup the listener on unmount
+    }, [filterApplied])
+  );
+
+
+
+  const removeFilter = async () => {
+    const gender = user?.gender === 'MALE' ? 'FEMALE' : 'MALE';
+    try {
+      const params = {
+        minAge: null,
+        maxAge: null,
+        gender: gender,
+        marital_status: null,
+        salah: null,
+        sawum: null,
+        state: null,
+        full_name: null
+      };
+
+      // Perform the API call with the params
+      const response = await api.filter.getFilterList(params);
+      setFilterApplied(false)
+      // Update suggested users based on the response
+      setSuggestedUser(response);
+
+      // Close the drawer
+      toggleDrawer();
+    } catch (error) {
+
+    }
+
+  }
+
 
   const openDrawer = () => {
     setModalVisible(true);
@@ -188,25 +238,7 @@ const Home = () => {
     }).start(() => setModalVisible(false)); // Close modal after animation
   };
 
-  // const addChoice = (sender_id: string, receiver_id: string) =>
-  //   useCallback(() => {
-  //     const handleAddChoice = async () => {
-  //       const payload = {
-  //         senderId: sender_id,
-  //         receiverId: receiver_id,
-  //       };
 
-  //       console.log('-------->payload', payload);
-  //       try {
-  //         handleVibrate();
-  //         await api.userChoice.addChoice(payload);
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-
-  //     handleAddChoice();
-  //   }, [sender_id, receiver_id]); // Dependencies
 
   const addChoice = useCallback(async (sender_id: string, receiver_id: string) => {
     const payload = {
@@ -344,26 +376,17 @@ const Home = () => {
     handlegGetUnseenMessageCount();
   }, [handlegGetUnseenMessageCount]);
 
+
+
+
   return (
     <View style={globalStyles.parentScrollContainer2}>
       <View style={{ flex: 1 }}>
-        {/* <DrawerLayout
-          ref={drawerRef}
-          drawerWidth={330}
-          drawerPosition="right"
-          drawerBackgroundColor={colors.background}
-          renderNavigationView={() => (
-            <FilterDrawer closeDrawer={closeDrawer} toggleDrawer={toggleDrawer} applyFilters={hideFilterModal} />
-          )}
-        > */}
+
 
         <Modal transparent={true} visible={modalVisible} onRequestClose={closeDrawer}>
-          {/* Dark background overlay */}
           <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-            {/* Touchable area to close the drawer when tapping outside */}
             <TouchableOpacity style={{ flex: 1 }} onPress={closeDrawer} />
-
-            {/* Animated sliding drawer */}
             <Animated.View
               style={{
                 transform: [{ translateX: slideAnim }],
@@ -412,14 +435,9 @@ const Home = () => {
               <Image source={defaultUser} style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }} />
             )}
 
-            <View>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 1 }}>
               <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 20 }}>{user?.full_name}</Text>
-              {/* {isProfileComplete ? (
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 3 }}>
-                  <Ionicons name="shield-checkmark" color={"blue"} size={14} />
-                  <Text style={{ fontWeight: '600', color: colors.tertiary, fontSize: 12 }}>Verified user</Text>
-                </View>
-              ) : null} */}
+              {/* <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={19} /> */}
             </View>
           </TouchableOpacity>
 

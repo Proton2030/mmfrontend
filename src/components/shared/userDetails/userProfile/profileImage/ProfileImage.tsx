@@ -12,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthContext from '../../../../../contexts/authContext/authContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProfileImage, handleAddChoice, choice }: any) => {
     const { colors } = useTheme();
@@ -36,6 +37,8 @@ const ProfileImage = ({ uri, userDetails, handleNavigateChat, handleNavigateProf
                 <View style={styles.userInfo}>
                     <Text style={styles.name}> {userDetails.full_name}
                         {userDetails.is_verified ? <Icon name="verified" size={18} /> : null}
+                        {/* &nbsp; */}
+                        {/* <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={21} /> */}
                         &nbsp; {
                             userDetails?.gender === "FEMALE" ?
                                 <Ionicons name="female" size={20} color={COLORS.primary} />

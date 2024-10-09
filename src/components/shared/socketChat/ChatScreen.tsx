@@ -118,7 +118,8 @@ const PersonalChatPage = () => {
 
     socket.on("roomDetails", (details) => {
       console.log("Room Details received:", details[0]);
-      setRoomDetails(details); // Set room details to state
+      setRoomDetails(details);
+      console.log("=====>Room details", details[0])
       if (user?.gender === 'MALE' && details[0]?.blocked_by_male_user) {
         setBlockedByme(true);
         console.log('BlockedByme');
@@ -214,19 +215,7 @@ const PersonalChatPage = () => {
         toggleMenu={openModal2}
         iconRef={null}
       />
-      {/* <TouchableOpacity onPress={blockedByme ? unblockUser : blockUser} style={{ backgroundColor: "red", height: 100, width: 100 }}>
-        {
-          blockedByme ? (
-            <Text>Unblock</Text>
-          ) : (
-            <Text>Block</Text>
-          )
-        }
 
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleNavigateToReport} style={{ backgroundColor: "red", height: 100, width: 100 }}>
-        <Text>Report</Text>
-      </TouchableOpacity> */}
       <FlatList
         data={messages}
         ref={scrollViewRef}
@@ -237,21 +226,30 @@ const PersonalChatPage = () => {
         keyExtractor={(_, index) => index.toString()}
       />
 
-      {blockedByme || blockedBysender ? null : (
+      {blockedByme || blockedBysender ?
         <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent', position: "relative" }]}>
-          {/* <Image style={{ height: 100, width: 100, position: "absolute", top: -100 }} source={{ uri: "https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" }} /> */}
-          <TextInput
-            value={text}
-            onChangeText={setText}
-            style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
-            placeholderTextColor={colors.scrim}
-            placeholder="Type a message..."
-          />
-          <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-            <Text style={styles.sendButtonText}>Send</Text>
-          </TouchableOpacity>
+          {
+            blockedByme ?
+              <Text style={{ color: colors.tertiary, fontWeight: "500", fontSize: 15, marginRight: "auto", marginLeft: "auto" }}> Unblock {userDetails?.full_name} to chat</Text>
+              :
+              <Text style={{ color: colors.tertiary, fontWeight: "500", fontSize: 15, marginRight: "auto", marginLeft: "auto" }}>{userDetails?.full_name} has blocked you </Text>
+          }
         </View>
-      )}
+        : (
+          <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent', position: "relative" }]}>
+            {/* <Image style={{ height: 100, width: 100, position: "absolute", top: -100 }} source={{ uri: "https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" }} /> */}
+            <TextInput
+              value={text}
+              onChangeText={setText}
+              style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
+              placeholderTextColor={colors.scrim}
+              placeholder="Type a message..."
+            />
+            <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+              <Text style={styles.sendButtonText}>Send</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
       <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
         <PanGestureHandler onGestureEvent={handleGesture}>

@@ -78,7 +78,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
               </View>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => console.log('ss')}>
+          {/* <TouchableWithoutFeedback onPress={() => console.log('ss')}>
             <View
               style={{
                 width: '100%',
@@ -119,7 +119,7 @@ const Payment = ({ prevPage, selectedPlan, handlePaymentUpdate }: any) => {
                 </Text>
               </View>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
         </View>
       </View>
       <View style={{ paddingHorizontal: 25, marginBottom: 20 }}>
