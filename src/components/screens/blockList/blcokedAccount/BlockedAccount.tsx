@@ -9,6 +9,8 @@ const BlockedAccount = ({ item, blockeduser, getBlockList }: any) => {
     const { colors } = useTheme();
 
     const unBlockUser = async () => {
+        getBlockList()
+
         try {
             const payload = {
                 userId: user?._id,
@@ -18,7 +20,6 @@ const BlockedAccount = ({ item, blockeduser, getBlockList }: any) => {
             }
             const response = await api.block.unBlockUser(payload);
             console.log("response: ", response)
-            getBlockList()
         } catch (error) {
             console.log(error);
         }
