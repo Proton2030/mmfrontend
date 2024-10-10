@@ -101,7 +101,7 @@ const UserInformationPage1 = () => {
           if (editable) {
             navigation.navigate('UserDashboard');
           } else {
-            navigation.navigate('UserInfo2', { editable: false });
+            navigation.navigate('UserInfo5', { editable: false });
           }
         }
       } catch (error) {

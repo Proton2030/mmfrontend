@@ -63,7 +63,10 @@ const Bubble = ({ message, userId, userCount }: { message: any; userId: string; 
             </View>
           )}
         </>
-      )}
+
+      )
+
+      }
     </View>
   );
 };

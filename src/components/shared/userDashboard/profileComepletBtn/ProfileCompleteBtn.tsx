@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
-import { USER_INFO_FOUR, USER_INFO_THREE_part2 } from '../../../../constants/forms/UserInformation';
+import { USER_INFO_FOUR, USER_INFO_THREE, USER_INFO_THREE_part2, USER_INFO_TWO } from '../../../../constants/forms/UserInformation';
 import { useTheme } from 'react-native-paper';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import UiContext from '../../../../contexts/uiContext/UIContext';
@@ -16,13 +16,34 @@ const ProfileCompleteBtn = () => {
   const navigation = useNavigation<any>();
   const { colors } = useTheme();
 
-  // Check which fields from USER_INFO_THREE_part2 are missing
   const isReligiousInfoIncomplete = USER_INFO_THREE_part2.some((field) => !user?.[field.id]);
 
-  // Check which fields from USER_INFO_FOUR are missing
   const isFamilyInfoIncomplete = USER_INFO_FOUR.some((field) => !user?.[field.id]);
 
-  // Handle navigation for religious info
+  const isPersonalInfoIncomplete = USER_INFO_TWO.some((field) => !user?.[field.id]);
+
+  const isEducationInfoIncomplete = USER_INFO_THREE.some((field) => !user?.[field.id]);
+
+
+
+  const handlePersonalInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo2',
+      params: {
+        editable: true,
+      },
+    });
+  };
+
+  const handleEducationInfoNavigate = () => {
+    navigation.navigate('UserInfo', {
+      screen: 'UserInfo3',
+      params: {
+        editable: true,
+      },
+    });
+  };
+
   const handleReligiousInfoNavigate = () => {
     navigation.navigate('UserInfo', {
       screen: 'UserInfo3_part2',
@@ -31,8 +52,6 @@ const ProfileCompleteBtn = () => {
       },
     });
   };
-
-  // Handle navigation for family info
   const handleFamilyInfoNavigate = () => {
     navigation.navigate('UserInfo', {
       screen: 'UserInfo4',
@@ -47,7 +66,14 @@ const ProfileCompleteBtn = () => {
       handleReligiousInfoNavigate();
     } else if (isFamilyInfoIncomplete) {
       handleFamilyInfoNavigate();
-    } else {
+    }
+    else if (isPersonalInfoIncomplete) {
+      handlePersonalInfoNavigate();
+    }
+    else if (isEducationInfoIncomplete) {
+      handleEducationInfoNavigate();
+    }
+    else {
       console.log('All sections are complete');
     }
   };

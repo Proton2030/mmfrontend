@@ -4,12 +4,15 @@ import { Appbar, Avatar, Text, useTheme } from 'react-native-paper';
 import { api } from '../../../../utils/api';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { MessageSeenCountContext } from '../../../../contexts/messageSeenContext/MessageSeenCountContextProvider';
 import { socket } from '../../../../config/config';
 import { EpmtyPage } from '../../emptyPage/EmptyPage';
 import { IUserDetails } from '../../../../@types/types/userDetails.types';
+import { encryptText } from '../../../../utils/commonFunction/encryptText';
+import { decryptText } from '../../../../utils/commonFunction/decryptText';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Chats = () => {
   const { colors } = useTheme();
@@ -28,7 +31,7 @@ const Chats = () => {
       setisloading(false);
       const chatListResponse = await api.chat.getChatList(payload);
       setChatList(chatListResponse);
-      // console.log("chat list response", chatListResponse)
+      console.log("chat list response", chatListResponse[0])
       setisloading(true);
     }
   }, [user]);
@@ -59,9 +62,15 @@ const Chats = () => {
     });
   };
 
-  useEffect(() => {
-    getChatList();
-  }, [getChatList]);
+  // useEffect(() => {
+  //   getChatList();
+  // }, [getChatList]);
+
+  useFocusEffect(
+    useCallback(() => {
+      getChatList(); // Call API whenever screen is focused
+    }, [getChatList])
+  );
 
   const RenderChatItem = ({ item, userDetails, index }: any) => (
     <TouchableOpacity
@@ -75,7 +84,7 @@ const Chats = () => {
         borderColor: colors.secondary,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 17,
+        paddingVertical: 12,
         paddingHorizontal: 20,
       }}
       onPress={() =>
@@ -94,19 +103,46 @@ const Chats = () => {
         <Text style={item?.lastMessage?.message?.status !== 'seen' ? [styles.name, { color: '#E71B73' }] : styles.name}>
           {userDetails?.full_name}
         </Text>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={
-            item?.lastMessage?.message?.author.id !== user?._id && item?.lastMessage?.message?.status !== 'seen'
-              ? { fontWeight: 'bold' }
-              : styles?.message
-          }
-        >
-          {item?.lastMessage?.message?.text}
-        </Text>
+        {
+          item?.lastMessage?.sender === user?._id ?
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+              {
+                item?.lastMessage?.seenBySender ?
+                  <Ionicons name={"checkmark-done"} size={18} color={colors.primary} />
+                  :
+
+                  <Ionicons name={"checkmark"} size={18} color={colors.primary} />
+              }
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={
+                  item?.lastMessage?.message?.author.id !== user?._id && item?.lastMessage?.message?.status !== 'seen'
+                    ? { fontWeight: 'bold' }
+                    : styles?.message
+                }
+              >
+
+                {decryptText(item?.lastMessage?.text)}
+              </Text>
+            </View>
+            :
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={
+                item?.lastMessage?.message?.author.id !== user?._id && item?.lastMessage?.message?.status !== 'seen'
+                  ? { fontWeight: 'bold' }
+                  : styles?.message
+              }
+            >
+              {decryptText(item?.lastMessage?.text)}
+            </Text>
+        }
+
+
       </View>
-      <Text style={styles.time}>{item?.time}</Text>
+      {/* <Text style={styles.time}>{item?.createdAt}</Text> */}
     </TouchableOpacity>
   );
   return (
