@@ -89,10 +89,10 @@ const PersonalChatPage = () => {
   useEffect(() => {
     socket.on('block', (data: any) => {
       const { userId, is_blocked, gender } = data;
-      console.log(is_blocked)
+      console.log(is_blocked);
       if (userId === user?._id) {
         setBlockedByme(is_blocked);
-        console.log("blocked from ", user?.full_name, blockedByme, is_blocked)
+        console.log('blocked from ', user?.full_name, blockedByme, is_blocked);
       } else {
         setBlockedBysender(is_blocked);
       }
@@ -102,7 +102,6 @@ const PersonalChatPage = () => {
       socket.off('block');
     };
   }, [socket, user, blockedByme, blockedBysender]);
-
 
   useEffect(() => {
     socket.emit('joinRoom', roomId, user?._id);
@@ -116,10 +115,10 @@ const PersonalChatPage = () => {
       setLoading(false);
     });
 
-    socket.on("roomDetails", (details) => {
-      console.log("Room Details received:", details[0]);
+    socket.on('roomDetails', (details) => {
+      console.log('Room Details received:', details[0]);
       setRoomDetails(details);
-      console.log("=====>Room details", details[0])
+      console.log('=====>Room details', details[0]);
       if (user?.gender === 'MALE' && details[0]?.blocked_by_male_user) {
         setBlockedByme(true);
         console.log('BlockedByme');
@@ -206,6 +205,13 @@ const PersonalChatPage = () => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', (e: any) => {
+      disconnectUser();
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
       <ChatHeader
@@ -226,30 +232,60 @@ const PersonalChatPage = () => {
         keyExtractor={(_, index) => index.toString()}
       />
 
-      {blockedByme || blockedBysender ?
-        <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent', position: "relative" }]}>
-          {
-            blockedByme ?
-              <Text style={{ color: colors.tertiary, fontWeight: "500", fontSize: 15, marginRight: "auto", marginLeft: "auto" }}> Unblock {userDetails?.full_name} to chat</Text>
-              :
-              <Text style={{ color: colors.tertiary, fontWeight: "500", fontSize: 15, marginRight: "auto", marginLeft: "auto" }}>{userDetails?.full_name} has blocked you </Text>
-          }
+      {blockedByme || blockedBysender ? (
+        <View
+          style={[
+            styles.inputContainer,
+            { backgroundColor: colors.background, borderColor: 'transparent', position: 'relative' },
+          ]}
+        >
+          {blockedByme ? (
+            <Text
+              style={{
+                color: colors.tertiary,
+                fontWeight: '500',
+                fontSize: 15,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            >
+              {' '}
+              Unblock {userDetails?.full_name} to chat
+            </Text>
+          ) : (
+            <Text
+              style={{
+                color: colors.tertiary,
+                fontWeight: '500',
+                fontSize: 15,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            >
+              {userDetails?.full_name} has blocked you{' '}
+            </Text>
+          )}
         </View>
-        : (
-          <View style={[styles.inputContainer, { backgroundColor: colors.background, borderColor: 'transparent', position: "relative" }]}>
-            {/* <Image style={{ height: 100, width: 100, position: "absolute", top: -100 }} source={{ uri: "https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" }} /> */}
-            <TextInput
-              value={text}
-              onChangeText={setText}
-              style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
-              placeholderTextColor={colors.scrim}
-              placeholder="Type a message..."
-            />
-            <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-              <Text style={styles.sendButtonText}>Send</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+      ) : (
+        <View
+          style={[
+            styles.inputContainer,
+            { backgroundColor: colors.background, borderColor: 'transparent', position: 'relative' },
+          ]}
+        >
+          {/* <Image style={{ height: 100, width: 100, position: "absolute", top: -100 }} source={{ uri: "https://cactusthemes.com/blog/wp-content/uploads/2018/01/tt_avatar_small.jpg" }} /> */}
+          <TextInput
+            value={text}
+            onChangeText={setText}
+            style={[styles.input, { color: colors.scrim, borderColor: colors.tertiary }]}
+            placeholderTextColor={colors.scrim}
+            placeholder="Type a message..."
+          />
+          <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
+            <Text style={styles.sendButtonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
         <PanGestureHandler onGestureEvent={handleGesture}>
@@ -279,11 +315,8 @@ const PersonalChatPage = () => {
                 blockAction={blockedByme ? unblockUser : blockUser}
                 reportAction={handleNavigateToReport}
                 blockedBysender={blockedByme ? null : blockedBysender}
-                blockStatus={blockedByme ? (
-                  "Unblock"
-                ) : (
-                  " Block"
-                )} />
+                blockStatus={blockedByme ? 'Unblock' : ' Block'}
+              />
             </View>
           </View>
         </PanGestureHandler>
