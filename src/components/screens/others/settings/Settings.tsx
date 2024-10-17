@@ -59,16 +59,16 @@ const SettingsPage = ({ navigation }: any) => {
       color: '#E71B73',
       onPress: handlePress,
     },
-    {
-      icon: 'account-remove',
-      text: {
-        ENGLISH: 'Delete Account',
-        BENGALI: 'অ্যাকাউন্ট মুছে ফেলুন',
-      },
-      route: 'DeleteAccount',
-      color: '#E71B73',
-      onPress: handlePress,
-    },
+    // {
+    //   icon: 'account-remove',
+    //   text: {
+    //     ENGLISH: 'Delete Account',
+    //     BENGALI: 'অ্যাকাউন্ট মুছে ফেলুন',
+    //   },
+    //   route: 'DeleteAccount',
+    //   color: '#E71B73',
+    //   onPress: handlePress,
+    // },
     {
       icon: 'theme-light-dark',
       text: {
