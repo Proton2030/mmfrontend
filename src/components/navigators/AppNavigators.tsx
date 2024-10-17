@@ -31,6 +31,7 @@ import { ReportScreen } from '../screens/report/ReportScreen';
 import { BlockList } from '../screens/blockList/BlockList';
 import LockPage from '../screens/lockPage/LockPage';
 import DeleteAccount from '../screens/deleteAccount/DeleteAccount';
+import UiContext from '../../contexts/uiContext/UIContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,13 +57,19 @@ const Stack = createNativeStackNavigator();
 const AppNavigators = () => {
   const { colors } = useTheme();
   const { user } = useContext(AuthContext);
-
+  const {
+    ui: { language, theme },
+  } = useContext(UiContext);
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false,
+          statusBarHidden: false,
+          statusBarColor: 'transparent',
+          statusBarTranslucent: true,
+          statusBarStyle: theme === "DARK" ? "light" : "dark"
         }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
@@ -75,11 +82,17 @@ const AppNavigators = () => {
                 statusBarHidden: false,
                 statusBarColor: 'transparent',
                 statusBarTranslucent: true,
-                statusBarStyle: 'dark',
+                statusBarStyle: theme === "DARK" ? "light" : "dark"
               }}
             />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-            <Stack.Screen name="Chat" component={PersonalChatPage} />
+            <Stack.Screen name="Chat"
+              options={{
+                statusBarHidden: false,
+                statusBarColor: 'transparent',
+                statusBarTranslucent: true,
+                statusBarStyle: theme === "DARK" ? "light" : "dark"
+              }} component={PersonalChatPage} />
             <Stack.Screen name="AccountReport" component={ReportScreen} />
             <Stack.Screen
               name="UserDetails"

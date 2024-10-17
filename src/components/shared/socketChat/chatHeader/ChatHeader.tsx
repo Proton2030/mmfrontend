@@ -7,6 +7,7 @@ import { useTheme } from 'react-native-paper';
 import { styles } from '../styles';
 import { globalStyles } from '../../../../globalStyles/GlobalStyles';
 import { getTimeAgo } from '../../../../utils/commonFunction/lastSeen';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ChatHeader = ({ hadnlenavigate, userDetails, updatedAt, toggleMenu, iconRef }: any) => {
     const route = useRoute<any>();
@@ -38,13 +39,22 @@ const ChatHeader = ({ hadnlenavigate, userDetails, updatedAt, toggleMenu, iconRe
                 ) : (
                     <View style={[styles.cardImg, styles.cardAvatar]} />
                 )}
-                <Text style={[styles.userName, { color: colors.scrim }]}> {userDetails.full_name?.split(' ')[0]}</Text>
+                <View>
+                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 2 }}>
+                        <Text style={[styles.userName, { color: colors.scrim }]}> {userDetails.full_name?.split(' ')[0]}</Text>
+                        {userDetails.is_verified ? <MaterialIcons name="verified" size={20} color={"rgb(29, 155, 240)"}
+                            style={{ marginTop: 1 }} /> : null}
 
-                <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 4, color: 'gray', alignItems: 'flex-end' }}>
-                    {userDetails.status === 'ACTIVE'
-                        ? '(Online)'
-                        : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
-                </Text>
+                    </View>
+                    <Text style={{ fontSize: 10, textAlign: 'left', marginLeft: 10, color: 'gray', alignItems: 'flex-end' }}>
+                        {userDetails.status === 'ACTIVE'
+                            ? '(Online)'
+                            : `Offline ${getTimeAgo(new Date().getTime() - new Date(updatedAt).getTime())}`}
+                    </Text>
+                </View>
+
+
+
             </View>
 
             {/* Three dots menu */}

@@ -213,7 +213,7 @@ const PersonalChatPage = () => {
   }, [navigation]);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: colors.surfaceVariant }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <ChatHeader
         hadnlenavigate={hadnlenavigate}
         userDetails={userDetails}

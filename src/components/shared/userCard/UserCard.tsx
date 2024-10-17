@@ -19,6 +19,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { profileComplete } from '../../../utils/services/profilecomplete/profileComplete';
 import { api } from '../../../utils/api';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
@@ -137,10 +138,15 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
             )}
           </View>
           <View style={{ display: 'flex', width: '100%' }}>
-            <Text style={{ color: '#E71B73', fontSize: 18, fontWeight: 'bold' }}>
-              {userDetails?.full_name || 'Test Account'}
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 2 }}>
+              <Text style={{ color: '#E71B73', fontSize: 18, fontWeight: 'bold' }}>
+                {userDetails?.full_name || 'Test Account'}
+              </Text>
+              {userDetails.is_verified ? <MaterialIcons name="verified" size={22} color={"rgb(29, 155, 240)"} style={{ marginTop: 3 }} /> : null}
+
               <Text style={{ color: colors.scrim, fontSize: 15 }}>&nbsp;({userDetails?.age} yrs)</Text>
-            </Text>
+            </View>
+
             <View style={globalStyles.iconText}>
               <Ionicons name="location-sharp" size={16} color="#E71B73" />
               <View style={{ display: 'flex', flexDirection: 'row', columnGap: 20 }}>

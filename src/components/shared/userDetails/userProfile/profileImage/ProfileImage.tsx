@@ -40,19 +40,19 @@ const ProfileImage = ({
             />
             <View style={styles.profileInfo}>
                 <View style={styles.userInfo}>
-                    <Text style={styles.name}>
-                        {' '}
-                        {userDetails.full_name}
-                        {userDetails.is_verified ? <MaterialIcons name="verified" size={22} color={"rgb(29, 155, 240)"} /> : null}
-                        {/* &nbsp; */}
-                        {/* <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={21} /> */}
-                        &nbsp;{' '}
+                    <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 2 }}>
+                        <Text style={styles.name}>
+                            {userDetails.full_name}
+                        </Text>
+                        {userDetails.is_verified ? <MaterialIcons name="verified" size={24} color={"rgb(29, 155, 240)"} style={{ marginTop: 3 }} /> : null}
+
                         {userDetails?.gender === 'FEMALE' ? (
-                            <Ionicons name="female" size={20} color={COLORS.primary} />
+                            <Ionicons name="female" size={22} color={COLORS.primary} style={{ marginTop: 3 }} />
                         ) : (
-                            <Ionicons name="male" size={25} color={COLORS.primary} />
+                            <Ionicons name="male" size={25} color={COLORS.primary} style={{ marginTop: 3 }} />
                         )}
-                    </Text>
+                    </View>
+
                     <Text style={styles.phone}>
                         <FontAwesome5 name="location-arrow" size={15} color={COLORS.primary} />
                         &nbsp;
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     },
     msgButton: {
         position: 'absolute',
-        bottom: 40,
+        bottom: 35,
         right: 30,
         backgroundColor: COLORS.primary,
         borderRadius: 20,
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     },
     LikeButton: {
         position: 'absolute',
-        bottom: 40,
+        bottom: 35,
         right: 90,
         backgroundColor: COLORS.primary,
         borderRadius: 20,
