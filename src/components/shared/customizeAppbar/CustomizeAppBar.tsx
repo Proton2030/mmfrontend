@@ -27,14 +27,11 @@ const CustomizeAppBar = () => {
           <TouchableOpacity onPress={routeToNotificationList}>
             <Ionicons name="notifications-outline" size={28} color={colors.primary} />
           </TouchableOpacity>
-          {
-            isProfileComplete ?
-              <TouchableOpacity onPress={routeToChatList}>
-                <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.primary} />
-              </TouchableOpacity>
-              : null
-          }
-
+          {isProfileComplete ? (
+            <TouchableOpacity onPress={routeToChatList}>
+              <Ionicons name="chatbubble-ellipses-outline" size={28} color={colors.primary} />
+            </TouchableOpacity>
+          ) : null}
         </View>
       </View>
     </View>

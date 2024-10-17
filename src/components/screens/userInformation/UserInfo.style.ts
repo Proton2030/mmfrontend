@@ -4,6 +4,7 @@ import { windowWidth } from '../../../globalStyles/GlobalStyles';
 export const userInfoStyles = StyleSheet.create({
   image: {
     width: windowWidth / 2,
+    height: windowWidth / 6,
     resizeMode: 'contain',
   },
   profileImage: {

@@ -80,7 +80,6 @@ const Home = () => {
 
   const isProfileComplete = profileComplete();
 
-
   useEffect(() => {
     if (drawerVisible) {
       setTimeout(() => {
@@ -145,7 +144,7 @@ const Home = () => {
         !filterOptions.full_name
       ) {
         console.log('null');
-        setFilterApplied(false)
+        setFilterApplied(false);
       }
       const params = {
         minAge: filterOptions?.minAge,
@@ -160,7 +159,7 @@ const Home = () => {
 
       // Perform the API call with the params
       const response = await api.filter.getFilterList(params);
-      setFilterApplied(true)
+      setFilterApplied(true);
       // Update suggested users based on the response
       setSuggestedUser(response);
 
@@ -176,9 +175,9 @@ const Home = () => {
     useCallback(() => {
       const onBackPress = () => {
         if (filterApplied) {
-          console.log("filter is removing", filterApplied)
+          console.log('filter is removing', filterApplied);
           removeFilter();
-          setFilterApplied(false)
+          setFilterApplied(false);
           return true;
         }
         return false;
@@ -187,10 +186,8 @@ const Home = () => {
       const backHandler = BackHandler.addEventListener('hardwareBackPress', onBackPress);
 
       return () => backHandler.remove(); // Cleanup the listener on unmount
-    }, [filterApplied])
+    }, [filterApplied]),
   );
-
-
 
   const removeFilter = async () => {
     const gender = user?.gender === 'MALE' ? 'FEMALE' : 'MALE';
@@ -203,23 +200,19 @@ const Home = () => {
         salah: null,
         sawum: null,
         state: null,
-        full_name: null
+        full_name: null,
       };
 
       // Perform the API call with the params
       const response = await api.filter.getFilterList(params);
-      setFilterApplied(false)
+      setFilterApplied(false);
       // Update suggested users based on the response
       setSuggestedUser(response);
 
       // Close the drawer
       toggleDrawer();
-    } catch (error) {
-
-    }
-
-  }
-
+    } catch (error) {}
+  };
 
   const openDrawer = () => {
     setModalVisible(true);
@@ -237,8 +230,6 @@ const Home = () => {
       useNativeDriver: true,
     }).start(() => setModalVisible(false)); // Close modal after animation
   };
-
-
 
   const addChoice = useCallback(async (sender_id: string, receiver_id: string) => {
     const payload = {
@@ -376,14 +367,9 @@ const Home = () => {
     handlegGetUnseenMessageCount();
   }, [handlegGetUnseenMessageCount]);
 
-
-
-
   return (
     <View style={globalStyles.parentScrollContainer2}>
       <View style={{ flex: 1 }}>
-
-
         <Modal transparent={true} visible={modalVisible} onRequestClose={closeDrawer}>
           <View style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
             <TouchableOpacity style={{ flex: 1 }} onPress={closeDrawer} />
@@ -416,7 +402,8 @@ const Home = () => {
             elevation: 1,
           }}
         >
-          <TouchableOpacity onPress={handleRouteMyProfile}
+          <TouchableOpacity
+            onPress={handleRouteMyProfile}
             style={{
               alignItems: 'center',
               paddingLeft: 10,
@@ -435,7 +422,7 @@ const Home = () => {
               <Image source={defaultUser} style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }} />
             )}
 
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 1 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
               <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 20 }}>{user?.full_name}</Text>
               {/* <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={19} /> */}
             </View>

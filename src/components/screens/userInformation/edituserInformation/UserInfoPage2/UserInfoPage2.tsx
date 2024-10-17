@@ -24,6 +24,7 @@ import { handleVibrate } from '../../../../../utils/commonFunction/systemvibrati
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_USER_INFO_TWO_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageTwo';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { profileComplete } from '../../../../../utils/services/profilecomplete/profileComplete';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -43,6 +44,8 @@ const UserInformationPage2 = () => {
     work_place: '',
     monthly_income: '',
   });
+
+  const isProfileComplete = profileComplete();
 
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -96,10 +99,10 @@ const UserInformationPage2 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          if (editable) {
+          if (editable && isProfileComplete) {
             navigation.navigate('UserDashboard');
           } else {
-            navigation.navigate('UserInfo3', { editable: false });
+            navigation.navigate('UserInfo3', { editable });
           }
         }
       } catch (error) {

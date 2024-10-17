@@ -7,5 +7,6 @@ export interface IUserDetails extends IUserInfo, IUserPartnerInfo {
   email: string;
   mobile: string;
   password: string;
+  view_count?: number;
   acount_status: 'ACTIVE' | 'INACTIVE';
 }

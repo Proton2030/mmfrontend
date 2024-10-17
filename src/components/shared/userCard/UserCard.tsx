@@ -18,6 +18,7 @@ import ChoiceContext from '../../../contexts/choiceContext/choiceContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { profileComplete } from '../../../utils/services/profilecomplete/profileComplete';
+import { api } from '../../../utils/api';
 // import { refreshSound } from '../../../assets'
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
@@ -31,7 +32,23 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
   const { dispatch, state } = useContext(ChoiceContext);
   const isProfileComplete = profileComplete();
 
-  const handleRouteTouserDetails = () => {
+  const handleUpdateView = useCallback(async () => {
+    try {
+      if (user) {
+        const payload = {
+          userId: userDetails._id,
+          viewerId: user._id,
+        };
+        const response = await api.userDetails.viewUserProfile(payload);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }, [user]);
+
+  const handleRouteTouserDetails = async () => {
+    await handleUpdateView();
     navigation.navigate('UserDetails', {
       userDetails: userDetails,
       editable: false,
@@ -133,7 +150,9 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
                 {userDetails?.status === 'ACTIVE' ? (
                   <Text style={{ color: colors.tertiary }}>online</Text>
                 ) : (
-                  <Text style={{ color: colors.tertiary }}>Active {getTimeAgo(new Date().getTime() - new Date(userDetails?.updatedAt).getTime())}</Text>
+                  <Text style={{ color: colors.tertiary }}>
+                    Active {getTimeAgo(new Date().getTime() - new Date(userDetails?.updatedAt).getTime())}
+                  </Text>
                 )}
               </View>
             </View>

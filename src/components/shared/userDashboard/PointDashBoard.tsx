@@ -31,7 +31,6 @@ export default function PointDashBoard() {
   // Check which fields from USER_INFO_FOUR are missing
   const isFamilyInfoIncomplete = USER_INFO_FOUR.some((field) => !user?.[field.id]);
 
-
   const routeToPaymentHistory = () => {
     navigation.navigate('paymentHistory');
   };

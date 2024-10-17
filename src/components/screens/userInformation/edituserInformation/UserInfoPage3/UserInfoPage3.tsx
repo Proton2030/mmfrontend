@@ -24,6 +24,7 @@ import { handleVibrate } from '../../../../../utils/commonFunction/systemvibrati
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_USER_INFO_THREE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageThree';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { profileComplete } from '../../../../../utils/services/profilecomplete/profileComplete';
 
 const UserInformationPage3 = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -40,6 +41,7 @@ const UserInformationPage3 = () => {
     education: '',
     islamic_education: '',
   });
+  const isProfileComplete = profileComplete();
 
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -88,10 +90,10 @@ const UserInformationPage3 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          if (editable) {
+          if (editable && isProfileComplete) {
             navigation.navigate('UserDashboard');
           } else {
-            navigation.navigate('UserInfo3_part2', { editable: false });
+            navigation.navigate('UserInfo3_part2', { editable });
           }
         }
       } catch (error) {

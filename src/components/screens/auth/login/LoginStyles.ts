@@ -16,13 +16,15 @@ export const loginStyle = StyleSheet.create({
   },
   image: {
     width: windowWidth / 2,
+    height: windowWidth / 6,
     resizeMode: 'contain',
+    // backgroundColor: 'red',
   },
   viewBox: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     textAlign: 'center',
-    paddingLeft: 20
+    paddingLeft: 20,
   },
 });

@@ -16,6 +16,7 @@ import { userInfoStyles } from '../../UserInfo.style';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { RELIGIOUS_INFO_TEXT } from '../../../../../constants/texts/userInfo/ReligiousInfoText';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { profileComplete } from '../../../../../utils/services/profilecomplete/profileComplete';
 
 const UserInformationPage3_part2 = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -26,13 +27,14 @@ const UserInformationPage3_part2 = () => {
   const route = useRoute<any>();
   const { editable } = route.params;
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [visible, setVisible] = useState<boolean>(false);
   const translateY = useRef(new Animated.Value(0)).current;
   const backgroundColor = useRef(new Animated.Value(0)).current;
   const [userInfo, setUserInfo] = useState<IUserInfo3part2>({
     salah: '',
     sawum: '',
   });
-
+  const isProfileComplete = profileComplete();
   const navigation = useNavigation<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const handleSetDefaultData = useCallback(() => {
@@ -80,12 +82,11 @@ const UserInformationPage3_part2 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          navigation.navigate('UserInfo4', { editable });
-          // if (editable) {
-          //   navigation.navigate('UserDashboard');
-          // } else {
-          //   navigation.navigate('UserInfo4', { editable: false });
-          // }
+          if (editable && isProfileComplete) {
+            navigation.navigate('UserDashboard');
+          } else {
+            navigation.navigate('UserInfo4', { editable });
+          }
         }
       } catch (error) {
         console.log(error);
@@ -99,7 +100,6 @@ const UserInformationPage3_part2 = () => {
     // Navigate back to the previous screen
     navigation.goBack();
   };
-  const [visible, setVisible] = React.useState(false);
 
   const onDismissSnackBar = () => setVisible(false);
 

@@ -21,6 +21,7 @@ import {
   updateUserImage,
   getActiveSuggestionUser,
   deleteUser,
+  viewUserProfile,
 } from './userDetails/userDetails';
 import { updateUserMessageLimit } from './validatePayment/validatePayment';
 
@@ -42,8 +43,8 @@ export const api = {
     searchUser: searchUser,
     getUserInfo: getUserInfo,
     updateUserImage: updateUserImage,
-    deleteUser: deleteUser
-
+    deleteUser: deleteUser,
+    viewUserProfile,
   },
   userChoice: {
     addChoice: addChoice,
@@ -61,16 +62,16 @@ export const api = {
     getAllPlans: getAllPlans,
     initPayment: initPayment,
     validatePayment: validatePayment,
-    getPaymentList: getPaymentList
+    getPaymentList: getPaymentList,
   },
   filter: {
     getFilterList: getFilterList,
   },
   report: {
-    reportAccount: reportAccount
+    reportAccount: reportAccount,
   },
   block: {
     getBlockList: getBlockList,
-    unBlockUser: unBlockUser
-  }
+    unBlockUser: unBlockUser,
+  },
 };

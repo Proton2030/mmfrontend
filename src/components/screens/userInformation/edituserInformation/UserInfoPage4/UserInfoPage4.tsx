@@ -14,6 +14,7 @@ import { handleVibrate } from '../../../../../utils/commonFunction/systemvibrati
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_USER_INFO_FOUR_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageFour';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
+import { profileComplete } from '../../../../../utils/services/profilecomplete/profileComplete';
 
 const UserInformationPage4 = () => {
   const { user, setUser } = useContext(AuthContext);
@@ -23,6 +24,7 @@ const UserInformationPage4 = () => {
   } = useContext(UiContext);
   const route = useRoute<any>();
   const { editable } = route.params;
+  const isProfileComplete = profileComplete();
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [userInfo, setUserInfo] = useState<IUserInfo4>({
     message_limit: 0,
@@ -93,7 +95,7 @@ const UserInformationPage4 = () => {
           if (editable) {
             navigation.navigate('UserDashboard');
           } else {
-            navigation.navigate('UserInfo5', { editable: false });
+            navigation.navigate('UserInfo5', { editable });
           }
         }
       } catch (error) {

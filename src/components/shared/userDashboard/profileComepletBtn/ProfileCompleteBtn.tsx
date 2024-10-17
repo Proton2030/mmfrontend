@@ -2,7 +2,12 @@ import React, { useContext } from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../../contexts/authContext/authContext';
-import { USER_INFO_FOUR, USER_INFO_THREE, USER_INFO_THREE_part2, USER_INFO_TWO } from '../../../../constants/forms/UserInformation';
+import {
+  USER_INFO_FOUR,
+  USER_INFO_THREE,
+  USER_INFO_THREE_part2,
+  USER_INFO_TWO,
+} from '../../../../constants/forms/UserInformation';
 import { useTheme } from 'react-native-paper';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import UiContext from '../../../../contexts/uiContext/UIContext';
@@ -23,8 +28,6 @@ const ProfileCompleteBtn = () => {
   const isPersonalInfoIncomplete = USER_INFO_TWO.some((field) => !user?.[field.id]);
 
   const isEducationInfoIncomplete = USER_INFO_THREE.some((field) => !user?.[field.id]);
-
-
 
   const handlePersonalInfoNavigate = () => {
     navigation.navigate('UserInfo', {
@@ -62,18 +65,27 @@ const ProfileCompleteBtn = () => {
   };
 
   const handleNavigate = () => {
-    if (isReligiousInfoIncomplete) {
+    // if (isReligiousInfoIncomplete) {
+    //   handleReligiousInfoNavigate();
+    // } else if (isFamilyInfoIncomplete) {
+    //   handleFamilyInfoNavigate();
+    // } else if (isPersonalInfoIncomplete) {
+    //   handlePersonalInfoNavigate();
+    // } else if (isEducationInfoIncomplete) {
+    //   handleEducationInfoNavigate();
+    // } else {
+    //   console.log('All sections are complete');
+    // }
+
+    if (isPersonalInfoIncomplete) {
+      handlePersonalInfoNavigate();
+    } else if (isEducationInfoIncomplete) {
+      handleEducationInfoNavigate();
+    } else if (isReligiousInfoIncomplete) {
       handleReligiousInfoNavigate();
     } else if (isFamilyInfoIncomplete) {
       handleFamilyInfoNavigate();
-    }
-    else if (isPersonalInfoIncomplete) {
-      handlePersonalInfoNavigate();
-    }
-    else if (isEducationInfoIncomplete) {
-      handleEducationInfoNavigate();
-    }
-    else {
+    } else {
       console.log('All sections are complete');
     }
   };
