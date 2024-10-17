@@ -211,7 +211,7 @@ const Home = () => {
 
       // Close the drawer
       toggleDrawer();
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const openDrawer = () => {
@@ -422,9 +422,15 @@ const Home = () => {
               <Image source={defaultUser} style={{ height: 45, width: 45, borderRadius: 99, paddingLeft: 20 }} />
             )}
 
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 3 }}>
               <Text style={{ fontWeight: '600', color: colors.onBackground, fontSize: 20 }}>{user?.full_name}</Text>
-              {/* <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={19} /> */}
+              {
+                user?.is_verified ?
+                  <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={20} />
+                  : null
+
+              }
+
             </View>
           </TouchableOpacity>
 

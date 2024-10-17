@@ -4,6 +4,7 @@ import { COLORS } from '../../../../constants/theme';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProgressContainer = () => {
   const { user } = useContext<any>(AuthContext);
@@ -39,7 +40,15 @@ const ProgressContainer = () => {
       <Image alt="" source={{ uri: user?.profile_image_url || " " }} style={styles.avatar} />
 
       <View>
-        <Text style={{ fontSize: 18, fontWeight: '700', color: colors.primary }}>{user?.full_name}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 3 }}>
+          <Text style={{ fontSize: 18, fontWeight: '700', color: colors.primary }}>{user?.full_name}</Text>
+          {
+            user?.is_verified ?
+              <MaterialIcons name="verified" color={"rgb(29, 155, 240)"} size={20} />
+              : null
+
+          }
+        </View>
         <TouchableOpacity
           style={{
             flexDirection: 'row',
