@@ -1,6 +1,6 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Avatar, IconButton, useTheme } from 'react-native-paper';
+import { Avatar, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { IUserCardProps } from '../../../@types/props/UserCardProps.types';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -138,11 +138,13 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
             )}
           </View>
           <View style={{ display: 'flex', width: '100%' }}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", gap: 2 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', gap: 2 }}>
               <Text style={{ color: '#E71B73', fontSize: 18, fontWeight: 'bold' }}>
                 {userDetails?.full_name || 'Test Account'}
               </Text>
-              {userDetails.is_verified ? <MaterialIcons name="verified" size={22} color={"rgb(29, 155, 240)"} style={{ marginTop: 3 }} /> : null}
+              {userDetails.is_verified ? (
+                <MaterialIcons name="verified" size={22} color={'rgb(29, 155, 240)'} style={{ marginTop: 3 }} />
+              ) : null}
 
               <Text style={{ color: colors.scrim, fontSize: 15 }}>&nbsp;({userDetails?.age} yrs)</Text>
             </View>

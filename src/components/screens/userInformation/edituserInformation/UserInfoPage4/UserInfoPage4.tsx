@@ -72,8 +72,6 @@ const UserInformationPage4 = () => {
         userInfo.fathers_occupation === '' ||
         userInfo.mothers_name === '' ||
         userInfo.mothers_occupation === '' ||
-        userInfo.no_of_brothers === 0 ||
-        userInfo.no_of_sisters === 0 ||
         userInfo.financial_condition == ''
       ) {
         setErrorMessage('Please fill the all data');

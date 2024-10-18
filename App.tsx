@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { socket } from './src/config/config';
 import AuthContext from './src/contexts/authContext/authContext';
 import { useAppState } from '@react-native-community/hooks';
@@ -31,37 +31,46 @@ const darkTheme = {
 };
 
 const App = ({ isRoute }: any) => {
-  const { user, setUser } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
   const {
     ui: { theme },
   } = useContext(UiContext);
-  const { colors } = useTheme();
+  const [userId, setUserId] = useState<string | null>(null);
   const appState = useAppState();
   const paperTheme = theme === 'DARK' ? darkTheme : lightTheme;
 
-  const getUserDetails = async () => {
+  // const getUserDetails = async () => {
+  //   const userId = await AsyncStorage.getItem('@userId');
+  //   if (userId) {
+  //     const userDetails = await api.userDetails.getUserInfo({ userObjectId: userId });
+  //     // console.log('===>userDetails', userDetails);
+  //     if (userDetails && userDetails?.acount_status === 'ACTIVE') {
+  //       setUser(userDetails);
+  //     }
+  //   }
+  // };
+
+  const getUserId = useCallback(async () => {
     const userId = await AsyncStorage.getItem('@userId');
-    if (userId) {
-      const userDetails = await api.userDetails.getUserInfo({ userObjectId: userId });
-      console.log('===>userDetails', userDetails);
-      if (userDetails && userDetails?.acount_status === 'ACTIVE') {
-        setUser(userDetails);
-      }
-    }
-  };
+    setUserId(userId);
+  }, []);
 
   useEffect(() => {
-    if (user) {
+    if (userId) {
       if (appState === 'active') {
-        if (user) {
-          socket.emit('online', { userId: user?._id });
+        if (userId) {
+          socket.emit('online', { userId });
+          socket.on('online', (userInstance) => {
+            console.log('------->userInstance', userInstance);
+            setUser(userInstance);
+          });
         }
       }
       if (appState === 'background' || appState === 'inactive') {
-        socket.emit('offline', { userId: user?._id });
+        socket.emit('offline', { userId });
       }
     }
-  }, [appState, user]);
+  }, [appState, userId]);
 
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
@@ -71,9 +80,13 @@ const App = ({ isRoute }: any) => {
     SplashScreen.hide();
   }, []);
 
+  // useEffect(() => {
+  //   getUserDetails();
+  // }, []);
+
   useEffect(() => {
-    getUserDetails();
-  }, []);
+    getUserId();
+  }, [getUserId]);
 
   console.log('==>app state', appState);
 
