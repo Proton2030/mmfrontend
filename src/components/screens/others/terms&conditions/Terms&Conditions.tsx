@@ -18,41 +18,58 @@ export default function Example() {
       </Appbar.Header>
       <ScrollView style={{ paddingTop: 20 }}>
         <View style={styles.section}>
-          <Subheading style={styles.sectionTitle}>Acceptance of Terms</Subheading>
+          <Subheading style={styles.sectionTitle}>Purpose and User Eligibility</Subheading>
           <Paragraph style={styles.paragraph}>
-            By accessing or using our app, you agree to comply with and be bound by these Terms and Conditions. If you
-            do not agree with any part of the terms, please do not use our app.
+            This app is designed to facilitate connections between eligible Muslim singles. Users must be 18 years or
+            older to use this app.
           </Paragraph>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.section}>
-          <Subheading style={styles.sectionTitle}>User Responsibilities</Subheading>
+          <Subheading style={styles.sectionTitle}>Profile and Information:</Subheading>
           <Paragraph style={styles.paragraph}>
-            Users are responsible for maintaining the confidentiality of their account information and password. You are
-            also responsible for all activities that occur under your account.
+            Users must provide accurate and truthful information when creating a profile. Users are solely responsible
+            for the content they post. While we strive to protect user privacy, please be aware that information you
+            make publicly visible can be viewed by other users.
           </Paragraph>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.section}>
-          <Subheading style={styles.sectionTitle}>Prohibited Activities</Subheading>
+          <Subheading style={styles.sectionTitle}>Communication and Messaging</Subheading>
           <Paragraph style={styles.paragraph}>
-            You agree not to engage in any harmful or prohibited activities, including but not limited to unauthorized
-            access to our systems, data mining, or interference with the proper functioning of the app.
+            Users can communicate with each other through the app's messaging system. Messaging requires the purchase of
+            prepaid credits, which can be bought online through SSL Commerce . Harassment, bullying, or threatening
+            behavior is strictly prohibited.
           </Paragraph>
         </View>
 
         <Divider style={styles.divider} />
 
         <View style={styles.section}>
-          <Subheading style={styles.sectionTitle}>Intellectual Property</Subheading>
+          <Subheading style={styles.sectionTitle}>Account Termination</Subheading>
           <Paragraph style={styles.paragraph}>
-            All content and materials available in the app, including but not limited to text, graphics, logos, button
-            icons, images, and audio clips, are the property of our company and are protected by applicable intellectual
-            property laws.
+            Accounts may be terminated for violating these terms or for any other reason deemed appropriate by the app
+            owner. Accounts will be terminated for proven cases of harassment or abuse.
+          </Paragraph>
+        </View>
+        <View style={styles.section}>
+          <Subheading style={styles.sectionTitle}>Disclaimer</Subheading>
+          <Paragraph style={styles.paragraph}>
+            The app owner is not responsible for the accuracy of information provided by users. The app owner shall not
+            be liable for any damages or losses incurred as a result of using the app. If the government requests any
+            information for any reason, the organization will be obliged to provide it. Service interruptions may occur
+            from time to time.
+          </Paragraph>
+        </View>
+        <View style={styles.section}>
+          <Subheading style={styles.sectionTitle}>Copyright:</Subheading>
+          <Paragraph style={styles.paragraph}>
+            All content on this app is the property of Shohoz Shadi. Unauthorized use is prohibited. If anyone uses any
+            information of the organization without permission, legal action will be taken.
           </Paragraph>
         </View>
         <View style={{ height: 100 }}></View>

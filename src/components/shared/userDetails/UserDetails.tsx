@@ -40,7 +40,6 @@ import { IField, IGroup } from '../../../@types/types/FieldTypes.types';
 import UserProfile from './userProfile/UserProfile';
 
 const UserDetails = () => {
-
   const route = useRoute<any>();
   const { user } = useContext(AuthContext);
   const [choice, setChoice] = useState<boolean>(false);
@@ -57,7 +56,6 @@ const UserDetails = () => {
     const response = await api.userChoice.addChoice(payload);
   }, []);
 
-
   React.useEffect(() => {
     setChoice(Userchoice);
   }, []);
@@ -66,11 +64,9 @@ const UserDetails = () => {
     <View
       style={{
         flex: 1,
-
       }}
     >
       <UserProfile userDetails={userDetails} uri={userDetails.profile_image_url} />
-
 
       {/* <View
         style={{
@@ -95,7 +91,7 @@ const UserDetails = () => {
               iconColor={choice ? 'red' : colors.scrim}
             ></IconButton>
             <TouchableOpacity onPress={handleNavigateChat}>
-              <Ionicons name="chatbubble-ellipses-outline" size={24} color={colors.scrim} />
+              <Ionicons name="chatbox-outline" size={24} color={colors.scrim} />
             </TouchableOpacity>
           </View>
         ) : null}
@@ -143,12 +139,8 @@ const UserDetails = () => {
 };
 
 const styles = StyleSheet.create({
-  infoItem: {
-
-  },
-  infoLabel: {
-
-  }
+  infoItem: {},
+  infoLabel: {},
 });
 
 export default UserDetails;

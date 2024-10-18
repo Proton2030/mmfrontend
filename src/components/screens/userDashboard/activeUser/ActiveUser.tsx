@@ -107,23 +107,6 @@ const ActiveUser = () => {
 
   return (
     <SafeAreaView>
-      {/* <Appbar.Header
-        style={{
-          backgroundColor: '#fde8f1',
-          shadowColor: '#000000',
-          shadowOffset: { width: 0, height: 8 },
-          shadowOpacity: 0.8,
-          shadowRadius: 2,
-          elevation: 5,
-        }}
-      >
-        <Appbar.Content
-          title="Shohoz shadi"
-          titleStyle={{ color: '#E71B73', fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
-        />
-        <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
-        <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
-      </Appbar.Header> */}
       {loading ? (
         <ActivityIndicator size="large" color="#E71B73" style={{ marginTop: 20 }} />
       ) : (

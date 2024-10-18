@@ -8,23 +8,30 @@ import { globalStyles } from '../../../globalStyles/GlobalStyles';
 const InlineCard = ({ icon, titleKey, onClick, value, buttonIcon }: IInlineCardProps) => {
   const { colors } = useTheme();
   return (
-    <Card style={{ width: '100%', marginBottom: 16, backgroundColor: '#E71B73', justifyContent: "space-between" }}>
+    <Card
+      style={{
+        width: '100%',
+        marginBottom: 16,
+        backgroundColor: colors.surfaceVariant,
+        justifyContent: 'space-between',
+      }}
+    >
       <Card.Content style={globalStyles.inlineFlex}>
         <View style={[globalStyles.inlineFlex, { columnGap: 10 }]}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Icon name={icon} color="white" />
-            <Text style={{ color: 'white' }}>{titleKey}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <Icon name={icon} color={colors.primary} />
+            <Text style={{ color: colors.scrim }}>{titleKey}</Text>
           </View>
 
           <TouchableOpacity onPress={() => onClick(value)}>
-            <Text style={{ color: 'white' }}>{value}</Text>
+            <Text style={{ color: colors.scrim }}>{value}</Text>
           </TouchableOpacity>
         </View>
 
         <IconButton
           icon={buttonIcon}
-          style={{ backgroundColor: '#fde8f1' }}
-          iconColor="#E71B73"
+          style={{ backgroundColor: colors.surface }}
+          iconColor={colors.primary}
           onPress={() => onClick(value)}
         />
       </Card.Content>

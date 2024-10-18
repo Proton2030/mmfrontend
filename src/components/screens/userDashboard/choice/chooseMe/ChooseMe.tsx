@@ -136,7 +136,7 @@ const ChooseMe = () => {
           title="Shohoz shadi"
           titleStyle={{ color: '#E71B73', fontFamily: 'cursive', fontSize: 24, fontWeight: 'bold' }}
         />
-        <Appbar.Action icon="chat-outline" onPress={routeToChatList} />
+        <Appbar.Action icon="chat-bubble-outline" onPress={routeToChatList} />
         <Appbar.Action icon="bell-outline" onPress={routeToNotificationList} />
       </Appbar.Header>
       {loading ? (

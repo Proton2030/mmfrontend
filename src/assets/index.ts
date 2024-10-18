@@ -24,6 +24,6 @@ export { default as defaultUser } from './images/defaultUser.jpg';
 export { default as playingHeart } from './images/playingHeart.webp';
 export { default as jumping } from './images/jumping.webp';
 export { default as loveLine } from './images/love-line.webp';
+export { default as help } from './images/help.webp';
 export { default as paymentSuccess } from './images/success.json';
 export { default as paymentFail } from './images/failed.json';
-

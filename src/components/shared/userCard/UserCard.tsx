@@ -206,7 +206,7 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
           {/* <Text>Like</Text> */}
         </TouchableOpacity>
         <TouchableOpacity onPress={handleNavigateChat} style={{ flexDirection: 'row', gap: 5, alignItems: 'center' }}>
-          <Ionicons name="chatbubble-ellipses-outline" size={24} color={colors.tertiary} />
+          <Ionicons name="chatbox-outline" size={24} color={colors.tertiary} />
           {/* <Text>Chat</Text> */}
         </TouchableOpacity>
         {/* <IconButton icon={'chat-outline'} onPress={handleNavigateChat}></IconButton> */}
