@@ -1,6 +1,6 @@
 export const PAYMENT_TEXT = {
   subscription: {
-    ENGLISH: 'Subsrciption Plans',
+    ENGLISH: 'Subscription Plans',
     BENGALI: 'সাবস্ক্রিপশন প্ল্যান',
   },
   subscription_details: {

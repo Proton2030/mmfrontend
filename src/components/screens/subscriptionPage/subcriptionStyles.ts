@@ -24,19 +24,18 @@ export const styles = StyleSheet.create({
     bottom: 0, // Adjust according to your layout
     alignSelf: 'center',
     zIndex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     alignContent: 'center',
     justifyContent: 'center',
     paddingHorizontal: 20,
     paddingVertical: 12,
-
   },
 
   /** Header */
   header: {
     paddingHorizontal: 24,
     marginBottom: 28,
-    paddingTop: 20
+    paddingTop: 20,
   },
   headerAction: {
     width: 40,
@@ -62,7 +61,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 24,
     justifyContent: 'space-between',
     paddingHorizontal: 24,
-    gap: 20
+    gap: 20,
   },
   formFooterText: {
     marginTop: 12,

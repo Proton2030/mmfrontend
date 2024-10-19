@@ -9,5 +9,6 @@ export interface IUserDetails extends IUserInfo, IUserPartnerInfo {
   password: string;
   view_count?: number;
   acount_status: 'ACTIVE' | 'INACTIVE';
-  is_verified: boolean
+  is_verified: boolean;
+  createdAt: Date;
 }

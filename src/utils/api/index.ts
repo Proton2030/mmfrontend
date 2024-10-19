@@ -5,7 +5,7 @@ import { getBlockList, unBlockUser } from './block/block';
 import { getChat, getChatList, getUnseenMessageCount } from './chat/chat';
 import { getFilterList } from './filter/filter';
 import { getNotification } from './notification/notificaton';
-import { getPaymentList, initPayment, validatePayment } from './payment/Payment';
+import { getPaymentList, initPayment, isOfferValid, validatePayment } from './payment/Payment';
 import { reportAccount } from './report/report';
 import { getAllPlans } from './subscriptionPlans/Plans';
 import { addChoice } from './userChoice/addUserChoice';
@@ -63,6 +63,7 @@ export const api = {
     initPayment: initPayment,
     validatePayment: validatePayment,
     getPaymentList: getPaymentList,
+    isOfferValid,
   },
   filter: {
     getFilterList: getFilterList,

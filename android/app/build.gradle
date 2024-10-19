@@ -80,7 +80,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 8
-        versionName "1.1.5"
+        versionName "1.1.8"
         resConfigs "en", "fr", "es", "de", "it", "pt", "ru", "zh-rCN", "zh-rTW", "ja", "ko"
     }
     signingConfigs {

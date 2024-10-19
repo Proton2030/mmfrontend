@@ -75,7 +75,6 @@ const SpecialOfferCard = ({ isActive, index, setSelected, item, planCreationTime
                 <Text style={styles.radioText}>Offer Expired</Text>
               )}
             </View>
-
             <Text style={[styles.radioPrice, isActive && styles.radioPriceActive]}>৳ {item?.plan_price}</Text>
           </View>
         </View>

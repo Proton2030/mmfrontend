@@ -45,21 +45,21 @@ const SupportContainer = () => {
             icon="phone-call"
             titleKey="Phone 2 "
             onClick={handleCall}
-            value="+880 1873405728"
+            value="+880 1700-952906"
             buttonIcon="phone"
           />
           <InlineCard
             icon="phone-call"
             titleKey="Phone 2 "
             onClick={handleCall}
-            value="+880 1857237427"
+            value="+880 1700-952907"
             buttonIcon="phone"
           />
           <InlineCard
             icon="mail"
             titleKey="Email "
             onClick={handleEmailButtonPress}
-            value="muslimmatrimonys@g..."
+            value="info@shohozshadi.com"
             buttonIcon="gmail"
           />
         </>

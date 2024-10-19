@@ -2,7 +2,7 @@ import { WebView } from 'react-native-webview';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Alert } from 'react-native';
+import { Alert, BackHandler } from 'react-native';
 import CustomizeAppBar from '../customizeAppbar/CustomizeAppBar';
 import { DOMAIN_LINK, PAYMENT_REDIRECTION_LINK } from '../../../constants/paymentLink';
 
@@ -25,16 +25,33 @@ const Payment = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('beforeRemove', (e: { preventDefault: () => void }) => {
+  //     if (!currentUrl.includes(PAYMENT_REDIRECTION_LINK) || !currentUrl.includes(DOMAIN_LINK)) {
+  //       e.preventDefault(); // Prevent the screen from being removed
+  //       Alert.alert('Do not close the window');
+  //     }
+  //     unsubscribe();
+  //   });
+  //   return () => {
+  //     unsubscribe();
+  //   };
+  // }, [navigation, currentUrl]);
   useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e: { preventDefault: () => void }) => {
-      e.preventDefault(); // Prevent the screen from being removed
-      Alert.alert('Do not close the window');
-      unsubscribe();
-    });
-    return () => {
-      unsubscribe();
+    const backAction = () => {
+      if (!currentUrl.includes(PAYMENT_REDIRECTION_LINK) && !currentUrl.includes(DOMAIN_LINK)) {
+        Alert.alert('Do not close the window');
+        return true; // Prevent default behavior (exit app)
+      }
+      return false; // Allow default behavior
     };
-  }, [navigation]);
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => {
+      backHandler.remove();
+    };
+  }, [currentUrl]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

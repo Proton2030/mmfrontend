@@ -1,21 +1,27 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useCallback, useEffect } from 'react';
 import { View, TouchableOpacity, Text, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import { styles } from '../subcriptionStyles';
 import { COLORS } from '../../../../constants/theme';
 import SpecialOfferCard from '../../../shared/specilOfferCard/SpecialOfferCard';
-import { useTheme } from 'react-native-paper';
+import { Chip, useTheme } from 'react-native-paper';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../utils/commonFunction/languageSelect';
 import { PAYMENT_TEXT } from '../../../../constants/texts/payment/Payment';
+import AuthContext from '../../../../contexts/authContext/authContext';
+import { set } from 'lodash';
+import { api } from '../../../../utils/api';
 
 const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }: any) => {
   const { colors } = useTheme();
   const {
     ui: { language },
   } = useContext(UiContext);
+  const { user } = useContext(AuthContext);
   const [showScrollDown, setShowScrollDown] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
+  const [isEligibleUser, setIsEligibleUser] = useState(false);
+  const [remainingTime, setRemainingTime] = useState<string>('0');
 
   const handleScroll = (event: any) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
@@ -29,13 +35,50 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
     }
   };
 
+  const getEligibleUser = useCallback(async () => {
+    if (user && user.createdAt) {
+      const filter = {
+        userId: user._id,
+      };
+      const response = await api.payment.isOfferValid(filter);
+      if (response) {
+        setIsEligibleUser(response);
+        console.log('===>eligible', response);
+      }
+    }
+  }, [user]);
+
+  useEffect(() => {
+    getEligibleUser();
+  }, [getEligibleUser]);
+
+  useEffect(() => {
+    if (user && user.createdAt) {
+      const interval = setInterval(() => {
+        const timeElapsed = new Date().getTime() - new Date(user.createdAt).getTime();
+        const timeRemaining = 24 * 60 * 60 * 1000 - timeElapsed;
+
+        if (timeRemaining > 0) {
+          const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+          const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+          setRemainingTime(`${hours}h ${minutes}m ${seconds}s`);
+        } else {
+          setRemainingTime('0');
+          clearInterval(interval);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.header}>
         <Text style={[styles.title, { color: colors.primary }]}>
           {selectLanguage(PAYMENT_TEXT.subscription, language)}
         </Text>
-
         <Text style={styles.subtitle}>{selectLanguage(PAYMENT_TEXT.subscription_details, language)}</Text>
       </View>
 
@@ -43,22 +86,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
         <View style={{ flex: 1 }}>
           <ScrollView ref={scrollViewRef} onScroll={handleScroll} scrollEventThrottle={16}>
             {prices.map((item: any, index: any) => {
-              if (index === 4) {
-                return (
-                  <SpecialOfferCard
-                    key={index}
-                    isActive={selected === index}
-                    index={index}
-                    setSelected={setSelected}
-                    item={item}
-                    planCreationTime={'2024-10-02T22:28:00'}
-                    planDurationInMinutes={30}
-                  />
-                );
-              }
-
               const isActive = selected === index;
-
               return (
                 <TouchableWithoutFeedback key={index} onPress={() => setSelected(index)}>
                   <View
@@ -84,9 +112,51 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                           {selectLanguage(PAYMENT_TEXT.chat_count, language)} {item?.chat_count}
                         </Text>
                       </View>
-                      <Text style={[styles.radioPrice, isActive && styles.radioPriceActive, { color: colors.scrim }]}>
-                        ৳ {item?.plan_price}
-                      </Text>
+                      <View style={{ alignItems: 'flex-end' }}>
+                        <Text
+                          style={[
+                            styles.radioPrice,
+                            isEligibleUser &&
+                              item.chat_count === 1 &&
+                              item.offer_price && { textDecorationLine: 'line-through' },
+                            isActive && styles.radioPriceActive,
+                            { color: colors.scrim },
+                          ]}
+                        >
+                          ৳ {item?.plan_price}
+                        </Text>
+                        {isEligibleUser && item.chat_count === 1 && item.offer_price ? (
+                          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                            {remainingTime !== '0' ? (
+                              <View
+                                style={{
+                                  flexDirection: 'row',
+                                  alignItems: 'center',
+                                  gap: 5,
+                                  borderColor: colors.primary,
+                                  borderWidth: 1,
+                                  padding: 3,
+                                  paddingHorizontal: 4,
+                                  borderRadius: 10,
+                                }}
+                              >
+                                <FeatherIcon
+                                  color={colors.primary}
+                                  name={'clock'}
+                                  size={16}
+                                  style={{ fontWeight: '700' }}
+                                />
+                                <Text style={{ color: 'red', fontWeight: '800', fontSize: 10 }}>{remainingTime}</Text>
+                              </View>
+                            ) : null}
+                            <Text
+                              style={[styles.radioPrice, isActive && styles.radioPriceActive, { color: colors.scrim }]}
+                            >
+                              ৳ {item?.offer_price}
+                            </Text>
+                          </View>
+                        ) : null}
+                      </View>
                     </View>
                   </View>
                 </TouchableWithoutFeedback>
