@@ -143,7 +143,7 @@ const globalStylesList = () => {
     menuCard: {
       color: '#E71B73',
       marginBottom: 12,
-      marginHorizontal: 5
+      marginHorizontal: 5,
     },
     menucardText: {
       color: '#E71B73',

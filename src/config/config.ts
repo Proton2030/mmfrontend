@@ -19,7 +19,7 @@ export const headers = {
 
 export const socket = io(BASE_URL);
 
-export const COUNTRY_ENV: 'IN' | 'BD' = 'BD';
+export const COUNTRY_ENV: 'IN' | 'BD' = 'IN';
 
 export const ENCRYPTION_DECRYPTION_KEY = 'bR5nT8kJ2vX7mF9oP1uD6sA4eC3zH2jL';
 

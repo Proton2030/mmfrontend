@@ -12,7 +12,6 @@ import UiContext from './src/contexts/uiContext/UIContext';
 import SplashScreen from 'react-native-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { api } from './src/utils/api';
 
 const lightTheme = {
   ...DefaultTheme,
@@ -93,7 +92,9 @@ const App = ({ isRoute }: any) => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PaperProvider theme={paperTheme}>
+        {/* <BottomSheetModalProvider> */}
         <AppNavigators />
+        {/* </BottomSheetModalProvider> */}
       </PaperProvider>
     </GestureHandlerRootView>
   );

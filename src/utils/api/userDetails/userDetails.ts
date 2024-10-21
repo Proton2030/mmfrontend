@@ -202,7 +202,7 @@ export const getUserInfo = async (filter: any) => {
   }
 };
 
-export const updateUserImage = async (payload: FormData) => {
+export const updateUserImage = async (payload: any) => {
   try {
     const endpoint = `${initialRoute}/update-user-profile-image`;
     const response = await patch(
