@@ -82,7 +82,7 @@ const UserInformationPage2 = () => {
   const handleCompleteButtonClick = useCallback(async () => {
     if (user) {
       if (userInfo.occupation === '' || userInfo.work_place === '' || userInfo.monthly_income === '') {
-        setErrorMessage('Please fill the all data');
+        setErrorMessage('Please fill all data');
         setVisible(true);
         handleVibrate();
         return;

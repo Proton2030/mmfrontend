@@ -1,1 +1,1 @@
-export const COMMON_OPTIONS=["LOW","MEDIUM","HIGH"]
+export const COMMON_OPTIONS = ['LOW', 'MEDIUM', 'HIGH'];

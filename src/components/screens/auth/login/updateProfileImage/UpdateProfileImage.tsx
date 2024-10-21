@@ -12,6 +12,7 @@ import { selectLanguage } from '../../../../../utils/commonFunction/languageSele
 import { SCREEN_USER_INFO_FIVE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageFive';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import { LOGIN_TEXT } from '../../../../../constants/texts/auth/login/Login';
+import { PROFILE_TEXT } from '../../../../../constants/texts/profile/profile';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -23,6 +24,7 @@ const UpdateProfileImage = () => {
   const {
     ui: { language },
   } = useContext(UiContext);
+  const { ui } = useContext(UiContext);
   const { colors } = useTheme();
   // const [isChnaged, setIsChnaged] = useState<boolean>(false);
   // const [image, setImage] = useState<string | undefined | null>(user?.profile_image_url);
@@ -147,7 +149,7 @@ const UpdateProfileImage = () => {
             }}
             onPress={pickImage}
           >
-            Upload
+            {selectLanguage(PROFILE_TEXT.upload_button, ui.language)}
           </Button>
         </View>
         <Button

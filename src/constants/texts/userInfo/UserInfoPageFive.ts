@@ -7,4 +7,8 @@ export const SCREEN_USER_INFO_FIVE_TEXT = {
     ENGLISH: 'Next',
     BENGALI: 'পরবর্তী',
   },
+  back: {
+    ENGLISH: 'Back',
+    BENGALI: 'ফিরে যান',
+  },
 };

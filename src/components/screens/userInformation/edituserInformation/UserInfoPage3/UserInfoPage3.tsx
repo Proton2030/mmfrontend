@@ -74,7 +74,7 @@ const UserInformationPage3 = () => {
   const handleCompleteButtonClick = useCallback(async () => {
     if (user) {
       if (userInfo.education === '' || userInfo.islamic_education === '') {
-        setErrorMessage('Please fill the all data');
+        setErrorMessage('Please fill all data');
         setVisible(true);
         handleVibrate();
         return;

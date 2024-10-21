@@ -66,7 +66,7 @@ const UserInformationPage1 = () => {
     navigation.navigate('UserInfo5', { editable: false });
     if (user) {
       if (userInfo.full_name === '' || userInfo.gender === '' || userInfo.age === 0 || userInfo.marital_status === '') {
-        setErrorMessage('Please fill the all data');
+        setErrorMessage('Please fill all data');
         setVisible(true);
         handleVibrate();
         return;

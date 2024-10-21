@@ -11,7 +11,7 @@ export const HEIGHT_OPTIONS: any = [
 export const USER_INFO_ONE: (IField | IGroup)[] = [
   {
     id: 'full_name',
-    label: { ENGLISH: 'Full Name', BENGALI: 'পূর্ণ নাম' },
+    label: { ENGLISH: 'Full Name', BENGALI: 'আপনার পূর্ণ নাম লিখুন' },
     placeHolder: { ENGLISH: 'Enter Your Full Name Here', BENGALI: 'এখানে আপনার পূর্ণ নাম লিখুন' },
     type: 'TEXT',
   },
@@ -24,7 +24,11 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
         type: 'SELECT',
         options: [
           { label: { ENGLISH: 'Male', BENGALI: 'পুরুষ' }, value: 'MALE', icon: { name: 'male', type: 'FontAwesome5' } },
-          { label: { ENGLISH: 'Female', BENGALI: 'নারী' }, value: 'FEMALE', icon: { name: 'female', type: 'FontAwesome5' } },
+          {
+            label: { ENGLISH: 'Female', BENGALI: 'নারী' },
+            value: 'FEMALE',
+            icon: { name: 'female', type: 'FontAwesome5' },
+          },
         ],
       },
       {
@@ -40,7 +44,7 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
       {
         id: 'marital_status',
         label: { ENGLISH: 'Marital Status', BENGALI: 'বৈবাহিক অবস্থা' },
-        placeHolder: { ENGLISH: '', BENGALI: '' },
+        placeHolder: { ENGLISH: 'Marital Status', BENGALI: 'বৈবাহিক অবস্থা' },
         type: 'SELECT',
         options: [
           { label: { ENGLISH: 'Married', BENGALI: 'বিবাহিত' }, value: 'MARRIED' },
@@ -69,7 +73,7 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
   {
     id: 'state',
     label: { ENGLISH: 'District', BENGALI: 'জেলা' },
-    placeHolder: { ENGLISH: 'Enter Your District', BENGALI: 'আপনার জেলা লিখুন' },
+    placeHolder: { ENGLISH: 'Enter Your District', BENGALI: 'জেলা' },
     type: 'SELECT',
     options: districts_of_bangladesh,
   },
@@ -78,7 +82,7 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
       {
         id: 'height',
         label: { ENGLISH: 'Height', BENGALI: 'উচ্চতা' },
-        placeHolder: { ENGLISH: 'Enter Your Height Here', BENGALI: 'এখানে আপনার উচ্চতা লিখুন' },
+        placeHolder: { ENGLISH: 'Enter Your Height Here', BENGALI: 'উচ্চতা' },
         type: 'SELECT',
         options: HEIGHT_OPTIONS,
       },
@@ -153,20 +157,20 @@ export const PERSONAL_DETAILS: IField[] = [
 export const USER_INFO_TWO: IField[] = [
   {
     id: 'occupation',
-    label: { ENGLISH: 'Occupation', BENGALI: 'পেশা' },
-    placeHolder: { ENGLISH: 'Enter Your Occupation', BENGALI: 'আপনার পেশা লিখুন' },
+    label: { ENGLISH: 'Occupation', BENGALI: 'আপনার পেশা লিখুন' },
+    placeHolder: { ENGLISH: 'Enter Your Occupation', BENGALI: 'এখানে আপনার পেশা লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'work_place',
-    label: { ENGLISH: 'Workplace', BENGALI: 'কর্মস্থল' },
-    placeHolder: { ENGLISH: 'Enter Your Workplace', BENGALI: 'আপনার কর্মস্থল লিখুন' },
+    label: { ENGLISH: 'Workplace', BENGALI: 'আপনার কর্মস্থল লিখুন' },
+    placeHolder: { ENGLISH: 'Enter Your Workplace', BENGALI: 'এখানে আপনার কর্মস্থল লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'monthly_income',
-    label: { ENGLISH: 'Monthly Income', BENGALI: 'মাসিক আয়' },
-    placeHolder: { ENGLISH: 'Enter Your Monthly Income', BENGALI: 'আপনার মাসিক আয় লিখুন' },
+    label: { ENGLISH: 'Monthly Income', BENGALI: 'আপনার মাসিক আয় লিখুন' },
+    placeHolder: { ENGLISH: 'Enter Your Monthly Income', BENGALI: 'এখানে আপনার মাসিক আয় লিখুন' },
     type: 'NUMBER',
     maxLength: 8,
   },
@@ -177,14 +181,14 @@ export const USER_INFO_TWO: IField[] = [
 export const USER_INFO_THREE: IField[] = [
   {
     id: 'education',
-    label: { ENGLISH: 'Education', BENGALI: 'শিক্ষা' },
-    placeHolder: { ENGLISH: 'Enter Your Education', BENGALI: 'আপনার শিক্ষা লিখুন' },
+    label: { ENGLISH: 'Education', BENGALI: 'আপনার শিক্ষা লিখুন' },
+    placeHolder: { ENGLISH: 'Enter Your Education', BENGALI: 'এখানে আপনার শিক্ষা লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'islamic_education',
-    label: { ENGLISH: 'Islamic Education', BENGALI: 'ইসলামিক শিক্ষা' },
-    placeHolder: { ENGLISH: 'Enter Your Islamic Education', BENGALI: 'আপনার ইসলামিক শিক্ষা লিখুন' },
+    label: { ENGLISH: 'Islamic Education', BENGALI: 'আপনার ইসলামিক শিক্ষা লিখুন' },
+    placeHolder: { ENGLISH: 'Enter Your Islamic Education', BENGALI: 'এখানে আপনার ইসলামিক শিক্ষা লিখুন' },
     type: 'TEXT',
   },
 ];
@@ -193,14 +197,14 @@ export const USER_INFO_THREE_part2: IField[] = [
   {
     id: 'salah',
     label: { ENGLISH: 'Select Salah', BENGALI: 'সালাহ নির্বাচন করুন' },
-    placeHolder: { ENGLISH: 'Select Salah', BENGALI: 'সালাহ নির্বাচন করুন' },
+    placeHolder: { ENGLISH: 'Select Salah', BENGALI: 'সালাহ' },
     type: 'SELECT',
     options: ['YES', 'NO'],
   },
   {
     id: 'sawum',
     label: { ENGLISH: 'Select Sawum', BENGALI: 'সাওম নির্বাচন করুন' },
-    placeHolder: { ENGLISH: 'Select Sawum', BENGALI: 'সাওম নির্বাচন করুন' },
+    placeHolder: { ENGLISH: 'Select Sawum', BENGALI: 'সাওম' },
     type: 'SELECT',
     options: ['YES', 'NO'],
   },
@@ -209,46 +213,46 @@ export const USER_INFO_THREE_part2: IField[] = [
 export const USER_INFO_FOUR: IField[] = [
   {
     id: 'fathers_name',
-    label: { ENGLISH: 'Fathers Name', BENGALI: 'বাবার নাম' },
-    placeHolder: { ENGLISH: 'Enter Your Fathers Name', BENGALI: 'আপনার বাবার নাম লিখুন' },
+    label: { ENGLISH: 'Fathers Name', BENGALI: 'আপনার বাবার নাম' },
+    placeHolder: { ENGLISH: 'Enter Your Fathers Name', BENGALI: 'এখানে আপনার বাবার নাম লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'fathers_occupation',
-    label: { ENGLISH: 'Fathers Occupation', BENGALI: 'বাবার পেশা' },
-    placeHolder: { ENGLISH: 'Enter Your Fathers Occupation', BENGALI: 'আপনার বাবার পেশা লিখুন' },
+    label: { ENGLISH: 'Fathers Occupation', BENGALI: 'আপনার বাবার পেশা' },
+    placeHolder: { ENGLISH: 'Enter Your Fathers Occupation', BENGALI: 'এখানে আপনার বাবার পেশা লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'mothers_name',
-    label: { ENGLISH: 'Mothers Name', BENGALI: 'মায়ের নাম' },
-    placeHolder: { ENGLISH: 'Enter Your Mothers Name', BENGALI: 'আপনার মায়ের নাম লিখুন' },
+    label: { ENGLISH: 'Mothers Name', BENGALI: 'আপনার মায়ের নাম' },
+    placeHolder: { ENGLISH: 'Enter Your Mothers Name', BENGALI: 'এখানে আপনার মায়ের নাম লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'mothers_occupation',
-    label: { ENGLISH: 'Mothers Occupation', BENGALI: 'মায়ের পেশা' },
-    placeHolder: { ENGLISH: 'Enter Your Mothers Occupation', BENGALI: 'আপনার মায়ের পেশা লিখুন' },
+    label: { ENGLISH: 'Mothers Occupation', BENGALI: 'আপনার মায়ের পেশা' },
+    placeHolder: { ENGLISH: 'Enter Your Mothers Occupation', BENGALI: 'এখানে আপনার মায়ের পেশা লিখুন' },
     type: 'TEXT',
   },
   {
     id: 'no_of_brothers',
-    label: { ENGLISH: 'No Of Brothers', BENGALI: 'ভাইয়ের সংখ্যা' },
+    label: { ENGLISH: 'No Of Brothers', BENGALI: 'আপনার ভাইয়ের সংখ্যা' },
     placeHolder: { ENGLISH: '0', BENGALI: '০' },
     type: 'NUMBER',
     maxLength: 2,
   },
   {
     id: 'no_of_sisters',
-    label: { ENGLISH: 'No Of Sisters', BENGALI: 'বোনের সংখ্যা' },
+    label: { ENGLISH: 'No Of Sisters', BENGALI: 'আপনার বোনের সংখ্যা' },
     placeHolder: { ENGLISH: '0', BENGALI: '০' },
     type: 'NUMBER',
     maxLength: 2,
   },
   {
     id: 'financial_condition',
-    label: { ENGLISH: 'Financial Condition', BENGALI: 'আর্থিক অবস্থা' },
-    placeHolder: { ENGLISH: 'Select Financial Condition', BENGALI: 'আর্থিক অবস্থা নির্বাচন করুন' },
+    label: { ENGLISH: 'Financial Condition', BENGALI: 'আপনার আর্থিক অবস্থা' },
+    placeHolder: { ENGLISH: 'Select Your Financial Condition', BENGALI: 'আর্থিক অবস্থা' },
     type: 'SELECT',
     options: COMMON_OPTIONS,
   },

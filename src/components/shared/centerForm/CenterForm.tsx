@@ -27,7 +27,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
 
   const openBottomSheet = (options: any, group: any) => {
     setSelectedFieldOptions(options); // Set the options for the clicked field
-    setSelectGroupfield(group)
+    setSelectGroupfield(group);
     setBottomSheetVisible(true); // Show the bottom sheet
   };
 
@@ -35,8 +35,8 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
     setBottomSheetVisible(false); // Hide the bottom sheet
   };
   const handleChoseOption = ({ groupField, type, text }: any) => {
-    console.log("handle choose===>", groupField.id, type, text);
-    handleChangeText(groupField.id, groupField.type, text)
+    console.log('handle choose===>', groupField.id, type, text);
+    handleChangeText(groupField.id, groupField.type, text);
   };
 
   return (
@@ -124,7 +124,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                             <TouchableOpacity
                               style={{ height: 50, width: 190 }}
                               onPress={() => openBottomSheet(groupField.options, groupField)} // Pass the specific options of the clicked field
-                            // activeOpacity={0.7} // Optional: control the touch opacity effect
+                              // activeOpacity={0.7} // Optional: control the touch opacity effect
                             >
                               <View pointerEvents="none">
                                 <TextInput
@@ -153,7 +153,6 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           </View>
                         </>
                       ) : null}
-
                     </View>
                   );
                 })}
@@ -227,7 +226,6 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             ) : null}
             {'type' in field && field.type === 'SELECT' ? (
               <>
-
                 <View>
                   <TouchableOpacity
                     style={{ height: 50, width: 190, marginTop: 15 }}
@@ -237,7 +235,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                     <View pointerEvents="none" style={{ marginBottom: 15 }}>
                       <TextInput
                         textColor={colors.scrim}
-                        style={{ ...globalStyles.roundedInputBox, width: '197%', }}
+                        style={{ ...globalStyles.roundedInputBox, width: '197%' }}
                         mode="outlined"
                         label={selectLanguage(field.label, language)}
                         id={field.id}

@@ -14,6 +14,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { SCREEN_USER_INFO_FIVE_TEXT } from '../../../../../constants/texts/userInfo/UserInfoPageFive';
+import { PROFILE_TEXT } from '../../../../../constants/texts/profile/profile';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -134,7 +135,7 @@ const UserInformationPage5 = () => {
               textColor={colors.scrim}
               onPress={pickImage}
             >
-              Upload
+              {selectLanguage(PROFILE_TEXT.upload_button, language)}
             </Button>
           </View>
           <Button
@@ -149,14 +150,14 @@ const UserInformationPage5 = () => {
             }}
             onPress={handleUpload}
           >
-            Submit
+            {selectLanguage(SCREEN_USER_INFO_FIVE_TEXT.next, language)}
           </Button>
           <Button
             mode="outlined"
             style={{ backgroundColor: colors.secondary, borderColor: colors.secondary, width: '100%', padding: 6 }}
             onPress={handleGoBack}
           >
-            Back
+            {selectLanguage(SCREEN_USER_INFO_FIVE_TEXT.back, language)}
           </Button>
         </View>
       </ScrollView>
