@@ -13,7 +13,7 @@ export const LOGIN_TEXT = {
   },
   signup_button: {
     BENGALI: 'নতুন অ্যাকাউন্ট তৈরি করুন',
-    ENGLISH: 'Sign Up',
+    ENGLISH: 'Create New Account',
   },
   forget_password: {
     BENGALI: 'পাসওয়ার্ড ভুলে গেছেন',

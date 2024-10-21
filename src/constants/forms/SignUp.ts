@@ -3,8 +3,8 @@ import { IField } from '../../@types/types/FieldTypes.types';
 export const SIGNUP_SCREEN_ONE: IField[] = [
   {
     id: 'mobile',
-    label: { ENGLISH: 'Phone Number', BENGALI: 'ফোন নম্বর' },
-    placeHolder: { ENGLISH: 'Enter Your Mobile Number Here', BENGALI: 'এখানে আপনার মোবাইল নম্বর লিখুন' },
+    label: { ENGLISH: 'Phone Number', BENGALI: 'আপনার ফোন নম্বর দিন' },
+    placeHolder: { ENGLISH: 'Enter Your Mobile Number Here', BENGALI: 'এখানে আপনার মোবাইল নম্বর দিন' },
     type: 'NUMBER',
   },
 ];

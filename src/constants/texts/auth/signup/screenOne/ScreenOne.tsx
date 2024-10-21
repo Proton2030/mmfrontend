@@ -4,8 +4,8 @@ export const SCREEN_ONE = {
     BENGALI: 'অনুগ্রহ করে',
   },
   phone: {
-    ENGLISH: 'Phone Number',
-    BENGALI: 'ফোন নম্বর দিন',
+    ENGLISH: 'Your Phone Number',
+    BENGALI: 'আপনার ফোন নম্বর দিন',
   },
   greeting: {
     ENGLISH:

@@ -19,6 +19,7 @@ import { LOGIN_TEXT } from '../../../../constants/texts/auth/login/Login';
 import CommonButton from '../../../shared/commonButton/CommonButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
+import { TranslateToBengali } from '../../../../utils/commonFunction/translate';
 
 const Login = () => {
   const { colors } = useTheme();
@@ -149,7 +150,7 @@ const Login = () => {
             handleAction={handleLoginButtonClick}
             text={selectLanguage(LOGIN_TEXT.login_button, ui.language)}
           />
-          <TouchableOpacity onPress={handleSignUpButtonClick} style={{ marginTop: 'auto' }}>
+          {/* <TouchableOpacity onPress={handleSignUpButtonClick} style={{ marginTop: 'auto' }}>
             <Text
               style={{
                 fontSize: 15,
@@ -162,32 +163,31 @@ const Login = () => {
             >
               {selectLanguage(LOGIN_TEXT.new_user, ui.language)}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={{
-              backgroundColor: ui.theme === 'DARK' ? '#E71B73' : '#ffe6f2',
-              borderColor: ui.theme === 'DARK' ? 'transparent' : '#E71B73',
+              backgroundColor: ui.theme === 'DARK' ? '#E71B73' : '#fad1e3',
+
               width: '100%',
               paddingHorizontal: 6,
               paddingVertical: 13,
-              marginTop: 5,
+              marginTop: 10,
               borderTopEndRadius: 25,
               borderBottomEndRadius: 25,
               borderTopLeftRadius: 25,
-              borderWidth: ui.theme === 'DARK' ? 0 : 1,
             }}
             onPress={handleSignUpButtonClick}
           >
             <Text
               style={{
-                fontWeight: '600',
+                fontWeight: '700',
                 fontSize: 18,
                 justifyContent: 'center',
                 textAlign: 'center',
                 color: ui.theme === 'DARK' ? 'white' : '#E71B73',
               }}
             >
-              {selectLanguage(LOGIN_TEXT.signUp_button, ui.language)}
+              {selectLanguage(LOGIN_TEXT.signup_button, ui.language)}
             </Text>
           </TouchableOpacity>
         </View>
