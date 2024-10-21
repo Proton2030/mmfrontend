@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useContext, useState } from 'react';
 import { Button, TextInput, useTheme } from 'react-native-paper';
 import { ICenterFormProps } from '../../../@types/props/CenterFormProps.types';
@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { SelectField } from '../selectField/SelectField';
+import SelectFieldBottomSheet from '../selectFieldButtomSheet/SelectFieldButtomSheet';
 
 const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) => {
   const [isPasswordVisible, setPasswordVisibility] = useState(false); // State to track password visibility
@@ -17,6 +18,25 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
   const { colors } = useTheme();
   const togglePasswordVisibility = () => {
     setPasswordVisibility(!isPasswordVisible);
+  };
+
+  const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [selectedFieldOptions, setSelectedFieldOptions] = useState([]);
+  const [selectGroupfield, setSelectGroupfield] = useState([]);
+  const [selectItem, setSelectItem] = useState(null);
+
+  const openBottomSheet = (options: any, group: any) => {
+    setSelectedFieldOptions(options); // Set the options for the clicked field
+    setSelectGroupfield(group)
+    setBottomSheetVisible(true); // Show the bottom sheet
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetVisible(false); // Hide the bottom sheet
+  };
+  const handleChoseOption = ({ groupField, type, text }: any) => {
+    console.log("handle choose===>", groupField.id, type, text);
+    handleChangeText(groupField.id, groupField.type, text)
   };
 
   return (
@@ -29,7 +49,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
           <View key={index}>
             {'group' in field && field.group.length > 0 ? (
               <View style={globalStyles.inlineFlex}>
-                {field.group.map((groupField, index) => {
+                {field.group.map((groupField: any, index) => {
                   return (
                     <View key={index} style={globalStyles.inlineFlex}>
                       {'type' in groupField && groupField.type === 'TEXT' ? (
@@ -100,42 +120,40 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       ) : null}
                       {'type' in groupField && groupField.type === 'SELECT' ? (
                         <>
-                          {/* Label above the dropdown */}
                           <View>
-                            <Text style={{ color: colors.scrim }}>{selectLanguage(groupField.label, language)}</Text>
-                            <SelectDropdown
-                              defaultButtonText={
-                                object[groupField.id] !== ''
-                                  ? typeof object[groupField.id] === 'boolean'
-                                    ? object[groupField.id]
-                                      ? 'YES'
-                                      : 'NO'
-                                    : object[groupField.id]
-                                  : selectLanguage(groupField.label, language)
-                              }
-                              buttonStyle={{
-                                ...globalStyles.selectField,
-                                backgroundColor: colors.background,
-                                width: '97%',
-                              }}
-                              searchPlaceHolder={selectLanguage(groupField.placeHolder, language)}
-                              buttonTextStyle={{
-                                ...globalStyles.selectText,
-                                color: colors.scrim, // Set the button text color to green
-                              }}
-                              dropdownIconPosition="right"
-                              renderDropdownIcon={() => <Icon name="chevron-down" />}
-                              data={groupField.options || []}
-                              rowStyle={
-                                {
-                                  // backgroundColor: colors.background,
-                                }
-                              }
-                              onSelect={(text) => handleChangeText(groupField.id, groupField.type, text)}
+                            <TouchableOpacity
+                              style={{ height: 50, width: 190 }}
+                              onPress={() => openBottomSheet(groupField.options, groupField)} // Pass the specific options of the clicked field
+                            // activeOpacity={0.7} // Optional: control the touch opacity effect
+                            >
+                              <View pointerEvents="none">
+                                <TextInput
+                                  textColor={colors.scrim}
+                                  style={{ ...globalStyles.roundedInputBox, width: '97%' }}
+                                  mode="outlined"
+                                  label={selectLanguage(groupField.label, language)}
+                                  id={groupField.id}
+                                  editable={false} // Disable direct text input
+                                  defaultValue={object[groupField.id] || ''.toString()}
+                                  value={object[groupField.id] || ''.toString()} // Display placeholder or selected value
+                                />
+                              </View>
+                            </TouchableOpacity>
+
+                            {/* Pass the dynamically set options to the bottom sheet */}
+                            <SelectFieldBottomSheet
+                              isVisible={isBottomSheetVisible}
+                              onClose={closeBottomSheet}
+                              options={selectedFieldOptions} // Dynamically pass the options
+                              onOptionSelect={handleChoseOption}
+                              groupField={selectGroupfield}
+                              language={language}
+                              setSelectItem={setSelectItem}
                             />
                           </View>
                         </>
                       ) : null}
+
                     </View>
                   );
                 })}
@@ -209,47 +227,38 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             ) : null}
             {'type' in field && field.type === 'SELECT' ? (
               <>
-                {/* Label above the dropdown */}
-                {/* <Text style={{ color: colors.scrim }}>{selectLanguage(field.label, language)}</Text> */}
-                {/* <SelectDropdown
-                  defaultButtonText={
-                    object[field.id] !== ''
-                      ? typeof object[field.id] === 'boolean'
-                        ? object[field.id]
-                          ? 'YES'
-                          : 'NO'
-                        : object[field.id]
-                      : selectLanguage(field.label, language)
-                  }
-                  buttonStyle={[globalStyles.selectField, { backgroundColor: colors.background }]}
-                  searchPlaceHolder={selectLanguage(field.placeHolder, language)}
-                  buttonTextStyle={{
-                    ...globalStyles.selectText,
-                    color: colors.scrim, // Set the button text color to green
-                  }}
-                  dropdownIconPosition="right"
-                  renderDropdownIcon={() => <Icon name="chevron-down" />}
-                  data={field.options || []}
-                  onSelect={(text) => handleChangeText(field.id, field.type, text)}
-                /> */}
-                <SelectField
-                  label={selectLanguage(field.label, language)}
-                  placeholder={
-                    object[field.id] !== ''
-                      ? typeof object[field.id] === 'boolean'
-                        ? object[field.id]
-                          ? 'YES'
-                          : 'NO'
-                        : object[field.id]
-                      : selectLanguage(field.label, language)
-                  }
-                  options={[
-                    {
-                      label: 'string',
-                      value: 'string',
-                    },
-                  ]}
-                />
+
+                <View>
+                  <TouchableOpacity
+                    style={{ height: 50, width: 190, marginTop: 15 }}
+                    onPress={() => openBottomSheet(field.options, field)} // Pass the specific options of the clicked field
+                    activeOpacity={0.7} // Optional: control the touch opacity effect
+                  >
+                    <View pointerEvents="none" style={{ marginBottom: 15 }}>
+                      <TextInput
+                        textColor={colors.scrim}
+                        style={{ ...globalStyles.roundedInputBox, width: '197%', }}
+                        mode="outlined"
+                        label={selectLanguage(field.label, language)}
+                        id={field.id}
+                        editable={false} // Disable direct text input
+                        defaultValue={object[field.id] || ''.toString()}
+                        value={object[field.id] || ''.toString()} // Display placeholder or selected value
+                      />
+                    </View>
+                  </TouchableOpacity>
+
+                  {/* Pass the dynamically set options to the bottom sheet */}
+                  <SelectFieldBottomSheet
+                    isVisible={isBottomSheetVisible}
+                    onClose={closeBottomSheet}
+                    options={selectedFieldOptions} // Dynamically pass the options
+                    onOptionSelect={handleChoseOption}
+                    groupField={selectGroupfield}
+                    language={language}
+                    setSelectItem={setSelectItem}
+                  />
+                </View>
               </>
             ) : null}
           </View>
