@@ -25,7 +25,7 @@ const SplashScreen = () => {
     // Simulate a loading process for demonstration purposes
     const timeoutId = setTimeout(() => {
       // console.log('-----called-----');
-      if (user) {
+      if (user && user.acount_status === 'ACTIVE') {
         navigation.dispatch(routeUserDashboard);
       } else {
         navigation.dispatch(routeAuth);
