@@ -7,6 +7,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { SelectField } from '../selectField/SelectField';
 
 const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) => {
   const [isPasswordVisible, setPasswordVisibility] = useState(false); // State to track password visibility
@@ -209,8 +210,8 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
             {'type' in field && field.type === 'SELECT' ? (
               <>
                 {/* Label above the dropdown */}
-                <Text style={{ color: colors.scrim }}>{selectLanguage(field.label, language)}</Text>
-                <SelectDropdown
+                {/* <Text style={{ color: colors.scrim }}>{selectLanguage(field.label, language)}</Text> */}
+                {/* <SelectDropdown
                   defaultButtonText={
                     object[field.id] !== ''
                       ? typeof object[field.id] === 'boolean'
@@ -230,6 +231,24 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                   renderDropdownIcon={() => <Icon name="chevron-down" />}
                   data={field.options || []}
                   onSelect={(text) => handleChangeText(field.id, field.type, text)}
+                /> */}
+                <SelectField
+                  label={selectLanguage(field.label, language)}
+                  placeholder={
+                    object[field.id] !== ''
+                      ? typeof object[field.id] === 'boolean'
+                        ? object[field.id]
+                          ? 'YES'
+                          : 'NO'
+                        : object[field.id]
+                      : selectLanguage(field.label, language)
+                  }
+                  options={[
+                    {
+                      label: 'string',
+                      value: 'string',
+                    },
+                  ]}
                 />
               </>
             ) : null}

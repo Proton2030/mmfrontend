@@ -66,7 +66,6 @@ const AppNavigators = () => {
         initialRouteName="SplashScreen"
         screenOptions={{
           headerShown: false,
-
         }}
       >
         <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
@@ -78,16 +77,19 @@ const AppNavigators = () => {
               options={{
                 statusBarHidden: false,
                 statusBarColor: colors.secondary,
-                statusBarStyle: theme === "DARK" ? "light" : "dark"
+                statusBarStyle: theme === 'DARK' ? 'light' : 'dark',
               }}
             />
             <Stack.Screen name="UserInfo" component={UserInfoNavigators} />
-            <Stack.Screen name="Chat"
+            <Stack.Screen
+              name="Chat"
               options={{
                 statusBarHidden: false,
                 statusBarColor: colors.background,
-                statusBarStyle: theme === "DARK" ? "light" : "dark"
-              }} component={PersonalChatPage} />
+                statusBarStyle: theme === 'DARK' ? 'light' : 'dark',
+              }}
+              component={PersonalChatPage}
+            />
             <Stack.Screen name="AccountReport" component={ReportScreen} />
             <Stack.Screen
               name="UserDetails"

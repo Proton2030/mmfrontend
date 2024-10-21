@@ -224,7 +224,7 @@ const UserInformation = () => {
           ) : null}
           {screen === 2 ? (
             <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-              <Image source={{ uri: userInfo.profile_image_url }} style={styles.profileImage} />
+              <Image source={{ uri: userInfo.profile_image_url || '' }} style={styles.profileImage} />
               <Button mode="outlined" style={globalStyles.lightPinkButton} onPress={pickImage}>
                 Upload
               </Button>

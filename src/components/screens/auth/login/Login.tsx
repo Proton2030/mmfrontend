@@ -74,7 +74,7 @@ const Login = () => {
       setUser(userResponse);
       if (userResponse) {
         setLoading(false);
-        if (!userResponse.full_name || !userResponse.age || !userResponse.state) {
+        if (!userResponse.full_name || !userResponse.gender || !userResponse.state) {
           navigation.navigate('UserInfo', {
             screen: 'UserInfo1',
             params: {
