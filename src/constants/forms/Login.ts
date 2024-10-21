@@ -3,14 +3,14 @@ import { IField } from '../../@types/types/FieldTypes.types';
 export const LOGIN_SCREEN: IField[] = [
   {
     id: 'userId',
-    label: { ENGLISH: 'Phone Number or Email', BENGALI: 'ফোন নাম্বার বা ইমেইল' },
-    placeHolder: { ENGLISH: 'Enter Your Mobile Number or Email', BENGALI: 'আপনার মোবাইল নাম্বার বা ইমেইল লিখুন' },
+    label: { ENGLISH: 'Enter Your Phone Number', BENGALI: 'আপনার ফোন নাম্বার দিন' },
+    placeHolder: { ENGLISH: 'Enter Your Mobile Number ', BENGALI: 'আপনার মোবাইল নাম্বার দিন' },
     type: 'TEXT',
   },
   {
     id: 'password',
-    label: { ENGLISH: 'Password', BENGALI: 'পাসওয়ার্ড' },
-    placeHolder: { ENGLISH: 'Enter Your Password Here', BENGALI: 'এখানে আপনার পাসওয়ার্ড লিখুন' },
+    label: { ENGLISH: 'Enter Your Password', BENGALI: 'আপনার পাসওয়ার্ড দিন' },
+    placeHolder: { ENGLISH: 'Enter Your Password Here', BENGALI: 'এখানে আপনার পাসওয়ার্ড দিন' },
     type: 'PASSWORD',
   },
 ];
