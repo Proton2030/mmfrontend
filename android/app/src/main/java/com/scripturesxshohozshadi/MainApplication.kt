@@ -1,4 +1,4 @@
-package com.shohozshadi
+package com.scripturesxshohozshadi
 
 import android.app.Application
 import com.facebook.react.PackageList

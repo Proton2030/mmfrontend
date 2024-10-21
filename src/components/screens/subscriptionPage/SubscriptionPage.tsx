@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, View, TouchableOpacity, Text, TouchableWithoutFeedback } from 'react-native';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+  Text,
+  TouchableWithoutFeedback,
+  Platform,
+  Alert,
+} from 'react-native';
 
 import { COLORS } from '../../../constants/theme';
 import { styles } from './subcriptionStyles';
@@ -10,11 +19,23 @@ import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useTheme } from 'react-native-paper';
 import UiContext from '../../../contexts/uiContext/UIContext';
+import { DISTRIBUTION } from '../../../config/config';
+import {
+  endConnection,
+  flushFailedPurchasesCachedAsPendingAndroid,
+  getProducts,
+  initConnection,
+  Product,
+  requestPurchase,
+} from 'react-native-iap';
+import { PRODUCT_ID_LIST } from '../../../constants/productIds/ProductId';
+import { productToChatCount } from '../../../utils/billing/BillingToChatCount';
 
 export const SubscriptionPage = ({ closeModal }: any) => {
   const [selected, setSelected] = useState(0);
   const [page, setPage] = useState(0);
   const [plans, setPlans] = useState<any>([]);
+  const [loadingPurchase, setPurchaseLoading] = useState<boolean>(false);
 
   const { user, setUser } = useContext(AuthContext);
   const { colors } = useTheme();
@@ -24,8 +45,49 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const navigation = useNavigation<any>();
 
+  const fetchProducts = async () => {
+    try {
+      if (PRODUCT_ID_LIST.productSkus) {
+        const result: any[] = await getProducts({ skus: PRODUCT_ID_LIST.productSkus });
+        console.log('===>products', result[0]);
+        let temp_plan_list = [];
+        for (const product of result) {
+          temp_plan_list.push({
+            plan_name: product.name,
+            plan_price: product.localizedPrice,
+            chat_count: productToChatCount(product.productId),
+            offer_price: null,
+            _id: product.productId,
+          });
+        }
+        setPlans(temp_plan_list);
+      }
+    } catch (error) {
+      Alert.alert('Error fetching products');
+    }
+  };
+
+  // console.log('===>plans', plans, '\n\n');
+
+  const handlePurchase = async (productId: string) => {
+    setPurchaseLoading(true);
+    try {
+      await requestPurchase({ skus: [productId] });
+    } catch (error) {
+      console.log('==>error', error);
+      Alert.alert('Error occurred while making purchase');
+    } finally {
+      setPurchaseLoading(false);
+    }
+  };
+
   const nextPage = () => {
-    setPage((prev) => prev + 1);
+    if (String(DISTRIBUTION) === 'WEBSITE') {
+      setPage((prev) => prev + 1);
+    } else {
+      console.log('Initiate Google Play Billing Flow');
+      handlePurchase(plans[selected]._id);
+    }
   };
   const prevPage = () => {
     setPage((prev) => prev - 1);
@@ -37,8 +99,12 @@ export const SubscriptionPage = ({ closeModal }: any) => {
   };
 
   useEffect(() => {
-    getAllPlans();
-  }, []);
+    if (String(DISTRIBUTION) === 'WEBSITE') {
+      getAllPlans();
+    } else {
+      fetchProducts();
+    }
+  }, [DISTRIBUTION]);
 
   const handlePaymentUpdate = async (plan: any) => {
     if (!user?._id || !plan?._id) return;

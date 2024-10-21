@@ -3,7 +3,7 @@ import { socket } from './src/config/config';
 import AuthContext from './src/contexts/authContext/authContext';
 import { useAppState } from '@react-native-community/hooks';
 import AppNavigators from './src/components/navigators/AppNavigators';
-import { PermissionsAndroid } from 'react-native';
+import { PermissionsAndroid, Platform } from 'react-native';
 import { LinkingOptions, useNavigation } from '@react-navigation/native';
 import { useTheme } from 'react-native-paper';
 import { MD3LightTheme as DefaultTheme, PaperProvider, MD3DarkTheme as DarkTheme } from 'react-native-paper';
@@ -12,6 +12,7 @@ import UiContext from './src/contexts/uiContext/UIContext';
 import SplashScreen from 'react-native-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { endConnection, flushFailedPurchasesCachedAsPendingAndroid, initConnection } from 'react-native-iap';
 
 const lightTheme = {
   ...DefaultTheme,
@@ -86,6 +87,23 @@ const App = ({ isRoute }: any) => {
   useEffect(() => {
     getUserId();
   }, [getUserId]);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        await initConnection();
+        if (Platform.OS === 'android') {
+          flushFailedPurchasesCachedAsPendingAndroid();
+        }
+      } catch (error) {
+        console.error('Error occurred during initilization', error);
+      }
+    };
+    init();
+    return () => {
+      endConnection();
+    };
+  }, []);
 
   console.log('==>app state', appState);
 

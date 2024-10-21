@@ -123,7 +123,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                             { color: colors.scrim },
                           ]}
                         >
-                          ৳ {item?.plan_price}
+                          {item?.plan_price}
                         </Text>
                         {isEligibleUser && item.chat_count === 1 && item.offer_price ? (
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>

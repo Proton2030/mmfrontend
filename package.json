@@ -1,5 +1,5 @@
 {
-  "name": "com.shohozshadi",
+  "name": "com.scripturesxshohozshadi",
   "version": "1.0.4",
   "private": true,
   "scripts": {
@@ -43,6 +43,7 @@
     "react-native-gesture-handler": "^2.14.1",
     "react-native-get-random-values": "^1.11.0",
     "react-native-google-signin": "^2.1.1",
+    "react-native-iap": "^12.15.5",
     "react-native-image-crop-picker": "^0.41.2",
     "react-native-image-pan-zoom": "^2.1.12",
     "react-native-image-picker": "^7.1.0",
