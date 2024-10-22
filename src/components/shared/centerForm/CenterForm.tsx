@@ -7,7 +7,6 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
-import { SelectField } from '../selectField/SelectField';
 import SelectFieldBottomSheet from '../selectFieldButtomSheet/SelectFieldButtomSheet';
 
 const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) => {
@@ -75,7 +74,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       {'type' in groupField && groupField.type === 'NUMBER' ? (
                         <TextInput
                           textColor={colors.scrim}
-                          style={{ ...globalStyles.roundedInputBox, width: '97%', marginTop: 15 }}
+                          style={{ ...globalStyles.roundedInputBox, width: '97%' }}
                           mode="outlined"
                           keyboardType="numeric"
                           id={groupField.id}
@@ -120,37 +119,37 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       ) : null}
                       {'type' in groupField && groupField.type === 'SELECT' ? (
                         <>
-                          <View>
-                            <TouchableOpacity
-                              style={{ height: 50, width: 190 }}
-                              onPress={() => openBottomSheet(groupField.options, groupField)} // Pass the specific options of the clicked field
-                              // activeOpacity={0.7} // Optional: control the touch opacity effect
-                            >
-                              <View pointerEvents="none">
-                                <TextInput
-                                  textColor={colors.scrim}
-                                  style={{ ...globalStyles.roundedInputBox, width: '97%' }}
-                                  mode="outlined"
-                                  label={selectLanguage(groupField.label, language)}
-                                  id={groupField.id}
-                                  editable={false} // Disable direct text input
-                                  defaultValue={object[groupField.id] || ''.toString()}
-                                  value={object[groupField.id] || ''.toString()} // Display placeholder or selected value
-                                />
-                              </View>
-                            </TouchableOpacity>
-
-                            {/* Pass the dynamically set options to the bottom sheet */}
-                            <SelectFieldBottomSheet
-                              isVisible={isBottomSheetVisible}
-                              onClose={closeBottomSheet}
-                              options={selectedFieldOptions} // Dynamically pass the options
-                              onOptionSelect={handleChoseOption}
-                              groupField={selectGroupfield}
-                              language={language}
-                              setSelectItem={setSelectItem}
+                          <TouchableOpacity
+                            style={[globalStyles.roundedInputBox, { height: 'auto', width: '97%' }]}
+                            onPress={() => openBottomSheet(groupField.options, groupField)} // Pass the specific options of the clicked field
+                            activeOpacity={0.7} // Optional: control the touch opacity effect
+                          >
+                            <TextInput
+                              textColor={colors.scrim}
+                              style={{
+                                ...globalStyles.roundedInputBox,
+                                width: '97%',
+                                marginBottom: 0,
+                              }}
+                              mode="outlined"
+                              label={selectLanguage(groupField.label, language)}
+                              id={groupField.id}
+                              editable={false} // Disable direct text input
+                              defaultValue={object[groupField.id] || ''.toString()}
+                              value={object[groupField.id] || ''.toString()} // Display placeholder or selected value
                             />
-                          </View>
+                          </TouchableOpacity>
+
+                          {/* Pass the dynamically set options to the bottom sheet */}
+                          <SelectFieldBottomSheet
+                            isVisible={isBottomSheetVisible}
+                            onClose={closeBottomSheet}
+                            options={groupField.options} // Dynamically pass the options
+                            onOptionSelect={handleChoseOption}
+                            groupField={selectGroupfield}
+                            language={language}
+                            setSelectItem={setSelectItem}
+                          />
                         </>
                       ) : null}
                     </View>
@@ -228,25 +227,24 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
               <>
                 <View>
                   <TouchableOpacity
-                    style={{ height: 50, width: 190, marginTop: 15 }}
+                    style={{ height: 'auto', width: '100%' }}
                     onPress={() => openBottomSheet(field.options, field)} // Pass the specific options of the clicked field
                     activeOpacity={0.7} // Optional: control the touch opacity effect
                   >
-                    <View pointerEvents="none" style={{ marginBottom: 15 }}>
-                      <TextInput
-                        textColor={colors.scrim}
-                        style={{ ...globalStyles.roundedInputBox, width: '197%' }}
-                        mode="outlined"
-                        label={selectLanguage(field.label, language)}
-                        id={field.id}
-                        editable={false} // Disable direct text input
-                        defaultValue={object[field.id] || ''.toString()}
-                        value={object[field.id] || ''.toString()} // Display placeholder or selected value
-                      />
-                    </View>
+                    <TextInput
+                      textColor={colors.scrim}
+                      style={{ ...globalStyles.roundedInputBox }}
+                      mode="outlined"
+                      label={selectLanguage(field.label, language)}
+                      id={field.id}
+                      editable={false} // Disable direct text input
+                      defaultValue={object[field.id] || ''.toString()}
+                      value={object[field.id] || ''.toString()} // Display placeholder or selected value
+                    />
                   </TouchableOpacity>
 
                   {/* Pass the dynamically set options to the bottom sheet */}
+
                   <SelectFieldBottomSheet
                     isVisible={isBottomSheetVisible}
                     onClose={closeBottomSheet}
