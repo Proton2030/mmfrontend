@@ -22,10 +22,13 @@ import UiContext from '../../../contexts/uiContext/UIContext';
 import { DISTRIBUTION } from '../../../config/config';
 import {
   endConnection,
+  finishTransaction,
   flushFailedPurchasesCachedAsPendingAndroid,
   getProducts,
   initConnection,
   Product,
+  purchaseErrorListener,
+  purchaseUpdatedListener,
   requestPurchase,
 } from 'react-native-iap';
 import { PRODUCT_ID_LIST } from '../../../constants/productIds/ProductId';
@@ -105,6 +108,33 @@ export const SubscriptionPage = ({ closeModal }: any) => {
       fetchProducts();
     }
   }, [DISTRIBUTION]);
+
+  const handleSuccessfulPurchase = async (receipt: string) => {
+    console.log('==>receipt', receipt);
+    navigation.navigate('PlayStorePaymentVerification', { paymentStatus: 'SUCCESS' });
+  };
+
+  useEffect(() => {
+    const purchaseUpdateSubscription = purchaseUpdatedListener(async (purchase) => {
+      const receipt = purchase.transactionReceipt;
+      if (receipt) {
+        try {
+          await finishTransaction({ purchase, isConsumable: true });
+        } catch (error) {
+          console.error('An error occurred while completing transaction', error);
+        }
+        handleSuccessfulPurchase(receipt);
+      }
+    });
+    const purchaseErrorSubscription = purchaseErrorListener(() =>
+      navigation.navigate('PlayStorePaymentVerification', { paymentStatus: 'FAILED' }),
+    );
+
+    return () => {
+      purchaseUpdateSubscription.remove();
+      purchaseErrorSubscription.remove();
+    };
+  }, []);
 
   const handlePaymentUpdate = async (plan: any) => {
     if (!user?._id || !plan?._id) return;

@@ -144,7 +144,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           <SelectFieldBottomSheet
                             isVisible={isBottomSheetVisible}
                             onClose={closeBottomSheet}
-                            options={groupField.options} // Dynamically pass the options
+                            options={selectedFieldOptions} // Dynamically pass the options
                             onOptionSelect={handleChoseOption}
                             groupField={selectGroupfield}
                             language={language}

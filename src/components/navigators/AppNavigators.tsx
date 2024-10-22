@@ -32,6 +32,7 @@ import { BlockList } from '../screens/blockList/BlockList';
 import LockPage from '../screens/lockPage/LockPage';
 import DeleteAccount from '../screens/deleteAccount/DeleteAccount';
 import UiContext from '../../contexts/uiContext/UIContext';
+import PlayStorePaymentVerification from '../screens/playStorepaymentVerification/PlayStorePaymentVerification';
 
 const Stack = createNativeStackNavigator();
 
@@ -122,6 +123,7 @@ const AppNavigators = () => {
             <Stack.Screen name="Payment" component={Payment} />
             <Stack.Screen name="Support" component={HelpAndSupport} />
             <Stack.Screen name="PaymentVerification" component={PaymentVerification} />
+            <Stack.Screen name="PlayStorePaymentVerification" component={PlayStorePaymentVerification} />
             {/* <Stack.Screen name="EditProfileImage" component={UpdateProfilePic} /> */}
           </>
         ) : (
