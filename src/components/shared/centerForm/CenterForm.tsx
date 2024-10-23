@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Button, TextInput, useTheme } from 'react-native-paper';
 import { ICenterFormProps } from '../../../@types/props/CenterFormProps.types';
 import { globalStyles, windowWidth } from '../../../globalStyles/GlobalStyles';
@@ -24,15 +24,15 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
   const [selectGroupfield, setSelectGroupfield] = useState([]);
   const [selectItem, setSelectItem] = useState(null);
 
-  const openBottomSheet = (options: any, group: any) => {
+  const openBottomSheet = useCallback((options: any, group: any) => {
     setSelectedFieldOptions(options); // Set the options for the clicked field
     setSelectGroupfield(group);
     setBottomSheetVisible(true); // Show the bottom sheet
-  };
+  }, []);
 
-  const closeBottomSheet = () => {
+  const closeBottomSheet = useCallback(() => {
     setBottomSheetVisible(false); // Hide the bottom sheet
-  };
+  }, []);
   const handleChoseOption = ({ groupField, type, text }: any) => {
     console.log('handle choose===>', groupField.id, type, text);
     handleChangeText(groupField.id, groupField.type, text);
@@ -136,7 +136,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                               id={groupField.id}
                               editable={false} // Disable direct text input
                               defaultValue={object[groupField.id] || ''.toString()}
-                              value={object[groupField.id] || ''.toString()} // Display placeholder or selected value
+                              value={String(object[groupField.id]) || ''.toString()} // Display placeholder or selected value
                             />
                           </TouchableOpacity>
 
@@ -239,7 +239,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       id={field.id}
                       editable={false} // Disable direct text input
                       defaultValue={object[field.id] || ''.toString()}
-                      value={object[field.id] || ''.toString()} // Display placeholder or selected value
+                      value={String(object[field.id]) || ''.toString()} // Display placeholder or selected value
                     />
                   </TouchableOpacity>
 

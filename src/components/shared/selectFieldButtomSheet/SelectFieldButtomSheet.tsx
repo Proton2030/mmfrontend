@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { COLORS } from '../../../constants/theme';
@@ -14,45 +14,53 @@ const SelectFieldBottomSheet = ({
   setSelectItem,
 }: any) => {
   const { colors } = useTheme();
-  console.log('==>called bottom sheet');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(isVisible);
 
-  const renderedOptions = useMemo(() => {
-    return options.map((option: any, index: any) => (
-      <TouchableOpacity
-        key={index}
-        style={[styles.optionButton, { borderBottomColor: colors.backdrop }]}
-        onPress={() => {
-          onOptionSelect({
-            groupField, // Pass the entire groupField object
-            type: groupField.type, // Pass the type
-            text: option.value ? option.value : option, // Pass the selected option value
-          });
-          setSelectItem(option?.label);
-          onClose(); // Close the bottom sheet after selecting an option
-        }}
-      >
-        <View style={styles.optionContent}>
-          <FontAwesome5 name={option?.icon?.name} size={22} color={COLORS.primary} style={styles.icon} />
-          {option?.label ? (
-            <Text style={[styles.optionText, { color: colors.primary }]}>
-              {language === 'BENGALI' ? option?.label?.BENGALI : option?.label?.ENGLISH}
-            </Text>
-          ) : (
-            <Text style={[styles.optionText, { color: colors.primary }]}>{option}</Text>
-          )}
-        </View>
-      </TouchableOpacity>
-    ));
-  }, [options, colors.backdrop, colors.primary, groupField, language, onOptionSelect, onClose, setSelectItem]);
+  // const renderedOptions = useMemo(() => {
+  //   return options.map((option: any, index: any) => (
+  //     <TouchableOpacity
+  //       key={index}
+  //       style={[styles.optionButton, { borderBottomColor: colors.backdrop }]}
+  //       onPress={() => {
+  //         onOptionSelect({
+  //           groupField, // Pass the entire groupField object
+  //           type: groupField.type, // Pass the type
+  //           text: option.value ? option.value : option, // Pass the selected option value
+  //         });
+  //         setSelectItem(option?.label);
+  //         onClose(); // Close the bottom sheet after selecting an option
+  //       }}
+  //     >
+  //       <View style={styles.optionContent}>
+  //         <FontAwesome5 name={option?.icon?.name} size={22} color={COLORS.primary} style={styles.icon} />
+  //         {option?.label ? (
+  //           <Text style={[styles.optionText, { color: colors.primary }]}>
+  //             {language === 'BENGALI' ? option?.label?.BENGALI : option?.label?.ENGLISH}
+  //           </Text>
+  //         ) : (
+  //           <Text style={[styles.optionText, { color: colors.primary }]}>{option}</Text>
+  //         )}
+  //       </View>
+  //     </TouchableOpacity>
+  //   ));
+  // }, [options, colors.backdrop, colors.primary, groupField, language, onOptionSelect, onClose, setSelectItem]);
+
+  useEffect(() => {
+    if (isVisible && isModalOpen !== isVisible) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [isVisible]);
 
   return (
     <Modal
-      visible={isVisible}
+      visible={isModalOpen}
       animationType="slide"
       transparent={true}
       onRequestClose={onClose} // Handles closing the modal when user taps outside or back button is pressed
     >
-      <View style={styles.overlay}>
+      <View style={[styles.overlay]}>
         <View style={[styles.bottomSheetContainer, { backgroundColor: colors.surfaceVariant }]}>
           {language === 'BENGALI' ? (
             <Text style={[styles.optionText, { color: colors.primary, marginVertical: 20, fontSize: 25 }]}>
@@ -64,7 +72,36 @@ const SelectFieldBottomSheet = ({
             </Text>
           )}
 
-          <ScrollView>{renderedOptions}</ScrollView>
+          <FlatList
+            data={options}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                key={index}
+                style={[styles.optionButton, { borderBottomColor: colors.backdrop }]}
+                onPress={() => {
+                  onOptionSelect({
+                    groupField, // Pass the entire groupField object
+                    type: groupField.type, // Pass the type
+                    text: item.value ? item.value : item, // Pass the selected option value
+                  });
+                  setSelectItem(item?.label);
+                  onClose(); // Close the bottom sheet after selecting an option
+                }}
+              >
+                <View style={styles.optionContent}>
+                  <FontAwesome5 name={item?.icon?.name} size={22} color={COLORS.primary} style={styles.icon} />
+                  {item?.label ? (
+                    <Text style={[styles.optionText, { color: colors.primary }]}>
+                      {language === 'BENGALI' ? item?.label?.BENGALI : item?.label?.ENGLISH}
+                    </Text>
+                  ) : (
+                    <Text style={[styles.optionText, { color: colors.primary }]}>{item}</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
           <Button
             onPress={onClose}
             mode="contained"

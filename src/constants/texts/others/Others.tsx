@@ -1,3 +1,5 @@
+import { log, logo } from '../../../assets';
+
 export const OTHERS = {
   lives: {
     ENGLISH: 'Lives in',
@@ -22,5 +24,17 @@ export const OTHERS = {
   menu: {
     ENGLISH: 'Menu',
     BENGALI: 'মেনু',
+  },
+  confirm_logout: {
+    ENGLISH: 'Are You Sure Wabt to Logout',
+    BENGALI: 'আপনি কি লগআউট করতে চান',
+  },
+  logout: {
+    ENGLISH: 'Logout',
+    BENGALI: 'লগআউট',
+  },
+  cancel: {
+    ENGLISH: 'Cancel',
+    BENGALI: 'বাতিল',
   },
 };

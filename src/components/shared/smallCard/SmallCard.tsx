@@ -10,11 +10,15 @@ import CustomDialog from '../customDialog/CustomDialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
+import { OTHERS } from '../../../constants/texts/others/Others';
 
 const SmallCard = ({ icon, text, route }: TMenuProps) => {
   const navigation = useNavigation<any>();
   const { user, setUser } = useContext(AuthContext);
-  const { ui } = useContext(UiContext);
+  const {
+    ui: { language },
+  } = useContext(UiContext);
   const { colors } = useTheme();
   const [visible, setVisible] = useState<boolean>(false);
   const handleRouteMyProfile = () => {
@@ -106,9 +110,9 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
         </Card.Content>
       </Card>
       <CustomDialog
-        title={'Are You Confirm to Logout ?'}
-        leftLabel={'Cancel'}
-        rightLabel={'Logout'}
+        title={selectLanguage(OTHERS.confirm_logout, language)}
+        leftLabel={selectLanguage(OTHERS.cancel, language)}
+        rightLabel={selectLanguage(OTHERS.logout, language)}
         body={''}
         visible={visible}
         hideDialog={() => {

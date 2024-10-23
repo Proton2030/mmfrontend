@@ -27,6 +27,7 @@ const UserInformationPage1 = () => {
   const [userInfo, setUserInfo] = useState<any>({
     full_name: '',
     gender: '',
+    height: 0,
     age: 0,
     marital_status: '',
   });
@@ -41,6 +42,7 @@ const UserInformationPage1 = () => {
     }
   }, [user]);
 
+  console.log('===>user info', userInfo);
   const handleChangeText = useCallback(
     (field: string, type: string, text: string) => {
       if (type === 'NUMBER') {
