@@ -11,4 +11,5 @@ export interface IUserDetails extends IUserInfo, IUserPartnerInfo {
   acount_status: 'ACTIVE' | 'INACTIVE';
   is_verified: boolean;
   createdAt: Date;
+  account_privet: boolean
 }

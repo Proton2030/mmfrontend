@@ -26,4 +26,5 @@ export interface IUserInfo {
   profile_image_url: string | null;
   message_limit: number;
   device_token?: string;
+  account_privet?: boolean | null;
 }

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { getTimeAgo } from '../../../../../utils/commonFunction/lastSeen';
 import { OTHERS } from '../../../../../constants/texts/others/Others';
-import { IconButton, useTheme } from 'react-native-paper';
+import { IconButton, Switch, useTheme } from 'react-native-paper';
 import UiContext from '../../../../../contexts/uiContext/UIContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Change this if using another icon library
 import { COLORS } from '../../../../../constants/theme';
@@ -13,6 +13,7 @@ import AuthContext from '../../../../../contexts/authContext/authContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { api } from '../../../../../utils/api';
 
 const ProfileImage = ({
   uri,
@@ -26,7 +27,41 @@ const ProfileImage = ({
   const {
     ui: { language, theme },
   } = useContext(UiContext);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
+  const [isSwitchEnabled, setIsSwitchEnabled] = useState<boolean>(user?.account_privet ?? false);
+
+  const toggleSwitch = async () => {
+    console.log("first")
+    setIsSwitchEnabled(previousState => !previousState);
+    if (user?.account_privet == true) {
+      setUser({
+        ...user,
+        account_privet: false
+      });
+    } else if (user?.account_privet == false) {
+      setUser({
+        ...user,
+        account_privet: true
+      });
+    }
+    const payload = {
+      account_privet: user?.account_privet == true ? false : true,
+      userObjectId: user ? user._id : null
+    };
+    console.log(payload)
+    try {
+      const userInstance = await api.userDetails.updateUser(payload);
+      // if (userInstance) {
+      //   setUser(userInstance);
+
+      // }
+    } catch (error) {
+      console.log(error);
+
+    }
+  };
+
+
   return (
     <ImageBackground
       source={{ uri: uri }} // Replace with your desired background image
@@ -72,9 +107,25 @@ const ProfileImage = ({
         </View>
       </View>
       {userDetails?._id === user?._id ? (
-        <TouchableOpacity style={styles.editButton} onPress={handleNavigateProfileImage}>
-          <Icon name="pencil" size={20} color="#fff" />
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity style={styles.editButton} onPress={handleNavigateProfileImage}>
+            <Icon name="pencil" size={20} color="#fff" />
+          </TouchableOpacity>
+          <View style={styles.privetSwitchContainer}>
+            <Text style={{ color: "white" }}>
+              Privet Account
+            </Text>
+            <Switch
+              style={styles.privetSwitch} // Add your style here if needed
+              value={isSwitchEnabled}
+              onValueChange={toggleSwitch}
+              thumbColor={isSwitchEnabled ? "#fff" : "#f4f3f4"}
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+
+            />
+          </View>
+
+        </>
       ) : (
         <TouchableOpacity style={styles.editButton} onPress={handleNavigateProfileImage}>
           <Icon name="eye" size={20} color="#fff" />
@@ -108,6 +159,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F7F7F7',
   },
+
   header: {
     height: 450,
     paddingHorizontal: 20,
@@ -152,6 +204,22 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     borderRadius: 20,
     padding: 8,
+  },
+  privetSwitch: {
+
+  },
+  privetSwitchContainer: {
+    position: 'absolute',
+    top: 40,
+    right: 70,
+    paddingLeft: 18,
+    paddingRight: 5,
+    paddingVertical: 5,
+    backgroundColor: 'black',
+    borderRadius: 44,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5
   },
   msgButton: {
     position: 'absolute',

@@ -8,7 +8,7 @@ const { patch, get, post } = request;
 const initialRoute = 'user';
 export const updateUserDetails = async (payload: any) => {
   try {
-    console.log('payload', payload);
+    // console.log('payload', payload);
     const endpoint = `${initialRoute}/update-user-details`;
     const response = await patch(
       endpoint,
@@ -19,7 +19,7 @@ export const updateUserDetails = async (payload: any) => {
       'AUTH',
     );
     if (response) {
-      console.log('res', response);
+      // console.log('res', response);
       const {
         data: { message },
       } = response;

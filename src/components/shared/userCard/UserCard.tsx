@@ -3,8 +3,6 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Avatar, useTheme } from 'react-native-paper';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { IUserCardProps } from '../../../@types/props/UserCardProps.types';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import IconMI from 'react-native-vector-icons/MaterialIcons';
 import AuthContext from '../../../contexts/authContext/authContext';
 import { useNavigation } from '@react-navigation/native';
 import { getTimeAgo } from '../../../utils/commonFunction/lastSeen';
@@ -21,6 +19,9 @@ import { profileComplete } from '../../../utils/services/profilecomplete/profile
 import { api } from '../../../utils/api';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import { refreshSound } from '../../../assets'
+
+const privetFEMALEProfilePic = "https://img.freepik.com/free-psd/3d-illustration-with-online-avatar_23-2151303097.jpg?t=st=1729617163~exp=1729620763~hmac=fd7cc920aa5e2f8fb8e94b1aaec2b2444b4f1635e994bc2319ee90904625e84e&w=740"
+const privetMALEProfilePic = "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671122.jpg?t=st=1729617575~exp=1729621175~hmac=e93ec78c20f0288c72365d91275c9b9c9d2d8265c26c38ce274b88ec65325993&w=740"
 
 const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) => {
   const [choice, setChoice] = useState<boolean>(false);
@@ -130,7 +131,12 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
           }}
         >
           <View style={globalStyles.avatarContainer}>
-            <Avatar.Image size={45} source={{ uri: userDetails?.profile_image_url }} />
+            <Avatar.Image size={45} source={{
+              uri:
+                userDetails?.account_privet && userDetails?.gender === "FEMALE" ? privetFEMALEProfilePic
+                  : userDetails?.account_privet && userDetails?.gender === "MALE" ? privetMALEProfilePic
+                    : userDetails?.profile_image_url
+            }} />
             {userDetails?.status === 'ACTIVE' ? (
               <View style={globalStyles.onlineDot} />
             ) : (
@@ -167,7 +173,12 @@ const UserCard = React.memo(({ userDetails, addChoice, mode }: IUserCardProps) =
           </View>
         </View>
         <View>
-          <FastImage source={{ uri: userDetails?.profile_image_url || '' }} style={globalStyles.cardImage} />
+          <FastImage source={{
+            uri:
+              userDetails?.account_privet && userDetails?.gender === "FEMALE" ? privetFEMALEProfilePic
+                : userDetails?.account_privet && userDetails?.gender === "MALE" ? privetMALEProfilePic
+                  : userDetails?.profile_image_url
+          }} style={globalStyles.cardImage} />
         </View>
       </TouchableOpacity>
       <View style={{ display: 'flex', flexDirection: 'row', columnGap: 15, paddingLeft: 10, marginTop: 10 }}>
