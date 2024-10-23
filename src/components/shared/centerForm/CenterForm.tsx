@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import React, { useCallback, useContext, useState } from 'react';
 import { Button, TextInput, useTheme } from 'react-native-paper';
 import { ICenterFormProps } from '../../../@types/props/CenterFormProps.types';
@@ -21,7 +21,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
 
   const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
   const [selectedFieldOptions, setSelectedFieldOptions] = useState([]);
-  const [selectGroupfield, setSelectGroupfield] = useState([]);
+  const [selectGroupfield, setSelectGroupfield] = useState<string | null>(null);
   const [selectItem, setSelectItem] = useState(null);
 
   const openBottomSheet = useCallback((options: any, group: any) => {
@@ -32,6 +32,8 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
 
   const closeBottomSheet = useCallback(() => {
     setBottomSheetVisible(false); // Hide the bottom sheet
+    setSelectedFieldOptions([]);
+    setSelectGroupfield(null); // Reset the selected field
   }, []);
   const handleChoseOption = ({ groupField, type, text }: any) => {
     console.log('handle choose===>', groupField.id, type, text);
@@ -58,7 +60,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           mode="outlined"
                           id={groupField.id}
                           label={selectLanguage(groupField.label, language)}
-                          defaultValue={object[groupField.id] || ''}
+                          defaultValue={String(object[groupField.id]) || ''}
                           placeholder={selectLanguage(groupField.placeHolder, language)}
                           value={object[groupField.id] ? object[groupField.id].toString() : ''}
                           maxLength={groupField.maxLength || 250}
@@ -99,7 +101,7 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                           secureTextEntry={!isPasswordVisible}
                           id={groupField.id}
                           label={selectLanguage(groupField.label, language)}
-                          defaultValue={object[groupField.id] || ''.toString()}
+                          defaultValue={String(object[groupField.id]) || ''.toString()}
                           onChangeText={(text) => handleChangeText(groupField.id, groupField.type, text)}
                           placeholder={selectLanguage(groupField.placeHolder, language)}
                           theme={{
@@ -135,21 +137,26 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                               label={selectLanguage(groupField.label, language)}
                               id={groupField.id}
                               editable={false} // Disable direct text input
-                              defaultValue={object[groupField.id] || ''.toString()}
-                              value={String(object[groupField.id]) || ''.toString()} // Display placeholder or selected value
+                              defaultValue={
+                                groupField.options.find((option: any) => option.value === object[groupField.id])
+                                  ? selectLanguage(
+                                      groupField.options.find((option: any) => option.value === object[groupField.id])
+                                        .label,
+                                      language,
+                                    )
+                                  : ''.toString()
+                              }
+                              value={
+                                groupField.options.find((option: any) => option.value === object[groupField.id])
+                                  ? selectLanguage(
+                                      groupField.options.find((option: any) => option.value === object[groupField.id])
+                                        .label,
+                                      language,
+                                    )
+                                  : ''.toString()
+                              } // // Display placeholder or selected value
                             />
                           </TouchableOpacity>
-
-                          {/* Pass the dynamically set options to the bottom sheet */}
-                          <SelectFieldBottomSheet
-                            isVisible={isBottomSheetVisible}
-                            onClose={closeBottomSheet}
-                            options={selectedFieldOptions} // Dynamically pass the options
-                            onOptionSelect={handleChoseOption}
-                            groupField={selectGroupfield}
-                            language={language}
-                            setSelectItem={setSelectItem}
-                          />
                         </>
                       ) : null}
                     </View>
@@ -238,28 +245,44 @@ const CenterForm = ({ fieldList, handleChangeText, object }: ICenterFormProps) =
                       label={selectLanguage(field.label, language)}
                       id={field.id}
                       editable={false} // Disable direct text input
-                      defaultValue={object[field.id] || ''.toString()}
-                      value={String(object[field.id]) || ''.toString()} // Display placeholder or selected value
+                      defaultValue={
+                        field.options.find((option: any) => option.value === object[field.id])
+                          ? selectLanguage(
+                              field.options.find((option: any) => option.value === object[field.id]).label,
+                              language,
+                            )
+                          : ''.toString()
+                      }
+                      value={
+                        field.options.find((option: any) => option.value === object[field.id])
+                          ? selectLanguage(
+                              field.options.find((option: any) => option.value === object[field.id]).label,
+                              language,
+                            )
+                          : ''.toString()
+                      } // Display placeholder or selected value
                     />
                   </TouchableOpacity>
-
-                  {/* Pass the dynamically set options to the bottom sheet */}
-
-                  <SelectFieldBottomSheet
-                    isVisible={isBottomSheetVisible}
-                    onClose={closeBottomSheet}
-                    options={selectedFieldOptions} // Dynamically pass the options
-                    onOptionSelect={handleChoseOption}
-                    groupField={selectGroupfield}
-                    language={language}
-                    setSelectItem={setSelectItem}
-                  />
                 </View>
               </>
             ) : null}
           </View>
         );
       })}
+      <Modal
+        visible={isBottomSheetVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={closeBottomSheet} // Handles closing the modal when user taps outside or back button is pressed
+      >
+        <SelectFieldBottomSheet
+          onClose={closeBottomSheet}
+          options={selectedFieldOptions} // Dynamically pass the options
+          onOptionSelect={handleChoseOption}
+          groupField={selectGroupfield}
+          setSelectItem={setSelectItem}
+        />
+      </Modal>
     </ScrollView>
   );
 };
