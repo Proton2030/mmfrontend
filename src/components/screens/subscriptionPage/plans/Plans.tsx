@@ -11,6 +11,7 @@ import { PAYMENT_TEXT } from '../../../../constants/texts/payment/Payment';
 import AuthContext from '../../../../contexts/authContext/authContext';
 import { set } from 'lodash';
 import { api } from '../../../../utils/api';
+import { DISTRIBUTION } from '../../../../config/config';
 
 const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }: any) => {
   const { colors } = useTheme();
@@ -123,6 +124,7 @@ const Plans = ({ prices, selected, setSelected, nextPage, handlePaymentUpdate }:
                             { color: colors.scrim },
                           ]}
                         >
+                          {String(DISTRIBUTION) === 'WEBSITE' ? '৳ ' : null}
                           {item?.plan_price}
                         </Text>
                         {isEligibleUser && item.chat_count === 1 && item.offer_price ? (
