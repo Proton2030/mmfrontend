@@ -55,6 +55,30 @@ export const validatePayment = async (payload: Payload) => {
   }
 };
 
+export const validateGooglePayment = async (payload: Payload) => {
+  try {
+    const endpoint = `${initialRoute}/validate-google-payment`;
+    const response = await post(endpoint, payload, {
+      ...headers,
+    });
+    if (response) {
+      const {
+        data: { message },
+      } = response;
+      if (message === MESSAGE.post.paymentSuccess) {
+        const {
+          data: { result },
+        } = response;
+        return result;
+      }
+    }
+    throw new Error();
+  } catch (error: any) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const getPaymentList = async (filter: any) => {
   try {
     const endpoint = `${initialRoute}/get-paymentList`;
