@@ -33,9 +33,10 @@ import {
 } from 'react-native-iap';
 import { PRODUCT_ID_LIST } from '../../../constants/productIds/ProductId';
 import { productToChatCount } from '../../../utils/billing/BillingToChatCount';
+import { ReceiptType } from 'react-native-iap/lib/typescript/src/types/android';
 
 export const SubscriptionPage = ({ closeModal }: any) => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
   const [page, setPage] = useState(0);
   const [plans, setPlans] = useState<any>([]);
   const [loadingPurchase, setPurchaseLoading] = useState<boolean>(false);
@@ -71,14 +72,14 @@ export const SubscriptionPage = ({ closeModal }: any) => {
   };
 
   // console.log('===>plans', plans, '\n\n');
-
   const handlePurchase = async (productId: string) => {
     setPurchaseLoading(true);
     try {
-      await requestPurchase({ skus: [productId] });
+      if (selected) {
+        await requestPurchase({ skus: [productId] });
+      }
     } catch (error) {
       console.log('==>error', error);
-      Alert.alert('Error occurred while making purchase');
     } finally {
       setPurchaseLoading(false);
     }
@@ -89,7 +90,9 @@ export const SubscriptionPage = ({ closeModal }: any) => {
       setPage((prev) => prev + 1);
     } else {
       console.log('Initiate Google Play Billing Flow');
-      handlePurchase(plans[selected]._id);
+      if (selected) {
+        handlePurchase(plans[selected]._id);
+      }
     }
   };
   const prevPage = () => {
@@ -111,7 +114,28 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const handleSuccessfulPurchase = async (receipt: string) => {
     console.log('==>receipt', receipt);
-    navigation.navigate('PlayStorePaymentVerification', { paymentStatus: 'SUCCESS' });
+    const receiptPayload = JSON.parse(receipt);
+    const payload = {
+      userId: user?._id,
+      productId: receiptPayload.productId,
+      tran_id: receiptPayload.orderId,
+    };
+    console.log('===>payload', payload);
+    const response = await api.payment.validateGooglePayment(payload);
+    if (response) {
+      console.log('=====>successfully registered');
+      setUser(response);
+      closeModal();
+      setSelected(null);
+      navigation.navigate('PlayStorePaymentVerification', { paymentStatus: 'SUCCESS' });
+    }
+  };
+
+  const handleCancelPurchase = () => {
+    // Reset the selected plan
+    setSelected(null);
+    closeModal();
+    console.log('Payment was cancelled');
   };
 
   useEffect(() => {
@@ -121,14 +145,13 @@ export const SubscriptionPage = ({ closeModal }: any) => {
         try {
           await finishTransaction({ purchase, isConsumable: true });
         } catch (error) {
-          console.error('An error occurred while completing transaction', error);
+          console.log('An error occurred while completing transaction', error);
+        } finally {
+          handleSuccessfulPurchase(receipt);
         }
-        handleSuccessfulPurchase(receipt);
       }
     });
-    const purchaseErrorSubscription = purchaseErrorListener(() =>
-      navigation.navigate('PlayStorePaymentVerification', { paymentStatus: 'FAILED' }),
-    );
+    const purchaseErrorSubscription = purchaseErrorListener(handleCancelPurchase);
 
     return () => {
       purchaseUpdateSubscription.remove();
@@ -169,14 +192,14 @@ export const SubscriptionPage = ({ closeModal }: any) => {
           nextPage={nextPage}
           handlePaymentUpdate={handlePaymentUpdate}
         />
-      ) : (
+      ) : selected ? (
         <Payment
           prevPage={prevPage}
           closeModal={closeModal}
           handlePaymentUpdate={handlePaymentUpdate}
           selectedPlan={plans[selected]}
         />
-      )}
+      ) : null}
       <TouchableOpacity onPress={getAllPlans}></TouchableOpacity>
     </SafeAreaView>
   );
