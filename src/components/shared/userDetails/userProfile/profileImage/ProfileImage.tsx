@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { selectLanguage } from '../../../../../utils/commonFunction/languageSelect';
 import { getTimeAgo } from '../../../../../utils/commonFunction/lastSeen';
@@ -28,43 +28,47 @@ const ProfileImage = ({
     ui: { language, theme },
   } = useContext(UiContext);
   const { user, setUser } = useContext(AuthContext);
-  const [isSwitchEnabled, setIsSwitchEnabled] = useState<boolean>(user?.account_privet ?? false);
+  const [loading, setLoading] = useState(false)
+  const [isSwitchEnabled, setIsSwitchEnabled] = useState<boolean>(user?.private_status ?? false);
 
+  console.log("stores staye", user?.private_status)
   const toggleSwitch = async () => {
     console.log("first")
     setIsSwitchEnabled(previousState => !previousState);
-    if (user?.account_privet == true) {
-      setUser({
-        ...user,
-        account_privet: false
-      });
-    } else if (user?.account_privet == false) {
-      setUser({
-        ...user,
-        account_privet: true
-      });
-    }
+    setLoading(true)
+
+
     const payload = {
-      account_privet: user?.account_privet == true ? false : true,
-      userObjectId: user ? user._id : null
+      userDetails: { private_status: !user?.private_status },
+      userObjectId: user?._id
     };
     console.log(payload)
     try {
       const userInstance = await api.userDetails.updateUser(payload);
-      // if (userInstance) {
-      //   setUser(userInstance);
+      if (userInstance) {
+        setUser(userInstance);
+      }
 
+      // if (user) {
+      //   setUser({
+      //     ...user,
+      //     account_private: !user?.account_private
+      //   });
       // }
+
     } catch (error) {
       console.log(error);
 
+    }
+    finally {
+      setLoading(false)
     }
   };
 
 
   return (
     <ImageBackground
-      source={{ uri: uri }} // Replace with your desired background image
+      source={{ uri: userDetails?._id !== user?._id && userDetails?.private_status === true ? "https://cdn4.iconfinder.com/data/icons/gray-user-management/512/locked-512.png" : uri }} // Replace with your desired background image
       style={styles.header}
       imageStyle={styles.imageStyle}
     >
@@ -113,16 +117,23 @@ const ProfileImage = ({
           </TouchableOpacity>
           <View style={styles.privetSwitchContainer}>
             <Text style={{ color: "white" }}>
-              Privet Account
+              Private Account
             </Text>
-            <Switch
-              style={styles.privetSwitch} // Add your style here if needed
-              value={isSwitchEnabled}
-              onValueChange={toggleSwitch}
-              thumbColor={isSwitchEnabled ? "#fff" : "#f4f3f4"}
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
+            {
+              loading ?
+                <ActivityIndicator size="small" color="#fff" />
+                :
+                <Switch
+                  style={styles.privetSwitch} // Add your style here if needed
+                  value={isSwitchEnabled}
+                  onValueChange={toggleSwitch}
+                  thumbColor={isSwitchEnabled ? "#fff" : "#f4f3f4"}
+                  trackColor={{ false: "#767577", true: "#81b0ff" }}
 
-            />
+                />
+            }
+
+
           </View>
 
         </>

@@ -7,7 +7,6 @@ import { Button, useTheme } from 'react-native-paper';
 import SignUpScreenTwo from './signUpScreenTwo/SignUpScreenTwo';
 import SignUpScreenThree from './signUpScreenThree/SignUpScreenThree';
 import { useNavigation } from '@react-navigation/native';
-import { IUserDetails } from '../../../../@types/types/userDEtails.types';
 import { api } from '../../../../utils/api';
 import SnackbarAlert from '../../../shared/snackbarAlert/SnackbarAlert';
 import { getFCMToken } from '../../../../utils/commonFunction/getFCMToken';
@@ -15,6 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import UiContext from '../../../../contexts/uiContext/UIContext';
 import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
 import { COUNTRY_ENV } from '../../../../config/config';
+import { IUserDetails } from '../../../../@types/types/userDetails.types';
 
 const SignUp = () => {
   const navigation = useNavigation<any>();
@@ -28,11 +28,13 @@ const SignUp = () => {
     ui: { theme },
   } = useContext(UiContext);
   const ThemeColor = theme === 'DARK' ? DarkThemeColor : LightThemeColor;
-  const [userDetails, setUseDetails] = useState<IUserDetails & { rePassword: string }>({
+  const [userDetails, setUseDetails] = useState<any>({
     email: '',
     mobile: '',
     password: '',
     full_name: '',
+    account_private: false,
+    private_status: false,
     gender: '',
     age: 0,
     marital_status: '',
@@ -77,6 +79,7 @@ const SignUp = () => {
     updatedAt: new Date(),
     acount_status: 'INACTIVE',
     rePassword: '',
+
   });
 
   const handleChangeScreen = async () => {

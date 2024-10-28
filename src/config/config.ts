@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
-export const AUTH_URL = 'https://j4d9fb5o15.execute-api.ap-south-1.amazonaws.com';
-export const BASE_URL = 'https://d3be5gm8hnmvue.cloudfront.net';
+export const AUTH_URL = 'http://192.168.134.155:8989';
+export const BASE_URL = 'http://192.168.134.155:8989';
 
 // export const BASE_URL = 'http://192.168.194.155:8989';
 

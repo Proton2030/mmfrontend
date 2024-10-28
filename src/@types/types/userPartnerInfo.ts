@@ -1,6 +1,6 @@
-export interface IUserPartnerInfo{
-    partner_min_age: number,
-    partner_max_age: number,
+export interface IUserPartnerInfo {
+	partner_min_age: number,
+	partner_max_age: number,
 	partner_bodyColor: string,
 	partner_min_height: number,
 	partner_max_height: number,
@@ -14,4 +14,5 @@ export interface IUserPartnerInfo{
 	partner_marital_status: string,
 	partner_coutry: string,
 	partner_state: string,
+	private_status: boolean
 }
