@@ -25,7 +25,7 @@ const SelectFieldBottomSheet = ({ onClose, groupField, options, setSelectItem, o
         )}
 
         <FlatList
-          data={options}
+          data={Array.isArray(options) ? options : [options]}
           renderItem={({ item, index }) => (
             <TouchableOpacity
               key={index}
