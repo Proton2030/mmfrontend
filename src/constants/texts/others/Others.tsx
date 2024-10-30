@@ -26,7 +26,7 @@ export const OTHERS = {
     BENGALI: 'মেনু',
   },
   confirm_logout: {
-    ENGLISH: 'Are You Sure Wabt to Logout',
+    ENGLISH: 'Are You Sure Want to Logout',
     BENGALI: 'আপনি কি লগআউট করতে চান',
   },
   logout: {

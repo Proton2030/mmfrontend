@@ -43,11 +43,10 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const { user, setUser } = useContext(AuthContext);
   const { colors } = useTheme();
-  const {
-    ui: { language, theme },
-  } = useContext(UiContext);
 
   const navigation = useNavigation<any>();
+
+  console.log('===>selected', selected);
 
   const fetchProducts = async () => {
     try {
@@ -87,6 +86,7 @@ export const SubscriptionPage = ({ closeModal }: any) => {
 
   const nextPage = () => {
     if (String(DISTRIBUTION) === 'WEBSITE') {
+      console.log('==>called next page');
       setPage((prev) => prev + 1);
     } else {
       console.log('Initiate Google Play Billing Flow');
@@ -95,6 +95,7 @@ export const SubscriptionPage = ({ closeModal }: any) => {
       }
     }
   };
+
   const prevPage = () => {
     setPage((prev) => prev - 1);
   };
@@ -192,7 +193,8 @@ export const SubscriptionPage = ({ closeModal }: any) => {
           nextPage={nextPage}
           handlePaymentUpdate={handlePaymentUpdate}
         />
-      ) : selected ? (
+      ) : null}
+      {page === 1 && selected !== null ? (
         <Payment
           prevPage={prevPage}
           closeModal={closeModal}

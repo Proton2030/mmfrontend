@@ -1,26 +1,89 @@
 {
   "project_info": {
-    "project_number": "252494080164",
-    "project_id": "shohoszshadi",
-    "storage_bucket": "shohoszshadi.appspot.com"
+    "project_number": "311450822882",
+    "project_id": "sohozsadhi",
+    "storage_bucket": "sohozsadhi.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:252494080164:android:03345e23b6746127f9de31",
+        "mobilesdk_app_id": "1:311450822882:android:7fcd63e3802292177fd6bb",
         "android_client_info": {
           "package_name": "com.scripturesxshohozshadi"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "311450822882-4jvmkh9hmsks5f67dd1b8pl12k01q0ph.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scripturesxshohozshadi",
+            "certificate_hash": "52ab9457761f8609bbddd0e1ab9cd786f92fad48"
+          }
+        },
+        {
+          "client_id": "311450822882-p0pmljfjev76nrvgabigo33016qh1oia.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.scripturesxshohozshadi",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "311450822882-nm3bgjhev1eehqdtjbi32bhjvg6ebadj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDoizx0I-TWZzcLguJo2T3CaxAUHd--uQI"
+          "current_key": "AIzaSyDlD19NtxJg0cfJbJea4GUWO1bD2txWB9s"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311450822882-nm3bgjhev1eehqdtjbi32bhjvg6ebadj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:311450822882:android:6b7b54914652bd967fd6bb",
+        "android_client_info": {
+          "package_name": "com.shohozshadi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "311450822882-qb2rtfahlmehr1jfngi1fslf4ee9jb24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shohozshadi",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "311450822882-nm3bgjhev1eehqdtjbi32bhjvg6ebadj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlD19NtxJg0cfJbJea4GUWO1bD2txWB9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "311450822882-nm3bgjhev1eehqdtjbi32bhjvg6ebadj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

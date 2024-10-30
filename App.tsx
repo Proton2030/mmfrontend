@@ -57,14 +57,13 @@ const App = ({ isRoute }: any) => {
 
   useEffect(() => {
     if (userId) {
+      console.log('==>storedUserId', userId);
       if (appState === 'active') {
-        if (userId) {
-          socket.emit('online', { userId });
-          socket.on('online', (userInstance) => {
-            console.log('------->userInstance', userInstance);
-            setUser(userInstance);
-          });
-        }
+        socket.emit('online', { userId });
+        socket.on('online', (userInstance) => {
+          console.log('------->name', userInstance.gender);
+          setUser(userInstance);
+        });
       }
       if (appState === 'background' || appState === 'inactive') {
         socket.emit('offline', { userId });

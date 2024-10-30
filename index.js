@@ -12,6 +12,8 @@ import MessageSeenCountContextProvider from './src/contexts/messageSeenContext/M
 import 'react-native-get-random-values';
 // import 'react-native-randombytes/lib/randombytes';
 import { Buffer } from 'buffer';
+import RedirectContext from './src/contexts/redirectionContext/redirectContext';
+import RedirectContextProvider from './src/contexts/redirectionContext/Provider';
 
 global.Buffer = Buffer;
 
@@ -40,13 +42,15 @@ export default function Main() {
 
   return (
     <UiContextProvider>
-      <AuthContextProvider>
-        <ChoiceContextProvider>
-          <MessageSeenCountContextProvider>
-            <App route={isRoute} />
-          </MessageSeenCountContextProvider>
-        </ChoiceContextProvider>
-      </AuthContextProvider>
+      <RedirectContextProvider>
+        <AuthContextProvider>
+          <ChoiceContextProvider>
+            <MessageSeenCountContextProvider>
+              <App route={isRoute} />
+            </MessageSeenCountContextProvider>
+          </ChoiceContextProvider>
+        </AuthContextProvider>
+      </RedirectContextProvider>
     </UiContextProvider>
   );
 }

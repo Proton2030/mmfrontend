@@ -12,6 +12,7 @@ import UiContext from '../../../contexts/uiContext/UIContext';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import { OTHERS } from '../../../constants/texts/others/Others';
+import RedirectContext from '../../../contexts/redirectionContext/redirectContext';
 
 const SmallCard = ({ icon, text, route }: TMenuProps) => {
   const navigation = useNavigation<any>();
@@ -21,6 +22,8 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
   } = useContext(UiContext);
   const { colors } = useTheme();
   const [visible, setVisible] = useState<boolean>(false);
+  const { setHasRedirected } = useContext(RedirectContext);
+
   const handleRouteMyProfile = () => {
     navigation.navigate('UserDetails', {
       userDetails: user,
@@ -47,6 +50,7 @@ const SmallCard = ({ icon, text, route }: TMenuProps) => {
   };
   const handleLogOut = () => {
     AsyncStorage.clear();
+    setHasRedirected(false);
     setUser(null);
     setVisible(false);
   };

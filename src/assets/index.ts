@@ -27,3 +27,4 @@ export { default as loveLine } from './images/love-line.webp';
 export { default as help } from './images/help.webp';
 export { default as paymentSuccess } from './images/success.json';
 export { default as paymentFail } from './images/failed.json';
+export { default as googleIcon } from './images/googleIcon.webp';

@@ -8,10 +8,12 @@ import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { Image } from 'react-native';
 import { logo } from '../../../assets';
 import { useTheme } from 'react-native-paper';
+import RedirectContext from '../../../contexts/redirectionContext/redirectContext';
 
 const SplashScreen = () => {
   const navigation = useNavigation<any>();
   const { user } = useContext(AuthContext);
+  const { hasRedirected, setHasRedirected } = useContext(RedirectContext);
   const { colors } = useTheme();
   const routeUserDashboard = CommonActions.reset({
     index: 0,
@@ -21,22 +23,26 @@ const SplashScreen = () => {
     index: 0,
     routes: [{ name: 'onboard' }], // Replace with your desired screen name
   });
+
   useEffect(() => {
     // Simulate a loading process for demonstration purposes
-    const timeoutId = setTimeout(() => {
-      // console.log('-----called-----');
-      if (user && user.acount_status === 'ACTIVE') {
-        navigation.dispatch(routeUserDashboard);
-      } else {
-        navigation.dispatch(routeAuth);
-      }
-    }, 2000);
+    if (!hasRedirected) {
+      const timeoutId = setTimeout(() => {
+        // console.log('-----called-----');
+        if (user && user.acount_status === 'ACTIVE') {
+          navigation.dispatch(routeUserDashboard);
+        } else {
+          navigation.dispatch(routeAuth);
+        }
+        setHasRedirected(true);
+      }, 2000);
 
-    return () => {
-      // Clear the timeout when the component unmounts or when navigating away
-      clearTimeout(timeoutId);
-    };
-  }, [user]);
+      return () => {
+        // Clear the timeout when the component unmounts or when navigating away
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [user, hasRedirected]);
 
   return (
     <View

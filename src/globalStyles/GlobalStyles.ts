@@ -212,6 +212,17 @@ const globalStylesList = () => {
     item: {
       marginVertical: 5,
     },
+    googleButton: {
+      marginTop: 20,
+      height: 50,
+      justifyContent: 'center',
+      backgroundColor: '#f2f2f2',
+    },
+    googleIcon: {
+      width: 24,
+      height: 24,
+      marginRight: 10,
+    },
     headerFilter: {
       display: 'flex',
       justifyContent: 'space-between',

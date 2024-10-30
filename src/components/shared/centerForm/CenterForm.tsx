@@ -1,10 +1,8 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
-import React, { useCallback, useContext, useState } from 'react';
-import { Button, TextInput, useTheme } from 'react-native-paper';
+import { View, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { useCallback, useContext, useState } from 'react';
+import { TextInput, useTheme } from 'react-native-paper';
 import { ICenterFormProps } from '../../../@types/props/CenterFormProps.types';
-import { globalStyles, windowWidth } from '../../../globalStyles/GlobalStyles';
-import SelectDropdown from 'react-native-select-dropdown';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import UiContext from '../../../contexts/uiContext/UIContext';
 import { selectLanguage } from '../../../utils/commonFunction/languageSelect';
 import SelectFieldBottomSheet from '../selectFieldButtomSheet/SelectFieldButtomSheet';

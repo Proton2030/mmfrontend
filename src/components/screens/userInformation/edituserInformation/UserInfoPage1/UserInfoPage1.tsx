@@ -42,7 +42,6 @@ const UserInformationPage1 = () => {
     }
   }, [user]);
 
-  console.log('===>user info', userInfo);
   const handleChangeText = useCallback(
     (field: string, type: string, text: string) => {
       if (type === 'NUMBER') {
@@ -65,7 +64,6 @@ const UserInformationPage1 = () => {
   );
 
   const handleCompleteButtonClick = useCallback(async () => {
-    navigation.navigate('UserInfo5', { editable: false });
     if (user) {
       if (userInfo.full_name === '' || userInfo.gender === '' || userInfo.age === 0 || userInfo.marital_status === '') {
         setErrorMessage('Please fill all data');
@@ -112,6 +110,10 @@ const UserInformationPage1 = () => {
         setVisible(true);
         handleVibrate();
       }
+    } else {
+      setErrorMessage('Relaunch the app');
+      setVisible(true);
+      handleVibrate();
     }
   }, [user, userInfo]);
 

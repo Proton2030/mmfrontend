@@ -20,6 +20,7 @@ import CommonButton from '../../../shared/commonButton/CommonButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { DarkThemeColor, LightThemeColor } from '../../../../constants/theme/themeColor';
 import { TranslateToBengali } from '../../../../utils/commonFunction/translate';
+import GoogleSignInButton from '../../../shared/googleSIgnInButton/GoogleSignInButton';
 
 const Login = () => {
   const { colors } = useTheme();
@@ -65,14 +66,12 @@ const Login = () => {
   );
 
   const handleLoginButtonClick = useCallback(async () => {
-    console.log('-------->click login button');
     try {
       setLoading(true);
-      console.log('-------->userCredentials', userCredential);
       const userResponse = await api.auth.login(userCredential);
-      console.log('---------->user', userResponse);
-      setUser(userResponse);
       if (userResponse) {
+        storeData('@userId', userResponse._id);
+        setUser(userResponse);
         setLoading(false);
         if (!userResponse.full_name || !userResponse.gender || !userResponse.state) {
           navigation.navigate('UserInfo', {
@@ -85,8 +84,8 @@ const Login = () => {
         } else if (userResponse.profile_image_url === null) {
           navigation.navigate('changeImage');
         } else {
+          console.log('===>called user dashboard');
           navigation.dispatch(routeUserDashboard);
-          storeData('@userId', userResponse._id);
         }
       }
     } catch (err) {
@@ -105,6 +104,10 @@ const Login = () => {
       setToken(temp);
     }
   }, []);
+
+  const handleGoogleSignIn = async (payload: any) => {
+    console.log('===>payload', payload);
+  };
 
   useEffect(() => {
     handleGetToken();
@@ -150,6 +153,7 @@ const Login = () => {
             handleAction={handleLoginButtonClick}
             text={selectLanguage(LOGIN_TEXT.login_button, ui.language)}
           />
+          {/* <GoogleSignInButton handleLogIn={handleGoogleSignIn} /> */}
           {/* <TouchableOpacity onPress={handleSignUpButtonClick} style={{ marginTop: 'auto' }}>
             <Text
               style={{
