@@ -29,8 +29,8 @@ export const SelectField = forwardRef(function SelectField(props: SelectFieldPro
   const valueString =
     renderValue?.(value) ??
     value
-      .map((v) => options.find((o) => o.value === v)?.label)
-      .filter(Boolean)
+      .map((v) => options.find((o) => o.value === v)?.label || '') // Default to empty string if label is undefined
+      .filter((label) => typeof label === 'string' && label.length > 0)
       .join(', ');
 
   return (

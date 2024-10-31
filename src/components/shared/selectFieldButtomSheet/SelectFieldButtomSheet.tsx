@@ -5,7 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { COLORS } from '../../../constants/theme';
 import UiContext from '../../../contexts/uiContext/UIContext';
 
-const SelectFieldBottomSheet = ({ onClose, groupField, options, setSelectItem, onOptionSelect }: any) => {
+const SelectFieldBottomSheet = ({ onClose, groupField, options = [], setSelectItem, onOptionSelect }: any) => {
   const { colors } = useTheme();
   const {
     ui: { language },
@@ -14,46 +14,41 @@ const SelectFieldBottomSheet = ({ onClose, groupField, options, setSelectItem, o
   return (
     <View style={[styles.overlay]}>
       <View style={[styles.bottomSheetContainer, { backgroundColor: colors.surfaceVariant }]}>
-        {language === 'BENGALI' ? (
-          <Text style={[styles.optionText, { color: colors.primary, marginVertical: 20, fontSize: 25 }]}>
-            আপনার {groupField?.placeHolder?.BENGALI} বেছে নিন
-          </Text>
-        ) : (
-          <Text style={[styles.optionText, { color: colors.primary, marginVertical: 20, fontSize: 25 }]}>
-            Choose your {groupField?.placeHolder?.ENGLISH}
-          </Text>
-        )}
+        <Text style={[styles.optionText, { color: colors.primary, marginVertical: 20, fontSize: 25 }]}>
+          {language === 'BENGALI'
+            ? `আপনার ${groupField?.placeHolder?.BENGALI} বেছে নিন`
+            : `Choose your ${groupField?.placeHolder?.ENGLISH}`}
+        </Text>
 
         <FlatList
-          data={Array.isArray(options) ? options : [options]}
+          data={Array.isArray(options) ? options : []} // Ensure data is always an array
           renderItem={({ item, index }) => (
             <TouchableOpacity
               key={index}
               style={[styles.optionButton, { borderBottomColor: colors.backdrop }]}
               onPress={() => {
                 onOptionSelect({
-                  groupField, // Pass the entire groupField object
-                  type: groupField.type, // Pass the type
-                  text: item.value ? item.value : item, // Pass the selected option value
+                  groupField,
+                  type: groupField.type,
+                  text: item.value ?? item,
                 });
-                setSelectItem(item?.label);
-                onClose(); // Close the bottom sheet after selecting an option
+                setSelectItem(item?.label ?? item); // Handle missing label
+                onClose();
               }}
             >
               <View style={styles.optionContent}>
-                <FontAwesome5 name={item?.icon?.name} size={22} color={COLORS.primary} style={styles.icon} />
-                {item?.label ? (
-                  <Text style={[styles.optionText, { color: colors.primary }]}>
-                    {language === 'BENGALI' ? item?.label?.BENGALI : item?.label?.ENGLISH}
-                  </Text>
-                ) : (
-                  <Text style={[styles.optionText, { color: colors.primary }]}>{item}</Text>
+                {item?.icon?.name && (
+                  <FontAwesome5 name={item.icon.name} size={22} color={COLORS.primary} style={styles.icon} />
                 )}
+                <Text style={[styles.optionText, { color: colors.primary }]}>
+                  {language === 'BENGALI' ? item?.label?.BENGALI : item?.label?.ENGLISH ?? item}
+                </Text>
               </View>
             </TouchableOpacity>
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => `${item?.value ?? index}`} // Unique key
         />
+
         <Button
           onPress={onClose}
           mode="contained"

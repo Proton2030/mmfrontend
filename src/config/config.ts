@@ -19,7 +19,7 @@ export const headers = {
 
 export const socket = io(BASE_URL);
 
-export const COUNTRY_ENV: 'IN' | 'BD' = 'IN';
+export const COUNTRY_ENV: 'IN' | 'BD' = 'BD';
 
 export const DISTRIBUTION: 'PLAY STORE' | 'WEBSITE' = 'PLAY STORE';
 
