@@ -61,7 +61,7 @@ const App = ({ isRoute }: any) => {
       if (appState === 'active') {
         socket.emit('online', { userId });
         socket.on('online', (userInstance) => {
-          console.log('------->name', userInstance.gender);
+          console.log('------->name', userInstance?.full_name);
           setUser(userInstance);
         });
       }

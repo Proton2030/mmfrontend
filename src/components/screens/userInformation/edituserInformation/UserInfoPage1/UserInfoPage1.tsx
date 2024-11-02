@@ -98,7 +98,7 @@ const UserInformationPage1 = () => {
         if (userInstance) {
           setUser(userInstance);
           setLoading(false);
-          if (editable) {
+          if (editable || user?.profile_image_url) {
             navigation.navigate('UserDashboard');
           } else {
             navigation.navigate('UserInfo5', { editable: false });

@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import CenterForm from '../../../shared/centerForm/CenterForm';
 import { LOGIN_SCREEN } from '../../../../constants/forms/Login';
@@ -107,6 +107,26 @@ const Login = () => {
 
   const handleGoogleSignIn = async (payload: any) => {
     console.log('===>payload', payload);
+    try {
+
+      const result = await api.auth.googleLogin(payload)
+      setUser(result)
+      storeData('@userId', result._id);
+      setLoading(false);
+      if (!result.full_name || !result.gender || !result.state) {
+        navigation.navigate('UserInfo', {
+          screen: 'UserInfo1',
+          params: {
+            editable: false, // Another example parameter
+          },
+        });
+      } else {
+        console.log('===>called user dashboard');
+        navigation.dispatch(routeUserDashboard);
+      }
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong")
+    }
   };
 
   useEffect(() => {
@@ -153,7 +173,7 @@ const Login = () => {
             handleAction={handleLoginButtonClick}
             text={selectLanguage(LOGIN_TEXT.login_button, ui.language)}
           />
-          {/* <GoogleSignInButton handleLogIn={handleGoogleSignIn} /> */}
+          <GoogleSignInButton handleLogIn={handleGoogleSignIn} />
           {/* <TouchableOpacity onPress={handleSignUpButtonClick} style={{ marginTop: 'auto' }}>
             <Text
               style={{

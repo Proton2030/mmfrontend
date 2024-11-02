@@ -5,6 +5,7 @@ import { request } from '../api';
 const { post, patch } = request;
 
 const initialRoute = 'auth';
+
 export const loginUser = async (payload: any) => {
   try {
     console.log('---->try to login');
@@ -54,6 +55,37 @@ export const signupUser = async (payload: any) => {
         const {
           data: { result },
         } = response;
+        return result;
+      }
+    }
+    throw new Error();
+  } catch (error: any) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const googleLogin = async (payload: any) => {
+  try {
+    console.log('---->try to login by google');
+    const endpoint = `${initialRoute}/google-login`;
+    const response = await post(
+      endpoint,
+      payload,
+      {
+        ...headers,
+      },
+      'AUTH',
+    );
+    if (response) {
+      const {
+        data: { message },
+      } = response;
+      if (message === MESSAGE.post.succ) {
+        const {
+          data: { result },
+        } = response;
+        console.log('--------->user result', result);
         return result;
       }
     }
