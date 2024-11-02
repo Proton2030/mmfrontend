@@ -219,9 +219,9 @@ const globalStylesList = () => {
       backgroundColor: '#f2f2f2',
     },
     googleIcon: {
-      width: 24,
-      height: 24,
-      marginRight: 10,
+      width: 40,
+      height: 40,
+      marginRight: 5
     },
     headerFilter: {
       display: 'flex',

@@ -1,9 +1,9 @@
 import { Alert, Image, Text } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import { getFCMToken } from '../../../utils/commonFunction/getFCMToken';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 import { IGoogleLoginProps } from '../../../@types/props/googleLogin.props';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { googleIcon } from '../../../assets';
@@ -13,13 +13,18 @@ GoogleSignin.configure({
 });
 
 const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
+
+  const { colors } = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
+
   async function onGoogleButtonPress() {
+    setLoading(true)
     try {
-      console.log('==>called');
+      // console.log('==>called');
       // Check if your device supports Google Play
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       const response = await GoogleSignin.signIn();
-      console.log('===>google', response);
+      // console.log('===>google', response);
       const { data } = await GoogleSignin.signIn();
       // Create a Google credential with the token
       const { idToken } = data as unknown as any;
@@ -34,12 +39,13 @@ const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
         const payload = {
           full_name: displayName,
           email: email,
-          photo_url: photoURL,
+          profile_image_url: photoURL,
           device_token: await getFCMToken(),
         };
         await handleLogIn(payload);
-        console.log(userCredential);
+        // console.log(userCredential);
       }
+      setLoading(false)
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // sign in was cancelled
@@ -53,6 +59,9 @@ const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
         Alert.alert('Something went wrong', error.toString());
       }
     }
+    finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -61,9 +70,22 @@ const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
       icon={() => <Image source={googleIcon} style={globalStyles.googleIcon} />}
       mode="contained"
       onPress={onGoogleButtonPress}
-      style={globalStyles.googleButton}
+      style={{
+        backgroundColor: colors.primary,
+        borderColor: colors.primary,
+        width: '100%',
+        paddingHorizontal: 6,
+        paddingVertical: 5,
+        marginTop: 10,
+
+      }}
     >
-      <Text>Google</Text>
+      {
+        loading ?
+          <Text>Loading...</Text>
+          :
+          <Text>Continue with Google</Text>
+      }
     </Button>
   );
 };

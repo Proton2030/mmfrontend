@@ -80,7 +80,8 @@ const UserInformationPage5 = () => {
         const response = await api.userDetails.updateUserImage(formData);
         setUser(response);
         setLoading(false);
-        navigation.dispatch(routeUserDashboard);
+        // navigation.dispatch(routeUserDashboard);
+        console.log("===>image updated")
       } catch (error) {
         console.log('Upload error:', error);
         setErrorMessage('Something went wrong');

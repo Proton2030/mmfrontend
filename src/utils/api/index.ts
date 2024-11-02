@@ -1,4 +1,4 @@
-import { ResetPassword, chnagePassword, signupUser } from './auth/login';
+import { ResetPassword, chnagePassword, googleLogin, signupUser } from './auth/login';
 import { loginUser } from './auth/login';
 import { forgetPassOtp, getOtp } from './auth/sendOtp';
 import { getBlockList, unBlockUser } from './block/block';
@@ -33,6 +33,7 @@ export const api = {
     forgetPassOtp: forgetPassOtp,
     chnagePassword: chnagePassword,
     ResetPassword: ResetPassword,
+    googleLogin: googleLogin,
   },
   userDetails: {
     updateUser: updateUserDetails,
