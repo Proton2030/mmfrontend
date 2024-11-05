@@ -1,5 +1,5 @@
 import { IField, IGroup } from '../../@types/types/FieldTypes.types';
-import { COMMON_OPTIONS } from '../CommonOptions';
+import { FINANCIAL_CONDITIONS } from '../CommonOptions';
 import { districts_of_bangladesh } from '../bangladeshDistricts';
 import { BODY_COLOR, EYE_COLOR, HAIR_COLOR } from '../color';
 import { HEIGHT_OPTIONS } from '../heightOption';
@@ -54,15 +54,7 @@ export const USER_INFO_ONE: (IField | IGroup)[] = [
         label: { ENGLISH: 'Body Color', BENGALI: 'শরীরের রঙ' },
         placeHolder: { ENGLISH: 'Body Colour', BENGALI: 'শরীরের রঙ' },
         type: 'SELECT',
-        options: [
-          { label: { ENGLISH: 'White', BENGALI: 'সাদা' }, value: 'WHITE' },
-          { label: { ENGLISH: 'Black', BENGALI: 'কালো' }, value: 'BLACK' },
-          { label: { ENGLISH: 'Bright', BENGALI: 'উজ্জ্বল' }, value: 'BRIGHT' },
-          { label: { ENGLISH: 'Brown', BENGALI: 'বাদামী' }, value: 'BROWN' },
-          { label: { ENGLISH: 'White Brown', BENGALI: 'সাদা বাদামী' }, value: 'WHITE_BROWN' },
-          { label: { ENGLISH: 'White Bright', BENGALI: 'সাদা উজ্জ্বল' }, value: 'WHITE_BRIGHT' },
-          { label: { ENGLISH: 'Black Bright', BENGALI: 'কালো উজ্জ্বল' }, value: 'BLACK_BRIGHT' },
-        ],
+        options: BODY_COLOR,
       },
     ],
   },
@@ -111,14 +103,26 @@ export const PERSONAL_DETAILS: IField[] = [
     label: { ENGLISH: 'Gender', BENGALI: 'লিঙ্গ' },
     placeHolder: { ENGLISH: 'Gender', BENGALI: 'লিঙ্গ' },
     type: 'SELECT',
-    options: ['MALE', 'FEMALE'],
+    options: [
+      { label: { ENGLISH: 'Male', BENGALI: 'পুরুষ' }, value: 'MALE', icon: { name: 'male', type: 'FontAwesome5' } },
+      {
+        label: { ENGLISH: 'Female', BENGALI: 'নারী' },
+        value: 'FEMALE',
+        icon: { name: 'female', type: 'FontAwesome5' },
+      },
+    ],
   },
   {
     id: 'marital_status',
     label: { ENGLISH: 'Marital Status', BENGALI: 'বৈবাহিক অবস্থা' },
     placeHolder: { ENGLISH: '', BENGALI: '' },
     type: 'SELECT',
-    options: ['MARRIED', 'UNMARRIED', 'DIVORCED', 'PARTNER DEATH'],
+    options: [
+      { label: { ENGLISH: 'Married', BENGALI: 'বিবাহিত' }, value: 'MARRIED' },
+      { label: { ENGLISH: 'Unmarried', BENGALI: 'অবিবাহিত' }, value: 'UNMARRIED' },
+      { label: { ENGLISH: 'Divorced', BENGALI: 'তালাকপ্রাপ্ত' }, value: 'DIVORCED' },
+      { label: { ENGLISH: 'Partner Death', BENGALI: 'সঙ্গীর মৃত্যু' }, value: 'PARTNER_DEATH' },
+    ],
   },
   {
     id: 'body_color',
@@ -195,14 +199,20 @@ export const USER_INFO_THREE_part2: IField[] = [
     label: { ENGLISH: 'Select Salah', BENGALI: 'সালাহ নির্বাচন করুন' },
     placeHolder: { ENGLISH: 'Select Salah', BENGALI: 'সালাহ' },
     type: 'SELECT',
-    options: ['YES', 'NO'],
+    options: [
+      { label: { ENGLISH: 'Yes', BENGALI: 'হ্যাঁ' }, value: 'YES' },
+      { label: { ENGLISH: 'No', BENGALI: 'না' }, value: 'NO' },
+    ],
   },
   {
     id: 'sawum',
     label: { ENGLISH: 'Select Sawum', BENGALI: 'সাওম নির্বাচন করুন' },
     placeHolder: { ENGLISH: 'Select Sawum', BENGALI: 'সাওম' },
     type: 'SELECT',
-    options: ['YES', 'NO'],
+    options: [
+      { label: { ENGLISH: 'Yes', BENGALI: 'হ্যাঁ' }, value: 'YES' },
+      { label: { ENGLISH: 'No', BENGALI: 'না' }, value: 'NO' },
+    ],
   },
 ];
 
@@ -250,7 +260,7 @@ export const USER_INFO_FOUR: IField[] = [
     label: { ENGLISH: 'Financial Condition', BENGALI: 'আপনার আর্থিক অবস্থা' },
     placeHolder: { ENGLISH: 'Select Your Financial Condition', BENGALI: 'আর্থিক অবস্থা' },
     type: 'SELECT',
-    options: COMMON_OPTIONS,
+    options: FINANCIAL_CONDITIONS,
   },
 ];
 

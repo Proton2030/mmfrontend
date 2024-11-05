@@ -13,12 +13,11 @@ GoogleSignin.configure({
 });
 
 const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
-
   const { colors } = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
 
   async function onGoogleButtonPress() {
-    setLoading(true)
+    setLoading(true);
     try {
       // console.log('==>called');
       // Check if your device supports Google Play
@@ -45,7 +44,7 @@ const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
         await handleLogIn(payload);
         // console.log(userCredential);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // sign in was cancelled
@@ -58,9 +57,8 @@ const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
       } else {
         Alert.alert('Something went wrong', error.toString());
       }
-    }
-    finally {
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -77,15 +75,9 @@ const GoogleSignInButton = ({ handleLogIn }: IGoogleLoginProps) => {
         paddingHorizontal: 6,
         paddingVertical: 5,
         marginTop: 10,
-
       }}
     >
-      {
-        loading ?
-          <Text>Loading...</Text>
-          :
-          <Text>Continue with Google</Text>
-      }
+      {loading ? <Text>Loading...</Text> : <Text>Continue with Google</Text>}
     </Button>
   );
 };

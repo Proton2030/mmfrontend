@@ -4,26 +4,6 @@ import { useRoute } from '@react-navigation/native';
 import { globalStyles } from '../../../globalStyles/GlobalStyles';
 import { formatKeys } from '../../../utils/commonFunction/formatKeys';
 import { View, StyleSheet } from 'react-native';
-import {
-  Avatar,
-  Title,
-  Caption,
-  Paragraph,
-  Drawer,
-  Text,
-  TouchableRipple,
-  Switch,
-  IconButton,
-  useTheme,
-} from 'react-native-paper';
-import {
-  PERSONAL_DETAILS,
-  USER_INFO_FOUR,
-  USER_INFO_ONE,
-  USER_INFO_THREE,
-  USER_INFO_THREE_part2,
-  USER_INFO_TWO,
-} from '../../../constants/forms/UserInformation';
 import { PARTNER_INFO_ONE, PARTNER_INFO_THREE, PARTNER_INFO_TWO } from '../../../constants/forms/PartnerInformation';
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../../../contexts/authContext/authContext';

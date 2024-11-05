@@ -1,4 +1,4 @@
-package com.scripturesxshohozshadi
+package com.shohozshadimatrimony
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

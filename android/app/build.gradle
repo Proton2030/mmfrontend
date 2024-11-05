@@ -74,14 +74,14 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.scripturesxshohozshadi"
+    namespace "com.shohozshadimatrimony"
     defaultConfig {
         missingDimensionStrategy "store", "play"
-        applicationId "com.scripturesxshohozshadi"
+        applicationId "com.shohozshadimatrimony"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "1.2.9"
+        versionCode 22
+        versionName "1.3.2"
         resConfigs "en", "fr", "es", "de", "it", "pt", "ru", "zh-rCN", "zh-rTW", "ja", "ko"
     }
     signingConfigs {
@@ -117,6 +117,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
     implementation("com.facebook.react:flipper-integration")
     implementation("com.android.billingclient:billing:7.1.1")
+    
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
